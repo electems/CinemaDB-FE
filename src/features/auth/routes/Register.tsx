@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 
-import { Layout } from '../components/Layout';
+import { GeneralLayout } from '@/components/Layout/GeneralLayout';
+
 import { RegisterForm } from '../components/RegisterForm';
 
 export const Register = () => {
   const navigate = useNavigate();
 
   return (
-    <Layout title="Register your account">
+    <GeneralLayout title="Register your account">
       <RegisterForm onSuccess={() => navigate('/app')} />
-    </Layout>
+    </GeneralLayout>
   );
 };
