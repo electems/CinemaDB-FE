@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import logo from '@/assets/logo.svg';
+import cinema from '@/assets/cinema.png';
 import { Link } from '@/components/Elements';
 import { Head } from '@/components/Head';
 
@@ -17,7 +17,7 @@ export const Layout = ({ children, title }: LayoutProps) => {
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="flex justify-center">
             <Link className="flex items-center text-white" to="/">
-              <img className="h-24 w-auto" src={logo} alt="Workflow" />
+              <img className="h-24 w-auto" src={cinema} alt="Workflow" />
             </Link>
           </div>
 
