@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
@@ -34,8 +33,8 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
         {({ register, formState }) => (
           <>
             <InputField
-              type="email"
-              label="Email Address"
+              type="username"
+              label="Username"
               error={formState.errors['email']}
               registration={register('email')}
             />
@@ -53,13 +52,6 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
           </>
         )}
       </Form>
-      <div className="mt-2 flex items-center justify-end">
-        <div className="text-sm">
-          <Link to="../register" className="font-medium text-blue-600 hover:text-blue-500">
-            Register
-          </Link>
-        </div>
-      </div>
     </div>
   );
 };

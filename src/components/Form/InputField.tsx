@@ -4,7 +4,7 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 import { FieldWrapper, FieldWrapperPassThroughProps } from './FieldWrapper';
 
 type InputFieldProps = FieldWrapperPassThroughProps & {
-  type?: 'text' | 'email' | 'password';
+  type?: 'text' | 'email' | 'password' | 'username';
   className?: string;
   registration: Partial<UseFormRegisterReturn>;
 };
