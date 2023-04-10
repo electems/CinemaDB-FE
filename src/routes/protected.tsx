@@ -4,6 +4,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { Spinner } from '@/components/Elements';
 import { MainLayout } from '@/components/Layout';
 import { lazyImport } from '@/utils/lazyImport';
+import { Discussions } from '@/features/discussions/routes/Discussions';
 
 const { DiscussionsRoutes } = lazyImport(
   () => import('@/features/discussions'),
@@ -34,11 +35,10 @@ export const protectedRoutes = [
     path: '/app',
     element: <App />,
     children: [
-      { path: '/discussions/*', element: <DiscussionsRoutes /> },
-      { path: '/users', element: <Users /> },
-      { path: '/profile', element: <Profile /> },
-      { path: '/', element: <Dashboard /> },
-      { path: '*', element: <Navigate to="." /> },
+      { path: '/app/discussions/*', element: <Discussions /> },
+      { path: '/app/users', element: <Users /> },
+      { path: '/app/profile', element: <Profile /> },
+      { path: '/app/', element: <Dashboard /> },
     ],
   },
 ];

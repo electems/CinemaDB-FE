@@ -13,14 +13,15 @@ import {
 import storage from '@/utils/storage';
 
 async function handleUserResponse(data: UserResponse) {
-  const { jwt, user } = data;
-  storage.setToken(jwt);
+  const { token, user } = data;
+  storage.setToken(data.token);
+  storage.setUser(data.user);
   return user;
 }
 
 async function loadUser() {
   if (storage.getToken()) {
-    const data = await getUser();
+    const data = storage.getUser();
     return data;
   }
   return null;
@@ -28,7 +29,18 @@ async function loadUser() {
 
 async function loginFn(data: LoginCredentialsDTO) {
   const response = await loginWithEmailAndPassword(data);
-  const user = await handleUserResponse(response);
+
+  const user = await handleUserResponse({
+    token: response['token'],
+    user: {
+      id: response['id'],
+      email: response['email'],
+      firstName: response['firstName'],
+      lastName: response['lastName'],
+      bio: response['id'],
+      role: response['role'],
+    },
+  });
   return user;
 }
 

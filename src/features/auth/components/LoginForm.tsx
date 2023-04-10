@@ -5,12 +5,12 @@ import { Form, InputField } from '@/components/Form';
 import { useAuth } from '@/lib/auth';
 
 const schema = z.object({
-  email: z.string().min(1, 'Required'),
+  username: z.string().min(1, 'Required'),
   password: z.string().min(1, 'Required'),
 });
 
 type LoginValues = {
-  email: string;
+  username: string;
   password: string;
 };
 
@@ -35,8 +35,8 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
             <InputField
               type="username"
               label="Username"
-              error={formState.errors['email']}
-              registration={register('email')}
+              error={formState.errors['username']}
+              registration={register('username')}
             />
             <InputField
               type="password"
