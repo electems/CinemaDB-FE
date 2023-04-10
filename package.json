@@ -80,9 +80,6 @@
       "last 1 safari version"
     ]
   },
-  "resolutions": {
-    "babel-loader": "8.1.0"
-  },
   "devDependencies": {
     "@mswjs/data": "^0.3.0",
     "@storybook/addon-actions": "^6.3.2",

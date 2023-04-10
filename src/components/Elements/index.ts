@@ -1,4 +1,4 @@
-export * from './Button';
+//export * from './Button';
 export * from './ConfirmationDialog';
 export * from './Dialog';
 export * from './Drawer';
@@ -6,3 +6,9 @@ export * from './Link';
 export * from './MDPreview';
 export * from './Spinner';
 export * from './Table';
+export * from './Img/img';
+export * from './Text/text';
+export * from './Line/line';
+export * from './CinemaButton/button';
+export * from './Input/input';
+export * from './List/list';

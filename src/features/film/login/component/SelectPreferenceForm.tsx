@@ -15,6 +15,7 @@ export const SelectPreferenceForm: React.FC = () => {
           className="sm:flex-col flex-row md:gap-10 gap-[92px] grid md:grid-cols-1 grid-cols-2 justify-center m-auto md:px-5 w-[59%]"
           orientation="horizontal"
         >
+          <button onClick={() => navigate('/login/step2')}>Home</button>
           <div
             className="common-pointer bg-bluegray_101 flex flex-col gap-[39px] items-center justify-start p-[34px] sm:px-5 rounded-bl-none rounded-br-[50px] rounded-tl-[50px] rounded-tr-none w-full"
             onClick={() => navigate('/loginregisterfilmperson')}
