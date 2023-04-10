@@ -1,26 +1,32 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { InputField, Form } from '@/components/Form';
 import LoginService from '@/Service/login.service';
+import storage from '@/utils/storage';
 
-import { Img, Text, Input, Button, Line } from '../../../../components/Elements/index';
 export const LoginRegisterForm: React.FC = () => {
-  const [about, setAbout] = React.useState({});
-  const [name, setName] = React.useState('');
+  const user = storage.getUser();
+  const [userObject, setUserObject] = React.useState({});
+  const [namePhoneNumber, setNamePhoneNumber] = React.useState('');
   const navigate = useNavigate();
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    setName(e.target.value);
+    setNamePhoneNumber(e.target.value);
   };
-  const saveTutorial = () => {
-    const data = name;
+  const generateOTP = () => {
+    const userNamePhoneNumber = namePhoneNumber;
 
-    LoginService.getUserObjectByEmailOrName(data)
+    LoginService.getUserObjectByEmailOrName(userNamePhoneNumber)
       .then((response) => {
-        setAbout(response.data);
-        console.log(response.data);
+        setUserObject(response.data);
+        if (userObject === undefined) {
+          alert('user not found');
+        }
+        if (user.type === 'PERSON') {
+          navigate('/login/step1'); //for testing purpose navigation to exisitng component
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -30,13 +36,8 @@ export const LoginRegisterForm: React.FC = () => {
     <>
       <div>
         <h1>Enter email/password</h1>
-        <input
-          type="text"
-          name="fname"
-          onChange={handleInputChange}
-          placeholder="Enter email/password"
-        ></input>
-        <button className="btn-btn primary" onClick={saveTutorial}>
+        <input type="text" onChange={handleInputChange} placeholder="Enter email/password"></input>
+        <button className="btn-btn primary" onClick={generateOTP}>
           Get Otp
         </button>
       </div>

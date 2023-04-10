@@ -5,6 +5,7 @@ export type AuthUser = {
   lastName: string;
   bio: string;
   role: 'ADMIN' | 'USER';
+  type: string;
 };
 
 export type UserResponse = {
