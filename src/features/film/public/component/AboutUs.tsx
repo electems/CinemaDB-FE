@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 
-import { Text, Img } from '../../../components/Elements/index';
-import Footerhome from '../../../components/Footer/footer';
-import Header from '../../../components/Header/header';
-import LoginService from '../../../Service/login.service';
-import Iaboutus from '../../../types/aboutus.types';
-const AboutusPage: React.FC = () => {
+import { Text, Img } from '@/components/Elements/index';
+import Footerhome from '@/components/Footer/footer';
+import Header from '@/components/Header/header';
+import LoginService from '@/Service/login.service';
+import Iaboutus from '@/types/aboutus.types';
+export const AboutUsPage: React.FC = () => {
   let aboutUs: Iaboutus = {
     headerImg2: '',
     headerTitle: '',
@@ -98,5 +98,3 @@ const AboutusPage: React.FC = () => {
     </>
   );
 };
-
-export default AboutusPage;
