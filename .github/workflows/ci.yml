@@ -1,0 +1,19 @@
+name: CI
+on:
+  push:
+    branches:
+      - '*'
+jobs:
+  all-cli-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '16.13.0'
+      - run: yarn install 
+      - run: yarn build
+      - run: yarn lint
+      - run: yarn type-check
+      - run: yarn start &
+      - run: yarn cypress:run
