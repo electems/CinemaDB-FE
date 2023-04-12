@@ -8,6 +8,8 @@ const { PublicRoutes } = lazyImport(() => import('@/features/film'), 'PublicRout
 
 const { AuthRoutes } = lazyImport(() => import('@/features/auth'), 'AuthRoutes');
 
+const { RegistrationRoutes } = lazyImport(() => import('@/features/admin'), 'RegistrationRoutes');
+
 export const publicRoutes = [
   {
     path: '/admin/*',
@@ -24,5 +26,9 @@ export const publicRoutes = [
   {
     path: '/cinema/*',
     element: <OttRoutes />,
+  },
+  {
+    path: '/registration/*',
+    element: <RegistrationRoutes />,
   },
 ];

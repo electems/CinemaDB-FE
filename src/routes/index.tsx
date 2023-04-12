@@ -1,5 +1,7 @@
 import { useRoutes } from 'react-router-dom';
 
+// eslint-disable-next-line no-restricted-imports
+
 import { Landing } from '@/features/film';
 import { useAuth } from '@/lib/auth';
 

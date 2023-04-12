@@ -2,14 +2,15 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { initMocks } from './test/server';
-initMocks();
+import { AppProvider } from './providers/app';
+import { AppRoutes } from '@/routes/index';
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AppProvider>
+      <AppRoutes />
+    </AppProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
