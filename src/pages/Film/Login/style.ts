@@ -3,8 +3,6 @@ import styled from "styled-components";
 export const Formulario = styled.div`
   width: 50%;
   height: 400px;
-  border: 3px solid #16a085;
-  border-radius: 20px;
   display: flex;
   flex-direction: column;
   h1 {
@@ -18,6 +16,7 @@ export const Formulario = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 60px;
   }
   input {
     width: 50%;
@@ -28,6 +27,7 @@ export const Formulario = styled.div`
     padding: 0px 16px 0px 16px;
     font-size: 16px;
     margin-right: 50px;
+    flex-grow: 2;
   }
   label {
     color: black;
@@ -38,27 +38,22 @@ export const Formulario = styled.div`
     padding: 0.6rem;
   }
   button {
+    width: 50%;
+    height: 45px;
+    border-radius: 10px;
+    margin-bottom: 10px;
     cursor: pointer;
-    width: 150px;
-    border-radius: 5px;
-    height: 50px;
-    border: 3px solid #16a085;
-    color: #16a085;
-    background-color: white;
-    font-weight: 600;
-    font-size: 20px;
-    margin-top: 15px;
+    color: #ffffff;
+    font-size: 16px;
+    margin-right: 50px;
+    background-color: red;
   }
-  button:hover {
-    background-color: #16a085;
-    color: white;
-    border: white;
-  }
+
   @media (max-width: 800px) {
     width: 100vw;
     height: 70vh;
     button {
-      margin-top: 50px;
+      margin-top: 20px;
     }
   }
   @media (max-width: 500px) {
@@ -87,6 +82,7 @@ export const Background = styled.div`
   .container {
     display: -webkit-box;
 
+    display: flex;
     ali div {
       margin-top: 5%;
     }
