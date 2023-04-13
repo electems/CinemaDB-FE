@@ -43,8 +43,8 @@ export const PerfilDoProfissional = () => {
   }, [reaload]);
 
   function postarReview() {
-    const token = localStorage.getItem("@HorasDeVida:Token");
-    const idOng = localStorage.getItem("@HorasDeVida:id");
+    const token = localStorage.getItem("@cinimaDb:Token");
+    const idOng = localStorage.getItem("@cinimaDb:id");
     api
       .post(
         `/reviews`,

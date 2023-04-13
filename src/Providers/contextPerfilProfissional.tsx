@@ -89,12 +89,12 @@ export const PerfilProfissionalProvider = ({ children, }: perfilProfissionalProv
     const [reaload, setReload] = useState<boolean>(false);
 
     useEffect(() => {
-        const id = localStorage.getItem("@HorasDeVida:Id");
+        const id = localStorage.getItem("@cinimaDb:Id");
         api.get(`/users/${id}`).then((response) => setUsuario(response.data));
     }, [reaload]);
 
     function trocarFotoDePerfil() {
-        const token = localStorage.getItem("@HorasDeVida:Token");
+        const token = localStorage.getItem("@cinimaDb:Token");
 
         api
         .patch(
@@ -136,7 +136,7 @@ export const PerfilProfissionalProvider = ({ children, }: perfilProfissionalProv
     }
 
     function trocarNome() {
-        const token = localStorage.getItem("@HorasDeVida:Token");
+        const token = localStorage.getItem("@cinimaDb:Token");
 
         api
         .patch(
@@ -178,7 +178,7 @@ export const PerfilProfissionalProvider = ({ children, }: perfilProfissionalProv
     }
 
     function trocarLocalidade() {
-        const token = localStorage.getItem("@HorasDeVida:Token");
+        const token = localStorage.getItem("@cinimaDb:Token");
 
         api
         .patch(
@@ -220,7 +220,7 @@ export const PerfilProfissionalProvider = ({ children, }: perfilProfissionalProv
     }
 
     function trocarDescricao() {
-        const token = localStorage.getItem("@HorasDeVida:Token");
+        const token = localStorage.getItem("@cinimaDb:Token");
 
         api
         .patch(
@@ -262,7 +262,7 @@ export const PerfilProfissionalProvider = ({ children, }: perfilProfissionalProv
     }
 
     function trocarContato() {
-        const token = localStorage.getItem("@HorasDeVida:Token");
+        const token = localStorage.getItem("@cinimaDb:Token");
 
         api
         .patch(
@@ -306,7 +306,7 @@ export const PerfilProfissionalProvider = ({ children, }: perfilProfissionalProv
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setChecked(event.target.checked);
 
-        const token = localStorage.getItem("@HorasDeVida:Token");
+        const token = localStorage.getItem("@cinimaDb:Token");
 
         api
         .patch(

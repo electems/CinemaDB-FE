@@ -25,7 +25,7 @@ interface IUser {
   description?: string;
 }
 interface ContextProviderData {
-  onSubmitFunction: (data: FieldValues) => void;
+  onUserLoginSubmit: (data: FieldValues) => void;
   user: IUser | null;
   loading: boolean;
   functionVoltar: () => void;
@@ -42,35 +42,35 @@ export const ContextProvider = ({ children }: ProviderChildren) => {
   useEffect(() => {
     const request = async () => {
 
-      const token = localStorage.getItem("@HorasDeVida:Token")  
-      const userId = localStorage.getItem("@HorasDeVida:Id")
+      const token = localStorage.getItem("@cinimaDb:Token")  
+      const userId = localStorage.getItem("@cinimaDb:Id")
       
-      if(token){
+      // if(token){
         
-        api.get("isLogged", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        .then(async () => {
+      //   api.get("isLogged", {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`
+      //     }
+      //   })
+      //   .then(async () => {
 
-          const { data } = await api.get<IUser>(`users/${userId}`)
+      //     const { data } = await api.get<IUser>(`users/${userId}`)
 
-          setUser(data)
-          setLoading(false)
+      //     setUser(data)
+      //     setLoading(false)
 
-          if(data.isOng){
-            navigate("/dashboard", { replace: true })
-          }else {
-            navigate("/perfil", { replace: true })
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-          navigate("/login", { replace: true })
-          setLoading(false)
-        })
-      }
+      //     if(data.isOng){
+      //       navigate("/dashboard", { replace: true })
+      //     }else {
+      //       navigate("/perfil", { replace: true })
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     console.log(err)
+      //     navigate("/login", { replace: true })
+      //     setLoading(false)
+      //   })
+      // }
       setLoading(false)
     }
 
@@ -82,14 +82,13 @@ export const ContextProvider = ({ children }: ProviderChildren) => {
     navigate("/", { replace: true });
   };
 
-  const onSubmitFunction = (data: FieldValues) => {
+  const onUserLoginSubmit = (data: FieldValues) => {
     axios
-      .post("https://horasvitais.herokuapp.com/login", data)
+      .post("http://localhost:3001/auth/login", data)
       .then((res) => {
-        setUser(res.data.user);
-        localStorage.setItem("@HorasDeVida:Token", res.data.accessToken);
-        localStorage.setItem("@HorasDeVida:Id", res.data.user.id);
-        toast.success("Logado com sucesso!", {
+        setUser(res.data);
+        localStorage.setItem("@cinimaDb:Token", res.data.token);
+        toast.success("Loged in sucessfull!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -98,7 +97,7 @@ export const ContextProvider = ({ children }: ProviderChildren) => {
           draggable: true,
           progress: undefined,
         });
-        if (res.data.user.isOng) {
+        if (res.data) {
           navigate("/dashboard", { replace: true });
         } else {
           navigate("/perfil", { replace: true });
@@ -117,7 +116,7 @@ export const ContextProvider = ({ children }: ProviderChildren) => {
       );
   };
   return (
-    <Context.Provider value={{ onSubmitFunction, user, functionVoltar, loading, setUser }}>
+    <Context.Provider value={{ onUserLoginSubmit, user, functionVoltar, loading, setUser }}>
       {children}
     </Context.Provider>
   );

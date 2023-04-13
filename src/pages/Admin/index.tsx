@@ -1,11 +1,13 @@
 import { Context } from "../../contexts/contextLogin";
 import { useContext } from "react";
-import LoginForm from "../../components/LoginForm";
-import { Background } from "./style";
+import { Background, Formulario } from "./style";
 import image from "../../assets/login.svg";
+import { useForm } from "react-hook-form";
 
-export const Login = () => {
+export const Admin = () => {
   const { functionVoltar } = useContext(Context);
+    const { register, handleSubmit } = useForm();
+  const { onUserLoginSubmit } = useContext(Context);
 
   return (
     <Background>
@@ -30,7 +32,24 @@ export const Login = () => {
       </h1>
       <div className="container">
         <img src={image} alt="" />
-        <LoginForm></LoginForm>
+    <Formulario>
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit(onUserLoginSubmit)}>
+        <label>Username:</label>
+        <input
+          type="text"
+          placeholder="Insira seu username..."
+          {...register("username")}
+        ></input>
+        <label>Senha:</label>
+        <input
+          type="password"
+          placeholder="Insira sua senha..."
+          {...register("password")}
+        ></input>
+        <button type="submit">Enter</button>
+      </form>
+    </Formulario>
       </div>
     </Background>
   );

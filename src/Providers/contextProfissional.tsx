@@ -72,7 +72,9 @@ export const ProfissionalProvider = ({
     setFiltroDeProfissionais(newArr)
   }
 
-  const base_URL = "https://horasvitais.herokuapp.com";
+  // const base_URL = "https://horasvitais.herokuapp.com";
+
+  const base_URL = "http://localhost:3001/";
 
   const token = localStorage.getItem("token");
 
@@ -148,13 +150,13 @@ export const ProfissionalProvider = ({
     profissionalsRequest();
   }, []);
 
-const ongId = localStorage.getItem("@HorasDeVida:Id");
+const ongId = localStorage.getItem("cinimaDb:Id");
 
 const [meusMedicos, setMeusMedicos] = useState<IProfissional[]>([]);
 const [comentario, setComentario] = useState<Review[]>([]);
 
 useEffect(() => {
-  const token = localStorage.getItem("@HorasDeVida:Token");
+  const token = localStorage.getItem("@cinimaDb:Token");
 
   if (token) {
     api.defaults.headers.common["Authorization"] = token;
