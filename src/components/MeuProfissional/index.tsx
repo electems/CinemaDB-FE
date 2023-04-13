@@ -32,7 +32,7 @@ interface ProfissionalProps {
 
 function MeuProfissional({ profissional, description }: ProfissionalProps) {
   function removerProfissional(id: number) {
-    const token = localStorage.getItem("@HorasDeVida:Token");
+    const token = localStorage.getItem("cinimaDb:Token");
 
     api
       .delete(`https://horasvitais.herokuapp.com/medics/${id}`, {

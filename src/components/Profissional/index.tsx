@@ -33,8 +33,8 @@ interface ProfissionalProps {
 function Profissional({ profissional, description }: ProfissionalProps) {
   
   function selecionarProfissional(id: number){
-    const token = localStorage.getItem("@HorasDeVida:Token");
-    const userId = localStorage.getItem("@HorasDeVida:Id")
+    const token = localStorage.getItem("@cinimaDb:Token");
+    const userId = localStorage.getItem("@cinimaDb:Id")
 
     api
       .post(

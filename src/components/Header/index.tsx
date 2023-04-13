@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   const [openModal, setIsOpenModal] = useState(false);
-  const user = localStorage.getItem("@HorasDeVida:Token");
+  const user = localStorage.getItem("@cinimaDb:Token");
   return user ? (
     <HeaderContainer>
       <Link to="/">
