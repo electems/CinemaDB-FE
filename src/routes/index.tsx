@@ -9,11 +9,13 @@ import Page404 from "../pages/Page404";
 import { PerfilDoProfissional } from "../pages/PerfilDoProfissional";
 import Register from "../pages/Register";
 import SobrePage from "../pages/Sobre";
+import { SelectPreferenceForm } from "../pages/Film/Login/selectPreferences";
 
 const RoutesMain = () => {
   return (
     <Routes>
       <Route path="/register/:ong" element={<Register />} />
+      <Route path="/selectPreference" element={<SelectPreferenceForm />} />
       <Route path="/register" element={<Register />} />
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
