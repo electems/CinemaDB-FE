@@ -53,12 +53,11 @@ export const Background = styled.div`
 `;
 
 export const Formulario = styled.div`
-  width: 50%;
+  width: 100%;
   height: 400px;
-  border: 3px solid #16a085;
-  border-radius: 20px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   h1 {
     color: black;
     text-shadow: 3px 3px 5px gray;
@@ -118,4 +117,3 @@ export const Formulario = styled.div`
     }
   }
 `;
-

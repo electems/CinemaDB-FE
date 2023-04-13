@@ -1,10 +1,13 @@
 /* eslint-disable react/jsx-key */
-import React from 'react';
+import React from "react";
 
-import Header from '../../../../components/Header';
-import{ Text, Img, } from '../../../../components/Elements';
-import { Slider } from '../../../../components/Elements/Slider/Slider';
-import { Button } from '../../../../components/Elements/Button/Button';
+import Header from "../../../../components/Header/index";
+import {
+  Text,
+  Img,
+  Slider,
+  Button,
+} from "../../../../components/Elements/index";
 
 export const OTT: React.FC = () => {
   const sliderRef = React.useRef(null);
@@ -14,18 +17,18 @@ export const OTT: React.FC = () => {
   /*This has to be come from backend for now testing purpose i build json like this but the images are from the public api */
   const FilmIndustry = [
     {
-      id: '0',
-      title: 'Exclusive movies curated for you',
-      url: 'https://unsplash.com/photos/yC-Yzbqy7PY',
-      download_url: 'https://picsum.photos/id/0/5000/3333',
-      download_url2: 'https://picsum.photos/id/0/5000/3333',
+      id: "0",
+      title: "Exclusive movies curated for you",
+      url: "https://unsplash.com/photos/yC-Yzbqy7PY",
+      download_url: "https://picsum.photos/id/0/5000/3333",
+      download_url2: "https://picsum.photos/id/0/5000/3333",
     },
     {
-      id: '1',
-      title: 'New Uploads',
-      url: 'https://unsplash.com/photos/yC-Yzbqy7PY',
-      download_url: 'https://picsum.photos/id/1/5000/3333',
-      download_url2: 'https://picsum.photos/id/1/5000/3333',
+      id: "1",
+      title: "New Uploads",
+      url: "https://unsplash.com/photos/yC-Yzbqy7PY",
+      download_url: "https://picsum.photos/id/1/5000/3333",
+      download_url2: "https://picsum.photos/id/1/5000/3333",
     },
   ];
   return (
@@ -143,7 +146,10 @@ export const OTT: React.FC = () => {
                 FilmIndustry.map((item) => {
                   return (
                     <div className="flex flex-col gap-[22px] justify-start w-full">
-                      <Text className="font-bold text-left text-white_A700 w-auto" variant="body26">
+                      <Text
+                        className="font-bold text-left text-white_A700 w-auto"
+                        variant="body26"
+                      >
                         {item.title}
                       </Text>
                       {FilmIndustry.map((image) => {
@@ -164,7 +170,10 @@ export const OTT: React.FC = () => {
                   );
                 })}
 
-              <Text className="font-bold text-left text-white_A700 w-auto" variant="body26">
+              <Text
+                className="font-bold text-left text-white_A700 w-auto"
+                variant="body26"
+              >
                 Exclusive movies curated for you
               </Text>
 
@@ -194,7 +203,10 @@ export const OTT: React.FC = () => {
           </div>
           <div className="flex font-montserrat items-center justify-start max-w-[1303px] mt-[41px] mx-auto md:px-5 w-full">
             <div className="flex flex-col gap-[22px] justify-start w-full">
-              <Text className="font-bold text-left text-white_A700 w-auto" variant="body26">
+              <Text
+                className="font-bold text-left text-white_A700 w-auto"
+                variant="body26"
+              >
                 New Uploads
               </Text>
               <div className="gap-[26px] grid sm:grid-cols-1 md:grid-cols-2 grid-cols-4 items-center justify-between md:ml-[0] ml-[21px] w-[99%] md:w-full">
@@ -223,7 +235,10 @@ export const OTT: React.FC = () => {
           </div>
           <div className="flex font-montserrat items-center justify-start max-w-[1303px] mt-[41px] mx-auto md:px-5 w-full">
             <div className="flex flex-col gap-[22px] justify-start w-full">
-              <Text className="font-bold text-left text-white_A700 w-auto" variant="body26">
+              <Text
+                className="font-bold text-left text-white_A700 w-auto"
+                variant="body26"
+              >
                 Continue Watching
               </Text>
               <div className="gap-[26px] grid sm:grid-cols-1 md:grid-cols-2 grid-cols-4 items-center justify-between md:ml-[0] ml-[21px] w-[99%] md:w-full">
@@ -252,7 +267,10 @@ export const OTT: React.FC = () => {
           </div>
           <div className="flex font-montserrat items-center justify-start max-w-[1312px] mt-[41px] mx-auto md:px-5 w-full">
             <div className="flex flex-col gap-[22px] justify-start w-full">
-              <Text className="font-bold text-justify text-white_A700 w-auto" variant="body26">
+              <Text
+                className="font-bold text-justify text-white_A700 w-auto"
+                variant="body26"
+              >
                 Latest Top 20 most watched movies
               </Text>
               <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between md:ml-[0] ml-[30px] w-[98%] md:w-full">
@@ -281,7 +299,10 @@ export const OTT: React.FC = () => {
           </div>
           <div className="flex font-montserrat items-center justify-start max-w-[1312px] mt-[41px] mx-auto md:px-5 w-full">
             <div className="flex flex-col gap-[22px] justify-start w-full">
-              <Text className="font-bold text-justify text-white_A700 w-auto" variant="body26">
+              <Text
+                className="font-bold text-justify text-white_A700 w-auto"
+                variant="body26"
+              >
                 Latest and Trending Trailers
               </Text>
               <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between md:ml-[0] ml-[30px] w-[98%] md:w-full">
@@ -310,7 +331,10 @@ export const OTT: React.FC = () => {
           </div>
           <div className="flex font-montserrat items-center justify-start max-w-[1312px] mt-[41px] mx-auto md:px-5 w-full">
             <div className="flex flex-col gap-[22px] justify-start w-full">
-              <Text className="font-bold text-justify text-white_A700 w-auto" variant="body26">
+              <Text
+                className="font-bold text-justify text-white_A700 w-auto"
+                variant="body26"
+              >
                 Top Pics for you
               </Text>
               <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between md:ml-[0] ml-[30px] w-[98%] md:w-full">
@@ -339,7 +363,10 @@ export const OTT: React.FC = () => {
           </div>
           <div className="flex font-montserrat items-center justify-start max-w-[1312px] mt-[41px] mx-auto md:px-5 w-full">
             <div className="flex flex-col gap-[22px] justify-start w-full">
-              <Text className="font-bold text-justify text-white_A700 w-auto" variant="body26">
+              <Text
+                className="font-bold text-justify text-white_A700 w-auto"
+                variant="body26"
+              >
                 Upcoming Movies
               </Text>
               <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between md:ml-[0] ml-[30px] w-[98%] md:w-full">
@@ -366,7 +393,6 @@ export const OTT: React.FC = () => {
               </div>
             </div>
           </div>
-         
         </div>
       </div>
     </>

@@ -1,6 +1,8 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://horasvitais.herokuapp.com",
-  timeout: 5000,
+  baseURL: "http://localhost:3001",
+  headers: {
+    "Content-type": "application/json",
+  },
 });

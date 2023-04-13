@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthUser } from "../../../types/auth.types";
+import { storage } from "../../../storage/storage";
 export const SelectPreferenceForm: React.FC = () => {
   const navigate = useNavigate();
 
@@ -14,8 +15,8 @@ export const SelectPreferenceForm: React.FC = () => {
       bio: "",
       role: "ADMIN",
     };
-    localStorage.setItem("user", JSON.stringify(user));
-    navigate("/register");
+    storage.setUser(user);
+    navigate("/loginregister");
   };
 
   return (
