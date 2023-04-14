@@ -12,6 +12,7 @@ import { AdminLogin } from "../pages/Admin/Login";
 import AboutusPage from "../pages/Film/Public/About_Us/aboutus";
 import { LoginRegisterForm } from "../pages/Film/Login/loginRegisterForm";
 import { FilmPersonRegister } from "../pages/Film/Register/Filmpersonregister/filmpersonregister";
+import { SelectedIndustry } from "../pages/Film/Register/Filmpersonregister/selectedindustry";
 import { OTT } from "../pages/Film/Public/Ott/Ott";
 
 const RoutesMain = () => {
@@ -20,8 +21,15 @@ const RoutesMain = () => {
       <Route path="/" element={<Home />} />
 
       <Route path="/film/selectPreference" element={<SelectPreferenceForm />} />
-      <Route path="/film/loginregister" element={<LoginRegisterForm />} />
-      <Route path="/film/filmpersonregister" element={<FilmPersonRegister />} />
+      <Route path="/film/login/loginregister" element={<LoginRegisterForm />} />
+      <Route
+        path="/film/register/filmpersonregister"
+        element={<FilmPersonRegister />}
+      />
+      <Route
+        path="/film/register/Adagency/Promoter"
+        element={<SelectedIndustry />}
+      />
 
       <Route path="/film/public/aboutus" element={<AboutusPage />} />
       <Route path="/film/public/ott" element={<OTT />} />

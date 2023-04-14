@@ -2,11 +2,13 @@ import { InputContainer } from "./styles";
 
 interface IInputProps {
   type: string;
+
   id: string;
   label?: string;
   error?: string;
   placeholder?: string;
-  register: any;
+  register?: any;
+  onChange?: any;
 }
 
 const Input = ({
@@ -16,11 +18,18 @@ const Input = ({
   error,
   placeholder,
   register,
+  onChange,
 }: IInputProps) => {
   return (
     <InputContainer error={error}>
       <label htmlFor={id}>{label}</label>
-      <input type={type} id={id} placeholder={placeholder} {...register(id)} />
+      <input
+        type={type}
+        id={id}
+        placeholder={placeholder}
+        {...register(id)}
+        onChange={onChange}
+      />
       {error && <span>{error}</span>}
     </InputContainer>
   );

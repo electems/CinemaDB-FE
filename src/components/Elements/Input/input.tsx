@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/display-name */
-import React from 'react';
+import React from "react";
 export type InputProps = Omit<
-  React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
-  'size' | 'prefix' | 'type'
+  React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  >,
+  "size" | "prefix" | "type"
 > &
   Partial<{
     wrapClassName: string;
@@ -11,7 +14,7 @@ export type InputProps = Omit<
     name: string;
     placeholder: string;
     type: string;
-    errors: string[];
+    errors: string;
     label: string;
     prefix: React.ReactNode;
     suffix: React.ReactNode;
@@ -20,15 +23,16 @@ export type InputProps = Omit<
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
     {
-      wrapClassName = '',
-      className = '',
-      name = '',
+      wrapClassName = "",
+      className = "",
+      name = "",
       placeholder,
-      type = 'text',
+      type = "text",
       children,
-      label = '',
+      label = "",
       prefix,
       suffix,
+      errors = "",
 
       ...restProps
     },
@@ -52,6 +56,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             placeholder={placeholder}
             {...restProps}
           />
+          {errors && <span>{errors}</span>}
           {!!suffix && suffix}
         </div>
       </>
