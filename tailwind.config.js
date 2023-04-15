@@ -3,8 +3,9 @@ module.exports = {
   content: [
     "./src/**/**/*.{js,ts,jsx,tsx,html,mdx}",
     "./src/**/*.{js,ts,jsx,tsx,html,mdx}",
+    "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
   ],
-  darkMode: "media",
+  darkMode: "class",
   theme: {
     screens: { md: { max: "1050px" }, sm: { max: "550px" } },
     extend: {
@@ -100,5 +101,9 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/forms"), require("tailwindcss-textshadow")],
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("tailwindcss-textshadow"),
+    require("flowbite/plugin"),
+  ],
 };

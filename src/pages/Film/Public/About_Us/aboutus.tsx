@@ -2,12 +2,6 @@ import React, { useEffect } from "react";
 import { api } from "../../../../services/api";
 import Header from "../../../../components/Header";
 import { Img, Text } from "../../../../components/Elements";
-import Footerhome from "../../../../components/Footer/footer";
-
-// import { Text, Img } from '../../../components/Elements/index';
-// import Footerhome from '../../../components/Footer/footer';
-// import Header from '../../../components/Header/header';
-// import LoginService from '../../../Service/login.service';
 
 interface Iaboutus {
   headerImg?: string;
@@ -30,27 +24,24 @@ const AboutusPage: React.FC = () => {
   const token = localStorage.getItem("cinimaDb:Token");
   const [about, setAbout] = React.useState(aboutUs);
   useEffect(() => {
-    retrieveAbouts("EN");
+    retrieveAbouts("EN", "aboutus");
   }, []);
 
-  const retrieveAbouts = (language: string) => {
-    api
-      .get(`${process.env.base_URL}/aboutus/${language}/aboutus`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+  const retrieveAbouts = async (language: string, formLayout: string) => {
+    await api
+      .get(`form/${language}/${formLayout}`)
       .then((response) => {
-        aboutUs = response.data;
-        setAbout(aboutUs);
+        setAbout(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
       });
   };
   return (
     <>
+      <Header />
       <div className="bg-gray_900 flex flex-col font-roboto justify-start mx-auto w-full">
-        <div className="flex items-center w-full">
-          <Header />
-        </div>
+        <div className="flex items-center w-full"></div>
         <div className="font-montserrat h-[578px] md:h-[611px] md:ml-[0] ml-[21px] mt-[50px] md:px-5 relative w-[93%] md:w-full">
           <div className="absolute bg-gray_800 flex h-max inset-y-[0] items-center justify-start my-auto p-32 md:px-10 sm:px-5 right-[0] w-auto">
             <Text
@@ -119,7 +110,6 @@ const AboutusPage: React.FC = () => {
               alt="rectangle740_Two"
             />
           </div>
-          <Footerhome className="bg-gray_800 flex font-roboto items-center justify-center mt-20 md:px-5 w-full" />
         </div>
       </div>
     </>
