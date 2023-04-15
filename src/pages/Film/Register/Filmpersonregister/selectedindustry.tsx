@@ -24,9 +24,7 @@ export const SelectedIndustry: React.FC = () => {
   }, []);
   const retrieveFilmForm = async (language: string, formLayout: string) => {
     await api
-      .get(`form/${language}/${formLayout}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(`form/${language}/${formLayout}`)
       .then((response) => {
         setFilmForm(response.data);
       })
@@ -39,9 +37,7 @@ export const SelectedIndustry: React.FC = () => {
     formLayout: string
   ) => {
     await api
-      .get(`form/${language}/${formLayout}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(`form/${language}/${formLayout}`)
       .then((response) => {
         setCinemaProfessional(response.data);
       })

@@ -17,9 +17,7 @@ export const FilmPersonRegister: React.FC = () => {
   }, []);
   const retrieveFilmForm = async (language: string, formLayout: string) => {
     await api
-      .get(`form/${language}/${formLayout}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(`form/${language}/${formLayout}`)
       .then((response) => {
         setFilmForm(response.data);
       })
@@ -42,7 +40,6 @@ export const FilmPersonRegister: React.FC = () => {
       lastName: "Hartmann",
       filmIndustry: "sandalhood",
       status: "ACTIVE",
-      role: "USER",
     };
     await api
       .post(`users/createuser`, userObj)

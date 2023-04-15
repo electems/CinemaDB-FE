@@ -31,9 +31,7 @@ export const LoginRegisterForm: React.FC = () => {
     const userNamePhoneNumber = namePhoneNumber;
     localStorage.setItem("emailphone", userNamePhoneNumber);
     await api
-      .get(`/auth/otp/${userNamePhoneNumber}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(`/auth/otp/${userNamePhoneNumber}`)
       .then((response) => {
         setUserObject(response.data);
         const userObject = response.data;
