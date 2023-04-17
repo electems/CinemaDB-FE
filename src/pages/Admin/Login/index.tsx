@@ -33,16 +33,18 @@ export const AdminLogin = () => {
             <label>Username:</label>
             <input
               type="text"
+              id="userName"
               placeholder="Enter your username..."
               {...register("username")}
             ></input>
             <label>Password:</label>
             <input
               type="password"
+              id="password"
               placeholder="Enter your password..."
               {...register("password")}
             ></input>
-            <button type="submit">Login</button>
+            <button  id="login" type="submit">Login</button>
           </form>
         </Formulario>
       </div>

@@ -45,13 +45,19 @@ export const ContextProvider = ({ children }: ProviderChildren) => {
       const userId = localStorage.getItem("@cinimaDb:Id")
       setLoading(false)
     }
-
-    request()
+    if (localStorage.getItem("@cinimaDb:Token")  === null) {
+      navigate("/admin/login")
+    }else{
+      request()
+    } 
   },[])
-
-
+  
   const functionVoltar = () => {
     navigate("/", { replace: true });
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token-info');
   };
 
   const onUserLoginSubmit = (data: FieldValues) => {

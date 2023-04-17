@@ -59,7 +59,7 @@ export const OTT: React.FC = () => {
                 550: { items: 1 },
                 1050: { items: 1 },
               }}
-              onSlideChanged={(e) => {
+              onSlideChanged={(e: { item: React.SetStateAction<number>; }) => {
                 setsliderState(e?.item);
               }}
               ref={sliderRef}
@@ -76,7 +76,7 @@ export const OTT: React.FC = () => {
                         550: { items: 1 },
                         1050: { items: 1 },
                       }}
-                      onSlideChanged={(e) => {
+                      onSlideChanged={(e: { item: React.SetStateAction<number>; }) => {
                         setsliderState1(e?.item);
                       }}
                       ref={sliderRef1}

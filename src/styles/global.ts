@@ -44,8 +44,7 @@ const FormContainer = styled.form`
     align-items: center;
     gap: 1rem;
 
-    width: 95vw;
-    max-width: 650px;
+  
 
     padding: 2rem 4rem;
 

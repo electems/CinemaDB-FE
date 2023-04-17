@@ -1,6 +1,5 @@
 /* eslint-disable import/first */
 import { Route, Routes } from "react-router-dom";
-import ProtectedRoutes from "../components/ProtectedRoutes";
 import Home from "../pages/Home";
 import Page404 from "../pages/Page404";;
 import { SelectPreferenceForm } from "../pages/Film/Login/selectPreferences";
@@ -10,7 +9,7 @@ import { LoginRegisterForm } from "../pages/Film/Login/loginRegisterForm";
 import { FilmPersonRegister } from "../pages/Film/Register/Filmpersonregister/filmpersonregister";
 import { SelectedIndustry } from "../pages/Film/Register/Filmpersonregister/selectedindustry";
 import { OTT } from "../pages/Film/Public/Ott/Ott";
-import Forms from "../pages/Admin/Forms/Forms";
+import Forms from "../pages/Admin/form/Forms";
 import UserListing from "../pages/Admin/Users/components/UserListing";
 
 const RoutesMain = () => {
