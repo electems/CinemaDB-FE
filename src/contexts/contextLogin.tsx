@@ -41,36 +41,8 @@ export const ContextProvider = ({ children }: ProviderChildren) => {
 
   useEffect(() => {
     const request = async () => {
-
       const token = localStorage.getItem("@cinimaDb:Token")  
       const userId = localStorage.getItem("@cinimaDb:Id")
-      
-      // if(token){
-        
-      //   api.get("isLogged", {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`
-      //     }
-      //   })
-      //   .then(async () => {
-
-      //     const { data } = await api.get<IUser>(`users/${userId}`)
-
-      //     setUser(data)
-      //     setLoading(false)
-
-      //     if(data.isOng){
-      //       navigate("/dashboard", { replace: true })
-      //     }else {
-      //       navigate("/perfil", { replace: true })
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     console.log(err)
-      //     navigate("/login", { replace: true })
-      //     setLoading(false)
-      //   })
-      // }
       setLoading(false)
     }
 
@@ -88,6 +60,7 @@ export const ContextProvider = ({ children }: ProviderChildren) => {
       .then((res) => {
         setUser(res.data);
         localStorage.setItem("@cinimaDb:Token", res.data.token);
+        localStorage.setItem("authuser", JSON.stringify(res.data));
         toast.success("Loged in sucessfull!", {
           position: "top-right",
           autoClose: 5000,
@@ -98,9 +71,9 @@ export const ContextProvider = ({ children }: ProviderChildren) => {
           progress: undefined,
         });
         if (res.data) {
-          navigate("/dashboard", { replace: true });
+          navigate("/admin/user", { replace: true });
         } else {
-          navigate("/perfil", { replace: true });
+          navigate("/admin/login", { replace: true });
         }
       })
       .catch((err) =>

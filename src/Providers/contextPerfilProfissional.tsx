@@ -89,8 +89,8 @@ export const PerfilProfissionalProvider = ({ children, }: perfilProfissionalProv
     const [reaload, setReload] = useState<boolean>(false);
 
     useEffect(() => {
-        const id = localStorage.getItem("@cinimaDb:Id");
-        api.get(`/users/${id}`).then((response) => setUsuario(response.data));
+        // const id = localStorage.getItem("@cinimaDb:Id");
+        // api.get(`/users/${id}`).then((response) => setUsuario(response.data));
     }, [reaload]);
 
     function trocarFotoDePerfil() {

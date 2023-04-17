@@ -1,7 +1,6 @@
 import { Context } from "../../../contexts/contextLogin";
 import { useContext } from "react";
 import { Background, Formulario } from "./style";
-import image from "../../../assets/login.svg";
 import { useForm } from "react-hook-form";
 
 export const AdminLogin = () => {

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Container } from "./../DashboardProfissionalSaude/style";
 
 export const ContainerError = styled.div`
   margin-top: 80px;

@@ -39,6 +39,18 @@
     "styled-components": "^5.3.5",
     "typescript": "^4.8.2",
     "web-vitals": "^3.0.1",
+    "@heroicons/react": "^1.0.1",
+    "@jsonforms/core": "^3.0.0",
+    "@jsonforms/material-renderers": "^3.0.0",
+    "@jsonforms/react": "^3.0.0",
+    "@mui/icons-material": "^5.0.0",
+    "@mui/lab": "^5.0.0-alpha.58",
+    "@mui/styles": "^5.2.3",
+    "@mui/x-date-pickers": "^5.0.0-beta.5",
+    "@tanstack/react-table": "^8.8.5",
+    "react-query": "^3.34.15",
+    "react-query-auth": "^1.0.0",
+    "react-table": "^7.8.0",
     "yup": "^0.32.11"
   },
   "scripts": {

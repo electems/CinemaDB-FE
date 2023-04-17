@@ -1,7 +1,5 @@
-/* eslint-disable react/jsx-key */
-import React from "react";
 
-import Header from "../../../../components/Header/index";
+import React from "react";
 import {
   Text,
   Img,
@@ -35,7 +33,6 @@ export const OTT: React.FC = () => {
     <>
       <div className="bg-gray_900 flex items-center justify-start mx-auto w-full">
         <div className="flex flex-col items-center justify-start w-full">
-          <Header />
           <Text
             className="font-bold font-montserrat mt-[30px] text-left text-white_A700 w-auto"
             variant="body22"

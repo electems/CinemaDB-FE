@@ -1,12 +1,8 @@
+/* eslint-disable import/first */
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoutes from "../components/ProtectedRoutes";
-import { Contatos } from "../pages/Contatos";
-import ListaDeProfissionais from "../pages/DashboardOngs";
-import { DashboardProfissionalSaude } from "../pages/DashboardProfissionalSaude";
 import Home from "../pages/Home";
-import Page404 from "../pages/Page404";
-import { PerfilDoProfissional } from "../pages/PerfilDoProfissional";
-import SobrePage from "../pages/Sobre";
+import Page404 from "../pages/Page404";;
 import { SelectPreferenceForm } from "../pages/Film/Login/selectPreferences";
 import { AdminLogin } from "../pages/Admin/Login";
 import AboutusPage from "../pages/Film/Public/About_Us/aboutus";
@@ -14,6 +10,8 @@ import { LoginRegisterForm } from "../pages/Film/Login/loginRegisterForm";
 import { FilmPersonRegister } from "../pages/Film/Register/Filmpersonregister/filmpersonregister";
 import { SelectedIndustry } from "../pages/Film/Register/Filmpersonregister/selectedindustry";
 import { OTT } from "../pages/Film/Public/Ott/Ott";
+import Forms from "../pages/Admin/Forms/Forms";
+import UserListing from "../pages/Admin/Users/components/UserListing";
 
 const RoutesMain = () => {
   return (
@@ -34,21 +32,26 @@ const RoutesMain = () => {
       <Route path="/film/public/aboutus" element={<AboutusPage />} />
       <Route path="/film/public/ott" element={<OTT />} />
 
-      <Route path="/admin/login" element={<AdminLogin />} />
-
-      <Route element={<ProtectedRoutes />}>
-        <Route path="/perfil" element={<DashboardProfissionalSaude />} />
-        <Route path="/dashboard" element={<ListaDeProfissionais />} />
-        <Route
-          path="/visualizarPerfil/:id"
-          element={<PerfilDoProfissional />}
-        />
-      </Route>
       <Route path="*" element={<Page404 />} />
-      <Route path="/contatos" element={<Contatos />} />
-      <Route path="/sobre" element={<SobrePage />} />
     </Routes>
   );
 };
+
+
+export const RoutesAdmin = () => {
+  return (
+    <Routes>
+        <Route path="/admin/login" element={<AdminLogin />} />
+     
+      {/* <Route element={<ProtectedRoutes />}> */}
+        <Route path="/admin/form" element={<Forms />} />
+        <Route path="/admin/user/:id" element={<Forms />} />
+        <Route path="/admin/user" element={<UserListing />} />
+
+      {/* </Route> */}
+    </Routes>
+  );
+};
+
 
 export default RoutesMain;

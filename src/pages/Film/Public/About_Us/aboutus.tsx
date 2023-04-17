@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { api } from "../../../../services/api";
-import Header from "../../../../components/Header";
 import { Img, Text } from "../../../../components/Elements";
 
 interface Iaboutus {
@@ -37,9 +36,7 @@ const AboutusPage: React.FC = () => {
         console.log(e);
       });
   };
-  return (
-    <>
-      <Header />
+  return ( 
       <div className="bg-gray_900 flex flex-col font-roboto justify-start mx-auto w-full">
         <div className="flex items-center w-full"></div>
         <div className="font-montserrat h-[578px] md:h-[611px] md:ml-[0] ml-[21px] mt-[50px] md:px-5 relative w-[93%] md:w-full">
@@ -112,7 +109,6 @@ const AboutusPage: React.FC = () => {
           </div>
         </div>
       </div>
-    </>
   );
 };
 

@@ -1,7 +1,4 @@
-import Footer from "../../components/Footer";
-import Header from "../../components/Header";
-import Relogio from "../../components/Relogio";
-import imgOngs from "../../assets/home.svg";
+
 import { HomeContainer } from "./styles";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -10,13 +7,11 @@ const Home = () => {
   const navigate = useNavigate();
   return (
     <HomeContainer>
-      <Header />
       <div className="Container">
         <section className="home" id="home">
           <h1 className="heading">
             Para o profissional de <span>saúde</span>
           </h1>
-          <Relogio />
 
           <div className="content">
             <h2>Doe suas horas livres e as tranforme em vida para alguém.</h2>
@@ -46,7 +41,6 @@ const Home = () => {
 
           <div className="caixa">
             <div className="image">
-              <img src={imgOngs} alt="" />
             </div>
 
             <div className="content">
@@ -73,7 +67,6 @@ const Home = () => {
           </div>
         </section>
       </div>
-      <Footer />
     </HomeContainer>
   );
 };
