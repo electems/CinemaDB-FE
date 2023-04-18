@@ -32,7 +32,7 @@ const UserHeader=()=>  {
               </li>
              
               <li className="text-right">
-                <button type="submit" className="btn btn-danger pull-right" onClick={logout} >Logout</button>
+                <button id="logout" type="submit" className="btn btn-danger pull-right" onClick={logout} >Logout</button>
                  </li>
           </div>
         </nav>

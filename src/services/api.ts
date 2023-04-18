@@ -23,7 +23,7 @@ api.interceptors.response.use(
       });
     }
     if (error.response.status === 401) {
-      window.location.href = environment.redirectUrl;
+      // window.location.href = environment.redirectUrl;
     }
   }
 );

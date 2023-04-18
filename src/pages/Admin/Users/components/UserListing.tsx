@@ -64,6 +64,7 @@ const findByTitle = async () => {
         <div className="input-group w-50">
          <input
            type="text"
+           id="searchBar"
            className="form-control w-25"
            placeholder="Search by title"
            value={searchTitles}
@@ -72,20 +73,21 @@ const findByTitle = async () => {
             <div className="input-group-append">
                 <button
                  className="btn btn-outline-secondary mr-8"
+                 id="searchButton"
                  type="button"
                   onClick={() => findByTitle()}
                     >
                      Search
                 </button>
-              </div>
-               <div>
-                 <Button id="addUser"  onClick={addUserForm} > ADD USER</Button>
+             </div>
+               <div className="float-right">
+                 <Button id="addUser" className="float-right" onClick={addUserForm} > ADD USER</Button>
                </div>
         </div>
       </div>
      </div>
    <br></br>
-    <div className="relative overflow-x-auto">
+    <div className="relative overflow-x-auto" id="usaeListing">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
@@ -108,8 +110,8 @@ const findByTitle = async () => {
                <td className="px-6 py-4">{item.email}</td>
                <td className="px-6 py-4">{item.role}</td>
                <td className="px-6 py-4">{item.status}</td>
-               <td className="px-6 py-4">
-                      <button className=" mr-4" onClick={() =>editUser(item.id)}>Edit</button>
+               <td  className="px-6 py-4">
+                      <button id="editUser" className=" mr-4" onClick={() =>editUser(item.id)}>Edit</button>
                       <button onClick={() =>deleteUser(item.id)}>Delete</button>
                 </td>
                    

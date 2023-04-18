@@ -57,8 +57,7 @@ const Forms = () => {
     }
        else{
           await api
-          .put(`/users/updateuser/${id}`,data)
-             
+          .put(`/users/updateuser/${id}`,data)  
         }
         navigate("/admin/user")
   }
@@ -88,10 +87,10 @@ const Forms = () => {
           </div>
         }
        
-        <div className="w3-show-inline-block">
+        <div id="saveUser" className="w3-show-inline-block">
   <div className="w3-bar">
     <button className="btn btn-success mr-4" >Save</button>
-    <button id="cancle" className="btn btn-danger"onClick={onClickCancle}>Cancle</button>
+    <button id="cancle" className="btn btn-danger"onClick={onClickCancle}>Cancel</button>
   </div>
   </div>
        
