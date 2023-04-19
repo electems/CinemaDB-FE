@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import { api } from "../services/api";
 import { useNavigate } from "react-router-dom";
 
-
 interface ProviderChildren {
   children: ReactNode;
 }
@@ -29,35 +28,36 @@ interface ContextProviderData {
   user: IUser | null;
   loading: boolean;
   functionVoltar: () => void;
-  setUser: (newValue: any) => void
+  setUser: (newValue: any) => void;
+  professionalDataJSONToEditorFormat: (res: any) => any[];
 }
 
 export const Context = createContext({} as ContextProviderData);
 
 export const ContextProvider = ({ children }: ProviderChildren) => {
   const [user, setUser] = useState<IUser | null>(null);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const request = async () => {
-      const token = localStorage.getItem("@cinimaDb:Token")  
-      const userId = localStorage.getItem("@cinimaDb:Id")
-      setLoading(false)
+      const token = localStorage.getItem("@cinimaDb:Token");
+      const userId = localStorage.getItem("@cinimaDb:Id");
+      setLoading(false);
+    };
+    if (localStorage.getItem("@cinimaDb:Token") === null) {
+      navigate("/admin/login");
+    } else {
+      request();
     }
-    if (localStorage.getItem("@cinimaDb:Token")  === null) {
-      navigate("/admin/login")
-    }else{
-      request()
-    } 
-  },[])
-  
+  }, []);
+
   const functionVoltar = () => {
     navigate("/", { replace: true });
   };
 
   const logout = () => {
-    localStorage.removeItem('token-info');
+    localStorage.removeItem("token-info");
   };
 
   const onUserLoginSubmit = (data: FieldValues) => {
@@ -94,8 +94,30 @@ export const ContextProvider = ({ children }: ProviderChildren) => {
         })
       );
   };
+  const professionalDataJSONToEditorFormat = (res: any) => {
+    const extractedData = [];
+
+    for (let index = 0; index <= 200; index++) {
+      if (res.data[index] !== undefined) {
+        extractedData.push(res.data[index]);
+      } else {
+        break;
+      }
+    }
+
+    return extractedData;
+  };
   return (
-    <Context.Provider value={{ onUserLoginSubmit, user, functionVoltar, loading, setUser }}>
+    <Context.Provider
+      value={{
+        onUserLoginSubmit,
+        user,
+        functionVoltar,
+        loading,
+        setUser,
+        professionalDataJSONToEditorFormat,
+      }}
+    >
       {children}
     </Context.Provider>
   );
