@@ -8,15 +8,22 @@ import { Context } from "../../../contexts/contextLogin";
 import { useEffect, useState } from "react";
 import DropdownTreeSelect from "react-dropdown-tree-select";
 import SortableTree, {
+  ExtendedNodeData,
   addNodeUnderParent,
+  changeNodeAtPath,
+  removeNodeAtPath,
   getNodeAtPath,
 } from "react-sortable-tree";
 import "react-sortable-tree/style.css";
-let mainLabel = localStorage.getItem("selectedLabel") || "";
-const mainLabelPath = mainLabel.replace(/\s+/g, "").toLowerCase();
+import UserHeader from "../../../components/UserHeader";
+import { useNavigate } from "react-router-dom";
+
 
 const Jsoneditor = () => {
   const { professionalDataJSONToEditorFormat } = React.useContext(Context);
+  const [lablePath, setLablePath] = useState("");
+  const [lable, setLable] = useState("");
+  const navigate = useNavigate();
 
   let [industrySelectionList, setIndustrySelectionList] = React.useState<any>(
     []
@@ -29,22 +36,33 @@ const Jsoneditor = () => {
     retrieveProfessionalList();
   }, []);
 
-  const retrieveProfessionalList = () => {
-    api
+  const retrieveProfessionalList = async() => {
+    let mainLabel = localStorage.getItem("selectedLabel") || "";
+    setLable(mainLabel.replace("/","_"))
+    const newLabelPath = mainLabel.replace(/\s+/g, "").toLowerCase();
+    const mainLablePath =newLabelPath.replace("/" ,"").toLocaleLowerCase()
+    setLablePath(mainLablePath);
+
+    let res=await api
       .get(
-        `form/${environment.mainProfessionalPath}/${environment.professionalData}`
+        `form/${mainLablePath}/${environment.professionalData}`
       )
-      .then((res) => {
+      if(res != undefined){
+       
         setIndustrySelectionList(res.data);
-      });
+      }else{
+        setIndustrySelectionList([{}]);
+      }
+    
   };
 
   const saveMainProfessional = async (path: string, formLayout: string) => {
-    path = mainLabelPath;
+    path = lablePath;
     await api.post(`form/${path}/${formLayout}`, industrySelectionList);
-    //setSavedMainProfession(res.data);
+    navigate("/admin/professional");
   };
-  function addNodeChild(rowInfo: { path: any }) {
+
+  async function addNodeChild(rowInfo: { path: any }) {
     let { path } = rowInfo;
 
     const value = ref.current?.value;
@@ -64,21 +82,77 @@ const Jsoneditor = () => {
       newNode: {
         title: value,
       },
+     
+    });
+    setIndustrySelectionList(newTree.treeData);
+    if (lable !== "Main Professional") { 
+    await api.post(`form/${path}/${value}`, industrySelectionList);
+    
+    } 
+
+    
+
+
+    // inputEls.current[treeIndex].current.value = "";
+  }
+  
+  function removeNode(rowInfo: ExtendedNodeData<unknown>) {
+    const { path } = rowInfo;
+    setIndustrySelectionList(
+      removeNodeAtPath({
+        treeData: industrySelectionList,
+        path,
+        getNodeKey
+      })
+    );
+  }
+  function createNode() {
+    const value = ref.current?.value;
+
+    if (value === "") {
+      ref.current?.focus();
+      return;
+    }
+    let newTree = addNodeUnderParent({
+     treeData: industrySelectionList,
+      parentKey:'',
+      expandParent: true,
+      getNodeKey,
+      newNode: {
+        id: "123",
+        title: value
+      }
     });
 
     setIndustrySelectionList(newTree.treeData);
 
-    // inputEls.current[treeIndex].current.value = "";
   }
+  function onClickcancle(){
+    navigate("/admin/professional");
+  }
+
+
   return (
     <>
+    <UserHeader/>
+    <h1 className="title">{lable}</h1>
+    <br/>
+    <div className="row ">
+      <div className="col">
+      <div className="input-group w-25">
       <input
         ref={ref}
         type="text"
-        className="form-control"
+        className="form-control mr-8 "
         placeholder="Username"
         aria-describedby="basic-addon1"
-      />
+      />  
+       <br />
+        <button  className="btn btn-primary" onClick={createNode}>Create Node</button>
+        <br />
+        </div>
+        </div>
+        </div>
       <div style={{ height: 400 }}>
         <SortableTree
           generateNodeProps={(rowInfo) => ({
@@ -87,12 +161,17 @@ const Jsoneditor = () => {
             buttons: [
               <div>
                 <button
+                className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mr-2"
                   placeholder="Add Child"
                   onClick={(event) => addNodeChild(rowInfo)}
                 >
                   Add Child
                 </button>
+                <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mr-2" placeholder="Delete" onClick={(event) => removeNode(rowInfo)}>
+                  Remove
+                </button>
               </div>,
+              
             ],
             style: {
               height: "50px",
@@ -102,13 +181,23 @@ const Jsoneditor = () => {
           onChange={(data) => setIndustrySelectionList(data)}
         />
         <button
-          className="btn btn-primary"
+          className="btn btn-success mr-4"
           onClick={() =>
-            saveMainProfessional(mainLabelPath, environment.professionalData)
+            saveMainProfessional(lablePath, environment.professionalData)
           }
           type="submit"
         >
           Save
+        </button>
+        <button
+        id="profcancle"
+          className="btn btn-danger"
+          type="submit"
+          onClick={() =>
+            onClickcancle()
+          }
+        >
+          Cancle
         </button>
       </div>
     </>

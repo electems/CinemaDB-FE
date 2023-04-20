@@ -9,10 +9,11 @@ import { LoginRegisterForm } from "../pages/Film/Login/loginRegisterForm";
 import { FilmPersonRegister } from "../pages/Film/Register/Filmpersonregister/filmpersonregister";
 import { SelectedIndustry } from "../pages/Film/Register/Filmpersonregister/selectedindustry";
 import { OTT } from "../pages/Film/Public/Ott/Ott";
-import Forms from "../pages/Admin/Form/Forms";
+
 import UserListing from "../pages/Admin/Users/components/UserListing";
 import Jsoneditor from "../pages/Admin/jsoneditor/editor";
 import Professional from "../pages/Admin/professional/professional";
+import Forms from "../pages/Admin/form/Forms";
 
 const RoutesMain = () => {
   return (
@@ -44,15 +45,14 @@ export const RoutesAdmin = () => {
       <Route path="/admin/login" element={<AdminLogin />} />
 
       {/* <Route element={<ProtectedRoutes />}> */}
+      <Route path="/admin/user" element={<UserListing />} />
       <Route path="/admin/form" element={<Forms />} />
       <Route path="/admin/professional" element={<Professional />} />
       <Route path="/admin/editors" element={<Jsoneditor />} />
       <Route path="/admin/user/:id" element={<Forms />} />
-      <Route path="/admin/user" element={<UserListing />} />
-
       {/* </Route> */}
     </Routes>
   );
-};
+}
 
 export default RoutesMain;

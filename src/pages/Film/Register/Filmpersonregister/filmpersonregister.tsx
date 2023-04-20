@@ -1,11 +1,13 @@
 /* eslint-disable react/jsx-no-undef */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { api } from "../../../../services/api";
-import DropdownTreeSelect from "react-dropdown-tree-select";
+import DropdownTreeSelect, { TreeNode } from "react-dropdown-tree-select";
+import 'react-dropdown-tree-select/dist/styles.css';
+// import CheckboxTree from 'react-checkbox-tree'
 import "./style.css";
 import { Text, Button } from "../../../../components/Elements";
 import { useNavigate } from "react-router-dom";
-const selectedNodes: any[] = [];
+let selectedNodes: any[] = [];
 export const FilmPersonRegister: React.FC = () => {
   const [FilmForm, setFilmForm] = React.useState([]);
   const [saveUser, setSaveUser] = React.useState();
@@ -13,21 +15,29 @@ export const FilmPersonRegister: React.FC = () => {
   const emailPhone = localStorage.getItem("emailphone");
   const token = localStorage.getItem("@cinimaDb:Token");
   useEffect(() => {
-    retrieveFilmForm("EN", "registration");
+    retrieveFilmForm("mainprofessional", "professionaldata");
   }, []);
   const retrieveFilmForm = async (language: string, formLayout: string) => {
     await api
       .get(`form/${language}/${formLayout}`)
       .then((response) => {
-        setFilmForm(response.data);
+        let respnseStr = JSON.stringify(response.data);
+        var newresponse = respnseStr.replaceAll("title", "label");
+        setFilmForm(JSON.parse(newresponse));
       })
       .catch((e) => {
         console.log(e);
       });
   };
-  const onChange = (nodeSelected: any) => {
-    selectedNodes.push(nodeSelected);
-  };
+  
+
+  const onChange = (currentNode: TreeNode, selectedNodes: TreeNode[]) => {
+    const temp = selectedNodes
+    selectedNodes = [];
+    selectedNodes = temp;
+  }
+
+
   const saveUserIndustrySelect = async () => {
     const userObj = {
       id: 5,
@@ -51,6 +61,10 @@ export const FilmPersonRegister: React.FC = () => {
         console.log(e);
       });
   };
+  // function Widget() {
+  //   const [checked, setChecked] = useState([]);
+  //   const [expanded, setExpanded] = useState([]);
+  // }
   return (
     <>
       <div className="bg-white_A700 flex items-center justify-start mx-auto pb-[76px] w-full">
@@ -67,20 +81,21 @@ export const FilmPersonRegister: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col font-montserrat gap-5 items-start justify-start mt-10 md:px-5 w-[35%] md:w-full">
+          <div>
             <DropdownTreeSelect
               data={FilmForm}
               onChange={onChange}
-              className="bootstrap-demo font-bold text-center text-gray_800 w-auto"
-            />
-            <div className="md:h-80 sm:h-[529px] h-[552px] relative w-full">
-              <div className="absolute flex flex-col h-full inset-[0] items-start justify-center m-auto w-full">
-                <div className="flex sm:flex-col flex-row gap-[22px] items-center justify-start w-[76%] md:w-full">
-                  <div className="flex h-[60px] md:h-auto items-center justify-center p-[25.38px] sm:px-5 w-[325px]"></div>
-                </div>
-                <div className="h-[120px] sm:h-[153px] md:h-[82px] ml-0.5 md:ml-[0] mt-1.5 relative w-full"></div>
-              </div>
-            </div>
+              className="mdl-demo"
+              mode={"radioSelect"}
+            />    
+
+              {/* <CheckboxTree
+                       nodes={nodes}
+                       checked={checked}
+                       expanded={expanded}
+                       onCheck={(checked) => setChecked(checked)}
+                       onExpand={(expanded) => setExpanded(expanded)}
+                    />         */}
           </div>
           <Button
             className="bg-red_A700 cursor-pointer font-roboto font-semibold leading-[normal] min-w-[1363px] md:min-w-full mt-3.5 py-[29px] rounded-[17px] sm:text-3xl md:text-[32px] text-[34px] text-center text-white_A700 w-auto"

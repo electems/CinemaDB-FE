@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { api } from "../../../../services/api";
 import UserHeader from "../../../../components/UserHeader";
 import { Button } from "../../../../components/Elements";
+import { Edit,Trash } from 'tabler-icons-react';
+import { toast } from "react-toastify";
 
 
 interface users {
@@ -40,10 +42,11 @@ const UserListing : React.FC = () => {
   
 
   const deleteUser = async (id:number) =>{
-    await api.delete(`/users/delete/${id}`);
-    navigate("/admin/user")
+    if (window.confirm("Are you sure you want to delete?")) {
+     await api.delete(`/users/delete/${id}`);
+    }  
+     window.location.reload()
    }
-
 
 const onChangeSearchTitle = (e:React.ChangeEvent<HTMLInputElement>) => {
   const searchTitle = e.target.value;
@@ -80,7 +83,7 @@ const findByTitle = async () => {
                      Search
                 </button>
              </div>
-               <div className="float-right">
+             <div className="float-right">
                  <Button id="addUser" className="float-right" onClick={addUserForm} > ADD USER</Button>
                </div>
         </div>
@@ -93,7 +96,7 @@ const findByTitle = async () => {
       <tr>
         <th className="px-6 py-3">First Name</th>
         <th className="px-6 py-3">Last Name</th>
-        <th className="px-6 py-3">FilmIndustry</th>
+        <th className="px-6 py-3">Film Industry</th>
         <th className="px-6 py-3">Email</th>
         <th className="px-6 py-3">Role</th>
         <th className="px-6 py-3">Status</th>
@@ -111,10 +114,29 @@ const findByTitle = async () => {
                <td className="px-6 py-4">{item.role}</td>
                <td className="px-6 py-4">{item.status}</td>
                <td  className="px-6 py-4">
-                      <button id="editUser" className=" mr-4" onClick={() =>editUser(item.id)}>Edit</button>
-                      <button onClick={() =>deleteUser(item.id)}>Delete</button>
-                </td>
-                   
+               <div id="action" className="row">
+                <div id="editUser" className="col-md-6 contactIcon pointer ">
+                <Edit size={25}
+                      id="editUser"
+                      strokeWidth={1.5}
+                     
+                      onClick={() =>editUser(item.id)}
+                      color={'#4048bf'}
+                  />
+
+                </div>
+                <div   className="col-md-6 contactIcon pointer ">
+                <Trash
+                       size={25}
+                     
+                       onClick={() =>deleteUser(item.id)}
+                       strokeWidth={1.5}
+                       color={'#bf4064'}
+                    />
+                </div>
+                 
+                    </div>
+                </td>  
                 </tr>
               );
            })}

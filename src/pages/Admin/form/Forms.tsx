@@ -13,6 +13,7 @@ import { Button } from '../../../components/Elements';
 import { FormContainer } from '../../../styles/global';
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from 'react-router-dom';
+import UserHeader from '../../../components/UserHeader';
 
 
 
@@ -24,13 +25,11 @@ const Forms = () => {
   const token = localStorage.getItem("@cinimaDb:Token");
   const { id } = useParams()
   const navigate = useNavigate()
-
-
-
+  
   useEffect(() => {
     retrieveSchemaForm("EN");
     retrieveUIForm("En")
-     retrieveUserById(id)
+     retrieveUserById()
   }, [])
 
   const retrieveSchemaForm  = async (language:string) => {
@@ -43,23 +42,27 @@ const Forms = () => {
     setUIFormData(res.data)
   };
 
-  const retrieveUserById = async (id:any) => {
+  const retrieveUserById = async () => {
     let res =await api.get(`/users/${id}`);
     setData(res.data)
   };
 
   
-  const handleCreateuser = async (id:any) =>{ 
+  const handleCreateandUpdateuser = async () =>{ 
     if(data.id == null){
    await api
     .post("/users/createuser", data)
-      
     }
        else{
           await api
           .put(`/users/updateuser/${id}`,data)  
-        }
-        navigate("/admin/user")
+        }  
+       
+  }
+  function handleSaveuser (){
+    handleCreateandUpdateuser()
+    navigate("/admin/user")
+    // window.location.reload()
   }
 
   function onClickCancle(){
@@ -72,7 +75,9 @@ const Forms = () => {
   ];
 
   return (
-    <FormContainer onSubmit={handleCreateuser}>
+    <>
+    <UserHeader/>
+    <FormContainer onSubmit={handleSaveuser}>
         <h1>User form</h1>
         {
           <div>
@@ -86,15 +91,24 @@ const Forms = () => {
             />
           </div>
         }
-       
-        <div id="saveUser" className="w3-show-inline-block">
-  <div className="w3-bar">
-    <button className="btn btn-success mr-4" >Save</button>
-    <button id="cancle" className="btn btn-danger"onClick={onClickCancle}>Cancel</button>
-  </div>
-  </div>
-       
+        {/* <div id="button" className="w3-show-inline-block">
+           <div className="w3-bar">
+            <button id="saveUser" className="btn btn-success mr-4">Save</button>
+             <button id="cancle" className="btn btn-danger" onClick={onClickCancle}>Cancel</button>
+          </div>
+  </div> */}
+
+  <div  className="row">
+    <div className= "col-md-6">
+    <button id="saveUser" className="btn btn-success mr-4 ">Save</button>
+    </div>
+    <div className= "col-md-6">
+    <button id="cancle" className="btn btn-danger " onClick={onClickCancle}>Cancel</button>
+    </div>  
+</div>
+
     </FormContainer>
+    </>
   );
 };
 

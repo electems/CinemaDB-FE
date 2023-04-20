@@ -46,6 +46,7 @@ export const SelectedIndustry: React.FC = () => {
       });
   };
 
+ 
   return (
     <>
       <div className="bg-white_A700 flex flex-col items-center justify-start mx-auto pb-7 w-full">
@@ -97,6 +98,7 @@ export const SelectedIndustry: React.FC = () => {
                     mode="hierarchical"
                     className="bootstrap-demo font-bold text-center text-gray_800 w-auto"
                   />
+                 
                 </div>
               </div>
               <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start my-0 w-[93%] md:w-full"></div>

@@ -1,6 +1,7 @@
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import ReactDOM from 'react-dom';
-import App from './Forms';
+import Forms from './Forms';
+
 
 /**
  * Customize form so each control has more space
@@ -20,7 +21,7 @@ const theme = createTheme({
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <App />
+    <Forms />
   </ThemeProvider>,
   document.getElementById('root')
 );
