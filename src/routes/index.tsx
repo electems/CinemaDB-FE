@@ -13,7 +13,8 @@ import Forms from "../pages/Admin/Form/Forms";
 import UserListing from "../pages/Admin/Users/components/UserListing";
 import Jsoneditor from "../pages/Admin/jsoneditor/editor";
 import Professional from "../pages/Admin/professional/professional";
-
+import FormsBuilder from "../pages/FormBuilder/FormsBuilder";
+import FormListing from "../pages/Admin/FormListing/formlisting";
 const RoutesMain = () => {
   return (
     <Routes>
@@ -46,6 +47,8 @@ export const RoutesAdmin = () => {
       {/* <Route element={<ProtectedRoutes />}> */}
       <Route path="/admin/form" element={<Forms />} />
       <Route path="/admin/professional" element={<Professional />} />
+      <Route path="/admin/formlisitng" element={<FormListing />} />
+      <Route path="/admin/formbuilders" element={<FormsBuilder />} />
       <Route path="/admin/editors" element={<Jsoneditor />} />
       <Route path="/admin/user/:id" element={<Forms />} />
       <Route path="/admin/user" element={<UserListing />} />

@@ -3,4 +3,5 @@ export const environment = {
   redirectUrl: "http://localhost:3000/film/login/loginregister",
   professionalData: "professionaldata",
   mainProfessionalPath: "mainprofessional",
+  formLayoutPath: "formlayout",
 };
