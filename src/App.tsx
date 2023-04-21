@@ -1,12 +1,21 @@
-import { AppProvider } from '@/providers/app';
-import { AppRoutes } from '@/routes';
+import "react-toastify/dist/ReactToastify.min.css";
 
-function App() {
+import RoutesMain, { RoutesAdmin } from "./routes";
+
+
+function AppMain() {
   return (
-    <AppProvider>
-      <AppRoutes />
-    </AppProvider>
+    <div className="App">
+      <RoutesMain></RoutesMain>
+    </div>
+  );
+}
+export function AdminMain() {
+  return (
+    <div className="App">
+      <RoutesAdmin></RoutesAdmin>
+    </div>
   );
 }
 
-export default App;
+export default AppMain;

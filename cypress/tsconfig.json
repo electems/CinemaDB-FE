@@ -1,9 +1,8 @@
 {
+  "extends": "../tsconfig.json",
+  "include": ["**/*.ts"],
   "compilerOptions": {
-    "esModuleInterop": true,
-    "target": "es5",
-    "lib": ["es5", "dom"],
-    "types": ["node", "cypress", "@testing-library/cypress"]
-  },
-  "include": ["**/*.ts"]
+    "sourceMap": false,
+    "types": ["cypress","@4tw/cypress-drag-drop"]
+  }
 }

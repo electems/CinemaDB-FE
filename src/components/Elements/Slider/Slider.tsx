@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import React from 'react';
-import AliceCarousel, { Props } from 'react-alice-carousel';
+ import AliceCarousel, { Props } from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 
 type SliderComponentProps = Props &
@@ -27,36 +27,36 @@ const Slider = React.forwardRef<AliceCarousel, SliderComponentProps>(
     },
     ref
   ) => {
-    const isSmall = (index) => {
-      if (props?.activeIndex + magnifiedIndex >= items?.length) {
-        return index !== props?.activeIndex + magnifiedIndex - items?.length;
-      } else {
-        return index !== props.activeIndex + magnifiedIndex;
-      }
-    };
+    // const isSmall = (index: any) => {
+    //   if (props?.activeIndex + magnifiedIndex >= items?.length) {
+    //     return index !== props?.activeIndex + magnifiedIndex - items?.length;
+    //   } else {
+    //     return index !== props.activeIndex + magnifiedIndex;
+    //   }
+    // };
 
-    const slideItems = centerMode
-      ? items.map((child, index) => {
-          if (isSmall(index)) {
-            return React.cloneElement(child, {
-              ...child.props,
-              className: [child.props?.className, activeSlideCSS].filter(Boolean).join(' '),
-            });
-          }
-          return React.cloneElement(child);
-        })
-      : items;
+    // const slideItems = centerMode
+    //   ? items.map((child, index) => {
+    //       if (isSmall(index)) {
+    //         return React.cloneElement(child, {
+    //           ...child.props,
+    //           className: [child.props?.className, activeSlideCSS].filter(Boolean).join(' '),
+    //         });
+    //       }
+    //       return React.cloneElement(child);
+    //     })
+    //   : items;
 
     return (
       <div className={className}>
         <AliceCarousel
-          items={slideItems}
+          // items={slideItems}
           ref={ref}
-          responsive={{
-            0: { items: 1 },
-            568: { items: slidesToShow },
-            1024: { items: slidesToShow },
-          }}
+          // responsive={{
+          //   0: { items: 1 },
+          //   568: { items: slidesToShow },
+          //   1024: { items: slidesToShow },
+          // }}
           disableButtonsControls
           disableDotsControls
           mouseTracking

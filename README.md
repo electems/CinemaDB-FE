@@ -1,50 +1,46 @@
-# Bulletproof React 🛡️ ⚛️
+# Getting Started with Create React App
 
-[![MIT License](https://img.shields.io/github/license/alan2207/bulletproof-react)](https://github.com/alan2207/bulletproof-react/blob/master/LICENCE)
-[![CI](https://github.com/alan2207/bulletproof-react/actions/workflows/ci.yml/badge.svg)](https://github.com/alan2207/bulletproof-react/actions/workflows/ci.yml)
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-A simple, scalable, and powerful architecture for building production ready React applications.
+## Available Scripts
 
-## Introduction
+In the project directory, you can run:
 
-React is an excellent tool for building front-end applications. It has a diverse ecosystem with hundreds of great libraries for literally anything you might need. However, being forced to make so many choices can be overwhelming. It is also very flexible, you can write React applications in any way you like, but that flexibility comes with a cost. Since there is no pre-defined architecture that developers can follow, it often leads to a messy, inconsistent, and over-complicated codebase.
+### `yarn start`
 
-This repo attempts to present a way of creating React applications using some of the best tools in the ecosystem with a good project structure that scales very well. Based on my vast experience working with different codebases, this architecture turns out to be the most effective.
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The goal here is to serve as a collection of resources and best practices when developing React applications. It is supposed to showcase solving most of the real-world problems of an application in a practical way and help developers write better applications.
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-Feel free to explore the codebase to get the most value out of the repo.
+### `yarn test`
 
-#### Disclaimer:
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-This is not supposed to be a template, boilerplate or a framework. It is an opinionated guide that shows how to do some things in a certain way. You are not forced to do everything exactly as it is shown here, decide what works best for you and your team and stay consistent with your style.
+### `yarn build`
 
-## Table Of Contents:
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-- [💻 Application Overview](docs/application-overview.md)
-- [⚙️ Project Configuration](docs/project-configuration.md)
-- [👁️ Style Guide](docs/style-guide.md)
-- [🗄️ Project Structure](docs/project-structure.md)
-- [🧱 Components And Styling](docs/components-and-styling.md)
-- [📡 API Layer](docs/api-layer.md)
-- [🗃️ State Management](docs/state-management.md)
-- [🧪 Testing](docs/testing.md)
-- [⚠️ Error Handling](docs/error-handling.md)
-- [🔐 Security](docs/security.md)
-- [🚄 Performance](docs/performance.md)
-- [🌐 Deployment](docs/deployment.md)
-- [📚 Additional Resources](docs/additional-resources.md)
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-## Contributing
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-Contributions are always welcome! If you have any ideas, suggestions, fixes, feel free to contribute. You can do that by going through the following steps:
+### `yarn eject`
 
-1. Clone this repo
-2. Create a branch: `git checkout -b your-feature`
-3. Make some changes
-4. Test your changes
-5. Push your branch and open a Pull Request
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-## License
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-[MIT](https://choosealicense.com/licenses/mit/)
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).

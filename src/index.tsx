@@ -1,15 +1,29 @@
-import * as React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import reportWebVitals from "./reportWebVitals";
+import { ContextProvider } from "./contexts/contextLogin";
+import { ToastContainer } from "react-toastify";
+import App from "./App";
+import "./styles/index.css";
+import "./styles/tailwind.css";
+import axios from "axios";
+import { GlobalStyle } from "./styles/global";
+import AppMain , { AdminMain }from "./App";
 
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { initMocks } from './test/server';
-initMocks();
-
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
 );
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <GlobalStyle />
+      <ToastContainer />
+      <ContextProvider>
+      <AdminMain></AdminMain>
+      </ContextProvider>
+      <AppMain></AppMain>
+    </BrowserRouter>
+  </React.StrictMode>
+);
+reportWebVitals();
