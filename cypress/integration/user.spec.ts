@@ -13,7 +13,7 @@ beforeEach(() => {
     }
   }).then(resp => {
     token = resp.body.token
-    localStorage.setItem('tokens', resp.body.token)
+    localStorage.setItem('@cinimaDb:Token', resp.body.token)
   })
 });
   describe('AdminLogin', () => {
@@ -67,7 +67,5 @@ describe('AdminUserSection', () => {
   it('adminLogout', () => {
     cy.get('[ id="logout"]').click()
   })
-
-
 
 })

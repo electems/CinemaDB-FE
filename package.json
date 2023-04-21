@@ -41,6 +41,7 @@
     "flowbite-react": "^0.4.3",
     "react": "^18.2.0",
     "react-alice-carousel": "^2.7.1",
+    "react-checkbox-tree": "^1.8.0",
     "react-dom": "^18.2.0",
     "react-dropdown": "^1.10.0",
     "react-dropdown-tree-select": "^2.8.0",

@@ -165,3 +165,16 @@ ul li a {
 .common-column-list li {
   width: 100%;
 }
+
+.contactIcon:hover {
+  background-color: #ccc;
+  background-size: 0%;
+}
+.pointer {
+  cursor: pointer;
+}
+
+
+
+
+

@@ -24,7 +24,6 @@ const Jsoneditor = () => {
   const [lablePath, setLablePath] = useState("");
   const [lable, setLable] = useState("");
   const navigate = useNavigate();
-
   let [industrySelectionList, setIndustrySelectionList] = React.useState<any>(
     []
   );
@@ -38,16 +37,17 @@ const Jsoneditor = () => {
 
   const retrieveProfessionalList = async() => {
     let mainLabel = localStorage.getItem("selectedLabel") || "";
-    setLable(mainLabel.replace("/","_"))
+    setLable(mainLabel)
     const newLabelPath = mainLabel.replace(/\s+/g, "").toLowerCase();
     const mainLablePath =newLabelPath.replace("/" ,"").toLocaleLowerCase()
     setLablePath(mainLablePath);
 
-    let res=await api
+    let res =await api
       .get(
         `form/${mainLablePath}/${environment.professionalData}`
       )
-      if(res != undefined){
+      console.log(res.data.error)
+      if(res.data.error != 'file not found'){
        
         setIndustrySelectionList(res.data);
       }else{
@@ -73,7 +73,7 @@ const Jsoneditor = () => {
       // inputEls.current[treeIndex].current.focus();
       return;
     }
-
+    if (lable !== "Main Professional"){
     let newTree = addNodeUnderParent({
       treeData: industrySelectionList,
       parentKey: path[path.length - 1],
@@ -85,17 +85,11 @@ const Jsoneditor = () => {
      
     });
     setIndustrySelectionList(newTree.treeData);
-    if (lable !== "Main Professional") { 
-    await api.post(`form/${path}/${value}`, industrySelectionList);
-    
-    } 
-
-    
-
-
+    await api.post(`form/${lablePath}/${value}`, newTree.treeData);
+  }
     // inputEls.current[treeIndex].current.value = "";
   }
-  
+
   function removeNode(rowInfo: ExtendedNodeData<unknown>) {
     const { path } = rowInfo;
     setIndustrySelectionList(
@@ -143,6 +137,7 @@ const Jsoneditor = () => {
       <input
         ref={ref}
         type="text"
+        id="userinput"
         className="form-control mr-8 "
         placeholder="Username"
         aria-describedby="basic-addon1"
@@ -161,6 +156,7 @@ const Jsoneditor = () => {
             buttons: [
               <div>
                 <button
+                id="addChild"
                 className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mr-2"
                   placeholder="Add Child"
                   onClick={(event) => addNodeChild(rowInfo)}

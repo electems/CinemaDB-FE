@@ -1,4 +1,5 @@
 import { admin } from "./models";
+import { faker } from '@faker-js/faker';
 
 const baseURL="http://localhost:3001/auth/login";
 
@@ -28,8 +29,14 @@ describe('AdminLogin', () => {
     it('Core Professional List', () => {
         cy.get('[id="professional"]').click()
         cy.get('[id="professionalList"]').contains("Core Professional List")
-        cy.get('[ id="tableTitle"]').contains("Main Professional")
-        cy.get('[ id="editIndustry"]').eq(1).click()
-        cy.get('[ id="profcancle"]').click()
+        cy.get('[id="tableTitle"]').contains("Main Professional")
+        cy.get('[id="editIndustry"]').eq(1).click()
+        cy.get('[id="profcancle"]').click()
+        cy.get('[id="editIndustry"]').eq(0).click()
+        cy.get('[id="popupButton"]').contains("choice").click()
+        cy.get('[id="userinput"]').click().type(faker.lorem.word())
+        cy.get('[id="addChild"]').click() 
+         
+       
     })
 });
