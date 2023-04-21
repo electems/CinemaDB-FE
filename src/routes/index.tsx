@@ -13,7 +13,6 @@ import { OTT } from "../pages/Film/Public/Ott/Ott";
 import UserListing from "../pages/Admin/Users/components/UserListing";
 import Jsoneditor from "../pages/Admin/jsoneditor/editor";
 import Professional from "../pages/Admin/professional/professional";
-import Forms from "../pages/Admin/form/Forms";
 
 const RoutesMain = () => {
   return (
@@ -48,6 +47,8 @@ export const RoutesAdmin = () => {
       <Route path="/admin/user" element={<UserListing />} />
       <Route path="/admin/form" element={<Forms />} />
       <Route path="/admin/professional" element={<Professional />} />
+      <Route path="/admin/formlisitng" element={<FormListing />} />
+      <Route path="/admin/formbuilders" element={<FormsBuilder />} />
       <Route path="/admin/editors" element={<Jsoneditor />} />
       <Route path="/admin/user/:id" element={<Forms />} />
       {/* </Route> */}

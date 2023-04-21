@@ -21,6 +21,7 @@ const type = [
 
 const Professional: React.FC = () => {
   const { professionalDataJSONToEditorFormat } = useContext(Context);
+  let [directoryList, setDirectoryList] = React.useState([]);
 
   let [industrySelectionList, setIndustrySelectionList] = React.useState<
     IndustrySelectionItem[]
@@ -33,6 +34,7 @@ const Professional: React.FC = () => {
       environment.mainProfessionalPath,
       environment.professionalData
     );
+    retriveDirectories("formlayout");
   }, []);
 
   const retrieveMainProfessional = async (path: string, fileName: string) => {
@@ -40,11 +42,15 @@ const Professional: React.FC = () => {
     setIndustrySelectionList(professionalDataJSONToEditorFormat(res));
   };
 
-  // const navigateToChoiceOrForms = (type: string) => {
-  //   navigate(`/admin/${type}`);
-  // };
-  const navigateToChoiceOrForms = () => {
-    navigate(`/admin/editors`);
+
+
+  const retriveDirectories = async (path: string) => {
+    let res = await api.get(`form/${path}`);
+    setDirectoryList(res.data);
+  };
+
+  const navigateToChoiceOrForms = (type: string) => {
+    navigate(`/admin/${type}`);
   };
 
   const editSelectedIndustry = (label: string) => {
