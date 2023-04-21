@@ -1,14 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import UserHeader from "../../../components/UserHeader";
 import { api } from "../../../services/api";
-import { environment } from "../../../config/environment";
-import { Context } from "../../../contexts/contextLogin";
-let item: string;
 
 const FormListing: React.FC = () => {
-  const { labelName } = useContext(Context);
   let [directoryList, setDirectoryList] = React.useState([]);
   const navigate = useNavigate();
   React.useEffect(() => {
