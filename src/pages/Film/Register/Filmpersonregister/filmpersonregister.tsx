@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import { api } from "../../../../services/api";
 import DropdownTreeSelect, { TreeNode } from "react-dropdown-tree-select";
 import 'react-dropdown-tree-select/dist/styles.css';
-// import CheckboxTree from 'react-checkbox-tree'
 import "./style.css";
 import { Text, Button } from "../../../../components/Elements";
 import { useNavigate } from "react-router-dom";
+import { environment } from "../../../../config/environment";
 let selectedNodes: any[] = [];
 export const FilmPersonRegister: React.FC = () => {
   const [FilmForm, setFilmForm] = React.useState([]);
@@ -14,9 +14,21 @@ export const FilmPersonRegister: React.FC = () => {
   const navigate = useNavigate();
   const emailPhone = localStorage.getItem("emailphone");
   const token = localStorage.getItem("@cinimaDb:Token");
+  const [selecteNode, setSelecteNode] = useState("");
+  const selectedlable = localStorage.getItem("professionalLable");
+  const [lablePath, setLablePath] = useState("");
+  const [lable, setLable] = useState("");
+  let [industrySelectionList, setIndustrySelectionList] = React.useState<any>(
+    []
+  );
+
+
   useEffect(() => {
     retrieveFilmForm("mainprofessional", "professionaldata");
+    retrieveProfessionalList();
   }, []);
+
+
   const retrieveFilmForm = async (language: string, formLayout: string) => {
     await api
       .get(`form/${language}/${formLayout}`)
@@ -30,41 +42,39 @@ export const FilmPersonRegister: React.FC = () => {
       });
   };
   
+  const onChange = (nodeSelected: any) => {
+    setSelecteNode(nodeSelected.label);
+  selectedNodes.push(nodeSelected);
+ };
+ 
+ const retrieveProfessionalList = async() => {
+  let mainLabel = localStorage.getItem("professionalLable") || "";
+  const newLabelPath = mainLabel.replace(/\s+/g, "").toLowerCase();
+  const mainLablePath =newLabelPath.replace("/" ,"").toLocaleLowerCase()
+  setLablePath(mainLablePath);
 
-  const onChange = (currentNode: TreeNode, selectedNodes: TreeNode[]) => {
-    const temp = selectedNodes
-    selectedNodes = [];
-    selectedNodes = temp;
-  }
+  let res = await api
+    .get(
+      `form/${mainLablePath}/${environment.professionalData}`
+    )
+    let respnseStr = JSON.stringify(res.data);
+    var newresponse = respnseStr.replaceAll("title", "label");
+    setFilmForm(JSON.parse(newresponse));
+   
+};
 
 
   const saveUserIndustrySelect = async () => {
-    const userObj = {
-      id: 5,
-      industrySelection: selectedNodes,
-      step: selectedNodes[0].label,
-      email: emailPhone,
-      //These fileds are added because these are required filed in the backend
-      password: "harsha",
-      firstName: "Alice",
-      lastName: "Hartmann",
-      filmIndustry: "sandalhood",
-      status: "ACTIVE",
-    };
-    await api
-      .post(`users/createuser`, userObj)
-      .then((response) => {
-        setSaveUser(response.data);
-        navigate("/film/register/selectedindustry");
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-  // function Widget() {
-  //   const [checked, setChecked] = useState([]);
-  //   const [expanded, setExpanded] = useState([]);
-  // }
+    if(selectedlable === "Main Professional"){
+      localStorage.setItem("professionalLable",selecteNode);
+      retrieveProfessionalList();
+    }else{
+        navigate("/admin/form")
+      }
+      window.location.reload()
+    }
+
+
   return (
     <>
       <div className="bg-white_A700 flex items-center justify-start mx-auto pb-[76px] w-full">
@@ -86,16 +96,7 @@ export const FilmPersonRegister: React.FC = () => {
               data={FilmForm}
               onChange={onChange}
               className="mdl-demo"
-              mode={"radioSelect"}
             />    
-
-              {/* <CheckboxTree
-                       nodes={nodes}
-                       checked={checked}
-                       expanded={expanded}
-                       onCheck={(checked) => setChecked(checked)}
-                       onExpand={(expanded) => setExpanded(expanded)}
-                    />         */}
           </div>
           <Button
             className="bg-red_A700 cursor-pointer font-roboto font-semibold leading-[normal] min-w-[1363px] md:min-w-full mt-3.5 py-[29px] rounded-[17px] sm:text-3xl md:text-[32px] text-[34px] text-center text-white_A700 w-auto"
