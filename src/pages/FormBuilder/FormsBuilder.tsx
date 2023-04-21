@@ -6,6 +6,7 @@ import { variable } from "./variables";
 import "./form.css";
 import { api } from "../../services/api";
 import { environment } from "../../config/environment";
+import UserHeader from "../../components/UserHeader";
 const getUrl = (cid: string) =>
   `https://safe-springs-35306.herokuapp.com/api/formdata?cid=${cid}`;
 const labelName = localStorage.getItem("formlabelname");
@@ -75,6 +76,7 @@ class FormsBuilder extends Component<Props, State> {
   render() {
     return (
       <div className="App">
+        <UserHeader />
         <Demobar variables={variable} />
         <ReactFormBuilder url="./editor.json" onLoad={this.onLoad} />,
       </div>

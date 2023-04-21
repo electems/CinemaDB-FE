@@ -2,12 +2,9 @@
 import React from "react";
 import { ReactFormGenerator, ElementStore } from "react-form-builder2";
 import "./form.css";
-import { Link, RouteComponentProps } from "react-router-dom";
 import { api } from "../../services/api";
 import { environment } from "../../config/environment";
-import json from "./editor.json";
 let jsondata = [];
-type Props = RouteComponentProps<RouterProps>;
 const labelName = localStorage.getItem("formlabelname");
 export default class Demobar extends React.Component {
   constructor(props) {
@@ -93,7 +90,7 @@ export default class Demobar extends React.Component {
     }
 
     return (
-      <div className="clearfix" style={{ margin: "10px", width: "70%" }}>
+      <div className="clearfix" style={{ margin: "20px", width: "70%" }}>
         <h4 className="float-left">Preview</h4>
         <button
           className="btn btn-primary float-right"
