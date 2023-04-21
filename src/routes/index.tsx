@@ -9,10 +9,13 @@ import { LoginRegisterForm } from "../pages/Film/Login/loginRegisterForm";
 import { FilmPersonRegister } from "../pages/Film/Register/Filmpersonregister/filmpersonregister";
 import { SelectedIndustry } from "../pages/Film/Register/Filmpersonregister/selectedindustry";
 import { OTT } from "../pages/Film/Public/Ott/Ott";
-
+import Forms from "../pages/Admin/Form/Forms";
 import UserListing from "../pages/Admin/Users/components/UserListing";
 import Jsoneditor from "../pages/Admin/jsoneditor/editor";
 import Professional from "../pages/Admin/professional/professional";
+import FormsBuilder from "../pages/FormBuilder/FormsBuilder";
+import React from "react";
+import FormListing from "../pages/Admin/FormListing/formlisting";
 
 const RoutesMain = () => {
   return (
@@ -54,6 +57,6 @@ export const RoutesAdmin = () => {
       {/* </Route> */}
     </Routes>
   );
-}
+};
 
 export default RoutesMain;
