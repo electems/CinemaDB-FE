@@ -8,7 +8,7 @@
   import { LoginRegisterForm } from "../pages/Film/Login/loginRegisterForm";
   import { FilmPersonRegister } from "../pages/Film/Register/Filmpersonregister/filmpersonregister";
   import { SelectedIndustry } from "../pages/Film/Register/Filmpersonregister/selectedindustry";
-  import { MainScreen } from "../pages/Film/Public/Ott/Ott";
+  import { MainScreen } from "../pages/Film/Public/MainScreen/mainscreen";
   import UserListing from "../pages/Admin/Users/components/UserListing";
   import ProfessionalTree from "../pages/Admin/ProfessionalTree/professionalTree";
   import Professional from "../pages/Admin/ProfessionalListing/professional";

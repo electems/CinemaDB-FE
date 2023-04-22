@@ -6,7 +6,6 @@ import { environment } from "../../../config/environment";
 import { useEffect, useState } from "react";
 import AdminHeader from "../../../components/AdminHeader";
 import { useNavigate } from "react-router-dom";
-// @ts-ignore
 import { EditableAntdTree } from "editable-antd-tree"; 
 
 import "editable-antd-tree/dist/esm/output.css";
@@ -14,11 +13,9 @@ import "editable-antd-tree/dist/esm/output.css";
 const ProfessionalTree = () => {
   const [lablePath, setLablePath] = useState("");
   const [lable, setLable] = useState("");
-  const navigate = useNavigate();
-  let [industrySelectionList, setIndustrySelectionList] = React.useState<any>(
-    []
-  );
+  const [industryCategoryList, setIndustryCategoryList] = useState([]);
 
+  const navigate = useNavigate();
 
   useEffect(() => {
     retrieveProfessionalList();
@@ -31,20 +28,17 @@ const ProfessionalTree = () => {
     const mainLablePath = newLabelPath.replace("/", "").toLocaleLowerCase();
     setLablePath(mainLablePath);
 
-    let res = await api.get(
-      `form/${mainLablePath}/${environment.professionalData}`
-    );
-    console.log(res.data.error);
-    if (res.data.error != "FILE_NOT_FOUND") {
-      setIndustrySelectionList(res.data);
-    } else {
-      setIndustrySelectionList([{}]);
-    }
+    const response = await api.get(
+      `form/${mainLablePath}/${environment.professionalData}`)
+    const temp = await response.data
+    if (temp.error != "FILE_NOT_FOUND") {
+      setIndustryCategoryList(response.data);
+    } 
   };
 
-  const saveProfessional = async () => {	
-    await api.post(`form/${lablePath}/${environment.professionalData}`, industrySelectionList);	
-    navigate("/admin/professional");	
+  const saveProfessional = () => {	
+    api.post(`form/${lablePath}/${environment.professionalData}`, industryCategoryList);	
+    navigate("/admin/professionalListing");	
   };
 
 
@@ -57,8 +51,10 @@ const ProfessionalTree = () => {
       <AdminHeader />
       <h1 className="title">{lable}</h1>
       <br />
-      <div style={{ height: 400 }}>
-        <EditableAntdTree treeData={industrySelectionList} />
+      <div>
+        <div>
+        <EditableAntdTree size="md" treeData={industryCategoryList}s />
+        </div>
         <button
           className="btn btn-success mr-4"
           onClick={() => saveProfessional()}

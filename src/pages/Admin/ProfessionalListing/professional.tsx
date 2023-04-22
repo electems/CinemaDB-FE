@@ -1,14 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminHeader from "../../../components/AdminHeader";
 import { api } from "../../../services/api";
 import { environment } from "../../../config/environment";
-import { Context } from "../../../contexts/contextLogin";
-
-interface IndustrySelectionItem {
-  title: string;
-}
+import { DataNode } from "antd/es/tree";
 
 const type = [
   {
@@ -20,22 +16,34 @@ const type = [
 ];
 
 const ProfessionalListing: React.FC = () => {
-  let [industrySelectionList, setIndustrySelectionList] = React.useState<
-    IndustrySelectionItem[]
-  >([]);
+
+  const [industrySelectionList, setIndustrySelectionList] = React.useState<DataNode[]>([]);
   const [showModal, setShowModal] = React.useState(false);
   const navigate = useNavigate();
 
-  React.useEffect(() => {
-    retrieveMainProfessional(
-      environment.mainProfessionalPath,
-      environment.professionalData
-    );
+  useEffect(() => {
+    retrieveMainProfessional();
+    console.log(industrySelectionList);
   }, []);
 
-  const retrieveMainProfessional = async (path: string, fileName: string) => {
-    let res = await api.get(`form/${path}/${fileName}`);
-    setIndustrySelectionList(res.data);
+  const retrieveMainProfessional = async () => {
+    const response = await api.get(
+      `form/${environment.mainProfessionalPath}/${environment.professionalData}`)
+
+      const data =  await response.data
+      const temp:DataNode[] = []
+      temp.push(
+        {"key":"0","title":"Main Professional","isLeaf":false,"children":[]}
+      );
+
+      for(let i = 0; i < 200 ; i++) {
+        if(data[i] !== undefined) {
+          temp.push(data[i])
+        } else {
+          break;
+        }      
+      }    
+      setIndustrySelectionList(temp)
   };
 
   const navigateToChoiceOrForms = () => {
@@ -68,8 +76,7 @@ const ProfessionalListing: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {industrySelectionList.map((item: IndustrySelectionItem) => {
-              return (
+            {industrySelectionList.map((item, i) =>(               
                 <tr
                   id="tableTitle"
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
@@ -85,10 +92,9 @@ const ProfessionalListing: React.FC = () => {
                       Edit
                     </button>
                   </td>
-                </tr>
-              );
-            })}
-            {showModal ? (
+                </tr>              
+            ))}
+             <td>{showModal ? (
               <>
                 <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                   <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -142,7 +148,7 @@ const ProfessionalListing: React.FC = () => {
                 </div>
                 <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
               </>
-            ) : null}
+            ) : null} </td>
           </tbody>
         </table>
       </div>
