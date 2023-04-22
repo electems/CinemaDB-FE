@@ -90,11 +90,11 @@ export default class Demobar extends React.Component {
     }
 
     return (
-      <div className="clearfix" style={{ margin: "20px", width: "70%" }}>
+      <div className="clearfix" style={{ margin: "25px", width: "70%" }}>
         <h4 className="float-left">Preview</h4>
         <button
           className="btn btn-primary float-right"
-          style={{ marginRight: "10px" }}
+          style={{ marginRight: "25px" }}
           onClick={this.showPreview.bind(this)}
         >
           Preview Form

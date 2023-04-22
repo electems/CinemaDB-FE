@@ -28,11 +28,11 @@ const RoutesMain = () => {
         path="/film/register/filmpersonregister"
         element={<FilmPersonRegister />}
       />
+
       <Route
         path="/film/register/Adagency/Promoter"
         element={<SelectedIndustry />}
       />
-
       <Route path="/film/public/aboutus" element={<AboutusPage />} />
       <Route path="/film/public/ott" element={<OTT />} />
 
@@ -45,13 +45,13 @@ export const RoutesAdmin = () => {
   return (
     <Routes>
       <Route path="/admin/login" element={<AdminLogin />} />
-
       {/* <Route element={<ProtectedRoutes />}> */}
       <Route path="/admin/user" element={<UserListing />} />
+      <Route path="/admin/formbuilders" element={<FormsBuilder />} />
       <Route path="/admin/form" element={<Forms />} />
       <Route path="/admin/professional" element={<Professional />} />
       <Route path="/admin/formlisitng" element={<FormListing />} />
-      <Route path="/admin/formbuilders" element={<FormsBuilder />} />
+
       <Route path="/admin/editors" element={<Jsoneditor />} />
       <Route path="/admin/user/:id" element={<Forms />} />
       {/* </Route> */}

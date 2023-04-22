@@ -6,31 +6,13 @@ import { variable } from "./variables";
 import "./form.css";
 import { api } from "../../services/api";
 import { environment } from "../../config/environment";
+import "bootstrap/dist/css/bootstrap.min.css";
 import UserHeader from "../../components/UserHeader";
+import "font-awesome/css/font-awesome.min.css";
 const getUrl = (cid: string) =>
   `https://safe-springs-35306.herokuapp.com/api/formdata?cid=${cid}`;
 const labelName = localStorage.getItem("formlabelname");
 let jsonData = [];
-const content = [
-  {
-    id: "C68B673B-3948-4D62-AF6D-5320CAB4DDB7",
-    element: "TextInput",
-    text: "Text Input",
-    required: true,
-    canHaveAnswer: true,
-    field_name: "text_input_EEA6F5DA-5C2C-43D3-AB62-62385E3925D9",
-    label: "<div>Name</div>\n",
-  },
-  {
-    id: "6DAF1E95-44F6-4E5B-ABDD-D9A6BCA2C08A",
-    element: "TextInput",
-    text: "Text Input",
-    required: true,
-    canHaveAnswer: true,
-    field_name: "text_input_C5305462-9704-4E77-BFAB-A43C14AB2B8E",
-    label: "<div>Email</div>\n",
-  },
-];
 
 type Props = {};
 

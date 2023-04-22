@@ -6,6 +6,9 @@
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@faker-js/faker": "^7.6.0",
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@heroicons/react": "^1.0.1",
     "@hookform/resolvers": "^2.9.7",
     "@jsonforms/core": "^3.0.0",
@@ -41,6 +44,7 @@
     "cypress-postgres": "^1.1.1",
     "flowbite": "^1.6.5",
     "flowbite-react": "^0.4.3",
+    "font-awesome": "^4.7.0",
     "isomorphic-fetch": "^3.0.0",
     "jquery": "^3.6.4",
     "rc-json-editor": "^2.0.34",
@@ -58,20 +62,14 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
     "react-simple-image-slider": "^2.4.1",
-
     "react-sortable-tree": "2.3.0",
-
     "react-switch": "^7.0.0",
-
     "react-table": "^7.8.0",
     "react-toastify": "^9.0.8",
     "styled-components": "^5.3.5",
     "tabler-icons-react": "^1.56.0",
     "typescript": "^4.8.2",
-
-
     "web-vitals": "^3.3.1",
-
     "yup": "^0.32.11"
   },
   "scripts": {

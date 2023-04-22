@@ -2,20 +2,32 @@ import "react-toastify/dist/ReactToastify.min.css";
 
 import RoutesMain, { RoutesAdmin } from "./routes";
 
-
 function AppMain() {
-  return (
-    <div className="App">
-      <RoutesMain></RoutesMain>
-    </div>
-  );
+  const path = window.location.pathname;
+  if (!path.includes("admin")) {
+    return (
+      <div className="App">
+        <RoutesMain></RoutesMain>
+      </div>
+    );
+  } else {
+    return <div></div>;
+  }
 }
 export function AdminMain() {
-  return (
-    <div className="App">
-      <RoutesAdmin></RoutesAdmin>
-    </div>
-  );
+  const path = window.location.pathname;
+  if (path.includes("admin")) {
+    return (
+      <div className="App">
+        <link
+          rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+        ></link>
+        <RoutesAdmin></RoutesAdmin>
+      </div>
+    );
+  } else {
+    return <div></div>;
+  }
 }
-
 export default AppMain;

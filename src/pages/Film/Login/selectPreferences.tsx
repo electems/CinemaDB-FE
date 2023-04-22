@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthUser } from "../../../types/auth.types";
 import { storage } from "../../../storage/storage";
+import { List, Img, Text } from "../../../components/Elements";
 export const SelectPreferenceForm: React.FC = () => {
   const navigate = useNavigate();
 
@@ -16,26 +17,51 @@ export const SelectPreferenceForm: React.FC = () => {
       role: "ADMIN",
     };
     storage.setUser(user);
-    navigate("/loginregister");
+    navigate("/film/login/loginregister");
   };
 
   return (
     <>
-      <div className="bg-white_A700 font-montserrat h-[1012px] mx-auto p-10 sm:px-5 relative w-full">
-        <button
-          onClick={() => storeUserPreference("PERSON")}
-          title="Film Person"
+      <div className="bg-white_A700 font-montserrat mx-auto p-10 sm:px-5 relative w-full">
+        <div className=" flex h-max inset-[0] items-center justify-center m-auto max-w-[1382px] md:px-5 rounded w-full">
+          <Text
+            className="font-semibold mb-[32px] text-gray_900 text-left w-auto"
+            variant="body2"
+          >
+            Click your preference
+          </Text>
+        </div>
+
+        <List
+          className="sm:flex-col flex-row gap-[92px] grid md:grid-cols-1 grid-cols-2 justify-center m-auto w-[59%]"
+          orientation="horizontal"
         >
-          Film Person
-        </button>
-        <br></br>
-        <button
-          onClick={() => storeUserPreference("LOVER")}
-          type="button"
-          title="Film Lover"
-        >
-          Film Lover
-        </button>
+          <div
+            className="common-pointer bg-bluegray_101 flex flex-col gap-[39px] items-center justify-start pt-[34px] sm:px-5 rounded-bl-none rounded-br-[50px] rounded-tl-[50px] rounded-tr-none w-full"
+            onClick={() => storeUserPreference("PERSON")}
+          >
+            <Img
+              src="/images/img_ellipse18.png"
+              className="h-20 md:h-auto object-cover w-[42%]"
+              alt="ellipseEighteen"
+            />
+            <div className="flex items-center">
+              <Text variant="body2">Film Person</Text>
+            </div>
+          </div>
+          <div
+            className="bg-bluegray_101 flex flex-col gap-[39px] items-center justify-start pt-[34px] sm:px-5 rounded-bl-none rounded-br-[50px] rounded-tl-[50px] rounded-tr-none w-full"
+            onClick={() => storeUserPreference("PERSON")}
+          >
+            <Img
+              src="/images/img_ellipse19.png"
+              className="h-18 md:h-auto object-cover w-[42%]"
+            />
+            <div className="flex items-center">
+              <Text variant="body2">Film Lover</Text>
+            </div>
+          </div>
+        </List>
       </div>
     </>
   );
