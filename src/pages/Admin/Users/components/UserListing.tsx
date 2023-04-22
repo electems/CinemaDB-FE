@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { api } from "../../../../services/api";
-import UserHeader from "../../../../components/UserHeader";
-import { Button } from "../../../../components/Elements";
-import { Edit, Trash } from "tabler-icons-react";
-import { toast } from "react-toastify";
+import React, { useState, useEffect, useMemo, useRef } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { api } from '../../../../services/api'
+import UserHeader from '../../../../components/UserHeader'
+import { Button } from '../../../../components/Elements'
+import { Edit, Trash } from 'tabler-icons-react'
+import { toast } from 'react-toastify'
 
 interface users {
   id: number;
@@ -18,43 +18,43 @@ interface users {
 }
 
 const UserListing: React.FC = () => {
-  const navigate = useNavigate();
-  const token = localStorage.getItem("@cinimaDb:Token");
-  const [usersData, setUserData] = useState([]);
-  const [searchTitles, setSearchTitle] = useState("");
+  const navigate = useNavigate()
+  const token = localStorage.getItem('@cinimaDb:Token')
+  const [usersData, setUserData] = useState([])
+  const [searchTitles, setSearchTitle] = useState('')
 
   useEffect(() => {
-    retrieveUsers();
-  }, []);
+    retrieveUsers()
+  }, [])
 
   const retrieveUsers = async () => {
-    let res = await api.get(`/users`);
-    setUserData(res.data);
-  };
-
-  function addUserForm() {
-    navigate("/admin/form");
+    const res = await api.get('/users')
+    setUserData(res.data)
   }
-  function editUser(id: number) {
-    navigate("/admin/user/" + id);
+
+  function addUserForm () {
+    navigate('/admin/form')
+  }
+  function editUser (id: number) {
+    navigate('/admin/user/' + id)
   }
 
   const deleteUser = async (id: number) => {
-    if (window.confirm("Are you sure you want to delete?")) {
-      await api.delete(`/users/delete/${id}`);
+    if (window.confirm('Are you sure you want to delete?')) {
+      await api.delete(`/users/delete/${id}`)
     }
-    window.location.reload();
-  };
+    window.location.reload()
+  }
 
   const onChangeSearchTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTitle = e.target.value;
-    setSearchTitle(searchTitle);
-  };
+    const searchTitle = e.target.value
+    setSearchTitle(searchTitle)
+  }
 
   const findByTitle = async () => {
-    let res = await api.get(`/users/search/${searchTitles}`);
-    setUserData(res.data);
-  };
+    const res = await api.get(`/users/search/${searchTitles}`)
+    setUserData(res.data)
+  }
 
   return (
     <>
@@ -87,7 +87,7 @@ const UserListing: React.FC = () => {
                 className="float-right"
                 onClick={addUserForm}
               >
-                {" "}
+                {' '}
                 ADD USER
               </Button>
             </div>
@@ -132,7 +132,7 @@ const UserListing: React.FC = () => {
                           id="editUser"
                           strokeWidth={1.5}
                           onClick={() => editUser(item.id)}
-                          color={"#4048bf"}
+                          color={'#4048bf'}
                         />
                       </div>
                       <div className="col-md-6 contactIcon pointer ">
@@ -140,19 +140,19 @@ const UserListing: React.FC = () => {
                           size={25}
                           onClick={() => deleteUser(item.id)}
                           strokeWidth={1.5}
-                          color={"#bf4064"}
+                          color={'#bf4064'}
                         />
                       </div>
                     </div>
                   </td>
                 </tr>
-              );
+              )
             })}
           </tbody>
         </table>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default UserListing;
+export default UserListing

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 export type ListProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -18,6 +18,6 @@ const List: React.FC<React.PropsWithChildren<ListProps>> = ({
     <div className={className} {...restProps}>
       {children}
     </div>
-  );
-};
-export { List };
+  )
+}
+export { List }

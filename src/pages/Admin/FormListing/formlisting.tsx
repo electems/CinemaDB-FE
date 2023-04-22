@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import UserHeader from "../../../components/UserHeader";
-import { api } from "../../../services/api";
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import UserHeader from '../../../components/UserHeader'
+import { api } from '../../../services/api'
 
 const FormListing: React.FC = () => {
-  let [directoryList, setDirectoryList] = React.useState([]);
-  const navigate = useNavigate();
+  const [directoryList, setDirectoryList] = React.useState([])
+  const navigate = useNavigate()
   React.useEffect(() => {
-    retriveDirectories("formlayout");
-  }, []);
+    retriveDirectories('formlayout')
+  }, [])
 
   const retriveDirectories = async (path: string) => {
-    let res = await api.get(`form/${path}`);
-    console.log(res);
-    setDirectoryList(res.data);
-  };
+    const res = await api.get(`form/${path}`)
+    console.log(res)
+    setDirectoryList(res.data)
+  }
   const editFormListing = (label: string) => {
-    localStorage.setItem("formlabelname", label);
-    navigate("/admin/formbuilders");
-  };
+    localStorage.setItem('formlabelname', label)
+    navigate('/admin/formbuilders')
+  }
   return (
     <>
       <UserHeader />
@@ -48,13 +48,13 @@ const FormListing: React.FC = () => {
                     </button>
                   </td>
                 </tr>
-              );
+              )
             })}
           </tbody>
         </table>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default FormListing;
+export default FormListing

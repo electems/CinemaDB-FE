@@ -1,24 +1,24 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthUser } from "../../../types/auth.types";
-import { storage } from "../../../storage/storage";
-import { List, Img, Text } from "../../../components/Elements";
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { AuthUser } from '../../../types/auth.types'
+import { storage } from '../../../storage/storage'
+import { List, Img, Text } from '../../../components/Elements'
 export const SelectPreferenceForm: React.FC = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const storeUserPreference = (type: string) => {
     const user: AuthUser = {
-      type: type,
-      id: "",
-      email: "",
-      firstName: "",
-      lastName: "",
-      bio: "",
-      role: "ADMIN",
-    };
-    storage.setUser(user);
-    navigate("/film/login/loginregister");
-  };
+      type,
+      id: '',
+      email: '',
+      firstName: '',
+      lastName: '',
+      bio: '',
+      role: 'ADMIN'
+    }
+    storage.setUser(user)
+    navigate('/film/login/loginregister')
+  }
 
   return (
     <>
@@ -38,7 +38,7 @@ export const SelectPreferenceForm: React.FC = () => {
         >
           <div
             className="common-pointer bg-bluegray_101 flex flex-col gap-[39px] items-center justify-start pt-[34px] sm:px-5 rounded-bl-none rounded-br-[50px] rounded-tl-[50px] rounded-tr-none w-full"
-            onClick={() => storeUserPreference("PERSON")}
+            onClick={() => storeUserPreference('PERSON')}
           >
             <Img
               src="/images/img_ellipse18.png"
@@ -51,7 +51,7 @@ export const SelectPreferenceForm: React.FC = () => {
           </div>
           <div
             className="bg-bluegray_101 flex flex-col gap-[39px] items-center justify-start pt-[34px] sm:px-5 rounded-bl-none rounded-br-[50px] rounded-tl-[50px] rounded-tr-none w-full"
-            onClick={() => storeUserPreference("PERSON")}
+            onClick={() => storeUserPreference('PERSON')}
           >
             <Img
               src="/images/img_ellipse19.png"
@@ -64,5 +64,5 @@ export const SelectPreferenceForm: React.FC = () => {
         </List>
       </div>
     </>
-  );
-};
+  )
+}

@@ -1,21 +1,21 @@
 /* eslint-disable import/first */
-import { Route, Routes } from "react-router-dom";
-import Home from "../pages/Home";
-import Page404 from "../pages/Page404";
-import { SelectPreferenceForm } from "../pages/Film/Login/selectPreferences";
-import { AdminLogin } from "../pages/Admin/Login";
-import AboutusPage from "../pages/Film/Public/About_Us/aboutus";
-import { LoginRegisterForm } from "../pages/Film/Login/loginRegisterForm";
-import { FilmPersonRegister } from "../pages/Film/Register/Filmpersonregister/filmpersonregister";
-import { SelectedIndustry } from "../pages/Film/Register/Filmpersonregister/selectedindustry";
-import { MainScreen } from "../pages/Film/Public/Ott/Ott";
-import Forms from "../pages/Admin/Form/Forms";
-import UserListing from "../pages/Admin/Users/components/UserListing";
-import Jsoneditor from "../pages/Admin/jsoneditor/editor";
-import Professional from "../pages/Admin/professional/professional";
-import FormsBuilder from "../pages/FormBuilder/FormsBuilder";
-import React from "react";
-import FormListing from "../pages/Admin/FormListing/formlisting";
+import { Route, Routes } from 'react-router-dom'
+import Home from '../pages/Home'
+import Page404 from '../pages/Page404'
+import { SelectPreferenceForm } from '../pages/Film/Login/selectPreferences'
+import { AdminLogin } from '../pages/Admin/Login'
+import AboutusPage from '../pages/Film/Public/About_Us/aboutus'
+import { LoginRegisterForm } from '../pages/Film/Login/loginRegisterForm'
+import { FilmPersonRegister } from '../pages/Film/Register/Filmpersonregister/filmpersonregister'
+import { SelectedIndustry } from '../pages/Film/Register/Filmpersonregister/selectedindustry'
+import { MainScreen } from '../pages/Film/Public/MainScreen/mainscreen'
+import Forms from '../pages/Admin/Form/Forms'
+import UserListing from '../pages/Admin/Users/components/UserListing'
+import Jsoneditor from '../pages/Admin/jsoneditor/editor'
+import Professional from '../pages/Admin/professional/professional'
+import FormsBuilder from '../pages/FormBuilder/FormsBuilder'
+import React from 'react'
+import FormListing from '../pages/Admin/FormListing/formlisting'
 
 const RoutesMain = () => {
   return (
@@ -34,12 +34,12 @@ const RoutesMain = () => {
         element={<SelectedIndustry />}
       />
       <Route path="/film/public/aboutus" element={<AboutusPage />} />
-      <Route path="/film/public/ott" element={<MainScreen />} />
+      <Route path="/film/public/mainscreen" element={<MainScreen />} />
 
       <Route path="*" element={<Page404 />} />
     </Routes>
-  );
-};
+  )
+}
 
 export const RoutesAdmin = () => {
   return (
@@ -56,7 +56,7 @@ export const RoutesAdmin = () => {
       <Route path="/admin/user/:id" element={<Forms />} />
       {/* </Route> */}
     </Routes>
-  );
-};
+  )
+}
 
-export default RoutesMain;
+export default RoutesMain

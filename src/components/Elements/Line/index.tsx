@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 export type LineProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -12,6 +12,6 @@ const Line: React.FC<React.PropsWithChildren<LineProps>> = ({
   className,
   ...restProps
 }) => {
-  return <div className={className} {...restProps} />;
-};
-export { Line };
+  return <div className={className} {...restProps} />
+}
+export { Line }

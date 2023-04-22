@@ -1,98 +1,98 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { User2 } from "../../../types/user.types";
-import { Login } from "../../../types/login.types";
-import { storage } from "../../../storage/storage";
-import { api } from "../../../services/api";
-import image from "../../../assets/logoimage.svg";
-import { Img, Text, Input, Button, Line } from "../../../components/Elements";
-let error = new Error();
-let user: User2 = {
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { User2 } from '../../../types/user.types'
+import { Login } from '../../../types/login.types'
+import { storage } from '../../../storage/storage'
+import { api } from '../../../services/api'
+import image from '../../../assets/logoimage.svg'
+import { Img, Text, Input, Button, Line } from '../../../components/Elements'
+let error = new Error()
+const user: User2 = {
   id: 0,
-  email: "",
-};
-const token = localStorage.getItem("@cinimaDb:Token");
+  email: ''
+}
+const token = localStorage.getItem('@cinimaDb:Token')
 export const LoginRegisterForm: React.FC = () => {
-  const [userObject, setUserObject] = React.useState(user);
-  const [namePhoneNumber, setNamePhoneNumber] = React.useState("");
-  const [verifyUser, setVerifyUser] = React.useState<User2>();
-  const [otpNumber, setOTPNumber] = React.useState("");
-  const userObj = storage.getUser();
-  const navigate = useNavigate();
-  const lable = localStorage.setItem("professionalLable", "Main Professional");
+  const [userObject, setUserObject] = React.useState(user)
+  const [namePhoneNumber, setNamePhoneNumber] = React.useState('')
+  const [verifyUser, setVerifyUser] = React.useState<User2>()
+  const [otpNumber, setOTPNumber] = React.useState('')
+  const userObj = storage.getUser()
+  const navigate = useNavigate()
+  const lable = localStorage.setItem('professionalLable', 'Main Professional')
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNamePhoneNumber(event.target.value);
-  };
+    setNamePhoneNumber(event.target.value)
+  }
 
   const handleInputChangeOtp = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOTPNumber(event.target.value);
-  };
+    setOTPNumber(event.target.value)
+  }
 
   const generateOTP = async () => {
-    const userNamePhoneNumber = namePhoneNumber;
-    localStorage.setItem("emailphone", userNamePhoneNumber);
+    const userNamePhoneNumber = namePhoneNumber
+    localStorage.setItem('emailphone', userNamePhoneNumber)
     await api
       .get(`/auth/otp/${userNamePhoneNumber}`)
       .then((response) => {
-        setUserObject(response.data);
-        const userObject = response.data;
-        console.log(userObject);
+        setUserObject(response.data)
+        const userObject = response.data
+        console.log(userObject)
       })
       .catch((err) => {
         if (err?.response?.data) {
-          error = err.response.data;
+          error = err.response.data
         }
-        if (error?.message === "MISSING_USER" && userObj.type === "PERSON") {
-          navigate("/film/register/filmpersonregister");
+        if (error?.message === 'MISSING_USER' && userObj.type === 'PERSON') {
+          navigate('/film/register/filmpersonregister')
         }
 
         if (
           err?.response?.data?.message &&
-          err?.response?.data?.message === "MISSING_USER" &&
-          userObj.type === "LOVER"
+          err?.response?.data?.message === 'MISSING_USER' &&
+          userObj.type === 'LOVER'
         ) {
-          error = err.response.data.error;
+          error = err.response.data.error
         }
-      });
-  };
+      })
+  }
   const verify = async () => {
     const data: Login = {
       username: namePhoneNumber,
-      password: otpNumber,
-    };
+      password: otpNumber
+    }
     await api
-      .post(`/auth/login/`, data, {
-        headers: { Authorization: `Bearer ${token}` },
+      .post('/auth/login/', data, {
+        headers: { Authorization: `Bearer ${token}` }
       })
       .then((response) => {
-        setVerifyUser(response.data);
+        setVerifyUser(response.data)
         if (verifyUser) {
-          const url = verifyUser.step?.replace(/\s/g, "");
-          if (userObj.type === "PERSON") {
-            navigate(`/film/register/${url}`);
-            //Yet to implement
+          const url = verifyUser.step?.replace(/\s/g, '')
+          if (userObj.type === 'PERSON') {
+            navigate(`/film/register/${url}`)
+            // Yet to implement
           }
-          //TODO: Yet to implement successful login navigation
+          // TODO: Yet to implement successful login navigation
         }
       })
       .catch((err) => {
         if (err?.response?.data) {
-          error = err?.response?.data;
-          console.log(error.message);
+          error = err?.response?.data
+          console.log(error.message)
         }
-        if (error?.message === "MISSING_USER" && userObj.type === "PERSON") {
-          navigate("/cinema/film/film");
+        if (error?.message === 'MISSING_USER' && userObj.type === 'PERSON') {
+          navigate('/cinema/film/film')
         }
 
         if (
           err?.response?.data?.message &&
-          err?.response?.data?.message === "MISSING_USER" &&
-          userObj.type === "LOVER"
+          err?.response?.data?.message === 'MISSING_USER' &&
+          userObj.type === 'LOVER'
         ) {
-          error = err.response.data.error;
+          error = err.response.data.error
         }
-      });
-  };
+      })
+  }
   return (
     <>
       <div className="container">
@@ -221,5 +221,5 @@ export const LoginRegisterForm: React.FC = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}

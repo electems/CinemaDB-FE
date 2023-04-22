@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { api } from "../../../../services/api";
-import { Img, Text } from "../../../../components/Elements";
+import React, { useEffect } from 'react'
+import { api } from '../../../../services/api'
+import { Img, Text } from '../../../../components/Elements'
 
 interface Iaboutus {
   headerImg?: string;
@@ -15,27 +15,27 @@ interface Iaboutus {
 }
 
 const AboutusPage: React.FC = () => {
-  let aboutUs: Iaboutus = {
-    headerImg2: "",
-    headerTitle: "",
-  };
+  const aboutUs: Iaboutus = {
+    headerImg2: '',
+    headerTitle: ''
+  }
 
-  const token = localStorage.getItem("cinimaDb:Token");
-  const [about, setAbout] = React.useState(aboutUs);
+  const token = localStorage.getItem('cinimaDb:Token')
+  const [about, setAbout] = React.useState(aboutUs)
   useEffect(() => {
-    retrieveAbouts("EN", "aboutus");
-  }, []);
+    retrieveAbouts('EN', 'aboutus')
+  }, [])
 
   const retrieveAbouts = async (language: string, formLayout: string) => {
     await api
       .get(`form/${language}/${formLayout}`)
       .then((response) => {
-        setAbout(response.data);
+        setAbout(response.data)
       })
       .catch((e) => {
-        console.log(e);
-      });
-  };
+        console.log(e)
+      })
+  }
   return (
     <div className="bg-gray_900 flex flex-col font-roboto justify-start mx-auto w-full">
       <div className="flex items-center w-full"></div>
@@ -109,7 +109,7 @@ const AboutusPage: React.FC = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AboutusPage;
+export default AboutusPage

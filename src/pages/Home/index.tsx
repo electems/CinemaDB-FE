@@ -1,9 +1,9 @@
-import { HomeContainer } from "./styles";
-import { MdOutlineNavigateNext } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { HomeContainer } from './styles'
+import { MdOutlineNavigateNext } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   return (
     <HomeContainer>
       <div className="Container">
@@ -24,7 +24,7 @@ const Home = () => {
               atendimento. É só entrar, ficar disponível e pronto, uma ONG
               entrará em contato com você.
             </p>
-            <button onClick={() => navigate("/register", { replace: true })}>
+            <button onClick={() => navigate('/register', { replace: true })}>
               DOAR
               <span>
                 <MdOutlineNavigateNext />
@@ -54,7 +54,7 @@ const Home = () => {
                 horário requerido.
               </p>
               <button
-                onClick={() => navigate("/register/:ong", { replace: true })}
+                onClick={() => navigate('/register/:ong', { replace: true })}
               >
                 Registrar ONG
                 <span>
@@ -66,7 +66,7 @@ const Home = () => {
         </section>
       </div>
     </HomeContainer>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

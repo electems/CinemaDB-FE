@@ -1,12 +1,12 @@
-import { Context } from "../../../contexts/contextLogin";
-import { useContext } from "react";
-import { Background, Formulario } from "./style";
-import { useForm } from "react-hook-form";
+import { Context } from '../../../contexts/contextLogin'
+import { useContext } from 'react'
+import { Background, Formulario } from './style'
+import { useForm } from 'react-hook-form'
 
 export const AdminLogin = () => {
-  const { functionVoltar } = useContext(Context);
-  const { register, handleSubmit } = useForm();
-  const { onUserLoginSubmit } = useContext(Context);
+  const { functionVoltar } = useContext(Context)
+  const { register, handleSubmit } = useForm()
+  const { onUserLoginSubmit } = useContext(Context)
 
   return (
     <Background>
@@ -35,14 +35,14 @@ export const AdminLogin = () => {
               type="text"
               id="userName"
               placeholder="Enter your username..."
-              {...register("username")}
+              {...register('username')}
             ></input>
             <label>Password:</label>
             <input
               type="password"
               id="password"
               placeholder="Enter your password..."
-              {...register("password")}
+              {...register('password')}
             ></input>
             <button id="login" type="submit">
               Login
@@ -51,5 +51,5 @@ export const AdminLogin = () => {
         </Formulario>
       </div>
     </Background>
-  );
-};
+  )
+}
