@@ -2,7 +2,6 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import axios from "axios";
 import { FieldValues } from "react-hook-form";
 import { toast } from "react-toastify";
-import { api } from "../services/api";
 import { useNavigate } from "react-router-dom";
 
 interface ProviderChildren {
@@ -29,7 +28,6 @@ interface ContextProviderData {
   loading: boolean;
   functionVoltar: () => void;
   setUser: (newValue: any) => void;
-  professionalDataJSONToEditorFormat: (res: any) => any[];
 }
 
 export const Context = createContext({} as ContextProviderData);
@@ -77,7 +75,7 @@ export const ContextProvider = ({ children }: ProviderChildren) => {
           progress: undefined,
         });
         if (res.data) {
-          navigate("/admin/user", { replace: true });
+          navigate("/admin/userListing", { replace: true });
         } else {
           navigate("/admin/login", { replace: true });
         }
@@ -94,19 +92,7 @@ export const ContextProvider = ({ children }: ProviderChildren) => {
         })
       );
   };
-  const professionalDataJSONToEditorFormat = (res: any) => {
-    const extractedData = [];
-
-    for (let index = 0; index <= 200; index++) {
-      if (res.data[index] !== undefined) {
-        extractedData.push(res.data[index]);
-      } else {
-        break;
-      }
-    }
-
-    return extractedData;
-  };
+  
   return (
     <Context.Provider
       value={{
@@ -114,8 +100,7 @@ export const ContextProvider = ({ children }: ProviderChildren) => {
         user,
         functionVoltar,
         loading,
-        setUser,
-        professionalDataJSONToEditorFormat,
+        setUser
       }}
     >
       {children}

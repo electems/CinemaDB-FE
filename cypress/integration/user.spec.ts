@@ -26,7 +26,7 @@ describe("AdminLogin", () => {
 });
 describe("AdminUserSection", () => {
   it("UserCreateSection", () => {
-    cy.visit("/admin/user");
+    cy.visit("/admin/userListing");
     cy.get('[id="addUser"]').click();
     cy.get('input[id*="firstName"]').click().type(userDataToCreate.firstName);
     cy.get('input[id*="lastName"]').click().type(userDataToCreate.lastName);

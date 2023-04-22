@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { api } from "../../../../services/api";
 import { Text, Button, List, Line } from "../../../../components/Elements";
 import { useNavigate } from "react-router-dom";
-import DropdownTreeSelect from "react-dropdown-tree-select";
 
 const json = [
   {
@@ -92,11 +91,6 @@ export const SelectedIndustry: React.FC = () => {
             >
               <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start my-0 w-[87%] md:w-full">
                 <div className="flex flex-row gap-[7px] items-start justify-start w-[11%] md:w-full">
-                  <DropdownTreeSelect
-                    data={cinemaProfessional}
-                    mode="hierarchical"
-                    className="bootstrap-demo font-bold text-center text-gray_800 w-auto"
-                  />
                 </div>
               </div>
               <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start my-0 w-[93%] md:w-full"></div>

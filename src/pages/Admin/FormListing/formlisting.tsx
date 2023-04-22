@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import UserHeader from '../../../components/UserHeader'
+import AdminHeader from '../../../components/AdminHeader'
 import { api } from '../../../services/api'
 
 const FormListing: React.FC = () => {
@@ -22,7 +22,7 @@ const FormListing: React.FC = () => {
   }
   return (
     <>
-      <UserHeader />
+      <AdminHeader />
       <h1 className="title">Form Listing</h1>
 
       <div className="relative overflow-x-auto px-10">

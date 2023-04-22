@@ -55,7 +55,7 @@ export const LoginRegisterForm: React.FC = () => {
         }
       })
   }
-  const verify = async () => {
+ /* const verify = async () => {
     const data: Login = {
       username: namePhoneNumber,
       password: otpNumber
@@ -92,6 +92,10 @@ export const LoginRegisterForm: React.FC = () => {
           error = err.response.data.error
         }
       })
+  }*/
+
+  function verify(){
+    navigate(`/film/register/filmpersonregister`, { state: {folderName: "mainprofessional"} });
   }
   return (
     <>

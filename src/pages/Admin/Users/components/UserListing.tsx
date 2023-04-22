@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { api } from '../../../../services/api'
-import UserHeader from '../../../../components/UserHeader'
+import AdminHeader from '../../../../components/AdminHeader'
 import { Button } from '../../../../components/Elements'
 import { Edit, Trash } from 'tabler-icons-react'
 import { toast } from 'react-toastify'
@@ -58,7 +58,7 @@ const UserListing: React.FC = () => {
 
   return (
     <>
-      <UserHeader />
+      <AdminHeader />
       <h1 className="title">User List</h1>
       <div className="row ">
         <div className="col">
@@ -111,17 +111,14 @@ const UserListing: React.FC = () => {
           <tbody>
             {usersData.map((item: users) => {
               return (
-                <tr
-                  key={item.id}
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                >
-                  <td className="px-6 py-4">{item.firstName}</td>
-                  <td className="px-6 py-4">{item.lastName}</td>
-                  <td className="px-6 py-4">{item.filmIndustry}</td>
-                  <td className="px-6 py-4">{item.email}</td>
-                  <td className="px-6 py-4">{item.role}</td>
-                  <td className="px-6 py-4">{item.status}</td>
-                  <td className="px-6 py-4">
+                <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td>{item.firstName}</td>
+                <td>{item.lastName}</td>
+                <td>{item.filmIndustry}</td>
+                <td>{item.email}</td>
+                <td>{item.role}</td>
+                <td>{item.status}</td>
+                <td>
                     <div id="action" className="row">
                       <div
                         id="editUser"

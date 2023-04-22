@@ -7,7 +7,7 @@ import './form.css'
 import { api } from '../../services/api'
 import { environment } from '../../config/environment'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import UserHeader from '../../components/UserHeader'
+import AdminHeader from '../../components/AdminHeader'
 import 'font-awesome/css/font-awesome.min.css'
 const getUrl = (cid: string) =>
   `https://safe-springs-35306.herokuapp.com/api/formdata?cid=${cid}`
@@ -59,7 +59,7 @@ class FormsBuilder extends Component<Props, State> {
   render () {
     return (
       <div className="App">
-        <UserHeader />
+        <AdminHeader />
         <Demobar variables={variable} />
         <ReactFormBuilder url="./editor.json" onLoad={this.onLoad} />,
       </div>
