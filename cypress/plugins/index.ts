@@ -1,6 +1,6 @@
 module.exports = (on) => {
-  on('task', {
+  on("task", {
     dbQuery: (query) =>
-      require('cypress-postgres')(query.query, query.connection),
+      require("cypress-postgres")(query.query, query.connection),
   });
 };

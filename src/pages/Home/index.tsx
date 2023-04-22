@@ -1,4 +1,3 @@
-
 import { HomeContainer } from "./styles";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -40,8 +39,7 @@ const Home = () => {
           </h1>
 
           <div className="caixa">
-            <div className="image">
-            </div>
+            <div className="image"></div>
 
             <div className="content">
               <h3>Procure por profissionais</h3>

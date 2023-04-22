@@ -5,20 +5,18 @@ import { Context } from "../../contexts/contextLogin";
 import { LoadingContainer } from "./styles";
 
 const ProtectedRoutes = () => {
-    const {loading, user} = useContext(Context)
+  const { loading, user } = useContext(Context);
 
-    if(loading){
-        console.log("here")
-        return (
-            <LoadingContainer>
-                <CircularProgress />
-            </LoadingContainer>
-        )
-    }
-
+  if (loading) {
+    console.log("here");
     return (
-        user ? <Outlet /> : <Navigate to="/login" />
-    )
+      <LoadingContainer>
+        <CircularProgress />
+      </LoadingContainer>
+    );
+  }
+
+  return user ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default ProtectedRoutes;

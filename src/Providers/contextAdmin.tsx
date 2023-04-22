@@ -12,9 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { api } from "../services/api";
 
-
-export const AdminProvider = {
-}
+export const AdminProvider = {};
 // useEffect(() => {
 //   const token = localStorage.getItem("@cinimaDb:Token");
 
@@ -39,7 +37,3 @@ export const AdminProvider = {
 //     .catch((err) => console.log(err));
 // }, [meusMedicos]);
 /* ============================================ */
-
-
-
- 

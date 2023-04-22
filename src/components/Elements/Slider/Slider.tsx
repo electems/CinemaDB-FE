@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
-import React from 'react';
- import AliceCarousel, { Props } from 'react-alice-carousel';
-import 'react-alice-carousel/lib/alice-carousel.css';
+import React from "react";
+import AliceCarousel, { Props } from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
 
 type SliderComponentProps = Props &
   Partial<{
@@ -21,7 +21,7 @@ const Slider = React.forwardRef<AliceCarousel, SliderComponentProps>(
       items,
       centerMode,
       magnifiedIndex = 0,
-      activeSlideCSS = 'scale-75',
+      activeSlideCSS = "scale-75",
 
       ...props
     },

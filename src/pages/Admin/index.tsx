@@ -6,7 +6,7 @@ import { Background, Formulario } from "./Login/style";
 
 export const Admin = () => {
   const { functionVoltar } = useContext(Context);
-    const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm();
   const { onUserLoginSubmit } = useContext(Context);
 
   return (
@@ -32,24 +32,24 @@ export const Admin = () => {
       </h1>
       <div className="container">
         <img src={image} alt="" />
-    <Formulario>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit(onUserLoginSubmit)}>
-        <label>Username:</label>
-        <input
-          type="text"
-          placeholder="Insira seu username..."
-          {...register("username")}
-        ></input>
-        <label>Senha:</label>
-        <input
-          type="password"
-          placeholder="Insira sua senha..."
-          {...register("password")}
-        ></input>
-        <button type="submit">Enter</button>
-      </form>
-    </Formulario>
+        <Formulario>
+          <h1>Login</h1>
+          <form onSubmit={handleSubmit(onUserLoginSubmit)}>
+            <label>Username:</label>
+            <input
+              type="text"
+              placeholder="Insira seu username..."
+              {...register("username")}
+            ></input>
+            <label>Senha:</label>
+            <input
+              type="password"
+              placeholder="Insira sua senha..."
+              {...register("password")}
+            ></input>
+            <button type="submit">Enter</button>
+          </form>
+        </Formulario>
       </div>
     </Background>
   );

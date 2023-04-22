@@ -4,12 +4,11 @@ import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import { ContextProvider } from "./contexts/contextLogin";
 import { ToastContainer } from "react-toastify";
-import App from "./App";
 import "./styles/index.css";
 import "./styles/tailwind.css";
-import axios from "axios";
+
 import { GlobalStyle } from "./styles/global";
-import AppMain , { AdminMain }from "./App";
+import AppMain, { AdminMain } from "./App";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -20,7 +19,7 @@ root.render(
       <GlobalStyle />
       <ToastContainer />
       <ContextProvider>
-      <AdminMain></AdminMain>
+        <AdminMain></AdminMain>
       </ContextProvider>
       <AppMain></AppMain>
     </BrowserRouter>

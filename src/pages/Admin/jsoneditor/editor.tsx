@@ -18,7 +18,6 @@ import "react-sortable-tree/style.css";
 import UserHeader from "../../../components/UserHeader";
 import { useNavigate } from "react-router-dom";
 
-
 const Jsoneditor = () => {
   const { professionalDataJSONToEditorFormat } = React.useContext(Context);
   const [lablePath, setLablePath] = useState("");
@@ -35,25 +34,22 @@ const Jsoneditor = () => {
     retrieveProfessionalList();
   }, []);
 
-  const retrieveProfessionalList = async() => {
+  const retrieveProfessionalList = async () => {
     let mainLabel = localStorage.getItem("selectedLabel") || "";
-    setLable(mainLabel)
+    setLable(mainLabel);
     const newLabelPath = mainLabel.replace(/\s+/g, "").toLowerCase();
-    const mainLablePath =newLabelPath.replace("/" ,"").toLocaleLowerCase()
+    const mainLablePath = newLabelPath.replace("/", "").toLocaleLowerCase();
     setLablePath(mainLablePath);
 
-    let res =await api
-      .get(
-        `form/${mainLablePath}/${environment.professionalData}`
-      )
-      console.log(res.data.error)
-      if(res.data.error != 'file not found'){
-       
-        setIndustrySelectionList(res.data);
-      }else{
-        setIndustrySelectionList([{}]);
-      }
-    
+    let res = await api.get(
+      `form/${mainLablePath}/${environment.professionalData}`
+    );
+    console.log(res.data.error);
+    if (res.data.error != "file not found") {
+      setIndustrySelectionList(res.data);
+    } else {
+      setIndustrySelectionList([{}]);
+    }
   };
 
   const saveMainProfessional = async (path: string, formLayout: string) => {
@@ -73,20 +69,19 @@ const Jsoneditor = () => {
       // inputEls.current[treeIndex].current.focus();
       return;
     }
-    if (lable !== "Main Professional"){
-    let newTree = addNodeUnderParent({
-      treeData: industrySelectionList,
-      parentKey: path[path.length - 1],
-      expandParent: true,
-      getNodeKey,
-      newNode: {
-        title: value,
-      },
-     
-    });
-    setIndustrySelectionList(newTree.treeData);
-    await api.post(`form/${lablePath}/${value}`, newTree.treeData);
-  }
+    if (lable !== "Main Professional") {
+      let newTree = addNodeUnderParent({
+        treeData: industrySelectionList,
+        parentKey: path[path.length - 1],
+        expandParent: true,
+        getNodeKey,
+        newNode: {
+          title: value,
+        },
+      });
+      setIndustrySelectionList(newTree.treeData);
+      await api.post(`form/${lablePath}/${value}`, newTree.treeData);
+    }
     // inputEls.current[treeIndex].current.value = "";
   }
 
@@ -96,7 +91,7 @@ const Jsoneditor = () => {
       removeNodeAtPath({
         treeData: industrySelectionList,
         path,
-        getNodeKey
+        getNodeKey,
       })
     );
   }
@@ -108,46 +103,46 @@ const Jsoneditor = () => {
       return;
     }
     let newTree = addNodeUnderParent({
-     treeData: industrySelectionList,
-      parentKey:'',
+      treeData: industrySelectionList,
+      parentKey: "",
       expandParent: true,
       getNodeKey,
       newNode: {
         id: "123",
-        title: value
-      }
+        title: value,
+      },
     });
 
     setIndustrySelectionList(newTree.treeData);
-
   }
-  function onClickcancle(){
+  function onClickcancle() {
     navigate("/admin/professional");
   }
 
-
   return (
     <>
-    <UserHeader/>
-    <h1 className="title">{lable}</h1>
-    <br/>
-    <div className="row ">
-      <div className="col">
-      <div className="input-group w-25">
-      <input
-        ref={ref}
-        type="text"
-        id="userinput"
-        className="form-control mr-8 "
-        placeholder="Username"
-        aria-describedby="basic-addon1"
-      />  
-       <br />
-        <button  className="btn btn-primary" onClick={createNode}>Create Node</button>
-        <br />
+      <UserHeader />
+      <h1 className="title">{lable}</h1>
+      <br />
+      <div className="row ">
+        <div className="col">
+          <div className="input-group w-25">
+            <input
+              ref={ref}
+              type="text"
+              id="userinput"
+              className="form-control mr-8 "
+              placeholder="Username"
+              aria-describedby="basic-addon1"
+            />
+            <br />
+            <button className="btn btn-primary" onClick={createNode}>
+              Create Node
+            </button>
+            <br />
+          </div>
         </div>
-        </div>
-        </div>
+      </div>
       <div style={{ height: 400 }}>
         <SortableTree
           generateNodeProps={(rowInfo) => ({
@@ -156,18 +151,21 @@ const Jsoneditor = () => {
             buttons: [
               <div>
                 <button
-                id="addChild"
-                className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mr-2"
+                  id="addChild"
+                  className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mr-2"
                   placeholder="Add Child"
                   onClick={(event) => addNodeChild(rowInfo)}
                 >
                   Add Child
                 </button>
-                <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mr-2" placeholder="Delete" onClick={(event) => removeNode(rowInfo)}>
+                <button
+                  className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mr-2"
+                  placeholder="Delete"
+                  onClick={(event) => removeNode(rowInfo)}
+                >
                   Remove
                 </button>
               </div>,
-              
             ],
             style: {
               height: "50px",
@@ -186,12 +184,10 @@ const Jsoneditor = () => {
           Save
         </button>
         <button
-        id="profcancle"
+          id="profcancle"
           className="btn btn-danger"
           type="submit"
-          onClick={() =>
-            onClickcancle()
-          }
+          onClick={() => onClickcancle()}
         >
           Cancle
         </button>

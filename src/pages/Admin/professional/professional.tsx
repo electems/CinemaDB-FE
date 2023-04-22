@@ -42,8 +42,6 @@ const Professional: React.FC = () => {
     setIndustrySelectionList(professionalDataJSONToEditorFormat(res));
   };
 
-
-
   const retriveDirectories = async (path: string) => {
     let res = await api.get(`form/${path}`);
     setDirectoryList(res.data);
@@ -66,7 +64,9 @@ const Professional: React.FC = () => {
   return (
     <>
       <UserHeader />
-      <h1 id="professionalList"className="title">Core Professional List</h1>
+      <h1 id="professionalList" className="title">
+        Core Professional List
+      </h1>
 
       <div className="relative overflow-x-auto px-10">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -79,11 +79,14 @@ const Professional: React.FC = () => {
           <tbody>
             {industrySelectionList.map((item: IndustrySelectionItem) => {
               return (
-                <tr id="tableTitle" className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <tr
+                  id="tableTitle"
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                >
                   <td>{item.title}</td>
                   <td>
                     <button
-                     id="editIndustry"
+                      id="editIndustry"
                       className="bg-blue-500 text-white font-bold uppercase text-sm px-1 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
                       onClick={() => editSelectedIndustry(item.title)}
@@ -121,7 +124,7 @@ const Professional: React.FC = () => {
                                 <div
                                   id="popupButton"
                                   onClick={() =>
-                                    navigateToChoiceOrForms()
+                                    navigateToChoiceOrForms(item.type)
                                   }
                                   className="flex-1 ..."
                                 >

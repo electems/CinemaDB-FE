@@ -29,7 +29,5 @@
       "type": "string",
       "enum": ["ADMIN", "USER", "LOVER"]
     }
-   
-  
   }
 }

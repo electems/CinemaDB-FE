@@ -22,14 +22,14 @@
       "type": "Control",
       "scope": "#/properties/Password"
     },
-   
+
     {
       "type": "HorizontalLayout",
       "elements": [
         {
           "type": "Control",
           "scope": "#/properties/Status"
-        } 
+        }
       ]
     },
     {
@@ -38,7 +38,7 @@
         {
           "type": "Control",
           "scope": "#/properties/FilmIndustry"
-        } 
+        }
       ]
     },
     {
@@ -47,9 +47,8 @@
         {
           "type": "Control",
           "scope": "#/properties/Role"
-        } 
+        }
       ]
     }
-   
   ]
 }

@@ -19,7 +19,7 @@ export const LoginRegisterForm: React.FC = () => {
   const [otpNumber, setOTPNumber] = React.useState("");
   const userObj = storage.getUser();
   const navigate = useNavigate();
-  const lable =localStorage.setItem("professionalLable", "Main Professional");
+  const lable = localStorage.setItem("professionalLable", "Main Professional");
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNamePhoneNumber(event.target.value);
   };

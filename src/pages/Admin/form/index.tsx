@@ -1,7 +1,6 @@
-import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
-import ReactDOM from 'react-dom';
-import Forms from './Forms';
-
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import ReactDOM from "react-dom";
+import Forms from "./Forms";
 
 /**
  * Customize form so each control has more space
@@ -11,9 +10,9 @@ const theme = createTheme({
     MuiFormControl: {
       styleOverrides: {
         root: {
-          margin: '0.8em 0',
+          margin: "0.8em 0",
         },
-      }
+      },
     },
   },
 });
@@ -23,5 +22,5 @@ ReactDOM.render(
     <CssBaseline />
     <Forms />
   </ThemeProvider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

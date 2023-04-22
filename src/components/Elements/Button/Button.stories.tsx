@@ -1,9 +1,9 @@
-import { Meta, Story } from '@storybook/react';
+import { Meta, Story } from "@storybook/react";
 
-import { Button, ButtonProps } from './Button';
+import { Button, ButtonProps } from "./Button";
 
 const meta: Meta = {
-  title: 'Components/Elements/Button',
+  title: "Components/Elements/Button",
   component: Button,
   parameters: {
     controls: { expanded: true },
@@ -16,18 +16,18 @@ const Template: Story<ButtonProps> = (props) => <Button {...props} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  children: 'Primary Button',
-  variant: 'primary',
+  children: "Primary Button",
+  variant: "primary",
 };
 
 export const Inverse = Template.bind({});
 Inverse.args = {
-  children: 'Inverse Button',
-  variant: 'inverse',
+  children: "Inverse Button",
+  variant: "inverse",
 };
 
 export const Danger = Template.bind({});
 Danger.args = {
-  children: 'Danger Button',
-  variant: 'danger',
+  children: "Danger Button",
+  variant: "danger",
 };

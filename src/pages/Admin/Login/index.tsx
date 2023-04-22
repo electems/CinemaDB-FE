@@ -44,7 +44,9 @@ export const AdminLogin = () => {
               placeholder="Enter your password..."
               {...register("password")}
             ></input>
-            <button  id="login" type="submit">Login</button>
+            <button id="login" type="submit">
+              Login
+            </button>
           </form>
         </Formulario>
       </div>
