@@ -13,7 +13,6 @@ interface InputData {
 
 export const FilmPersonRegister: React.FC = () => {
   const [FilmForm, setFilmForm] = React.useState([]);
-  const [FilmFormdata, setFilmFormdata] = React.useState([]);
   const navigate = useNavigate();
   const [selecteNode, setSelecteNode] = useState("");
   const selectedlable = localStorage.getItem("professionalLable");
@@ -26,19 +25,18 @@ export const FilmPersonRegister: React.FC = () => {
   let location = useLocation().state as InputData;
 
   useEffect(() => {
-    retrieveFilmForm(location.folderName, "professionaldata");
+    retrieveFilmForm("mainprofessional", "professionaldata");
     retrieveProfessionalList();
   }, []);
   const retrieveFilmForm = async (path: string, fileName: string) => {
     let response = await api.get(`form/${path}/${fileName}`)
-    let respnseStr = JSON.stringify(response.data);
-    var newresponse = respnseStr.replaceAll("title", "label");
-    setFilmForm(JSON.parse(newresponse));
+    let temp = await response.data;
+    setFilmForm(temp);
   
   };
-
-
-
+  const urlOnChangeHandler = (val) => {
+    console.log(val)
+  };
   const retrieveProfessionalList = async () => {
     let mainLabel = localStorage.getItem("professionalLable") || "";
     const newLabelPath = mainLabel.replace(/\s+/g, "").toLowerCase();
@@ -48,9 +46,7 @@ export const FilmPersonRegister: React.FC = () => {
     let res = await api.get(
       `form/${mainLablePath}/${environment.professionalData}`
     );
-    let respnseStr = JSON.stringify(res.data);
-    var newresponse = respnseStr.replaceAll("title", "label");
-    setFilmForm(JSON.parse(newresponse));
+    setFilmForm(res.data);
   };
 
   const saveUserIndustrySelect = async () => {
@@ -79,13 +75,12 @@ export const FilmPersonRegister: React.FC = () => {
               </div>
             </div>
           </div>
-          <Tree
+          {FilmForm.length > 0 &&  <Tree
             checkable
-            defaultExpandedKeys={['0-0-0', '0-0-1']}
-            defaultSelectedKeys={['0-0-0', '0-0-1']}
-            defaultCheckedKeys={['0-0-0', '0-0-1']}
-            treeData={FilmFormdata}
-          />
+            treeData={FilmForm}
+            onCheck = {urlOnChangeHandler}
+          />} 
+         
           <Button
             className="bg-red_A700 cursor-pointer font-roboto font-semibold leading-[normal] min-w-[1363px] md:min-w-full mt-3.5 py-[29px] rounded-[17px] sm:text-3xl md:text-[32px] text-[34px] text-center text-white_A700 w-auto"
             onClick={() => saveUserIndustrySelect()}

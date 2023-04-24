@@ -75,3 +75,6 @@ li:hover {
 .input-container input {
   transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 }
+.ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
+  @apply bg-gray-100 !important;
+}

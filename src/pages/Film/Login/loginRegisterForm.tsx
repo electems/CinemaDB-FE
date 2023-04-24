@@ -59,9 +59,7 @@ export const LoginRegisterForm: React.FC = () => {
       password: otpNumber
     }
     await api
-      .post('/auth/login/', data, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+      .post('/auth/login/', data)
       .then((response) => {
         setVerifyUser(response.data)
         if (verifyUser) {
@@ -155,7 +153,7 @@ export const LoginRegisterForm: React.FC = () => {
                 </div> */}
                 <div className="flex items-center justify-start mt-[11px] w-full">
                   <Button
-                    className="common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[400px] sm:min-w-full py-[15px] rounded-[12px] text-2xl md:text-[22px] text-center text-white_A700 sm:text-xl w-auto"
+                    className="common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[350px] sm:min-w-full py-[15px] rounded-[12px] text-2xl md:text-[22px] text-center text-white_A700 sm:text-xl w-auto"
                   >
                     Verify
                   </Button>

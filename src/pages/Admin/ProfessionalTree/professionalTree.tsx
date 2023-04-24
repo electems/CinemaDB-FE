@@ -6,17 +6,16 @@ import { environment } from "../../../config/environment";
 import { useEffect, useState } from "react";
 import AdminHeader from "../../../components/AdminHeader";
 import { useNavigate } from "react-router-dom";
-import { EditableAntdTree } from "editable-antd-tree"; 
+import { EditableAntdTree } from "../../../components/editablantd/EditableAntdTree";
+import { v4 as uuidv4 } from "uuid";
+// import "editable-antd-tree/dist/esm/output.css";
 
-import "editable-antd-tree/dist/esm/output.css";
-
+const parentTitleInput = localStorage.getItem("parentTitleInput")
 const ProfessionalTree = () => {
   const [lablePath, setLablePath] = useState("");
   const [lable, setLable] = useState("");
   const [industryCategoryList, setIndustryCategoryList] = useState([]);
-
   const navigate = useNavigate();
-
   useEffect(() => {
     retrieveProfessionalList();
   }, []);
@@ -32,15 +31,26 @@ const ProfessionalTree = () => {
       `form/${mainLablePath}/${environment.professionalData}`)
     const temp = await response.data
     if (temp.error != "FILE_NOT_FOUND") {
-      setIndustryCategoryList(response.data);
-    } 
+      setIndustryCategoryList(temp);
+    } else{
+
+      setIndustryCategoryList([{ "key": `${uuidv4()}`, "title": `${mainLabel}`, "isLeaf": false, "children": []} ]);
+    }
   };
 
   const saveProfessional = () => {	
-    api.post(`form/${lablePath}/${environment.professionalData}`, industryCategoryList);	
-    navigate("/admin/professionalListing");	
+    const newTreeData = [
+      ...industryCategoryList,
+      {
+        key: uuidv4(),
+        title:parentTitleInput,
+        isLeaf: false,
+        children: [],
+      },
+    ];
+    console.log(newTreeData)
+    api.post(`form/${lablePath}/${environment.professionalData}`, newTreeData);	
   };
-
 
   function onClickcancle() {
     navigate("/admin/professionalListing");
@@ -52,9 +62,12 @@ const ProfessionalTree = () => {
       <h1 className="title">{lable}</h1>
       <br />
       <div>
-        <div>
-        <EditableAntdTree size="md" treeData={industryCategoryList}s />
+      {industryCategoryList.length > 0 &&
+        <div >
+        <EditableAntdTree source="level2" size="md" treeData={industryCategoryList}
+          />
         </div>
+      }
         <button
           className="btn btn-success mr-4"
           onClick={() => saveProfessional()}
