@@ -50,8 +50,8 @@ export const SelectPreferenceForm: React.FC = () => {
             </div>
           </div>
           <div
-            className="bg-bluegray_101 flex flex-col gap-[39px] items-center justify-start pt-[34px] sm:px-5 rounded-bl-none rounded-br-[50px] rounded-tl-[50px] rounded-tr-none w-full"
-            onClick={() => storeUserPreference('PERSON')}
+            className="common-pointer bg-bluegray_101 flex flex-col gap-[39px] items-center justify-start pt-[34px] sm:px-5 rounded-bl-none rounded-br-[50px] rounded-tl-[50px] rounded-tr-none w-full"
+            onClick={() => storeUserPreference('LOVER')}
           >
             <Img
               src="/images/img_ellipse19.png"

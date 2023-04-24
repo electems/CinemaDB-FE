@@ -2,6 +2,8 @@ import React from 'react'
 import { Img, Input, Text } from '../Elements/index'
 import { CloseSVG } from './index'
 import './header.css'
+import { useNavigate } from 'react-router-dom'
+import { Login } from 'tabler-icons-react'
 type MainHeader = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
@@ -10,7 +12,11 @@ type MainHeader = React.DetailedHTMLProps<
 
 const Header: React.FC<MainHeader> = (props) => {
   const [inputvalue, setInputvalue] = React.useState<string>('')
+  const navigate = useNavigate()
 
+  const navigateToPreferencePage = () => {
+    navigate('/film/selectPreference')
+  }
   return (
     <>
       <header className="bg-gray_800 flex flex-row font-roboto items-center justify-center md:px-5 w-full">
@@ -80,25 +86,14 @@ const Header: React.FC<MainHeader> = (props) => {
             alt="arrowdown_One"
           />
         </div>
-        <div className="flex flex-row gap-2 items-start justify-center mb-[31px] md:ml-[0] ml-[53px] md:mt-0 mt-9 w-[6%] md:w-full">
-          <Img src="/images/img_menu.svg" className="h-8 w-8" alt="menu" />
-          <Text
-            className="font-medium font-montserrat mt-1 text-left text-white_A700 w-auto"
-            variant="body26"
-          >
-            Menu
-          </Text>
+        <div className="flex flex-row gap-2.5 items-center justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] w-[10%] md:w-full">
+          <Login
+         size={34}
+         strokeWidth={1.5}
+         color={'white'}
+         onClick={navigateToPreferencePage}
+           />
         </div>
-        <Img
-          src="/images/img_notification.svg"
-          className="h-[30px] mb-[31px] md:ml-[0] ml-[52px] md:mt-0 mt-[38px] w-[30px]"
-          alt="notification"
-        />
-        <Img
-          src="/images/img_ellipse29.png"
-          className="h-[50px] md:h-auto mb-[22px] md:ml-[0] ml-[53px] mr-[110px] md:mt-0 mt-[27px] rounded-[50%] w-[50px]"
-          alt="ellipseTwentyNine"
-        />
       </header>
     </>
   )
