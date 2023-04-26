@@ -5,7 +5,7 @@ import AdminHeader from '../../../components/AdminHeader'
 import { api } from '../../../services/api'
 import { environment } from '../../../config/environment'
 
-import { EditableAntdTree, EditableAntdTreeNode } from '../../../components/editablantd/EditableAntdTree'
+import { EditableAntdTree, EditableAntdTreeNode } from '../../../components/Editablantd/EditableAntdTree'
 
 const ProfessionalListing: React.FC = () => {
   const [industrySelectionList, setIndustrySelectionList] = React.useState<EditableAntdTreeNode[]>([])

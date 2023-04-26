@@ -6,14 +6,14 @@
 import React, { useEffect, useState } from 'react'
 import { api } from '../../../../services/api'
 import './style.css'
-import { Text, Button } from '../../../../components/Elements'
+import { Button } from '../../../../components/Elements'
 import { useNavigate } from 'react-router-dom'
 import { environment } from '../../../../config/environment'
 import { Tree } from 'antd'
-import { MathLower } from 'tabler-icons-react'
 import { storage } from '../../../../storage/storage'
 import { Key } from 'antd/es/table/interface'
 import { DataNode } from 'antd/es/tree'
+import RegistrationHeader from '../../../../components/RegisterationHeader/registrationheader'
 
 export const FilmPersonRegister: React.FC = () => {
   const [mainProfessional, setMainProfessional] = React.useState([])
@@ -112,21 +112,7 @@ export const FilmPersonRegister: React.FC = () => {
       <div className="bg-white_A700 flex items-center justify-start mx-auto pb-[76px] w-full">
         <div className="flex flex-col items-center justify-start w-full">
           <div className="bg-bluegray_101 flex font-montserrat sm:px-5 shadow-bs3 w-full">
-            <div className="flex items-center justify-start md:ml-[0] ml-[70px] md:px-5 w-[9%] md:w-full">
-              <div className="flex flex-row gap-7 items-center justify-start w-full">
-              <MathLower
-               size={50}
-              strokeWidth={2}
-              color={'black'}
-               />
-                <Text
-                  className="font-medium text-black_900"
-                  variant="body11"
-                >
-                  Back
-                </Text>
-              </div>
-            </div>
+            <RegistrationHeader/>
           </div>
           <div className='text-[28.67px]'>
           {mainProfessional.length > 0 && <Tree

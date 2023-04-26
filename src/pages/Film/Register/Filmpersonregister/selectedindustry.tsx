@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable array-callback-return */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
@@ -10,12 +11,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { environment } from '../../../../config/environment'
 import { Tree } from 'antd'
 import { ReactFormGenerator } from 'react-form-builder2'
-
+import { MathLower } from 'tabler-icons-react'
+import RegistrationHeader from '../../../../components/RegisterationHeader/registrationheader'
 interface InputData {
   selectedNodes
   breadCrumPathList
 }
-
 export const SelectedIndustry: React.FC = () => {
   const navigate = useNavigate()
   const inputData = useLocation().state as InputData
@@ -43,7 +44,7 @@ export const SelectedIndustry: React.FC = () => {
       setFormBuilderJsonData(response)
     }
   }
-  const handleOnClickTitle = (title: string, tabIndex: string) => {
+  const handleOnClickTitle = (title: string, tabIndex: string, key: string) => {
     selectedTabIndex = tabIndex as unknown as number
     loadDataFromBE()
   }
@@ -55,29 +56,19 @@ export const SelectedIndustry: React.FC = () => {
   return (
     <>
    <div className="bg-white_A700 flex flex-col items-center justify-start mx-auto pb-7 w-full">
-        <div className="bg-bluegray_101 flex font-montserrat items-start justify-end p-[22px] sm:px-5 shadow-bs3 w-full">
-          <div className="flex items-center justify-start md:ml-[0] ml-[70px] md:px-5 w-[8%] md:w-full">
-            <div className="flex flex-row gap-7 items-center justify-start w-full">
-              <Text
-                className="font-normal not-italic text-black_900 text-left w-auto"
-                variant="body11"
-                onClick={() => navigate(-1)}
-              >
-                Back
-              </Text>
-            </div>
-          </div>
+        <div className="bg-bluegray_101 flex font-montserrat sm:px-5 shadow-bs3 w-full">
+          <RegistrationHeader/>
         </div>
         <div className="flex font-montserrat items-start mt-[19px] md:px-10 sm:px-5 px-[78px] w-full">
           <div className="flex items-center justify-start w-[74%] md:w-full">
             <div className="flex flex-col items-center justify-start w-full">
-              <div className="flex md:flex-col flex-row md:gap-10 items-start justify-between w-full">
+              <div className="flex md:flex-col items-start w-full">
                 {inputData.selectedNodes.map(function (item: any, tabIndex) {
                   return (
                     <div
-                    className="flex items-center justify-center p-[15.94px] w-[204px]"
+                    className="flex items-center justify-center w-[204px]"
                     key={tabIndex}
-                    onClick={() => handleOnClickTitle(item.title, tabIndex)}
+                    onClick={() => handleOnClickTitle(item.title, tabIndex, item.key)}
                   >
                      {item.title}
                   </div>
@@ -91,14 +82,14 @@ export const SelectedIndustry: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="bg-white_A700 border border-gray_200 border-solid flex font-montserrat items-center justify-end max-w-[1441px] mt-5 mx-auto p-1.5 md:px-5 rounded w-full">
+        <div className="bg-white_A700 border border-gray_200 border-solid flex font-montserrat items-center justify-end max-w-[1320px] mt-3 mx-auto rounded w-full">
           <div className="flex items-center justify-start mt-[30px] w-[99%] md:w-full">
             <List
               className="flex-col gap-[53px] grid items-start self-stretch w-auto md:w-full"
               orientation="vertical"
             >
-              <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start my-0 w-[87%] md:w-full">
-                <div className="flex flex-row gap-[7px] items-start justify-start w-[11%] md:w-full">
+              <div className="flex md:gap-5 items-center justify-start my-0">
+                <div className="gap-[7px] justify-start">
                   {inputData.breadCrumPathList[selectedTabIndex]}
                 </div>
               </div>
@@ -131,8 +122,7 @@ export const SelectedIndustry: React.FC = () => {
           </div>
         </div>
         <Button
-          className="common-pointer bg-red_A700 cursor-pointer font-roboto font-semibold leading-[normal] min-w-[1363px] md:min-w-full mt-[34px] py-[29px] rounded-[17px] sm:text-3xl md:text-[32px] text-[34px] text-center text-white_A700 w-auto"
-          onClick={() => navigate('/planstwo')}
+          className="common-pointer bg-red_A700 cursor-pointer font-roboto font-semibold leading-[normal] min-w-[1260px] md:min-w-full mt-[34px] py-[29px] rounded-[17px] sm:text-3xl md:text-[32px] text-[34px] text-center text-white_A700 w-auto"
         >
           Submit
         </Button>

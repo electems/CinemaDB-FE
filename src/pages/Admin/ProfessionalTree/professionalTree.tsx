@@ -6,7 +6,7 @@ import { environment } from '../../../config/environment'
 import { useEffect, useState } from 'react'
 import AdminHeader from '../../../components/AdminHeader'
 import { useNavigate } from 'react-router-dom'
-import { EditableAntdTree, EditableAntdTreeNode } from '../../../components/editablantd/EditableAntdTree'
+import { EditableAntdTree, EditableAntdTreeNode } from '../../../components/Editablantd/EditableAntdTree'
 import { v4 as uuidv4 } from 'uuid'
 // import "editable-antd-tree/dist/esm/output.css";
 

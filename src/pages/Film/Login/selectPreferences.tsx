@@ -14,7 +14,8 @@ export const SelectPreferenceForm: React.FC = () => {
       firstName: '',
       lastName: '',
       bio: '',
-      role: 'ADMIN'
+      role: 'ADMIN',
+      industrySelection: []
     }
     storage.setUser(user)
     navigate('/film/login/loginregister')
