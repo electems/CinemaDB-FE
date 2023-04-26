@@ -1,24 +1,24 @@
-import { Tree } from "antd";
-import { DataNode, EventDataNode, TreeProps } from "antd/lib/tree";
-import React, { useState } from "react";
-import { TiArrowSortedDown } from "react-icons/ti";
-import { twMerge } from "tailwind-merge";
-import { v4 as uuidv4 } from "uuid";
-import { EditableTreeTitle, TEditableTreeTitle } from "./EditableAntdTreeTitle";
-import { TextInput } from "./TextInput";
-import { loadTreeChildren } from "./utils";
+import { Tree } from 'antd'
+import { DataNode, EventDataNode, TreeProps } from 'antd/lib/tree'
+import React, { useState } from 'react'
+import { TiArrowSortedDown } from 'react-icons/ti'
+import { twMerge } from 'tailwind-merge'
+import { v4 as uuidv4 } from 'uuid'
+import { EditableTreeTitle, TEditableTreeTitle } from './EditableAntdTreeTitle'
+import { TextInput } from './TextInput'
+import { loadTreeChildren } from './utils'
 
 const sizes = {
-  xs: "text-xs",
-  sm: "text-sm",
-  md: "text-md",
-  lg: "text-lg",
-  xl: "text-xl",
-};
+  xs: 'text-xs',
+  sm: 'text-sm',
+  md: 'text-md',
+  lg: 'text-lg',
+  xl: 'text-xl'
+}
 
 export type EditableAntdTreeNode = Omit<
   DataNode,
-  "title" | "children" | "key"
+  'title' | 'children' | 'key'
 > & {
   key: string;
   title?: string | null;
@@ -35,12 +35,12 @@ export type EditableAntdTreeProps = {
   loadData?: (
     treeData: EditableAntdTreeNode
   ) => Promise<EditableAntdTreeNode[] | void>;
-} & Omit<TreeProps, "switcherIcon" | "treeData" | "loadData"> &
+} & Omit<TreeProps, 'switcherIcon' | 'treeData' | 'loadData'> &
   TEditableTreeTitle;
 
 export const EditableAntdTree = ({
   treeData: initTreeData,
-  size = "md",
+  size = 'md',
   switcherIcon = (
     <TiArrowSortedDown size="2.75em" className="text-gray-600 -mt-[0.2em]" />
   ),
@@ -55,10 +55,10 @@ export const EditableAntdTree = ({
 }: EditableAntdTreeProps) => {
   const [treeData, setTreeData] = useState<EditableAntdTreeNode[]>(
     initTreeData || []
-  );
-  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
+  )
+  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
 
-  const [parentTitleInput, setParentTitleInput] = useState("");
+  const [parentTitleInput, setParentTitleInput] = useState('')
 
   const titleParams = {
     treeData,
@@ -66,8 +66,8 @@ export const EditableAntdTree = ({
     deleteNode,
     updateNode,
     createLeaf,
-    createParent,
-  };
+    createParent
+  }
 
   const handleCreateParentEnter = async () => {
     const newTreeData = [
@@ -76,44 +76,44 @@ export const EditableAntdTree = ({
         key: uuidv4(),
         title: parentTitleInput,
         isLeaf: false,
-        children: [],
-      },
-    ];
-    localStorage.setItem("parentTitleInput", parentTitleInput)
-    setTreeData(newTreeData);
-    setParentTitleInput(parentTitleInput);
+        children: []
+      }
+    ]
+    localStorage.setItem('parentTitleInput', parentTitleInput)
+    setTreeData(newTreeData)
+    setParentTitleInput(parentTitleInput)
     if (createRootParent) {
-      createRootParent(newTreeData[newTreeData.length]);
+      createRootParent(newTreeData[newTreeData.length])
     }
-  };
+  }
 
   const handleLoadData = async (node: EventDataNode<DataNode>) => {
     if (node.children?.length || node.isLeaf) {
-      return;
+      return
     }
 
-    let newChildren: EditableAntdTreeNode[] = [];
+    let newChildren: EditableAntdTreeNode[] = []
 
     if (loadData) {
-      newChildren = (await loadData(node as EditableAntdTreeNode)) || [];
+      newChildren = (await loadData(node as EditableAntdTreeNode)) || []
     }
 
     if (newChildren.length) {
-      setTreeData((prev) => loadTreeChildren(prev, node.key, newChildren));
+      setTreeData((prev) => loadTreeChildren(prev, node.key, newChildren))
     }
-  };
+  }
 
   const handleTreeExpand = (keys: React.Key[]) => {
-    setExpandedKeys(keys);
-  };
+    setExpandedKeys(keys)
+  }
 
   const expandKey = (key: React.Key) => {
-    setExpandedKeys((prev) => [...prev, key]);
-  };
+    setExpandedKeys((prev) => [...prev, key])
+  }
 
   return (
     <>
-      
+
       <Tree
         treeData={treeData}
         loadData={handleLoadData}
@@ -137,11 +137,11 @@ export const EditableAntdTree = ({
         value={parentTitleInput}
         onChange={(value) => setParentTitleInput(value)}
         className={twMerge(
-          "outline-none p-1 border-none opacity-70 hover:bg-gray-100 focus::bg-gray-50 rounded-sm duration-150 transition-all",
+          'outline-none p-1 border-none opacity-70 hover:bg-gray-100 focus::bg-gray-50 rounded-sm duration-150 transition-all',
           sizes[size]
         )}
         onEnter={handleCreateParentEnter}
       />
     </>
-  );
-};
+  )
+}

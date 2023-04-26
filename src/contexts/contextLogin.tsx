@@ -26,33 +26,28 @@ interface ContextProviderData {
   onUserLoginSubmit: (data: FieldValues) => void;
   user: IUser | null;
   loading: boolean;
-  functionVoltar: () => void;
+  functionBack: () => void;
   setUser: (newValue: any) => void;
 }
 
 export const Context = createContext({} as ContextProviderData);
 
 export const ContextProvider = ({ children }: ProviderChildren) => {
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<IUser | null>(null);  
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const request = async () => {
-      const token = localStorage.getItem("@cinimaDb:Token");
-      const userId = localStorage.getItem("@cinimaDb:Id");
-      setLoading(false);
-    };
-    if (localStorage.getItem("@cinimaDb:Token") === null) {
-      navigate("/admin/login");
-    } else {
-      request();
+    const path = window.location.pathname
+    if (path.includes('admin')) {
+      if (localStorage.getItem("@cinimaDb:Token") === null) {
+        navigate("/admin/login");
+      }
     }
   }, []);
 
-  const functionVoltar = () => {
-    navigate("/", { replace: true });
-  };
+  const functionBack = () => {
+  }
 
   const logout = () => {
     localStorage.removeItem("token-info");
@@ -98,7 +93,7 @@ export const ContextProvider = ({ children }: ProviderChildren) => {
       value={{
         onUserLoginSubmit,
         user,
-        functionVoltar,
+        functionBack,
         loading,
         setUser
       }}

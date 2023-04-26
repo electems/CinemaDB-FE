@@ -10,8 +10,7 @@ body {
   font-family: "Material Icons";
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/materialicons/v36/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2)
-    format("woff2");
+  src: url(https://fonts.gstatic.com/s/materialicons/v36/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format("woff2");
 }
 
 .material-icons {
@@ -34,7 +33,7 @@ body {
  * The idea is that it is easy to extend/override builtin styles with very little effort.
  */
 
-.mdl-demo .dropdown-trigger > span:after {
+.mdl-demo .dropdown-trigger>span:after {
   font-size: 12px;
   color: #555;
 }
@@ -95,4 +94,20 @@ body {
 
 .border {
   color: black;
+}
+
+:where(.css-dev-only-do-not-override-1fviqcj).ant-tree {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: #3a3a3c;
+  font-size: 14px;
+  line-height: 1.5714285714285714;
+  list-style: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  background: #ffffff;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+  margin-top: 30px;
+  font-weight: bold;
 }

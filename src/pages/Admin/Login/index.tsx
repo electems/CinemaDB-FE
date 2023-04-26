@@ -4,7 +4,7 @@ import { Background, Formulario } from './style'
 import { useForm } from 'react-hook-form'
 
 export const AdminLogin = () => {
-  const { functionVoltar } = useContext(Context)
+  const { functionBack } = useContext(Context)
   const { register, handleSubmit } = useForm()
   const { onUserLoginSubmit } = useContext(Context)
 
@@ -24,7 +24,7 @@ export const AdminLogin = () => {
             fill="#8692A6"
           />
         </svg>
-        <p onClick={functionVoltar}>Back</p>
+        <p onClick={functionBack}>Back</p>
       </div>
       <h1 className="title">Admin Login</h1>
       <div className="container">

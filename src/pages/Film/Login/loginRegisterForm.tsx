@@ -1,23 +1,15 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { User2 } from '../../../types/user.types'
 import { Login } from '../../../types/login.types'
 import { storage } from '../../../storage/storage'
 import { api } from '../../../services/api'
 import { Img, Text, Input, Button, Line } from '../../../components/Elements'
 let error = new Error()
-const user: User2 = {
-  id: 0,
-  email: ''
-}
 export const LoginRegisterForm: React.FC = () => {
-  const [userObject, setUserObject] = React.useState(user)
   const [namePhoneNumber, setNamePhoneNumber] = React.useState('')
-  const [verifyUser, setVerifyUser] = React.useState<User2>()
   const [otpNumber, setOTPNumber] = React.useState('')
   const userObj = storage.getUser()
   const navigate = useNavigate()
-  const lable = localStorage.setItem('professionalLable', 'Main Professional')
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNamePhoneNumber(event.target.value)
   }
@@ -28,66 +20,53 @@ export const LoginRegisterForm: React.FC = () => {
 
   const generateOTP = async () => {
     const userNamePhoneNumber = namePhoneNumber
-    localStorage.setItem('emailphone', userNamePhoneNumber)
-    await api
-      .get(`/auth/otp/${userNamePhoneNumber}`)
-      .then((response) => {
-        setUserObject(response.data)
-        const userObject = response.data
-        console.log(userObject)
-      })
-      .catch((err) => {
-        if (err?.response?.data) {
-          error = err.response.data
-        }
-        if (error?.message === 'MISSING_USER' && userObj.type === 'PERSON') {
-          navigate('/film/register/filmpersonregister')
-        }
-
-        if (
-          err?.response?.data?.message &&
-          err?.response?.data?.message === 'MISSING_USER' &&
-          userObj.type === 'LOVER'
-        ) {
-          error = err.response.data.error
-        }
-      })
+    try {
+      return await api.get(`/auth/otp/${userNamePhoneNumber}`)
+    } catch (err: any) {
+      if (err?.response?.data) {
+        error = err.response.data
+      }
+      if (error?.message === 'MISSING_USER' && userObj.type === 'PERSON') {
+        navigate('/film/register/filmpersonregister', {state: namePhoneNumber})
+      }
+      if (
+        err?.response?.data?.message &&
+        err?.response?.data?.message === 'MISSING_USER' &&
+        userObj.type === 'LOVER'
+      ) {
+        error = err.response.data.error
+      }
+    }
   }
   const verify = async () => {
     const data: Login = {
       username: namePhoneNumber,
       password: otpNumber
     }
-    await api
-      .post('/auth/login/', data)
-      .then((response) => {
-        setVerifyUser(response.data)
-        if (verifyUser) {
-          const url = verifyUser.step?.replace(/\s/g, '')
-          if (userObj.type === 'PERSON') {
-            navigate(`/film/register/${url}`)
-            // Yet to implement
-          }
-          // TODO: Yet to implement successful login navigation
-        }
-      })
-      .catch((err) => {
-        if (err?.response?.data) {
-          error = err?.response?.data
-          console.log(error.message)
-        }
-        if (error?.message === 'MISSING_USER' && userObj.type === 'PERSON') {
-          navigate('/cinema/film/film')
-        }
-
-        if (
-          err?.response?.data?.message &&
-          err?.response?.data?.message === 'MISSING_USER' &&
-          userObj.type === 'LOVER'
-        ) {
-          error = err.response.data.error
-        }
-      })
+    const response = await api.post('/auth/login/', data)
+    storage.setUserLoggedUser(response.data)
+    localStorage.setItem('@cinimaDb:Token', response.data.token)
+    try {
+      if (userObj.type === 'PERSON') {
+        navigate('/film/register/filmpersonregister')
+        // Yet to implement
+      }
+    } catch (err: any) {
+      if (err?.response?.data) {
+        error = err?.response?.data
+        console.log(error.message)
+      }
+      if (error?.message === 'MISSING_USER' && userObj.type === 'PERSON') {
+        navigate('/cinema/film/film')
+      }
+      if (
+        err?.response?.data?.message &&
+        err?.response?.data?.message === 'MISSING_USER' &&
+        userObj.type === 'LOVER'
+      ) {
+        error = err.response.data.error
+      }
+    }
   }
   return (
     <>
@@ -107,10 +86,11 @@ export const LoginRegisterForm: React.FC = () => {
           </Text>
           <div className="flex flex-col items-center justify-start mb-[5px] w-full">
             <div className="md:h-[282px] h-[311px] relative w-full">
-              <input placeholder = "Enter Number Or Email"className="absolute border placeholder:text-gray_900 pl-[30px] `border-solid border-white_A700 flex inset-x-[0] items-start justify-end mx-auto p-[10px] sm:px-5 rounded-[10px] top-[0] w-full">
+              <input onChange={handleInputChange} placeholder = "Enter Number Or Email"className="absolute border placeholder:text-gray_900 pl-[30px] `border-solid border-white_A700 flex inset-x-[0] items-start justify-end mx-auto p-[10px] sm:px-5 rounded-[10px] top-[0] w-full">
               </input>
               <div className="absolute top-2 right-2">
               <Text
+              onClick={generateOTP}
                   className="font-medium md:ml-[0]  text-left text-red_A700"
                   variant="body41"
                 >
@@ -121,38 +101,13 @@ export const LoginRegisterForm: React.FC = () => {
                 wrapClassName="absolute border border-solid border-white_A700 mt-[100px] mx-auto pl-[30px] pr-3 py-[10px] rounded-[10px] w-full"
                 className="font-normal leading-[normal] not-italic p-0 placeholder:text-gray_900 sm:pl-5 text-base text-gray_900 text-left w-full"
                 name="language"
+                onChange={handleInputChangeOtp}
                 placeholder="Enter  OTP"
               ></Input>
               <div className="absolute bottom-[0] flex flex-col inset-x-[0] justify-start mx-auto w-full">
-                {/* <div className="flex flex-col items-start justify-start md:ml-[0] ml-[7px] mt-[138px] w-[46%] md:w-full">
-                  <div className="flex flex-row gap-2 items-start justify-start w-[91%] md:w-full">
-                    <div className="border border-gray_400 border-solid h-[15px] rounded-[7px] w-[15px]"></div>
-                    <Text
-                      className="font-light mt-0.5 text-black_900 text-center w-auto"
-                      variant="body41"
-                    >
-                      I am 18 or Above and I agree to the{" "}
-                    </Text>
-                  </div>
-                  <div className="flex flex-row gap-2 items-start justify-start mt-[13px] w-full">
-                    <div className="border border-gray_400 border-solid h-[15px] rounded-[7px] w-[15px]"></div>
-                    <Text
-                      className="font-light mt-0.5 text-black_900 text-center w-auto"
-                      variant="body41"
-                    >
-                      I am Not 18 or Above and I agree to the{" "}
-                    </Text>
-                  </div>
-                  <Text
-                    className="md:ml-[0] ml-[22px] mt-[7px] text-center text-red_A700 w-auto"
-                    as="h2"
-                    variant="h2"
-                  >
-                    Terms & Conditions and Privacy Policy.{" "}
-                  </Text>
-                </div> */}
                 <div className="flex items-center justify-start mt-[11px] w-full">
                   <Button
+                  onClick={verify}
                     className="common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[350px] sm:min-w-full py-[15px] rounded-[12px] text-2xl md:text-[22px] text-center text-white_A700 sm:text-xl w-auto"
                   >
                     Verify
