@@ -1,7 +1,11 @@
-interface IndustrySelection {
-  title: string;
-  key: number;
-};
+import { DataNode } from 'antd/es/tree'
+
+export interface UserSubCategory{
+  id?: number
+  key: string;
+  value: DataNode[]
+  userId?: string
+}
 
 export type AuthUser = {
   id: string;
@@ -9,7 +13,9 @@ export type AuthUser = {
   firstName: string;
   lastName: string;
   bio: string;
-  role: "ADMIN" | "USER";
+  step: string;
+  role: 'ADMIN' | 'USER';
   type: string;
-  industrySelection: IndustrySelection[];
+  industrySelection: DataNode[];
+  userSubCategory: UserSubCategory[]
 };
