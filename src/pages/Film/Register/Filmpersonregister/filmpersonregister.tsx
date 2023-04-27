@@ -34,10 +34,10 @@ export const FilmPersonRegister: React.FC = () => {
     const temp = await response.data
     setMainProfessional(temp)
 
-    const previouslySelectedIndustries = storage.getLoggedUser()
+    const loggedInUser = storage.getLoggedUser()
     const tempIndustrySelection:Key[] = []
-    if (previouslySelectedIndustries.industrySelection) {
-      previouslySelectedIndustries.industrySelection.map((item: DataNode) => {
+    if (loggedInUser.industrySelection) {
+      loggedInUser.industrySelection.map((item: DataNode) => {
         if (item.key) {
           tempIndustrySelection.push(item.key)
         }
