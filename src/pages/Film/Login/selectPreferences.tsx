@@ -1,24 +1,13 @@
+/* eslint-disable no-undef */
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AuthUser } from '../../../types/auth.types'
-import { storage } from '../../../storage/storage'
 import { List, Img, Text } from '../../../components/Elements'
 export const SelectPreferenceForm: React.FC = () => {
   const navigate = useNavigate()
 
   const storeUserPreference = (type: string) => {
-    const user: AuthUser = {
-      type,
-      id: '',
-      email: '',
-      firstName: '',
-      lastName: '',
-      bio: '',
-      role: 'ADMIN',
-      industrySelection: []
-    }
-    storage.setUser(user)
-    navigate('/film/login/loginregister')
+    localStorage.setItem('type', type)
+    navigate('/film/login/loginregister', { state: type })
   }
 
   return (

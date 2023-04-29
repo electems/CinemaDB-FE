@@ -16,6 +16,7 @@ import React from 'react'
 import FormListing from '../pages/Admin/FormListing/formlisting'
 import AddEditForms from '../pages/Admin/DynamicForms/addEditForms'
 import ProfessionalListing from '../pages/Admin/ProfessionalListing/professional'
+import { SubCategoryUserForm } from '../pages/Film/Register/Filmpersonregister/subcategoryuserForm'
 
 const RoutesMain = () => {
   return (
@@ -25,6 +26,10 @@ const RoutesMain = () => {
         <Route
           path="/film/register/filmpersonregister"
           element={<FilmPersonRegister />}
+        />
+         <Route
+          path="/film/register/subcategoryuserForm"
+          element={<SubCategoryUserForm />}
         />
 
         <Route
@@ -47,7 +52,7 @@ export const RoutesAdmin = () => {
         <Route path="/admin/userListing" element={<UserListing />} />
         <Route path="/admin/formbuilders" element={<FormsBuilder />} />
         <Route path="/admin/professionalListing" element={<ProfessionalListing />} />
-        <Route path="/admin/formLisitng" element={<FormListing />} />
+        <Route path="/admin/formlisitng" element={<FormListing />} />
         <Route path="/admin/professionalTree" element={<ProfessionalTree />} />
         <Route path="/admin/addForm" element={<AddEditForms/>} />
         <Route path="/admin/editForm/:id" element={<AddEditForms/>} />

@@ -6,16 +6,16 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react'
 import { api } from '../../../../services/api'
-import { Button, List, Line } from '../../../../components/Elements'
-import { useLocation } from 'react-router-dom'
+import { Button, List } from '../../../../components/Elements'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { environment } from '../../../../config/environment'
 import { Tree, Tabs } from 'antd'
 import { ReactFormGenerator } from 'react-form-builder2'
 import RegistrationHeader from '../../../../components/RegisterationHeader/registrationheader'
 import { storage } from '../../../../storage/storage'
 import { Key } from 'antd/es/table/interface'
-import { AuthUser, UserSubCategory } from '../../../../types/auth.types'
-import { DataNode } from 'antd/es/tree'
+import { AuthUser } from '../../../../types/auth.types'
+import { getTitleFromTabs } from '../../../../services/filmservices'
 interface InputData {
   selectedNodes
   breadCrumPathList
@@ -33,39 +33,51 @@ const user: AuthUser = {
   role: 'ADMIN',
   type: '',
   industrySelection: [],
-  userSubCategory: []
+  UserSubCategory: []
 }
 
+let renderTabsOfSelectedNodes = []
 export const SelectedIndustry: React.FC = () => {
   const inputData = useLocation().state as InputData
   const [choiceTreeData, setChoiceTreeData] = React.useState<any[]>([])
-  const [formBuilderJsonData, setFormBuilderJsonData] = React.useState<any[]>([])
   const [formGeneratorData, setformGeneratorData] = React.useState<any[]>([])
   const [selectedNodes, setSelectedNodes] = React.useState<any[]>([])
   const [checkedKeys, setCheckedKeys] = useState<React.Key[]>()
   const [selectedTabKey, setSelectedTabKey] = useState('')
   const [currentUser, setCurrentUser] = useState<AuthUser>(storage.getLoggedUser())
-  const [selectedTab, setSelectedTab] = useState()
-  let selectedTabIndex = 0
+  const navigate = useNavigate()
+  const selectedTabIndex = 0
+  let path = inputData.selectedNodes[selectedTabIndex].title
   useEffect(() => {
+    renderTabs()
     loadDataFromBE(inputData.selectedNodes[selectedTabIndex].key)
   }, [])
 
+  const renderTabs = async () => {
+    const tabs = JSON.stringify(inputData.selectedNodes)
+    const replaceTitleToLabel = tabs.replaceAll('title', 'label')
+    const afterReplacedFromTitleToLabel = JSON.parse(replaceTitleToLabel)
+    renderTabsOfSelectedNodes = afterReplacedFromTitleToLabel
+  }
+
   const loadDataFromBE = async (key: string) => {
-    const path = inputData.selectedNodes[selectedTabIndex].title
+    const newLabelPath = path.replace(/\s+/g, '').toLowerCase()
+    const mainLablePath = newLabelPath.replace('/', '').toLocaleLowerCase()
     const serverData = await api
-      .get(`form/readfile/${environment.formLayoutPath}/${path}/${environment.professionalData}`)
+      .get(`form/readfile/${environment.formLayoutPath}/${mainLablePath}/${environment.professionalData}`)
     const response = await serverData.data
     const temp = JSON.stringify(response)
     if (temp.includes('children')) {
       setChoiceTreeData(response)
+      setformGeneratorData([])
     } else {
-      setFormBuilderJsonData(response)
+      setChoiceTreeData([])
+      setformGeneratorData(response)
     }
 
     const tempIndustrySelection:Key[] = []
-    if (currentUser.userSubCategory) {
-      const currentSubCategories = currentUser.userSubCategory.find(element => element.key === key)
+    if (currentUser.UserSubCategory) {
+      const currentSubCategories = currentUser.UserSubCategory.find(element => element.key === key)
       if (currentSubCategories) {
         currentSubCategories.value.map((item) => {
           tempIndustrySelection.push(item.key)
@@ -78,33 +90,37 @@ export const SelectedIndustry: React.FC = () => {
 
   const loadSubCategory = () => {
     // SelectedTabKey is actually the previous tab in case of Tab click.
-    const selectedSubCategories = currentUser.userSubCategory.find(
+    const selectedSubCategories = currentUser.UserSubCategory.find(
       element => element.key === selectedTabKey)
     if (selectedSubCategories) {
       selectedSubCategories.value = selectedNodes
     } else {
-      currentUser.userSubCategory.push({
+      currentUser.UserSubCategory.push({
         key: selectedTabKey,
         value: selectedNodes
       })
     }
     setCurrentUser(currentUser)
   }
-  const handleOnClickTitle = (title: string, tabIndex: string, key: string) => {
-    loadSubCategory()
-    selectedTabIndex = tabIndex as unknown as number
-    loadDataFromBE(key)
-  }
 
   const saveLevel2SelectededIndustry = () => {
     loadSubCategory()
-    api.post('/users/createuser', currentUser)
+    currentUser.step = '/film/register/selectedindustry'
+    delete currentUser.token
+    delete currentUser.otp
+    api.put(`users/updateUserSubCategory/${currentUser.id}`, currentUser)
+    navigate('/film/register/subcategoryuserForm', { state: { user: currentUser } })
   }
   const onCheck = (selectedRow, selected) => {
     console.log(selected.checkedNodes)
     setSelectedNodes(selected.checkedNodes)
   }
-
+  const handleOnClickTitle = (key: string) => {
+    loadSubCategory()
+    const tabs = getTitleFromTabs(key, renderTabsOfSelectedNodes)
+    path = tabs
+    loadDataFromBE(key)
+  }
   return (
     <>
    <div className="bg-white_A700 flex flex-col items-center justify-start mx-auto pb-7 w-full">
@@ -115,22 +131,10 @@ export const SelectedIndustry: React.FC = () => {
           <div className="flex items-center justify-start w-[74%] md:w-full">
             <div className="flex flex-col items-center justify-start w-full">
               <div className="flex md:flex-col items-start w-full">
-                {inputData.selectedNodes.map(function (item: any, tabIndex) {
-                  return (
-                    <div
-                    className="flex items-center justify-center w-[204px]"
-                    key={tabIndex}
-                    onClick={() => handleOnClickTitle(item.title, tabIndex, item.key)}
-                    title= {inputData.breadCrumPathList[selectedTabIndex]}
-                  >
-                     {item.title}
-                  </div>
-                  )
-                })}
+                 <Tabs defaultActiveKey="1" items={renderTabsOfSelectedNodes} onChange={handleOnClickTitle} />
+                 title= {inputData.breadCrumPathList[selectedTabIndex]}
               </div>
               <div className="h-[3px] relative w-full">
-                {/* <Line className="absolute bg-gray_101 bottom-[0] h-[3px] inset-x-[0] mx-auto w-full" /> */}
-                {/* <Line className={toggleClass} /> */}
               </div>
             </div>
           </div>
@@ -155,18 +159,14 @@ export const SelectedIndustry: React.FC = () => {
               </div>
 
               <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start my-0 w-[93%] md:w-full">
-                  {formBuilderJsonData.length > 0 &&
-                   <ReactFormGenerator
-                   back_action="/"
-                   back_name="Back"
-                   answer_data={formBuilderJsonData}
-                   action_name="Save"
-                   form_action="/"
-                   form_method="POST"
-                   read_only={true}
-                   hide_actions={true}
-                   data={formGeneratorData}
-                 />
+                 {formGeneratorData.length > 0 &&
+                    <ReactFormGenerator
+                    back_action=""
+                    form_action=""
+                    form_method="POST"
+                    data={formGeneratorData}
+                    onSubmit={loadSubCategory}
+                  />
                   }
               </div>
             </List>

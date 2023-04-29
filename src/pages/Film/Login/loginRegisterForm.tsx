@@ -1,41 +1,46 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+/* eslint-disable key-spacing */
+/* eslint-disable array-callback-return */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-undef */
+import React, { useEffect } from 'react'
 import { Login } from '../../../types/login.types'
 import { storage } from '../../../storage/storage'
 import { api } from '../../../services/api'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Img, Text, Input, Button, Line } from '../../../components/Elements'
+import { retriveMainProfessionalList, getBreadCrumbs } from '../../../services/filmservices'
 let error = new Error()
+interface InputData {
+  type
+}
+
 export const LoginRegisterForm: React.FC = () => {
   const [namePhoneNumber, setNamePhoneNumber] = React.useState('')
   const [otpNumber, setOTPNumber] = React.useState('')
+  const [mainProfessional, setMainProfessional] = React.useState()
   const userObj = storage.getUser()
   const navigate = useNavigate()
+  const inputData = useLocation().state as InputData
+  const type = localStorage.getItem('type')
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNamePhoneNumber(event.target.value)
   }
 
+  useEffect(() => {
+  }, [])
+
   const handleInputChangeOtp = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOTPNumber(event.target.value)
   }
-
+  const retriveProfessionalList = async () => {
+    const mainProfessioanlListResponse = await retriveMainProfessionalList('mainprofessional', 'professionaldata')
+    setMainProfessional(mainProfessioanlListResponse)
+  }
   const generateOTP = async () => {
     const userNamePhoneNumber = namePhoneNumber
-    try {
-      return await api.get(`/auth/otp/${userNamePhoneNumber}`)
-    } catch (err: any) {
-      if (err?.response?.data) {
-        error = err.response.data
-      }
-      if (error?.message === 'MISSING_USER' && userObj.type === 'PERSON') {
-        navigate('/film/register/filmpersonregister', {state: namePhoneNumber})
-      }
-      if (
-        err?.response?.data?.message &&
-        err?.response?.data?.message === 'MISSING_USER' &&
-        userObj.type === 'LOVER'
-      ) {
-        error = err.response.data.error
-      }
+    const response = await api.get(`/auth/otp/${userNamePhoneNumber}`)
+    if (response === undefined) {
+      navigate('/film/register/filmpersonregister', { state: { namePhoneNumber } })
     }
   }
   const verify = async () => {
@@ -43,13 +48,29 @@ export const LoginRegisterForm: React.FC = () => {
       username: namePhoneNumber,
       password: otpNumber
     }
-    const response = await api.post('/auth/login/', data)
+    const response = await api.post('/auth/login', data)
     storage.setUserLoggedUser(response.data)
+    const loggedUser = storage.getLoggedUser()
     localStorage.setItem('@cinimaDb:Token', response.data.token)
     try {
-      if (userObj.type === 'PERSON') {
-        navigate('/film/register/filmpersonregister')
-        // Yet to implement
+      if (type === 'PERSON') {
+        if (loggedUser.step === '/film/register/filmpersonregister' ||
+          !loggedUser.step) {
+        // step2
+          navigate('/film/register/filmpersonregister', { state: { type: inputData.type } })
+        }
+        if (loggedUser.step === '/film/register/selectedindustry') {
+        // step3
+          const industrySelectionKeys = loggedUser.industrySelection.map((item) => {
+            item.key
+          })
+          const breadCrumPathList = getBreadCrumbs(industrySelectionKeys, mainProfessional)
+          navigate(loggedUser.step, {
+            state: {
+              selectedNodes: loggedUser.industrySelection, breadCrumPathList
+            }
+          })
+        }
       }
     } catch (err: any) {
       if (err?.response?.data) {
@@ -57,7 +78,7 @@ export const LoginRegisterForm: React.FC = () => {
         console.log(error.message)
       }
       if (error?.message === 'MISSING_USER' && userObj.type === 'PERSON') {
-        navigate('/cinema/film/film')
+        navigate('/film/register/filmpersonregister')
       }
       if (
         err?.response?.data?.message &&
@@ -70,7 +91,7 @@ export const LoginRegisterForm: React.FC = () => {
   }
   return (
     <>
-<div className="bg-gray_800 font-montserrat h-[700px] mx-auto relative">
+      <div className="bg-gray_800 font-montserrat h-[700px] mx-auto relative">
         <div className="absolute bg-bluegray_101 flex h-full items-end justify-start p-[114px] md:px-5 right-[0]">
           <Img
             src="/images/img_authenticationrafiki.svg"
@@ -86,11 +107,11 @@ export const LoginRegisterForm: React.FC = () => {
           </Text>
           <div className="flex flex-col items-center justify-start mb-[5px] w-full">
             <div className="md:h-[282px] h-[311px] relative w-full">
-              <input onChange={handleInputChange} placeholder = "Enter Number Or Email"className="absolute border placeholder:text-gray_900 pl-[30px] `border-solid border-white_A700 flex inset-x-[0] items-start justify-end mx-auto p-[10px] sm:px-5 rounded-[10px] top-[0] w-full">
+              <input onChange={handleInputChange} placeholder="Enter Number Or Email" className="absolute border placeholder:text-gray_900 pl-[30px] `border-solid border-white_A700 flex inset-x-[0] items-start justify-end mx-auto p-[10px] sm:px-5 rounded-[10px] top-[0] w-full">
               </input>
               <div className="absolute top-2 right-2">
-              <Text
-              onClick={generateOTP}
+                <Text
+                  onClick={generateOTP}
                   className="font-medium md:ml-[0]  text-left text-red_A700"
                   variant="body41"
                 >
@@ -107,7 +128,7 @@ export const LoginRegisterForm: React.FC = () => {
               <div className="absolute bottom-[0] flex flex-col inset-x-[0] justify-start mx-auto w-full">
                 <div className="flex items-center justify-start mt-[11px] w-full">
                   <Button
-                  onClick={verify}
+                    onClick={verify}
                     className="common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[350px] sm:min-w-full py-[15px] rounded-[12px] text-2xl md:text-[22px] text-center text-white_A700 sm:text-xl w-auto"
                   >
                     Verify

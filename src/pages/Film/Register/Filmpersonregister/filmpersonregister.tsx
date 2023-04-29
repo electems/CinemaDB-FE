@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable object-curly-spacing */
 /* eslint-disable array-callback-return */
 /* eslint-disable indent */
@@ -7,22 +8,26 @@ import React, { useEffect, useState } from 'react'
 import { api } from '../../../../services/api'
 import './style.css'
 import { Button } from '../../../../components/Elements'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { environment } from '../../../../config/environment'
 import { Tree } from 'antd'
 import { storage } from '../../../../storage/storage'
 import { Key } from 'antd/es/table/interface'
 import { DataNode } from 'antd/es/tree'
 import RegistrationHeader from '../../../../components/RegisterationHeader/registrationheader'
+import { getBreadCrumbs } from '../../../../services/filmservices'
+interface InputData {
+  namePhoneNumber,
+  type
+}
 
 export const FilmPersonRegister: React.FC = () => {
   const [mainProfessional, setMainProfessional] = React.useState([])
   const [lablePath, setLablePath] = useState('')
   const [selectedNodes, setSelectedNodes] = React.useState<any[]>([])
-  const [breadCrumPathList, setBreadCrumPathList] = React.useState<string[]>([])
   const [previouslySelectedIndustries, setPreviouslySelectedIndustries] = React.useState<Key[]>([])
-
   const navigate = useNavigate()
+  const inputData = useLocation().state as InputData
 
   useEffect(() => {
     retriveMainProfessionalList('mainprofessional', 'professionaldata')
@@ -35,6 +40,7 @@ export const FilmPersonRegister: React.FC = () => {
     setMainProfessional(temp)
 
     const loggedInUser = storage.getLoggedUser()
+
     const tempIndustrySelection:Key[] = []
     if (loggedInUser.industrySelection) {
       loggedInUser.industrySelection.map((item: DataNode) => {
@@ -46,49 +52,9 @@ export const FilmPersonRegister: React.FC = () => {
     }
   }
 
-  const getParentKey = (key, tree) => {
-    let parentKey
-    for (let i = 0; i < tree.length; i++) {
-      const node = tree[i]
-      if (node.children) {
-        if (node.children.some(item => item.key === key)) {
-          const matchedNode = node.children.find(element => element.key === key)
-          parentKey = matchedNode.title
-        } else if (getParentKey(key, node.children)) {
-          parentKey = getParentKey(key, node.children)
-        }
-      }
-    }
-    return parentKey
-  }
-
-  const getParentKeyInRootNodes = (key, tree) => {
-    for (let i = 0; i < tree.length; i++) {
-      const node = tree[i]
-      if (node.key === key) {
-        return node.title
-      }
-    }
-  }
-
   const onCheck = (selectedRow, selected) => {
     setSelectedNodes(selected.checkedNodes)
-
-    let breadCrumPath = ''
-    for (let i = selected.halfCheckedKeys.length - 1; i >= 0; i--) {
-      const key = selected.halfCheckedKeys[i]
-      let title = getParentKey(key, mainProfessional)
-
-      if (!title) {
-        title = getParentKeyInRootNodes(key, mainProfessional)
-      }
-
-      breadCrumPath += title + ' > '
-    }
-
-    setBreadCrumPathList((breadCrumPathList) => [
-        ...breadCrumPathList, breadCrumPath
-      ])
+    getBreadCrumbs(selected.node.key, mainProfessional)
   }
 
   const retrieveProfessionalList = async () => {
@@ -104,7 +70,34 @@ export const FilmPersonRegister: React.FC = () => {
   }
 
   const saveUserIndustrySelect = async () => {
-     navigate('/film/register/selectedindustry', { state: {selectedNodes, breadCrumPathList}})
+    const currentUser = storage.getLoggedUser()
+    if (currentUser) {
+      delete currentUser.token
+      delete currentUser.otp
+      currentUser.industrySelection = selectedNodes
+      currentUser.step = '/film/register/filmpersonregister'
+      currentUser.UserSubCategory = [
+        {
+          key: '',
+          value: [],
+          userId: currentUser.id
+        }
+      ]
+      api.put(`/users/updateuser/${currentUser.id}`, currentUser)
+    } else {
+      api.post('/users/createuser/', {
+        firstName: inputData.namePhoneNumber,
+        email: inputData.namePhoneNumber,
+        password: '1234567890',
+        phoneNumber: inputData.namePhoneNumber,
+        userName: inputData.namePhoneNumber,
+        role: 'USER',
+        step: '/film/register/filmpersonregister',
+        industrySelection: selectedNodes
+      })
+    }
+
+    navigate('/film/register/selectedindustry', { state: {selectedNodes}})
   }
 
   return (
@@ -117,6 +110,7 @@ export const FilmPersonRegister: React.FC = () => {
           <div className='text-[28.67px]'>
           {mainProfessional.length > 0 && <Tree
             checkable
+            checkStrictly
             defaultCheckedKeys={previouslySelectedIndustries}
             treeData={mainProfessional}
             onCheck={onCheck}
