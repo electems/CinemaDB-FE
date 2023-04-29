@@ -1,0 +1,7 @@
+body.active-modal {
+    overflow-y: hidden;
+}
+
+.margin-left {
+    margin-left: 10px;
+}

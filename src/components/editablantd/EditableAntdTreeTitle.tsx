@@ -1,9 +1,10 @@
+/* eslint-disable no-undef */
 import { Tooltip } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
-import { AiOutlineSisternode, AiOutlineSubnode, AiOutlineArrowRight } from 'react-icons/ai'
+import { AiOutlineSisternode, AiOutlineSubnode, AiOutlineArrowRight, AiOutlineForm} from 'react-icons/ai'
 import { BiCheck } from 'react-icons/bi'
 import { GrFormClose } from 'react-icons/gr'
-
+import './styles.css'
 import { MdDelete } from 'react-icons/md'
 import { RiPencilFill } from 'react-icons/ri'
 import { twMerge } from 'tailwind-merge'
@@ -13,7 +14,7 @@ import { TextInput } from './TextInput'
 import { deleteTreeNode } from './utils'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../services/api'
-
+import { BinaryTree } from 'tabler-icons-react'
 type EditableTreeTitleProps = {
   treeData: EditableAntdTreeNode[];
   setTreeData: React.Dispatch<React.SetStateAction<EditableAntdTreeNode[]>>;
@@ -61,6 +62,8 @@ export const EditableTreeTitle = ({
   const inputRef = useRef<HTMLInputElement>(null)
   const [inputValue, setInputValue] = useState((node.title as string) || '')
   const [edit, setEdit] = useState(treeData && !node.title)
+  const [modal, setModal] = useState(false)
+  const [show, setShow] = useState(false)
   const navigate = useNavigate()
   const handleCreateLeafClick = () => {
     if (!node.children) {
@@ -137,7 +140,11 @@ export const EditableTreeTitle = ({
 
   const navigateToLevel2 = (title: string) => {
     localStorage.setItem('selectedLabel', title)
-    navigate('/admin/professionalTree')
+    navigate('/admin/professionaltree')
+  }
+  const navigateToFom = (title: string) => {
+    localStorage.setItem('selectedLabel', title)
+    navigate('/admin/formbuilders')
   }
 
   const handleEditToggle = (onOpen: boolean) => {
@@ -190,7 +197,6 @@ export const EditableTreeTitle = ({
         : (
         <span>{node.title as string}</span>
           )}
-
       <div
         className={twMerge(
           'space-x-1 flex items-center text-gray-600',
@@ -230,11 +236,24 @@ export const EditableTreeTitle = ({
         )}
 
         {source === 'level1' && (
-          <Tooltip title={'Add Hirerachy'}>
-            <button onClick={() => navigateToLevel2(node.title as string)}>
-              <AiOutlineArrowRight />
+          <Tooltip title={'Add Form'}>
+            <button onClick={() => navigateToFom(node.title as string)}>
+              <AiOutlineForm
+              style={{ marginLeft: 10 }}
+              size={24}/>
             </button>
           </Tooltip>
+
+        )}
+        {source === 'level1' && (
+          <Tooltip title={'Add SubIndustry'}>
+            <button onClick={() => navigateToLevel2(node.title as string)}>
+            <BinaryTree
+              size={24}
+  />
+            </button>
+          </Tooltip>
+
         )}
       </div>
     </div>

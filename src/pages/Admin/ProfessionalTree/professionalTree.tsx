@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable no-dupe-keys */
 import * as React from 'react'
@@ -45,6 +46,7 @@ const ProfessionalTree = () => {
 
   const saveProfessional = () => {
     api.post(`form/${lablePath}/${environment.professionalData}`, industryCategoryList)
+    api.delete(`form/deletedirectory${environment.formLayoutPath}/${lablePath}`)
   }
 
   function onClickCancel () {

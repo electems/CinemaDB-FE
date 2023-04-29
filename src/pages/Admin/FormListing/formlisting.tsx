@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import React from 'react'
 import { useNavigate } from 'react-router-dom'

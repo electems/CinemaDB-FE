@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react'
 import { ReactFormGenerator, ElementStore } from 'react-form-builder2'
@@ -5,7 +6,7 @@ import './form.css'
 import { api } from '../../services/api'
 import { environment } from '../../config/environment'
 let jsondata = []
-const labelName = localStorage.getItem('formlabelname')
+const labelName = localStorage.getItem('selectedLabel')
 export default class Demobar extends React.Component {
   constructor (props) {
     super(props)
@@ -66,11 +67,13 @@ export default class Demobar extends React.Component {
 
   _onSubmit () {
     const data = jsondata
-    console.log(data)
+    const newLabelPath = labelName.replace(/\s+/g, '').toLowerCase()
+    const mainLablePath = newLabelPath.replace('/', '').toLocaleLowerCase()
     api.post(
-      `form/writefile/${environment.formLayoutPath}/${labelName}/${environment.professionalData}`,
+      `form/writefile/${environment.formLayoutPath}/${mainLablePath}/${environment.professionalData}`,
       data
     )
+    api.delete(`form/deletedirectory/${mainLablePath}`)
     this.props.history.push('/admin/formlisitng')
   }
 

@@ -4,7 +4,6 @@ import React, { useEffect } from 'react'
 import AdminHeader from '../../../components/AdminHeader'
 import { api } from '../../../services/api'
 import { environment } from '../../../config/environment'
-
 import { EditableAntdTree, EditableAntdTreeNode } from '../../../components/Editablantd/EditableAntdTree'
 
 const ProfessionalListing: React.FC = () => {
@@ -38,6 +37,8 @@ const ProfessionalListing: React.FC = () => {
       <h1 id="professionalList" className="title text-center">
         Core Professional List
       </h1>
+      <div className="container">
+</div>
       {industrySelectionList.length > 0 &&
         <div >
           <EditableAntdTree source="level1" size="md" treeData={industrySelectionList}/>
