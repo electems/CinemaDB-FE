@@ -63,3 +63,9 @@ export const retriveMainProfessionalList = async (path: string, fileName: string
   const temp = await response.data
   return temp
 }
+
+export const removeSpaceAndSpecialCharacters = async (label: string) => {
+  const newLabelPath = await label.replace(/\s+/g, '').toLowerCase()
+  const mainLablePath = await newLabelPath.replace('/', '').toLocaleLowerCase()
+  return mainLablePath
+}

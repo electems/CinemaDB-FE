@@ -5,6 +5,10 @@ export interface UserSubCategory{
   key: string;
   value: DataNode[]
   userId?: string
+  createdBy?:string
+  updatedBy?:string
+  createdAt?: Date,
+  updatedAt?: Date
 }
 
 export type AuthUser = {
@@ -12,6 +16,7 @@ export type AuthUser = {
   email: string;
   firstName: string;
   lastName: string;
+  userName: string;
   bio: string;
   step: string;
   role: 'ADMIN' | 'USER';
