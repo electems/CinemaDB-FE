@@ -15,7 +15,7 @@ import { storage } from '../../../../storage/storage'
 import { Key } from 'antd/es/table/interface'
 import { DataNode } from 'antd/es/tree'
 import RegistrationHeader from '../../../../components/RegisterationHeader/registrationheader'
-import { getBreadCrumbs } from '../../../../services/filmservices'
+import { removeSpaceAndSpecialCharacters } from '../../../../services/filmservices'
 interface InputData {
   namePhoneNumber,
   type
@@ -54,17 +54,15 @@ export const FilmPersonRegister: React.FC = () => {
 
   const onCheck = (selectedRow, selected) => {
     setSelectedNodes(selected.checkedNodes)
-    getBreadCrumbs(selected.node.key, mainProfessional)
   }
 
   const retrieveProfessionalList = async () => {
     const mainLabel = localStorage.getItem('professionalLable') || ''
-    const newLabelPath = mainLabel.replace(/\s+/g, '').toLowerCase()
-    const mainLablePath = newLabelPath.replace('/', '').toLocaleLowerCase()
+    const labelPath = await removeSpaceAndSpecialCharacters(mainLabel)
     setLablePath(lablePath)
 
     const response = await api.get(
-      `form/${mainLablePath}/${environment.professionalData}`
+      `form/${labelPath}/${environment.professionalData}`
     )
     setMainProfessional(response.data)
   }
@@ -76,13 +74,6 @@ export const FilmPersonRegister: React.FC = () => {
       delete currentUser.otp
       currentUser.industrySelection = selectedNodes
       currentUser.step = '/film/register/filmpersonregister'
-      currentUser.UserSubCategory = [
-        {
-          key: '',
-          value: [],
-          userId: currentUser.id
-        }
-      ]
       api.put(`/users/updateuser/${currentUser.id}`, currentUser)
     } else {
       api.post('/users/createuser/', {

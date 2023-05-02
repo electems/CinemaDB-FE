@@ -1,11 +1,9 @@
-import React from 'react'
+/* eslint-disable no-undef */
 import { Link, useNavigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Logout } from 'tabler-icons-react'
-
 const AdminHeader = () => {
   const navigate = useNavigate()
-
   function logout () {
     localStorage.removeItem('@cinimaDb:Token')
     localStorage.removeItem('authuser')
@@ -29,9 +27,14 @@ const AdminHeader = () => {
                   Professional
                   </Link>
                   </li>
+                  <li id="professional" className="nav-item">
+                 <Link to={'/admin/masterforms'} className="nav-link">
+                   Master Forms
+                  </Link>
+                  </li>
               <li id="professional" className="nav-item">
-                 <Link to={'/admin/formlisitng'} className="nav-link">
-                  Form Listing
+                 <Link to={'/admin/professionforms'} className="nav-link">
+                   Profession Forms
                   </Link>
                   </li>
               <li className="text-right">

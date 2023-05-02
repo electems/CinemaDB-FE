@@ -5,8 +5,10 @@ import { ReactFormGenerator, ElementStore } from 'react-form-builder2'
 import './form.css'
 import { api } from '../../services/api'
 import { environment } from '../../config/environment'
+
 let jsondata = []
 const labelName = localStorage.getItem('selectedLabel')
+const masterLabelFormLabel = localStorage.getItem('masterFormslabel')
 export default class Demobar extends React.Component {
   constructor (props) {
     super(props)
@@ -62,15 +64,20 @@ export default class Demobar extends React.Component {
     const response = await api.get(
       `form/readfile/${environment.formLayoutPath}/${labelName}/${environment.professionalData}`
     )
-    jsondata = response.data
+    if (response) {
+      jsondata = response.data
+    }
+    const masterForm = await api.get(
+      `form/readfile/${environment.masterFormPath}/${masterLabelFormLabel}/${environment.professionalData}`
+    )
+    jsondata = masterForm.data
   }
 
-  _onSubmit () {
+  async _onSubmit () {
     const data = jsondata
-    const newLabelPath = labelName.replace(/\s+/g, '').toLowerCase()
-    const mainLablePath = newLabelPath.replace('/', '').toLocaleLowerCase()
+    const labelPath = await removeSpaceAndSpecialCharacters(labelName)
     api.post(
-      `form/writefile/${environment.formLayoutPath}/${mainLablePath}/${environment.professionalData}`,
+      `form/writefile/${environment.formLayoutPath}/${labelPath}/${environment.professionalData}`,
       data
     )
     api.delete(`form/deletedirectory/${mainLablePath}`)

@@ -9,6 +9,7 @@ import AdminHeader from '../../../components/AdminHeader'
 import { useNavigate } from 'react-router-dom'
 import { EditableAntdTree, EditableAntdTreeNode } from '../../../components/Editablantd/EditableAntdTree'
 import { v4 as uuidv4 } from 'uuid'
+import { removeSpaceAndSpecialCharacters } from '../../../services/filmservices'
 // import "editable-antd-tree/dist/esm/output.css";
 
 const ProfessionalTree = () => {
@@ -23,12 +24,11 @@ const ProfessionalTree = () => {
   const retrieveProfessionalList = async () => {
     const mainLabel = localStorage.getItem('selectedLabel') || ''
     setLable(mainLabel)
-    const newLabelPath = mainLabel.replace(/\s+/g, '').toLowerCase()
-    const mainLablePath = newLabelPath.replace('/', '').toLocaleLowerCase()
-    setLablePath(mainLablePath)
+    const labelPath = await removeSpaceAndSpecialCharacters(mainLabel)
+    setLablePath(labelPath)
 
     const response = await api.get(
-      `form/${mainLablePath}/${environment.professionalData}`)
+      `form/${labelPath}/${environment.professionalData}`)
     const temp = await response.data
     if (temp.error !== 'FILE_NOT_FOUND') {
       setIndustryCategoryList(temp)
@@ -60,7 +60,7 @@ const ProfessionalTree = () => {
       <br />
       <div>
       {industryCategoryList.length > 0 &&
-        <div >
+        <div id='industry_lists'>
         <EditableAntdTree source="level2" size="md" treeData={industryCategoryList}
           />
         </div>

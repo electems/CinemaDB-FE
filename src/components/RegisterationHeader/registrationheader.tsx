@@ -1,8 +1,15 @@
+/* eslint-disable no-undef */
 import { useNavigate } from 'react-router-dom'
-import { MathLower } from 'tabler-icons-react'
+import { MathLower, Logout } from 'tabler-icons-react'
 import { Text } from '../Elements'
 const RegistrationHeader = () => {
   const navigate = useNavigate()
+
+  function logout () {
+    localStorage.removeItem('@cinimaDb:Token')
+    localStorage.removeItem('LoggedUser')
+    navigate('/film/login/loginregister')
+  };
   return (
       <>
       <div className="flex items-center justify-start md:ml-[0] ml-[70px] md:px-5 w-[9%] md:w-full">
@@ -21,6 +28,13 @@ const RegistrationHeader = () => {
                 </Text>
               </div>
             </div>
+            <Logout
+                  className=" position-absolute top-8 end-0 translate-middle pointer "
+                  onClick={logout}
+                  size={30}
+                  strokeWidth={2}
+                  color={'#000000'}
+                 />;
       </>
 
   )
