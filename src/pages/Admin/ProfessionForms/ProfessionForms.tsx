@@ -21,7 +21,7 @@ const ProfessionForms: React.FC = () => {
   }
   const editFormListing = (label: string) => {
     localStorage.setItem('formlabelname', label)
-    navigate('/admin/formbuilders')
+    navigate('/admin/connectprofessionandmaster')
   }
   return (
     <>
