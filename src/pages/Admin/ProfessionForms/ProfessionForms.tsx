@@ -9,6 +9,7 @@ import { environment } from '../../../config/environment'
 
 const ProfessionForms: React.FC = () => {
   const [directoryList, setDirectoryList] = React.useState([])
+  const [labelPath, setLabelPath] = React.useState('')
   const navigate = useNavigate()
   React.useEffect(() => {
     retriveDirectories(environment.formLayoutPath)
@@ -20,8 +21,8 @@ const ProfessionForms: React.FC = () => {
     setDirectoryList(res.data)
   }
   const editFormListing = (label: string) => {
-    localStorage.setItem('formlabelname', label)
-    navigate('/admin/connectprofessionandmaster')
+    setLabelPath(label)
+    navigate('/admin/connectprofessionandmaster', {state: labelPath})
   }
   return (
     <>

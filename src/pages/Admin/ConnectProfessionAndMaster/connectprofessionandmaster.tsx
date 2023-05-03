@@ -2,27 +2,34 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import AdminHeader from '../../../components/AdminHeader'
 import { api } from '../../../services/api'
 import { environment } from '../../../config/environment'
-
+import Input from '../../../components/Input'
+interface InputData {
+  labelPath
+}
 const ConnectProfessionAndMaster: React.FC = () => {
   const [masterTemplateDirectoryList, setMasterTemplateDirectoryList] = React.useState([])
+  const [selectedMasters, setSelectedMasters] = React.useState([''])
+  const inputData = useLocation().state as InputData
   const navigate = useNavigate()
   React.useEffect(() => {
     retriveDirectories(environment.masterFormPath)
+    retriveUserSubCategories()
+    console.log(inputData.labelPath)
   }, [])
 
   const retriveDirectories = async (path: string) => {
     const res = await api.get(`form/${path}`)
     console.log(res)
-    setMasterTemplateDirectoryList(res.data)
+    setMasterTemplateDirectoryList(await res.data)
   }
-  const editMasterFormListing = (label: string) => {
-    // using local storage because form builder is js file
-    localStorage.setItem('masterFormslabel', label)
-    navigate('/admin/formbuilders')
+  const retriveUserSubCategories = async () => {
+    const res = await api.get(`form/${environment.formLayoutPath}/${inputData.labelPath}/${environment.professionalData}`)
+    console.log(res)
+    setSelectedMasters(await res.data)
   }
   return (
     <>
@@ -40,17 +47,10 @@ const ConnectProfessionAndMaster: React.FC = () => {
           <tbody>
             {masterTemplateDirectoryList.map((item) => {
               return (
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <tr key={item}className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                   <td>{item}</td>
                   <td>
-                    {/* <button
-                      className="bg-blue-500 text-white font-bold uppercase text-sm px-1 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                      type="button"
-                      onClick={() => editMasterFormListing(item)}
-                    >
-                      Edit
-                    </button> */}
-                     <input value={item} type="checkbox" />
+                     <Input type={'number'} id={'1'}></Input>
                   </td>
                 </tr>
               )
