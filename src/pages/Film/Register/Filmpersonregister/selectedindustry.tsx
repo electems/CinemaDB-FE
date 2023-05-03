@@ -15,7 +15,7 @@ import RegistrationHeader from '../../../../components/RegisterationHeader/regis
 import { storage } from '../../../../storage/storage'
 import { Key } from 'antd/es/table/interface'
 import { AuthUser } from '../../../../types/auth.types'
-import { getTitleFromTabs, removeSpaceAndSpecialCharacters } from '../../../../services/filmservices'
+import { getTitleFromTabs, removeSpaceAndSpecialCharacters, toastify } from '../../../../services/filmservices'
 import { toast } from 'react-toastify'
 interface InputData {
   selectedNodes
@@ -108,7 +108,7 @@ export const SelectedIndustry: React.FC = () => {
     setCurrentUser(currentUser)
   }
 
-  const saveLevel2SelectededIndustry = () => {
+  const saveLevel2SelectededIndustry = async () => {
     loadSubCategory()
     currentUser.step = '/film/register/selectedindustry'
     delete currentUser.token
@@ -120,15 +120,7 @@ export const SelectedIndustry: React.FC = () => {
     })
     api.put(`users/updateuser/${currentUser.id}`, currentUser)
     api.post('users/userAndUserSubCategory', currentUser)
-    toast.success('userAndUserSubCategory Successfully Changed', {
-      position: 'top-center',
-      autoClose: false,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: 0
-    })
+    
     navigate('/film/register/subcategoryuserForm', { state: { user: currentUser } })
   }
   const onCheck = (selectedRow, selected) => {

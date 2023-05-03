@@ -1,3 +1,6 @@
+import { DataNode } from 'antd/es/tree'
+
+/* eslint-disable no-use-before-define */
 export interface User {
   id: number;
   email: string;
@@ -8,9 +11,11 @@ export interface User {
   userName?: string;
   role?: string;
   status?: string;
-  industrySelection: IndustrySelection[];
+  industrySelection: DataNode[];
   step?: string;
   filmIndustry?: string;
+  type?: string;
+  userSubCategory?: userSubCategory[]
 }
 
 export interface IndustrySelection {
@@ -26,4 +31,10 @@ export interface User2 {
   token?: string;
   role?: string;
   step?: string;
+}
+interface userSubCategory{
+  id: number
+  key: string;
+  value: DataNode[]
+  userId: number
 }

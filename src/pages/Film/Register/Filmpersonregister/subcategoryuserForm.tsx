@@ -7,7 +7,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect } from 'react'
 import { api } from '../../../../services/api'
-import { List } from '../../../../components/Elements'
+import { Button, List } from '../../../../components/Elements'
 import { useLocation } from 'react-router-dom'
 import { environment } from '../../../../config/environment'
 import { Tabs } from 'antd'
@@ -71,7 +71,6 @@ export const SubCategoryUserForm: React.FC = () => {
             <div className="flex flex-col items-center justify-start w-full">
               <div className="flex md:flex-col items-start w-full">
                  <Tabs defaultActiveKey="1" items={displayTabs} onChange={handleOnClickTitle}/>
-                 title= {breadCrumbPathLists[selectedTabIndex]}
               </div>
               <div className="h-[3px] relative w-full">
               </div>
@@ -99,6 +98,11 @@ export const SubCategoryUserForm: React.FC = () => {
                   }
               </div>
             </List>
+            <Button
+            className="bg-red_A700 cursor-pointer font-roboto font-semibold leading-[normal] min-w-[1250px] md:min-w-full mt-4 py-[29px] rounded-[17px] sm:text-3xl md:text-[32px] text-[34px] text-center text-white_A700 w-auto"
+          >
+            Submit
+          </Button>
           </div>
         </div>
       </div>

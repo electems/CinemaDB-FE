@@ -8,12 +8,11 @@ import { storage } from '../../../storage/storage'
 import { api } from '../../../services/api'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Img, Text, Input, Button, Line } from '../../../components/Elements'
-import { retriveMainProfessionalList, getBreadCrumbs } from '../../../services/filmservices'
+import { retriveMainProfessionalList, getBreadCrumbs, toastify } from '../../../services/filmservices'
 let error = new Error()
 interface InputData {
   type
 }
-
 export const LoginRegisterForm: React.FC = () => {
   const [namePhoneNumber, setNamePhoneNumber] = React.useState('')
   const [otpNumber, setOTPNumber] = React.useState('')
@@ -38,6 +37,7 @@ export const LoginRegisterForm: React.FC = () => {
   }
   const generateOTP = async () => {
     const userNamePhoneNumber = namePhoneNumber
+    await toastify('OTP Sent Successfully')
     const response = await api.get(`/auth/otp/${userNamePhoneNumber}`)
     if (response === undefined) {
       navigate('/film/register/filmpersonregister', { state: { namePhoneNumber } })
@@ -57,17 +57,22 @@ export const LoginRegisterForm: React.FC = () => {
         if (loggedUser.step === '/film/register/filmpersonregister' ||
           !loggedUser.step) {
         // step2
-          navigate('/film/register/filmpersonregister', { state: { type: inputData.type } })
+          navigate('/film/register/filmpersonregister')
         }
+        const keys: number[] = []
         if (loggedUser.step === '/film/register/selectedindustry') {
         // step3
-          const industrySelectionKeys = loggedUser.industrySelection.map((item) => {
-            item.key
-          })
-          const breadCrumPathList = getBreadCrumbs(industrySelectionKeys, mainProfessional)
+          for (let i = 0; i <= loggedUser.industrySelection.length - 1; i++) {
+            keys.push(loggedUser.industrySelection[i].key as number)
+          }
+          // const industrySelectionKeys = user.industrySelection.map((item: any) => {
+          //   item.key
+          // })
+          // console.log(industrySelectionKeys)
+          // const breadCrumPathList = getBreadCrumbs(keys, mainProfessional)
           navigate(loggedUser.step, {
             state: {
-              selectedNodes: loggedUser.industrySelection, breadCrumPathList
+              selectedNodes: loggedUser.industrySelection
             }
           })
         }

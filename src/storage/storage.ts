@@ -1,4 +1,5 @@
 import { AuthUser } from '../types/auth.types'
+import { User } from '../types/user.types'
 export const storage = {
   setUser: (user: AuthUser) => {
     window.localStorage.setItem('user', JSON.stringify(user))
@@ -13,7 +14,7 @@ export const storage = {
     window.localStorage.removeItem('token')
   },
 
-  setUserLoggedUser: (user: AuthUser) => {
+  setUserLoggedUser: (user: User) => {
     window.localStorage.setItem('LoggedUser', JSON.stringify(user))
   },
   getLoggedUser: () => {
@@ -21,5 +22,5 @@ export const storage = {
     if (userRaw) {
       return JSON.parse(userRaw)
     }
-  },
+  }
 }

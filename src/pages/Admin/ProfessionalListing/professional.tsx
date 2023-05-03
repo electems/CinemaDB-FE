@@ -34,9 +34,9 @@ const ProfessionalListing: React.FC = () => {
   return (
     <>
       <AdminHeader />
-      <h1 id="professionalList" className="title text-center">
+      <h3 id="professionalList" className="title text-center pt-3">
         Core Professional List
-      </h1>
+      </h3>
       <div className="container">
 </div>
       {industrySelectionList.length > 0 &&

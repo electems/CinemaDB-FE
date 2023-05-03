@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Logout } from 'tabler-icons-react'
 const AdminHeader = () => {
@@ -18,24 +18,28 @@ const AdminHeader = () => {
           </Link>
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
-                <Link to={'/admin/userListing'} className="nav-link">
+                <NavLink to={'/admin/userListing'} className={({ isActive }) =>
+                  (isActive ? 'nav-link active menu-border-bottom' : 'nav-link')}>
                   User
-                </Link>
+                </NavLink >
               </li>
               <li id="professional" className="nav-item">
-                 <Link to={'/admin/professionalListing'} className="nav-link">
+                 <NavLink to={'/admin/professionalListing'} className={({ isActive }) =>
+                   (isActive ? 'nav-link active menu-border-bottom' : 'nav-link')}>
                   Professional
-                  </Link>
+                  </NavLink>
                   </li>
-                  <li id="professional" className="nav-item">
-                 <Link to={'/admin/masterforms'} className="nav-link">
+                  <li id="professional" >
+                 <NavLink to={'/admin/masterforms'} className={({ isActive }) =>
+                   (isActive ? 'nav-link active menu-border-bottom' : 'nav-link')}>
                    Master Forms
-                  </Link>
+                  </NavLink>
                   </li>
               <li id="professional" className="nav-item">
-                 <Link to={'/admin/professionforms'} className="nav-link">
+                 <NavLink to={'/admin/professionforms'} className={({ isActive }) =>
+                   (isActive ? 'nav-link active menu-border-bottom' : 'nav-link')}>
                    Profession Forms
-                  </Link>
+                  </NavLink>
                   </li>
               <li className="text-right">
                <Logout

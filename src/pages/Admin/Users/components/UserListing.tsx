@@ -33,10 +33,10 @@ const UserListing: React.FC = () => {
   }
 
   function addUserForm () {
-    navigate('/admin/form')
+    navigate('/admin/addForm', { state: { folderName: 'useradminform' } })
   }
   function editUser (id: number) {
-    navigate('/admin/user/' + id)
+    navigate('/admin/editForm/' + id, { state: { folderName: 'useradminform' } })
   }
 
   const deleteUser = async (id: number) => {
@@ -59,14 +59,14 @@ const UserListing: React.FC = () => {
   return (
     <>
       <AdminHeader />
-      <h1 className="title">User List</h1>
+      <h3 className="title text-center pt-3">Users Listing</h3>
       <div className="row ">
         <div className="col">
-          <div className="input-group w-50">
+          <div className="input-group w-50 pt-3">
             <input
               type="text"
               id="searchBar"
-              className="form-control w-25"
+              className="form-control w-25 px-10"
               placeholder="Search by title"
               value={searchTitles}
               onChange={onChangeSearchTitle}
@@ -82,20 +82,21 @@ const UserListing: React.FC = () => {
               </button>
             </div>
             <div className="float-right">
-              <Button
+              <button
+               type='button'
                 id="addUser"
-                className="float-right"
+                className="float-right btn btn-primary"
                 onClick={addUserForm}
               >
                 {' '}
                 ADD USER
-              </Button>
+              </button>
             </div>
           </div>
         </div>
       </div>
       <br></br>
-      <div className="relative overflow-x-auto" id="usaeListing">
+      <div className="relative  px-10" id="userListing">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>

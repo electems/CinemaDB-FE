@@ -2,6 +2,7 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable no-unused-vars */
 
+import { toast } from 'react-toastify'
 import { api } from './api'
 
 export const getParentKey = (key, tree) => {
@@ -68,4 +69,16 @@ export const removeSpaceAndSpecialCharacters = async (label: string) => {
   const newLabelPath = await label.replace(/\s+/g, '').toLowerCase()
   const mainLablePath = await newLabelPath.replace('/', '').toLocaleLowerCase()
   return mainLablePath
+}
+
+export const toastify = async (sentenceToDisplay: string) => {
+  toast.success(sentenceToDisplay, {
+    position: 'top-center',
+    autoClose: false,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: 0
+  })
 }

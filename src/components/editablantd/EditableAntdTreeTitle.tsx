@@ -237,7 +237,7 @@ export const EditableTreeTitle = ({
 
         {source === 'level1' && (
           <Tooltip title={'Add Form'}>
-            <button onClick={() => navigateToFom(node.title as string)}>
+            <button id='form_icon' onClick={() => navigateToFom(node.title as string)}>
               <AiOutlineForm
               style={{ marginLeft: 10 }}
               size={24}/>
@@ -247,7 +247,7 @@ export const EditableTreeTitle = ({
         )}
         {source === 'level1' && (
           <Tooltip title={'Add SubIndustry'}>
-            <button onClick={() => navigateToLevel2(node.title as string)}>
+            <button id='tree_icon' onClick={() => navigateToLevel2(node.title as string)}>
             <BinaryTree
               size={24}
   />

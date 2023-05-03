@@ -12,16 +12,17 @@ import { MainScreen } from '../pages/Film/Public/MainScreen/mainscreen'
 import UserListing from '../pages/Admin/Users/components/UserListing'
 import ProfessionalTree from '../pages/Admin/ProfessionalTree/professionalTree'
 import FormsBuilder from '../pages/FormBuilder/FormsBuilder'
-import ProfessionForms from '../pages/Admin/Profession Forms/ProfessionForms'
+import ProfessionForms from '../pages/Admin/ProfessionForms/ProfessionForms'
 import AddEditForms from '../pages/Admin/DynamicForms/addEditForms'
 import ProfessionalListing from '../pages/Admin/ProfessionalListing/professional'
 import { SubCategoryUserForm } from '../pages/Film/Register/Filmpersonregister/subcategoryuserForm'
 import MasterForms from '../pages/Admin/MasterForms/masterforms'
+import ConnectProfessionAndMaster from '../pages/Admin/ConnectProfessionAndMaster/connectprofessionandmaster'
 
 const RoutesMain = () => {
   return (
       <Routes>
-        <Route path="/film/selectPreference" element={<SelectPreferenceForm />} />
+        <Route path="/film/login/selectPreference" element={<SelectPreferenceForm />} />
         <Route path="/film/login/loginregister" element={<LoginRegisterForm />} />
         <Route
           path="/film/register/filmpersonregister"
@@ -54,6 +55,7 @@ export const RoutesAdmin = () => {
         <Route path="/admin/professionalListing" element={<ProfessionalListing />} />
         <Route path="/admin/professionforms" element={<ProfessionForms />} />
         <Route path="/admin/masterforms" element={<MasterForms />} />
+        <Route path="/admin/connectprofessionandmaster" element={<ConnectProfessionAndMaster />} />
         <Route path="/admin/professionalTree" element={<ProfessionalTree />} />
         <Route path="/admin/addForm" element={<AddEditForms/>} />
         <Route path="/admin/editForm/:id" element={<AddEditForms/>} />

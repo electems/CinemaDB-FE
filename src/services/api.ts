@@ -1,6 +1,8 @@
+/* eslint-disable no-undef */
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { environment } from '../config/environment'
+
 export const api = axios.create({
   baseURL: environment.baseUrl,
   headers: {
@@ -8,13 +10,33 @@ export const api = axios.create({
     'Content-type': 'application/json'
   }
 })
+
+api.interceptors.request.use((config) => {
+  toast('Loading...', {
+    toastId: 'APP_LOADING',
+    isLoading: true,
+    position: 'top-right',
+    hideProgressBar: false,
+    closeOnClick: true,
+    autoClose: false,
+    pauseOnHover: true
+  })
+
+  return config
+}, (error) => {
+  return Promise.reject(error)
+})
+
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    toast.dismiss()
+    return response
+  },
   (error) => {
     if (error.response.status === 500) {
       toast.error('Internal Server Error', {
-        position: 'top-center',
-        autoClose: false,
+        position: 'top-right',
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

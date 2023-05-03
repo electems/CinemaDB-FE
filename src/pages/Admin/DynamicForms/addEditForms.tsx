@@ -1,77 +1,72 @@
-import { useState, useMemo } from 'react';
-import { useEffect } from "react";
-import { JsonForms } from '@jsonforms/react';
-// import uischema from './uischema.json';
+import { useState, useEffect } from 'react'
+
+import { JsonForms } from '@jsonforms/react'
+
 import {
   materialCells,
-  materialRenderers,
-} from '@jsonforms/material-renderers';
-import { api } from '../../../services/api';
-import { FormContainer } from '../../../styles/global';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import AdminHeader from '../../../components/AdminHeader';
+  materialRenderers
+} from '@jsonforms/material-renderers'
+import { api } from '../../../services/api'
+import { FormContainer } from '../../../styles/global'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import AdminHeader from '../../../components/AdminHeader'
 
 interface FolderName {
   folderName: string
 }
 
 const AddEditForms = () => {
-  const [data, setData] = useState<any>({});
-  const [schema, setSchemaFormData] = useState<any>();
-  const [uischema, setUIFormData] = useState<any>();
-  const stringifiedData = useMemo(() => JSON.stringify(data, null, 2), [data]);
+  const [data, setData] = useState<any>({})
+  const [schema, setSchemaFormData] = useState<any>()
+  const [uischema, setUIFormData] = useState<any>()
   const { id } = useParams()
   const navigate = useNavigate()
-  let location = useLocation().state as FolderName;
-  const folderName = localStorage.getItem("folderName")as string ;
+  const folderName = (useLocation().state as FolderName).folderName
 
-  
   useEffect(() => {
-    retrieveSchemaForm(folderName);
+    retrieveSchemaForm(folderName)
     retrieveUIForm(folderName)
-     retrieveUserById()
+    retrieveUserById()
   }, [])
 
-  const retrieveSchemaForm  = async (language:string) => {
-    let res =await api.get(`/form/${language}/adduserform`);
+  const retrieveSchemaForm = async (folderName:string) => {
+    const res = await api.get(`/form/${folderName}/adduserform`)
     setSchemaFormData(res.data)
-  };
+  }
 
-  const retrieveUIForm = async (language:string) => {
-    let res =await api.get(`/form/${language}/UIadduser`);
+  const retrieveUIForm = async (folderName:string) => {
+    const res = await api.get(`/form/${folderName}/UIadduser`)
     setUIFormData(res.data)
-  };
+  }
 
   const retrieveUserById = async () => {
-    if(id != undefined){
-      let res =await api.get(`/users/${id}`);
+    if (id != undefined) {
+      const res = await api.get(`/users/${id}`)
       setData(res.data)
-    }    
-  };
+    }
+  }
 
-  
-  const handleCreateandUpdateuser = async () =>{ 
-    if(data.id == null){
-        await api
-          .post("/users/createuser", data)
-          }
-            else{
-                await api
-                .put(`/users/updateuser/${id}`,data)  
-              }     
-      }
-  function handleSaveuser (){
+  const handleCreateandUpdateuser = async () => {
+    if (data.id == null) {
+      await api
+        .post('/users/createuser', data)
+    } else {
+      await api
+        .put(`/users/updateuser/${id}`, data)
+    }
+  }
+  function handleSaveuser () {
     handleCreateandUpdateuser()
-    navigate("/admin/userListing")
+    navigate('/admin/userListing')
   }
 
-  function onClickCancle(){
-    navigate("/admin/userListing")
+  function onClickCancle () {
+    navigate('/admin/userListing')
   }
- 
+
   const renderers = [
-    ...materialRenderers,
-  ];
+    ...materialRenderers
+  ]
 
   return (
     <>
@@ -90,16 +85,16 @@ const AddEditForms = () => {
             />
           </div>
         }
-  <div  className="row">
+  <div className="row">
     <div className= "col-md-6">
     <button id="saveUser" className="btn btn-success mr-4 ">Save</button>
     </div>
     <div className= "col-md-6">
     <button id="cancle" className="btn btn-danger " onClick={onClickCancle}>Cancel</button>
-    </div>  
+    </div>
 </div>
 </FormContainer>
-</> );
-};
+</>)
+}
 
-export default AddEditForms;
+export default AddEditForms
