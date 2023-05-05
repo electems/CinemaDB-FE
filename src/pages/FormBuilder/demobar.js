@@ -5,7 +5,7 @@ import { ReactFormGenerator, ElementStore } from 'react-form-builder2'
 import './form.css'
 import { api } from '../../services/api'
 import { environment } from '../../config/environment'
-
+import { removeSpaceAndSpecialCharacters } from '../../services/filmservices'
 let jsondata = []
 const labelName = localStorage.getItem('selectedLabel')
 const masterLabelFormLabel = localStorage.getItem('masterFormslabel')
@@ -61,26 +61,36 @@ export default class Demobar extends React.Component {
   }
 
   async retriveForms () {
+    const labelpath = await removeSpaceAndSpecialCharacters(labelName)
     const response = await api.get(
-      `form/readfile/${environment.formLayoutPath}/${labelName}/${environment.professionalData}`
+      `form/readfile/${environment.formLayoutPath}/${labelpath}/${environment.professionalData}`
     )
-    if (response) {
+    if (response === undefined) {
+      const masterForm = await api.get(
+        `form/readfile/${environment.masterFormPath}/${masterLabelFormLabel}/${environment.professionalData}`
+      )
+      jsondata = masterForm.data
+    } else {
       jsondata = response.data
     }
-    const masterForm = await api.get(
-      `form/readfile/${environment.masterFormPath}/${masterLabelFormLabel}/${environment.professionalData}`
-    )
-    jsondata = masterForm.data
   }
 
   async _onSubmit () {
     const data = jsondata
     const labelPath = await removeSpaceAndSpecialCharacters(labelName)
-    api.post(
-      `form/writefile/${environment.formLayoutPath}/${labelPath}/${environment.professionalData}`,
-      data
-    )
-    api.delete(`form/deletedirectory/${mainLablePath}`)
+    if (labelPath) {
+      api.post(
+        `form/writefile/${environment.formLayoutPath}/${labelPath}/${environment.professionalData}`,
+        data
+      )
+      api.delete(`form/deletedirectory/${mainLablePath}`)
+    } else {
+      api.post(
+        `form/writefile/${environment.formLayoutPath}/${masterLabelFormLabel}/${environment.professionalData}`,
+        data
+      )
+    }
+
     this.props.history.push('/admin/formlisitng')
   }
 

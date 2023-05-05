@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react'
 import { Img, Input, Text } from '../Elements/index'
 import { CloseSVG } from './index'
@@ -15,7 +16,7 @@ const Header: React.FC<MainHeader> = (props) => {
   const navigate = useNavigate()
 
   const navigateToPreferencePage = () => {
-    navigate('/film/selectPreference')
+    navigate('/film/login/selectpreference')
   }
   return (
     <>

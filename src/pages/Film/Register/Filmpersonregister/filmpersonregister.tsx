@@ -16,7 +16,7 @@ import { DataNode } from 'antd/es/tree'
 import RegistrationHeader from '../../../../components/RegisterationHeader/registrationheader'
 interface InputData {
   phonenumber,
-  type
+  preference
 }
 
 export const FilmPersonRegister: React.FC = () => {
@@ -28,7 +28,6 @@ export const FilmPersonRegister: React.FC = () => {
 
   useEffect(() => {
     retriveMainProfessionalList('mainprofessional', 'professionaldata')
-    
   }, [])
 
   const retriveMainProfessionalList = async (path: string, fileName: string) => {

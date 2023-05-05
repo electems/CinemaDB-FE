@@ -132,16 +132,6 @@ export const EditableAntdTree = ({
         switcherIcon={<div>{switcherIcon}</div>}
         {...props}
       />
-
-      <TextInput
-        value={parentTitleInput}
-        onChange={(value) => setParentTitleInput(value)}
-        className={twMerge(
-          'outline-none p-1 border-none opacity-70 hover:bg-gray-100 focus::bg-gray-50 rounded-sm duration-150 transition-all',
-          sizes[size]
-        )}
-        onEnter={handleCreateParentEnter}
-      />
     </>
   )
 }

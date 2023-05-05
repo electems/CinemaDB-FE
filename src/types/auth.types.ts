@@ -2,8 +2,9 @@ import { DataNode } from 'antd/es/tree'
 
 export interface UserSubCategory{
   id?: number
-  key: string;
-  value: DataNode[]
+  key?: string;
+  // also pushing form array here so i changed the datatype from Datanode[] to any
+  value: any[]
   userId?: string
   createdBy?:string
   updatedBy?:string

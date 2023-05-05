@@ -16,8 +16,11 @@ const ProfessionForms: React.FC = () => {
 
   const retriveDirectories = async (path: string) => {
     const res = await api.get(`form/${path}`)
+    const responseData = JSON.stringify(await res.data)
+    const replaceUnderscoreToSpace = responseData.replaceAll('_', ' ')
+    const parseToJson = JSON.parse(replaceUnderscoreToSpace)
     console.log(res)
-    setDirectoryList(res.data)
+    setDirectoryList(parseToJson)
   }
   const editFormListing = (label: string) => {
     navigate('/admin/connectprofessionandmaster', { state: { label } })
@@ -46,6 +49,7 @@ const ProfessionForms: React.FC = () => {
                      onClick={() => editFormListing(item)}
                      strokeWidth={1.5}
                      color={'#4048bf'}
+                     className='admin-edit-icon contactIcon pointer'
                     />
                   </td>
                 </tr>

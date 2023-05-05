@@ -211,3 +211,32 @@ ul li a {
 .menu-border-bottom {
   border: 1px solid white;
 }
+
+.userlisting-searchbar {
+  margin-left: 35px;
+}
+
+.userlisting-searchbutton {
+  margin-left: 5px;
+}
+
+.admin-edit-icon {
+  margin-left: 20px;
+}
+
+.time-remaining {
+  margin-top: 15px;
+  margin-right: 20px;
+}
+
+.get-otp {
+  margin-left: 90px;
+}
+
+.profession-master-button {
+  margin-top: 15px;
+}
+
+.form-builder-button {
+  background-color: whitesmoke;
+}

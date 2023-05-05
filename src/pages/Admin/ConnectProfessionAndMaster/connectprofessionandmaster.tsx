@@ -5,12 +5,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import './index.css'
 import AdminHeader from '../../../components/AdminHeader'
 import { api } from '../../../services/api'
 import { environment } from '../../../config/environment'
 import { toastify } from '../../../services/filmservices'
-import { Button } from '../../../components/Elements'
 interface InputData {
   label
 }
@@ -19,6 +17,7 @@ const ConnectProfessionAndMaster: React.FC = () => {
   const [selectedMasters, setSelectedMasters] = React.useState([''])
   const [changedOrderMasters, setChangedOrderMasters] = React.useState([''])
   const inputData = useLocation().state as InputData
+  const navigate = useNavigate()
   let index: any
   React.useEffect(() => {
     retriveDirectories(environment.masterFormPath)
@@ -32,8 +31,10 @@ const ConnectProfessionAndMaster: React.FC = () => {
     const parseToJson = JSON.parse(replaceUnderscoreToSpace)
     setMasterTemplateDirectoryList(parseToJson)
   }
+
   const retriveFormlayout = async () => {
-    const res = await api.get(`form/readfile/${environment.formLayoutPath}/${inputData.label}/${environment.professionalData}`)
+    const labelPath = inputData.label.replaceAll(' ', '_')
+    const res = await api.get(`form/readfile/${environment.formLayoutPath}/${labelPath}/${environment.professionalData}`)
     const retriveUserSubcategory = await res.data
     if (retriveUserSubcategory !== 'FILE_NOT_FOUND') {
       setSelectedMasters(retriveUserSubcategory)
@@ -41,6 +42,7 @@ const ConnectProfessionAndMaster: React.FC = () => {
       setSelectedMasters([])
     }
   }
+
   const onChange = (event: React.ChangeEvent<HTMLInputElement>, title: string) => {
     const removeIndex = selectedMasters.indexOf(title)
     if (removeIndex !== -1) {
@@ -49,6 +51,7 @@ const ConnectProfessionAndMaster: React.FC = () => {
     selectedMasters.splice(Number(event.target.value), 0, title)
     setChangedOrderMasters(selectedMasters)
   }
+
   const onValue = (items) => {
     const checkItemContains = selectedMasters.includes(items)
     if (checkItemContains === true) {
@@ -58,9 +61,14 @@ const ConnectProfessionAndMaster: React.FC = () => {
     }
     return index
   }
+
   const saveUserSubCategoryType = async () => {
     await api.post(`form/writefile/${environment.formLayoutPath}/${inputData.label}/${environment.professionalData}`, changedOrderMasters)
     toastify("User Subcategory Type Saved Successfully")
+  }
+
+  function onClickCancel () {
+    navigate('/admin/professionforms')
   }
   return (
     <>
@@ -76,24 +84,24 @@ const ConnectProfessionAndMaster: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {masterTemplateDirectoryList.map((item) => {
-              return (
+            {masterTemplateDirectoryList.length && selectedMasters.length > 0
+              ? masterTemplateDirectoryList.map((item) => {
+                return (
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                   <td>{item}</td>
                   <td>
                     <input type="text" id="nome"className='w-10 gap-4 bg-gray-50 border text-gray-900 text-sm rounded-md' onChange={(e) => onChange(e, item)} defaultValue={onValue(item)}/>
                   </td>
                 </tr>
-              )
-            })}
+                )
+              })
+              : "Data is not available"}
           </tbody>
         </table>
-        <Button
-          className="common-pointer bg-blue_A700 cursor-pointer font-roboto font-semibold leading-[normal] min-w-[1260px] md:min-w-full mt-[34px] py-[29px] rounded-[17px] sm:text-3xl md:text-[32px] text-center text-white_A700 w-auto"
-        onClick={saveUserSubCategoryType}
-        >
-          Submit
-        </Button>
+         <div className="profession-master-button text-center">
+         <button onClick={saveUserSubCategoryType} type="button" className="btn btn-success">Save</button>
+         <button onClick={() => onClickCancel}type="button" className="btn btn-danger ml-3">Cancel</button>
+         </div>
       </div>
     </>
   )

@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { Tooltip } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
-import { AiOutlineSisternode, AiOutlineSubnode, AiOutlineArrowRight, AiOutlineForm} from 'react-icons/ai'
+import { AiOutlineSisternode, AiOutlineSubnode, AiOutlineArrowRight, AiOutlineForm } from 'react-icons/ai'
 import { BiCheck } from 'react-icons/bi'
 import { GrFormClose } from 'react-icons/gr'
 import './styles.css'
@@ -15,6 +15,7 @@ import { deleteTreeNode } from './utils'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../services/api'
 import { BinaryTree } from 'tabler-icons-react'
+
 type EditableTreeTitleProps = {
   treeData: EditableAntdTreeNode[];
   setTreeData: React.Dispatch<React.SetStateAction<EditableAntdTreeNode[]>>;
@@ -138,9 +139,9 @@ export const EditableTreeTitle = ({
     api.post(`/form/writefile/formlayout/${node.title}/professionaldata`)
   }
 
-  const navigateToLevel2 = (title: string) => {
+  const navigateToTree = (title: string) => {
     localStorage.setItem('selectedLabel', title)
-    navigate('/admin/professionaltree')
+    navigate('/admin/professionaltree', { state: { titlePath: title } })
   }
   const navigateToFom = (title: string) => {
     localStorage.setItem('selectedLabel', title)
@@ -176,27 +177,27 @@ export const EditableTreeTitle = ({
     <div className="flex items-center space-x-4">
       {edit
         ? (
-        <div className="flex items-center space-x-1">
-          <TextInput
-            ref={inputRef}
-            value={inputValue}
-            className="outline-none px-2 border-none py-0"
-            onChange={(value) => setInputValue(value)}
-            onEnter={handleUpdateClick}
-          />
-          <div className="flex space-x-0.5">
-            <button onClick={handleUpdateClick}>
-              <BiCheck />
-            </button>
-            <button onClick={() => handleEditToggle(false)}>
-              <GrFormClose />
-            </button>
+          <div className="flex items-center space-x-1">
+            <TextInput
+              ref={inputRef}
+              value={inputValue}
+              className="outline-none px-2 border-none py-0"
+              onChange={(value) => setInputValue(value)}
+              onEnter={handleUpdateClick}
+            />
+            <div className="flex space-x-0.5">
+              <button onClick={handleUpdateClick}>
+                <BiCheck />
+              </button>
+              <button onClick={() => handleEditToggle(false)}>
+                <GrFormClose />
+              </button>
+            </div>
           </div>
-        </div>
-          )
+        )
         : (
-        <span>{node.title as string}</span>
-          )}
+          <span>{node.title as string}</span>
+        )}
       <div
         className={twMerge(
           'space-x-1 flex items-center text-gray-600',
@@ -239,18 +240,18 @@ export const EditableTreeTitle = ({
           <Tooltip title={'Add Form'}>
             <button id='form_icon' onClick={() => navigateToFom(node.title as string)}>
               <AiOutlineForm
-              style={{ marginLeft: 10 }}
-              size={24}/>
+                style={{ marginLeft: 10 }}
+                size={24} />
             </button>
           </Tooltip>
 
         )}
         {source === 'level1' && (
           <Tooltip title={'Add SubIndustry'}>
-            <button id='tree_icon' onClick={() => navigateToLevel2(node.title as string)}>
-            <BinaryTree
-              size={24}
-  />
+            <button id='tree_icon' onClick={() => navigateToTree(node.title as string)}>
+              <BinaryTree
+                size={24}
+              />
             </button>
           </Tooltip>
 

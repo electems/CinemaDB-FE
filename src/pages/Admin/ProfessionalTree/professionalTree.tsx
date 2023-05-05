@@ -6,15 +6,17 @@ import { api } from '../../../services/api'
 import { environment } from '../../../config/environment'
 import { useEffect, useState } from 'react'
 import AdminHeader from '../../../components/AdminHeader'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { EditableAntdTree, EditableAntdTreeNode } from '../../../components/Editablantd/EditableAntdTree'
 import { v4 as uuidv4 } from 'uuid'
 import { removeSpaceAndSpecialCharacters } from '../../../services/filmservices'
-// import "editable-antd-tree/dist/esm/output.css";
-
+interface inputTitle {
+  titlePath: string
+}
 const ProfessionalTree = () => {
   const [lablePath, setLablePath] = useState('')
   const [lable, setLable] = useState('')
+  const titleLabel = (useLocation().state as inputTitle).titlePath
   const [industryCategoryList, setIndustryCategoryList] = useState<EditableAntdTreeNode[]>([])
   const navigate = useNavigate()
   useEffect(() => {
@@ -22,9 +24,9 @@ const ProfessionalTree = () => {
   }, [])
 
   const retrieveProfessionalList = async () => {
-    const mainLabel = localStorage.getItem('selectedLabel') || ''
-    setLable(mainLabel)
-    const labelPath = await removeSpaceAndSpecialCharacters(mainLabel)
+    console.log(titleLabel)
+    setLable(titleLabel)
+    const labelPath = await removeSpaceAndSpecialCharacters(titleLabel)
     setLablePath(labelPath)
 
     const response = await api.get(
@@ -36,7 +38,7 @@ const ProfessionalTree = () => {
       setIndustryCategoryList([
         {
           key: uuidv4(),
-          title: mainLabel,
+          title: titleLabel,
           isLeaf: false,
           children: []
         }
@@ -56,7 +58,7 @@ const ProfessionalTree = () => {
   return (
     <>
       <AdminHeader />
-      <h1 className="title">{lable}</h1>
+      <h1 className="title text-center pt-3">{lable}</h1>
       <br />
       <div>
       {industryCategoryList.length > 0 &&

@@ -48,6 +48,7 @@ const MasterForms: React.FC = () => {
                      onClick={() => editMasterFormListing(item)}
                      strokeWidth={1.5}
                      color={'#4048bf'}
+                     className='admin-edit-icon contactIcon pointer'
                     />
                   </td>
                 </tr>

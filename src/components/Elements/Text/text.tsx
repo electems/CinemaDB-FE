@@ -54,6 +54,7 @@ const variantClasses = {
 export type TextProps = Partial<{
   className: string;
   variant: keyof typeof variantClasses;
+  disabled: boolean;
   as: React.ElementType;
 }> &
   React.DetailedHTMLProps<
@@ -65,6 +66,7 @@ const Text: React.FC<React.PropsWithChildren<TextProps>> = ({
   children,
   className,
   variant,
+  disabled,
   as,
   ...restProps
 }) => {

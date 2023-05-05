@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { api } from '../../../../services/api'
 import AdminHeader from '../../../../components/AdminHeader'
 import { Button } from '../../../../components/Elements'
 import { Edit, Trash } from 'tabler-icons-react'
-import { toast } from 'react-toastify'
 
 interface users {
   id: number;
@@ -19,7 +18,6 @@ interface users {
 
 const UserListing: React.FC = () => {
   const navigate = useNavigate()
-  const token = localStorage.getItem('@cinimaDb:Token')
   const [usersData, setUserData] = useState([])
   const [searchTitles, setSearchTitle] = useState('')
 
@@ -32,11 +30,11 @@ const UserListing: React.FC = () => {
     setUserData(res.data)
   }
 
-  function addUserForm () {
-    navigate('/admin/addForm', { state: { folderName: 'useradminform' } })
+  function addUserForm() {
+    navigate('/admin/addform', { state: { folderName: 'useradminform' } })
   }
-  function editUser (id: number) {
-    navigate('/admin/editForm/' + id, { state: { folderName: 'useradminform' } })
+  function editUser(id: number) {
+    navigate('/admin/editform/' + id, { state: { folderName: 'useradminform' } })
   }
 
   const deleteUser = async (id: number) => {
@@ -62,7 +60,7 @@ const UserListing: React.FC = () => {
       <h3 className="title text-center pt-3">Users Listing</h3>
       <div className="row ">
         <div className="col">
-          <div className="input-group w-50 pt-3">
+          <div className="input-group w-50 pt-3 userlisting-searchbar ">
             <input
               type="text"
               id="searchBar"
@@ -73,7 +71,7 @@ const UserListing: React.FC = () => {
             />
             <div className="input-group-append">
               <button
-                className="btn btn-outline-secondary mr-8"
+                className="btn btn-outline-secondary mr-8 userlisting-searchbutton"
                 id="searchButton"
                 type="button"
                 onClick={() => findByTitle()}
@@ -83,7 +81,7 @@ const UserListing: React.FC = () => {
             </div>
             <div className="float-right">
               <button
-               type='button'
+                type='button'
                 id="addUser"
                 className="float-right btn btn-primary"
                 onClick={addUserForm}
@@ -113,17 +111,17 @@ const UserListing: React.FC = () => {
             {usersData.map((item: users) => {
               return (
                 <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td>{item.firstName}</td>
-                <td>{item.lastName}</td>
-                <td>{item.filmIndustry}</td>
-                <td>{item.email}</td>
-                <td>{item.role}</td>
-                <td>{item.status}</td>
-                <td>
+                  <td>{item.firstName}</td>
+                  <td>{item.lastName}</td>
+                  <td>{item.filmIndustry}</td>
+                  <td>{item.email}</td>
+                  <td>{item.role}</td>
+                  <td>{item.status}</td>
+                  <td>
                     <div id="action" className="row">
                       <div
                         id="editUser"
-                        className="col-md-6 contactIcon pointer "
+                        className="col-md-2 contactIcon pointer"
                       >
                         <Edit
                           size={25}
@@ -133,7 +131,7 @@ const UserListing: React.FC = () => {
                           color={'#4048bf'}
                         />
                       </div>
-                      <div className="col-md-6 contactIcon pointer ">
+                      <div className="col-md-2 contactIcon pointer">
                         <Trash
                           size={25}
                           onClick={() => deleteUser(item.id)}

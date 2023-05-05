@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import { useState, useEffect } from 'react'
 
 import { JsonForms } from '@jsonforms/react'
@@ -42,7 +43,17 @@ const AddEditForms = () => {
   const retrieveUserById = async () => {
     if (id != undefined) {
       const res = await api.get(`/users/${id}`)
-      setData(res.data)
+      const response = await res.data
+      const userById = {
+        firstName: response[0].first_name,
+        lastName: response[0].last_name,
+        email: response[0].email,
+        password: response[0].password,
+        status: response[0].status,
+        filmIndustry: response[0].film_industry,
+        role: response[0].role
+      }
+      setData(userById)
     }
   }
 
@@ -60,7 +71,7 @@ const AddEditForms = () => {
     navigate('/admin/userListing')
   }
 
-  function onClickCancle () {
+  function onClickCancel () {
     navigate('/admin/userListing')
   }
 
@@ -90,7 +101,7 @@ const AddEditForms = () => {
     <button id="saveUser" className="btn btn-success mr-4 ">Save</button>
     </div>
     <div className= "col-md-6">
-    <button id="cancle" className="btn btn-danger " onClick={onClickCancle}>Cancel</button>
+    <button id="cancle" className="btn btn-danger " onClick={onClickCancel}>Cancel</button>
     </div>
 </div>
 </FormContainer>

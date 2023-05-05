@@ -18,13 +18,13 @@ const AdminHeader = () => {
           </Link>
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
-                <NavLink to={'/admin/userListing'} className={({ isActive }) =>
+                <NavLink to={'/admin/userlisting'} className={({ isActive }) =>
                   (isActive ? 'nav-link active menu-border-bottom' : 'nav-link')}>
                   User
                 </NavLink >
               </li>
               <li id="professional" className="nav-item">
-                 <NavLink to={'/admin/professionalListing'} className={({ isActive }) =>
+                 <NavLink to={'/admin/professionallisting'} className={({ isActive }) =>
                    (isActive ? 'nav-link active menu-border-bottom' : 'nav-link')}>
                   Professional
                   </NavLink>

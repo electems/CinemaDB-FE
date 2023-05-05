@@ -1,3 +1,6 @@
+/* eslint-disable no-new-wrappers */
+/* eslint-disable no-undef */
+/* eslint-disable no-import-assign */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable array-callback-return */
@@ -5,6 +8,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react'
+import $ from 'jquery'
 import { api } from '../../../../services/api'
 import { Button, List, Line } from '../../../../components/Elements'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -16,11 +20,14 @@ import { storage } from '../../../../storage/storage'
 import { Key } from 'antd/es/table/interface'
 import { AuthUser } from '../../../../types/auth.types'
 import { getTitleFromTabs, removeSpaceAndSpecialCharacters, toastify } from '../../../../services/filmservices'
-import { toast } from 'react-toastify'
 interface InputData {
   selectedNodes
   breadCrumPathList
 }
+/* const answers = {
+  'text_input_72DEFCA6-3735-487C-9A76-86AF3D021B88': '4444',
+  'text_input_54095680-698C-475B-B90D-06FA6C066895': '2222'
+} */
 
 let renderTabsOfSelectedNodes = []
 export const SelectedIndustry: React.FC = () => {
@@ -32,10 +39,10 @@ export const SelectedIndustry: React.FC = () => {
   const [selectedNodes, setSelectedNodes] = React.useState<any[]>([])
   const [checkedkeys, setCheckedKeys] = React.useState<Key[]>()
   const [selectedTabKey, setSelectedTabKey] = useState('')
+
   const [currentUser, setCurrentUser] = useState<AuthUser>(storage.getLoggedUser())
   const navigate = useNavigate()
   const selectedTabIndex = 0
-
   let path = inputData.selectedNodes[selectedTabIndex].title
   useEffect(() => {
     renderTabs()
@@ -67,9 +74,19 @@ export const SelectedIndustry: React.FC = () => {
       if (currentUser.userSubCategory) {
         const currentSubCategories = currentUser.userSubCategory.find(element => element.key === key)
         if (currentSubCategories) {
-          currentSubCategories.value.map((item) => {
-            setformData(item as unknown as any[])
+          setformData(currentSubCategories.value)
+        } else {
+          const subUserIndustry = await api.post('users/createUserSubCategory', {
+            key,
+            value: [],
+            userId: currentUser.id,
+            createdBy: currentUser.userName,
+            updatedBy: currentUser.userName
           })
+
+          if (subUserIndustry) {
+            currentUser.userSubCategory.push(subUserIndustry.data)
+          }
         }
       }
     } else { // Do tree
@@ -84,8 +101,8 @@ export const SelectedIndustry: React.FC = () => {
         }
       }
       setCheckedKeys(tempIndustrySelection)
-      setSelectedTabKey(key)
     }
+    setSelectedTabKey(key)
   }
 
   const loadSubCategory = () => {
@@ -108,7 +125,7 @@ export const SelectedIndustry: React.FC = () => {
     setCurrentUser(currentUser)
   }
 
-  const saveLevel2SelectededIndustry = async () => {
+  const submitIndustrySelection = async () => {
     loadSubCategory()
     currentUser.step = '/film/register/selectedindustry'
     delete currentUser.token
@@ -120,8 +137,16 @@ export const SelectedIndustry: React.FC = () => {
     })
     api.put(`users/updateuser/${currentUser.id}`, currentUser)
     api.post('users/userAndUserSubCategory', currentUser)
-    
-    navigate('/film/register/subcategoryuserForm', { state: { user: currentUser } })
+
+    navigate('/film/register/subcategoryuserform', { state: { user: currentUser } })
+  }
+
+  const saveLevel2SelectededIndustry = async () => {
+    if (selectedNodes.length !== 0) {
+      await submitIndustrySelection()
+    } else {
+      $('#formGeneratorSubmit').click()
+    }
   }
   const onCheck = (selectedRow, selected) => {
     console.log(selected.checkedNodes)
@@ -132,6 +157,28 @@ export const SelectedIndustry: React.FC = () => {
     const tabs = getTitleFromTabs(key, renderTabsOfSelectedNodes)
     path = tabs
     loadDataFromBE(key)
+  }
+
+  const handleFormSubmit = (data) => {
+    delete currentUser.token
+    delete currentUser.otp
+    currentUser.userSubCategory.map((item) => {
+      delete item.createdAt
+      delete item.updatedAt
+    })
+    if (currentUser.userSubCategory) {
+      const currentSubCategories = currentUser.userSubCategory.find(element => element.key === selectedTabKey)
+      if (currentSubCategories) {
+        currentSubCategories.value = currentSubCategories.value.slice(currentSubCategories.value.length, currentSubCategories.value.length)
+        data.map((items) => {
+          currentSubCategories.key = selectedTabKey
+          currentSubCategories.userId = currentUser.id
+          currentSubCategories.value.push(items)
+        })
+      }
+    }
+    console.log(currentUser.userSubCategory)
+    api.post('users/userAndUserSubCategory', currentUser)
   }
   return (
     <>
@@ -169,7 +216,7 @@ export const SelectedIndustry: React.FC = () => {
                 }
               </div>
 
-              <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start my-0 w-[93%] md:w-full">
+              <div className="pr-5">
                 {formGeneratorData.length > 0 &&
                   <ReactFormGenerator
                     back_action=""
@@ -177,7 +224,8 @@ export const SelectedIndustry: React.FC = () => {
                     answer_data={ formData }
                     form_method="POST"
                     data={formGeneratorData}
-                    onSubmit={loadSubCategory}
+                    onSubmit={handleFormSubmit}
+                    submitButton={<button type="submit" id="formGeneratorSubmit" className="form-builder-button"> </button>}
                   />
                 }
               </div>

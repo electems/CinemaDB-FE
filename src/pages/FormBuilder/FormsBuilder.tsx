@@ -28,8 +28,6 @@ class FormsBuilder extends Component<Props, State> {
   }
 
   componentDidMount (): void {
-    this.retriveForms()
-    this.onLoad()
   }
 
   formId = ''
@@ -61,7 +59,7 @@ class FormsBuilder extends Component<Props, State> {
       <div className="App">
         <AdminHeader />
         <Demobar variables={variable} />
-        <ReactFormBuilder url="./editor.json" onLoad={this.onLoad} />,
+        <ReactFormBuilder/>,
       </div>
     )
   }
