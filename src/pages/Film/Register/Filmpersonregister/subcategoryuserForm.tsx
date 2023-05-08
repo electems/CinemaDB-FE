@@ -1,3 +1,6 @@
+/* eslint-disable prefer-const */
+/* eslint-disable react/jsx-key */
+/* eslint-disable no-undef */
 /* eslint-disable no-tabs */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
@@ -14,6 +17,7 @@ import { Tabs } from 'antd'
 import { ReactFormGenerator } from 'react-form-builder2'
 import RegistrationHeader from '../../../../components/RegisterationHeader/registrationheader'
 import { getTitleFromTabs } from '../../../../services/filmservices'
+import { ISubCategoryUserForm } from '../../../../types/subcategoryuserform.type'
 interface InputData {
     user
     selectednodes
@@ -22,16 +26,15 @@ interface Tab {
   key: string;
   label: string
 }
-
 const displayTabs: Tab[] = []
+let renderTabsOfSelectedNodes: any = []
 let currentSubCategoryType: any
 let currentSubCategory: string = ''
 export const SubCategoryUserForm: React.FC = () => {
   const inputData = useLocation().state as InputData
   const [selectedMastersOfTheCurrentSubCategory, setSelectedMastersOfTheCurrentSubCategory] = React.useState([])
-  const [formGeneratorLayoutOfSelectedTabAndType, setFormGeneratorLayoutOfSelectedTabAndType] = React.useState()
+  const [retriveForm, setRetriveForm] = React.useState()
   const [formUserProfessionData, setFormUserProfessionData] = React.useState<any[]>([])
-
   useEffect(() => {
     retriveTabs()
   }, [])
@@ -45,6 +48,10 @@ export const SubCategoryUserForm: React.FC = () => {
           label: item.title
         })
       })
+      /* whenever i come to this page from previous page dispalytab gets pushed of tabs its empty and then getting pushed
+      its not rendering on the 1st click i want go to previous page and come back so i added to this renderTabsOfSelectedNodes variable
+      bow working fine */
+      renderTabsOfSelectedNodes = displayTabs
     })
     currentSubCategory = displayTabs[0].label
     loadSubCategoryTypes(currentSubCategory)
@@ -60,40 +67,42 @@ export const SubCategoryUserForm: React.FC = () => {
   }
   // load both tabs at same time
   const loadFormGeneratorAndUserProfessionData = async (currentSubCategory, currentSubCategoryType) => {
+    currentSubCategoryType = currentSubCategoryType.replaceAll(' ', '_')
     const formGeneratorLayoutOfSelectedTabAndType = await api.get(`form/readfile/mastertemplates/${currentSubCategoryType}/${environment.professionalData}`)
-    setFormGeneratorLayoutOfSelectedTabAndType(await formGeneratorLayoutOfSelectedTabAndType.data)
+    setFormUserProfessionData(await formGeneratorLayoutOfSelectedTabAndType.data)
     const formUserProfessionData = await api.get(`userprofession/formdata/${inputData.user.id}/${currentSubCategory}/${currentSubCategoryType}`)
-    setFormUserProfessionData(await formUserProfessionData.data)
+    setRetriveForm(await formUserProfessionData.data)
   }
 
   // vertical bar onclick
-  /* Here i cant able to get the title of tab so i will use key and call (getTitleFromTabs) which is in
- ile service file */
-  const onClickOfSubCategoryType = (selectedSubCategoryType : string) => {
-    currentSubCategoryType = selectedSubCategoryType
+  const onClickOfSubCategoryType = (selectedTab: string) => {
+    currentSubCategoryType = selectedTab
     loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
   }
   // horizontal bar on click
   /* Here i cant able to get the title of tab so i will use key and call (getTitleFromTabs) which is in
  ile service file */
-  const onClickOfSubCategoryTab = (selectedSubCategory : string) => {
-    currentSubCategory = selectedSubCategory
+  const onClickOfSubCategoryTab = (key : string) => {
+    console.log(key)
+    const title = getTitleFromTabs(key, renderTabsOfSelectedNodes)
+    console.log(title)
+    currentSubCategory = title
     loadSubCategoryTypes(currentSubCategory)
     currentSubCategoryType = selectedMastersOfTheCurrentSubCategory[0]
     loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
   }
 
   // on save should call post api
-  const onClickOfSave = () => {
-    if (formUserProfessionData === undefined) {
-      formUserProfessionData.userId = inputData.user.id,
-      formUserProfessionData.subCategory = currentSubCategory,
-      formUserProfessionData.subCategoryType = currentSubCategoryType
-
-      // formdatajson - is value from submit of form
-      formUserProfessionData.value = formDataJson
-      api.post('userprofession/formdata​​​​', formUserProfessionData)
+  const onClickOfSave = (data) => {
+    /* here i am not using if condition retriveForm because for retriveing i need both tabs index now left bar
+    i used list for test */
+    const subCategoryForm: ISubCategoryUserForm = {
+      userId: inputData.user.id,
+      subCategory: currentSubCategory,
+      subCategoryType: currentSubCategoryType,
+      value: data
     }
+    api.post('userprofession/createform/formdata', subCategoryForm)
   }
   return (
     <>
@@ -105,10 +114,13 @@ export const SubCategoryUserForm: React.FC = () => {
           <div className="flex items-center justify-start w-[74%] md:w-full">
             <div className="flex flex-col items-center justify-start w-full">
               <div className="flex md:flex-col items-start w-full">
-                 <Tabs defaultActiveKey="1" items={displayTabs}/>
+                 <Tabs defaultActiveKey="1" items={renderTabsOfSelectedNodes} onChange={onClickOfSubCategoryTab}/>
               </div>
               <div className="h-[3px] relative w-full">
               </div>
+              <div>
+   {selectedMastersOfTheCurrentSubCategory.map(tab => <li onClick={() => onClickOfSubCategoryType(tab)}key={tab}>{tab}</li>)}
+  </div>
             </div>
           </div>
         </div>
@@ -129,6 +141,7 @@ export const SubCategoryUserForm: React.FC = () => {
                     form_action=""
                     form_method="POST"
                     data={formUserProfessionData}
+                    onSubmit={onClickOfSave}
                   />
                   }
               </div>
