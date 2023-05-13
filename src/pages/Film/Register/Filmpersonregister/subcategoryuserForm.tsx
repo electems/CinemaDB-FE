@@ -1,3 +1,5 @@
+/* eslint-disable object-shorthand */
+/* eslint-disable no-sequences */
 /* eslint-disable prefer-const */
 /* eslint-disable react/jsx-key */
 /* eslint-disable no-undef */
@@ -9,18 +11,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect } from 'react'
+import $ from 'jquery'
 import { api } from '../../../../services/api'
-import { Button, List } from '../../../../components/Elements'
-import { useLocation } from 'react-router-dom'
+import { Button, Img, List, Text } from '../../../../components/Elements'
+import { useLocation, useParams } from 'react-router-dom'
 import { environment } from '../../../../config/environment'
 import { Tabs } from 'antd'
+import './style'
 import { ReactFormGenerator } from 'react-form-builder2'
-import RegistrationHeader from '../../../../components/RegisterationHeader/registrationheader'
 import { getTitleFromTabs } from '../../../../services/filmservices'
 import { ISubCategoryUserForm } from '../../../../types/subcategoryuserform.type'
 interface InputData {
-    user
-    selectednodes
+  user
+  selectednodes
+  userObject
 }
 interface Tab {
   key: string;
@@ -30,15 +34,39 @@ const displayTabs: Tab[] = []
 let renderTabsOfSelectedNodes: any = []
 let currentSubCategoryType: any
 let currentSubCategory: string = ''
+let response = []
+let loadDataFromBackend :any = []
+let userId: string
 export const SubCategoryUserForm: React.FC = () => {
   const inputData = useLocation().state as InputData
   const [selectedMastersOfTheCurrentSubCategory, setSelectedMastersOfTheCurrentSubCategory] = React.useState([])
-  const [retriveForm, setRetriveForm] = React.useState()
   const [formUserProfessionData, setFormUserProfessionData] = React.useState<any[]>([])
+  const [formGeneratorLayoutOfSelectedTabAndType, setFormGeneratorLayoutOfSelectedTabAndType] = React.useState<any[]>([])
   useEffect(() => {
-    retriveTabs()
+    if (inputData.userObject) {
+      userId = inputData.userObject.id
+      retriveTabsForPenMan()
+    } else {
+      userId = inputData.user.id
+      retriveTabs()
+    }
   }, [])
-
+  const retriveTabsForPenMan = async () => {
+    const userdata = inputData.userObject
+    userdata.usersubcategory.map((item) => {
+      item.value.map((item) => {
+        displayTabs.push({
+          key: item.key,
+          label: item.title
+        })
+      })
+      renderTabsOfSelectedNodes = displayTabs
+    })
+    currentSubCategory = displayTabs[0].label
+    await loadSubCategoryTypes(currentSubCategory)
+    currentSubCategoryType = response[0]
+    await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
+  }
   const retriveTabs = async () => {
     const userdata = inputData.user
     userdata.userSubCategory.map((item) => {
@@ -54,103 +82,124 @@ export const SubCategoryUserForm: React.FC = () => {
       renderTabsOfSelectedNodes = displayTabs
     })
     currentSubCategory = displayTabs[0].label
-    loadSubCategoryTypes(currentSubCategory)
-    currentSubCategoryType = selectedMastersOfTheCurrentSubCategory[0]
+    await loadSubCategoryTypes(currentSubCategory)
+    currentSubCategoryType = response[0]
+    await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
   }
   // load vertical menu
-  /* for the vertical menu same antd component to render it we want both key and label as per
- the documentation like same as the tab bar but should change the position */
-  // https://stackblitz.com/run?file=demo.tsx
   const loadSubCategoryTypes = async (currentSubCategory) => {
     const selectedMastersOfTheCurrentSubCategory = await api.get(`form/readfile/formlayout/${currentSubCategory}/${environment.professionalData}`)
-    setSelectedMastersOfTheCurrentSubCategory(await selectedMastersOfTheCurrentSubCategory.data)
+    response = await selectedMastersOfTheCurrentSubCategory.data
+    console.log(response)
+    setSelectedMastersOfTheCurrentSubCategory(response)
   }
   // load both tabs at same time
   const loadFormGeneratorAndUserProfessionData = async (currentSubCategory, currentSubCategoryType) => {
-    currentSubCategoryType = currentSubCategoryType.replaceAll(' ', '_')
-    const formGeneratorLayoutOfSelectedTabAndType = await api.get(`form/readfile/mastertemplates/${currentSubCategoryType}/${environment.professionalData}`)
-    setFormUserProfessionData(await formGeneratorLayoutOfSelectedTabAndType.data)
-    const formUserProfessionData = await api.get(`userprofession/formdata/${inputData.user.id}/${currentSubCategory}/${currentSubCategoryType}`)
-    setRetriveForm(await formUserProfessionData.data)
+    const currentSubCategoryTypePath = currentSubCategoryType.replaceAll(' ', '_')
+    const formGeneratorLayoutOfSelectedTabAndType = await api.get(`form/readfile/mastertemplates/${currentSubCategoryTypePath}/${environment.professionalData}`)
+    const response = await formGeneratorLayoutOfSelectedTabAndType.data
+    setFormGeneratorLayoutOfSelectedTabAndType(response)
+    const formUserProfessionData = await api.get(`userprofession/formdata/${userId}/${currentSubCategory}/${currentSubCategoryTypePath}`)
+    loadDataFromBackend = await formUserProfessionData.data
+    if (loadDataFromBackend.length > 0) {
+      setFormUserProfessionData(loadDataFromBackend)
+    }
   }
 
   // vertical bar onclick
-  const onClickOfSubCategoryType = (selectedTab: string) => {
+  const onClickOfSubCategoryType = async (selectedTab: string) => {
     currentSubCategoryType = selectedTab
-    loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
+    await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
   }
   // horizontal bar on click
-  /* Here i cant able to get the title of tab so i will use key and call (getTitleFromTabs) which is in
- ile service file */
-  const onClickOfSubCategoryTab = (key : string) => {
-    console.log(key)
+  const onClickOfSubCategoryTab = async (key: string) => {
     const title = getTitleFromTabs(key, renderTabsOfSelectedNodes)
-    console.log(title)
     currentSubCategory = title
-    loadSubCategoryTypes(currentSubCategory)
-    currentSubCategoryType = selectedMastersOfTheCurrentSubCategory[0]
-    loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
+    await loadSubCategoryTypes(currentSubCategory)
+    currentSubCategoryType = response[0]
+    setFormUserProfessionData([])
+    await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
   }
 
   // on save should call post api
   const onClickOfSave = (data) => {
-    /* here i am not using if condition retriveForm because for retriveing i need both tabs index now left bar
-    i used list for test */
-    const subCategoryForm: ISubCategoryUserForm = {
-      userId: inputData.user.id,
+    const subCategoryUserForm: ISubCategoryUserForm = {
+      userId: userId,
       subCategory: currentSubCategory,
       subCategoryType: currentSubCategoryType,
       value: data
     }
-    api.post('userprofession/createform/formdata', subCategoryForm)
+    if (formUserProfessionData.length === 0) {
+      subCategoryUserForm
+    } else {
+      subCategoryUserForm.id = loadDataFromBackend[0].id
+      subCategoryUserForm
+    }
+
+    api.post('userprofession/createform/formdata', subCategoryUserForm)
   }
+  const onClickOfSumbit = () => {
+    $('#formGeneratorSubmit').click()
+  }
+
   return (
     <>
-   <div className="bg-white_A700 flex flex-col items-center justify-start mx-auto pb-7 w-full">
-        <div className="bg-bluegray_101 flex font-montserrat sm:px-5 shadow-bs w-full">
-          <RegistrationHeader/>
-        </div>
-        <div className="flex font-montserrat items-start mt-[10px] md:px-10 sm:px-5 px-[78px] w-full">
-          <div className="flex items-center justify-start w-[74%] md:w-full">
-            <div className="flex flex-col items-center justify-start w-full">
-              <div className="flex md:flex-col items-start w-full">
-                 <Tabs defaultActiveKey="1" items={renderTabsOfSelectedNodes} onChange={onClickOfSubCategoryTab}/>
-              </div>
-              <div className="h-[3px] relative w-full">
-              </div>
-              <div>
-   {selectedMastersOfTheCurrentSubCategory.map(tab => <li onClick={() => onClickOfSubCategoryType(tab)}key={tab}>{tab}</li>)}
-  </div>
-            </div>
+      <div className="">
+        <div className="row">
+          <div className="col-6 col-md-4 mt-5">
+            {selectedMastersOfTheCurrentSubCategory.map((item) => {
+              return (
+                <div className="flex items-center justify-start mt-[10px] mx-auto w-[89%]">
+                  <div onClick={() => onClickOfSubCategoryType(item)} className="bg-white_A700 border border-amber_A400 border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full">
+
+                    {item}
+                  </div>
+                </div>
+              )
+            })}
           </div>
-        </div>
-        <div className="bg-white_A700 border border-gray_200 border-solid flex font-montserrat items-center justify-end max-w-[1320px] mt-3 mx-auto rounded w-full">
-          <div className=" w-[99%] md:w-full">
-            <List
-              className="flex-col gap-[25px] grid items-start self-stretch w-auto md:w-full"
-              orientation="horizontal"
-            >
-
-              <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start my-0 w-[93%] md:w-full">
+          <div className="col">
+            <div className="row mt-5 tab-label">
+              <Tabs defaultActiveKey="1" items={renderTabsOfSelectedNodes} onChange={onClickOfSubCategoryTab} />
+            </div>
+            <div className="row" >
+              <div className="bg-white_A700 border border-gray_200 border-solid flex font-roboto items-center justify-end p-3 w-full">
+                <div className="flex flex-col gap-14 justify-start mb-1 mt-4 w-[99%] md:w-full">
+                  <div className="flex items-center justify-start w-full">
+                    <div className="justify-start w-full">
+                      <div className='margin-top'>
+                      {formGeneratorLayoutOfSelectedTabAndType.length > 0 &&
+                        <ReactFormGenerator
+                          back_action=""
+                          form_action=""
+                          answer_data={formUserProfessionData}
+                          form_method="POST"
+                          data={formGeneratorLayoutOfSelectedTabAndType}
+                          onSubmit={onClickOfSave}
+                          submitButton={<button type="submit" id="formGeneratorSubmit" className="form-builder-button"> </button>}
+                        />
+                      }
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex sm:flex-col flex-row font-poppins gap-[25px] items-center justify-end ml-auto w-[44%] md:w-full">
+                    <button className="border border-gray_400 border-solid capitalize cursor-pointer font-semibold leading-[normal] min-w-[139px] py-[13px] rounded-[5px] sm:text-[17.62px] md:text-[19.62px] text-[21.62px] text-center text-indigo_900 tracking-[1.73px] w-auto">
+                      Reset
+                    </button>
+                    <div className="flex items-center justify-center self-stretch w-auto">
+                      <button className="border border-gray_400 border-solid capitalize cursor-pointer font-semibold leading-[normal] min-w-[139px] py-[13px] rounded-[5px] sm:text-[17.62px] md:text-[19.62px] text-[21.62px] text-center text-indigo_900 tracking-[1.73px] w-auto">
+                        cancel
+                      </button>
+                    </div>
+                    <button onClick={onClickOfSumbit}
+                      className="bg-red_A700 capitalize font-semibold h-[59px] justify-center pl-5 sm:pr-5 pr-8 py-[13px] rounded-[5px] text-center text-white_A700 tracking-[1.73px] w-[113px]"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
               </div>
-
-              <div className="flex md:flex-col flex-row md:gap-5 items-center justify-start my-0 w-[93%] md:w-full">
-                 {formUserProfessionData.length > 0 &&
-                    <ReactFormGenerator
-                    back_action=""
-                    form_action=""
-                    form_method="POST"
-                    data={formUserProfessionData}
-                    onSubmit={onClickOfSave}
-                  />
-                  }
-              </div>
-            </List>
-            <Button
-            className="bg-red_A700 cursor-pointer font-roboto font-semibold leading-[normal] min-w-[1250px] md:min-w-full mt-4 py-[29px] rounded-[17px] sm:text-3xl md:text-[32px] text-[34px] text-center text-white_A700 w-auto"
-          >
-            Submit
-          </Button>
+            </div>
           </div>
         </div>
       </div>
