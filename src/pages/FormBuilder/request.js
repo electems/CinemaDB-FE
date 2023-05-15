@@ -1,23 +1,23 @@
-import fetch from "isomorphic-fetch";
+/* eslint-disable no-undef */
+import fetch from 'isomorphic-fetch'
 
 const headers = {
-  Accept: "application/json",
-  "Content-Type": "application/json; charset=utf-8",
-  OPTIONS: "",
-};
-
-export async function post(url, data) {
-  url = "http://localhost:3001/form/EN/shashiform";
-  return fetch(await url, {
-    method: "POST",
-    headers,
-    body: JSON.stringify(data),
-  }).then((response) => response);
+  Authorization: `Bearer ${localStorage.getItem('@cinimaDb:Token')}`,
+  'Content-type': 'application/json'
 }
 
-export async function get(url) {
-  return fetch(url, {
-    method: "GET",
+export async function post (url, data) {
+  url = 'http://localhost:3001/form/EN/shashiform'
+  return fetch(await url, {
+    method: 'POST',
     headers,
-  }).then((response) => response.json());
+    body: JSON.stringify(data)
+  }).then((response) => response)
+}
+
+export async function get (url) {
+  return fetch(url, {
+    method: 'GET',
+    headers
+  }).then((response) => response.json())
 }

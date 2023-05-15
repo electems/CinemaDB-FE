@@ -11,18 +11,17 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Img, Text, Input, Button, Line } from '../../../components/Elements'
 import { toastify } from '../../../services/filmservices'
 import { Radio, Space } from 'antd'
-const error = new Error()
 
 interface types {
   preference
 }
 export const LoginRegisterForm: React.FC = () => {
   const [namePhoneNumber, setNamePhoneNumber] = React.useState('')
+  const [seconds, setSeconds] = useState(15)
   const [otpNumber, setOTPNumber] = React.useState('')
-  const userObj = storage.getUser()
+  const [activateTimer, setActivateTimer] = React.useState(false)
   const preference = useLocation().state as types
   const navigate = useNavigate()
-  const type = localStorage.getItem('type')
   const sendPreference = preference.preference
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNamePhoneNumber(event.target.value)
@@ -34,8 +33,22 @@ export const LoginRegisterForm: React.FC = () => {
   const handleInputChangeOtp = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOTPNumber(event.target.value)
   }
+  const interval = setInterval(() => {
+    if (seconds > 0) {
+      setSeconds(seconds - 1)
+    }
 
+    if (seconds === 0) {
+      setActivateTimer(false)
+      clearInterval(interval)
+    }
+    return () => {
+      clearInterval(interval)
+      setActivateTimer(false)
+    }
+  }, 1000)
   const generateOTP = async () => {
+    setActivateTimer(true)
     const userNamePhoneNumber = namePhoneNumber
     await toastify('OTP Sent Successfully')
     const response = await api.get(`/auth/otp/${userNamePhoneNumber}`)
@@ -55,7 +68,7 @@ export const LoginRegisterForm: React.FC = () => {
     const loggedUser = storage.getLoggedUser()
     localStorage.setItem('@cinimaDb:Token', response.data.token)
 
-    if (type === 'PERSON') {
+    if (loggedUser.role === 'PERSON') {
       if (loggedUser.step === '/film/register/filmpersonregister' ||
           !loggedUser.step) {
         // step2
@@ -73,6 +86,8 @@ export const LoginRegisterForm: React.FC = () => {
           }
         })
       }
+    } else if (loggedUser.role === 'LOVER') {
+      navigate('/film/register/cinemafansforms', { state:  loggedUser })
     }
   }
   return (
@@ -91,6 +106,14 @@ export const LoginRegisterForm: React.FC = () => {
           >
             Login / Register
           </Text>
+          <div className="countdown-text">
+          {seconds > 0 && activateTimer === true
+            ? <p>
+          Time Remaining:
+          {seconds < 10 ? `0${seconds}` : seconds }
+        </p>
+            : ''}
+                  </div>
           <div className="flex flex-col items-center justify-start w-full">
             <div className=" h-[311px] relative w-full">
               <input onChange={handleInputChange} placeholder="Enter Number Or Email" className="absolute border placeholder:text-gray_900 pl-[30px] `border-solid border-white_A700 flex inset-x-[0] items-start justify-end mx-auto p-[10px] sm:px-5 rounded-[10px] top-[0] w-full">

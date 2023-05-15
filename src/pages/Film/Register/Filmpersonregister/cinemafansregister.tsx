@@ -11,64 +11,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect } from 'react'
-import $ from 'jquery'
 import { api } from '../../../../services/api'
-import { Button, Img, List, Text } from '../../../../components/Elements'
-import { useLocation, useParams } from 'react-router-dom'
 import { environment } from '../../../../config/environment'
-import { Tabs } from 'antd'
 import './style'
 import { ReactFormGenerator } from 'react-form-builder2'
-import { getTitleFromTabs } from '../../../../services/filmservices'
 import { ISubCategoryUserForm } from '../../../../types/subcategoryuserform.type'
+import { useLocation } from 'react-router-dom'
 import Accordion from 'react-bootstrap/Accordion'
-interface InputData {
-  user
-  selectednodes
-  userObject
-}
-interface Tab {
-  key: string;
-  label: string
-}
 
-const displayTabs: Tab[] = []
-let renderTabsOfSelectedNodes: any = []
+interface InputData{
+    loggedUser
+}
 let currentSubCategoryType: any
-let currentSubCategory: string = ''
-let userId: string
-
-export const SubCategoryUserForm: React.FC = () => {
-  // let formUserProfessionData = React.useRef([])
-  const inputData = useLocation().state as InputData
+export const CinemaFansForm: React.FC = () => {
   const [selectedMastersOfTheCurrentSubCategory, setSelectedMastersOfTheCurrentSubCategory] = React.useState([])
-  const [formUserProfessionData, setFormUserProfessionData] = React.useState<any[]>([])
+  const [cinemaFansForm, setCinemaFansForm] = React.useState<any[]>([])
   const [active, setActive] = React.useState(false)
   const [selectedIndex, setSelectedIndex] = React.useState()
-  const [formGeneratorLayoutOfSelectedTabAndType, setFormGeneratorLayoutOfSelectedTabAndType] = React.useState<any[]>([])
+  const [formGeneratorLayoutOfRoleAndType, setFormGeneratorLayoutOfRoleAndType] = React.useState<any[]>([])
+  const inputData = useLocation().state as InputData
   useEffect(() => {
-    userId = inputData.user.id
     retriveTabs()
   }, [])
 
   const retriveTabs = async () => {
-    const userdata = inputData.user
-    userdata.userSubCategory.map((item) => {
-      item.value.map((item) => {
-        displayTabs.push({
-          key: item.key,
-          label: item.title
-        })
-      })
-      /* whenever i come to this page from previous page dispalytab gets pushed of tabs its empty and then getting pushed
-      its not rendering on the 1st click i want go to previous page and come back so i added to this renderTabsOfSelectedNodes variable
-      bow working fine */
-      renderTabsOfSelectedNodes = displayTabs
-    })
-    currentSubCategory = displayTabs[0].label
-    const types = await loadSubCategoryTypes(currentSubCategory)
+    const types = await loadSubCategoryTypes('Cinema Fans')
     currentSubCategoryType = types[0]
-    await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
+    await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.role)
   }
   // load vertical menu
   const loadSubCategoryTypes = async (currentSubCategory) => {
@@ -77,20 +46,20 @@ export const SubCategoryUserForm: React.FC = () => {
     setSelectedMastersOfTheCurrentSubCategory(response)
     return response
   }
-  // load both tabs at same time
-  const loadFormGeneratorAndUserProfessionData = async (currentSubCategory, currentSubCategoryType) => {
+  // load left menu and form
+  const loadFormGeneratorAndUserProfessionData = async (currentSubCategoryType, userRole) => {
     const currentSubCategoryTypePath = currentSubCategoryType ? currentSubCategoryType.replaceAll(' ', '_') : ''
 
     // fetch form layout
-    const formGeneratorLayoutOfSelectedTabAndType = await api.get(`form/readfile/mastertemplates/${currentSubCategoryTypePath}/${environment.professionalData}`)
+    const formGeneratorLayoutOfSelectedTabAndType = await api.get(`form/mastertemplatereadfile/mastertemplates/Cinema_Fans/${currentSubCategoryTypePath}/${environment.professionalData}`)
     const response = await formGeneratorLayoutOfSelectedTabAndType.data
-    setFormGeneratorLayoutOfSelectedTabAndType(response)
+    setFormGeneratorLayoutOfRoleAndType(response)
 
     // fetch user form data.
-    const formProfessionData = await api.get(`userprofession/formdata/${userId}/${currentSubCategory}/${currentSubCategoryType}`)
+    const formProfessionData = await api.get(`userprofession/formdata/${inputData.id}/${userRole}/${currentSubCategoryType}`)
     const loadDataFromBackend = await formProfessionData.data
     if (loadDataFromBackend && loadDataFromBackend.length > 0) {
-      setFormUserProfessionData(loadDataFromBackend)
+      setCinemaFansForm(loadDataFromBackend)
     }
   }
 
@@ -99,23 +68,14 @@ export const SubCategoryUserForm: React.FC = () => {
     setActive(!active)
     setSelectedIndex(i)
     currentSubCategoryType = selectedTab
-    await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
-  }
-  // horizontal bar on click
-  const onClickOfSubCategoryTab = async (key: string) => {
-    const title = getTitleFromTabs(key, renderTabsOfSelectedNodes)
-    currentSubCategory = title
-    const types = await loadSubCategoryTypes(currentSubCategory)
-    currentSubCategoryType = types[0]
-    setFormUserProfessionData([])
-    await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
+    await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.role)
   }
 
   // on save should call post api
   const onClickOfSave = async (data, pk?) => {
     const subCategoryUserForm: ISubCategoryUserForm = {
-      userId: userId,
-      subCategory: currentSubCategory,
+      userId: inputData.id,
+      subCategory: inputData.role,
       subCategoryType: currentSubCategoryType,
       value: data
     }
@@ -126,14 +86,9 @@ export const SubCategoryUserForm: React.FC = () => {
     api.post('userprofession/createform/formdata', subCategoryUserForm)
   }
 
-  const onClickOfAddNewMovie = async () => {
-    await onClickOfSave([])
-    await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
-  }
-
   return (
     <>
-      <div className="">
+      <div className="accordion">
         <div className="row">
           <div className="col-6 col-md-4 mt-5">
             {selectedMastersOfTheCurrentSubCategory.map((item, i) => {
@@ -149,12 +104,14 @@ export const SubCategoryUserForm: React.FC = () => {
           </div>
           <div className="col">
             <div className="row mt-5 tab-label">
-              <Tabs defaultActiveKey="1" items={renderTabsOfSelectedNodes} onChange={onClickOfSubCategoryTab} />
             </div>
-            <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add New Movie</button>
-            {formUserProfessionData.length > 0 && formGeneratorLayoutOfSelectedTabAndType.length > 0 &&
-              formUserProfessionData.map((record: any, i) => {
-                return (
+            <Accordion defaultActiveKey="0">
+              <Accordion.Item eventKey="0">
+              <Accordion.Header>{currentSubCategoryType}</Accordion.Header>
+              <Accordion.Body>
+                {cinemaFansForm.length > 0
+                  ? cinemaFansForm.map((record: any, i) => {
+                    return (
                   <><div>{record.value[0]?.value}</div>
                     <div>
                       <ReactFormGenerator
@@ -162,7 +119,7 @@ export const SubCategoryUserForm: React.FC = () => {
                         form_action=""
                         answer_data={record.value}
                         form_method="POST"
-                        data={formGeneratorLayoutOfSelectedTabAndType}
+                        data={formGeneratorLayoutOfRoleAndType}
                         onSubmit={(data) => onClickOfSave(data, record.id)}
                         submitButton={
                           <div className="flex sm:flex-col flex-row font-poppins gap-[25px] items-center justify-end ml-auto w-[44%] md:w-full">
@@ -183,8 +140,36 @@ export const SubCategoryUserForm: React.FC = () => {
                         }/>
                     </div>
                   </>
-                )
-              })}
+                    )
+                  })
+                  : <div>
+              <ReactFormGenerator
+                back_action=""
+                form_action=""
+                form_method="POST"
+                data={formGeneratorLayoutOfRoleAndType}
+                onSubmit={onClickOfSave}
+                submitButton={
+                  <div className="flex sm:flex-col flex-row font-poppins gap-[25px] items-center justify-end ml-auto w-[44%] md:w-full">
+                    <button className="border border-gray_400 border-solid capitalize cursor-pointer font-semibold leading-[normal] min-w-[139px] py-[13px] rounded-[5px] sm:text-[17.62px] md:text-[19.62px] text-[21.62px] text-center text-indigo_900 tracking-[1.73px] w-auto">
+                      Reset
+                    </button>
+                    <div className="flex items-center justify-center self-stretch w-auto">
+                      <button className="border border-gray_400 border-solid capitalize cursor-pointer font-semibold leading-[normal] min-w-[139px] py-[13px] rounded-[5px] sm:text-[17.62px] md:text-[19.62px] text-[21.62px] text-center text-indigo_900 tracking-[1.73px] w-auto">
+                        cancel
+                      </button>
+                    </div>
+                    <button type="submit"
+                      className="bg-red_A700 capitalize font-semibold h-[59px] justify-center pl-5 sm:pr-5 pr-8 py-[13px] rounded-[5px] text-center text-white_A700 tracking-[1.73px] w-[113px]"
+                    >
+                      Save
+                    </button>
+                  </div>
+                }/>
+              </div>}
+              </Accordion.Body>
+             </Accordion.Item>
+            </Accordion>
           </div>
         </div>
       </div>

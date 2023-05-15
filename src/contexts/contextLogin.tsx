@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { createContext, ReactNode, useEffect, useState } from 'react'
 import axios from 'axios'
 import { FieldValues } from 'react-hook-form'
@@ -51,8 +52,9 @@ export const ContextProvider = ({ children }: ProviderChildren) => {
           draggable: true,
           progress: undefined
         })
-        if (res.data) {
-          navigate('/admin/userListing', { replace: true })
+        const userResponse = res.data
+        if (userResponse) {
+          navigate('/admin/userlisting', { state: userResponse })
         } else {
           navigate('/admin/login', { replace: true })
         }

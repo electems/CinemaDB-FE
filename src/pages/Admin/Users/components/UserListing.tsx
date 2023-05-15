@@ -1,9 +1,15 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { api } from '../../../../services/api'
 import AdminHeader from '../../../../components/AdminHeader'
-import { Button } from '../../../../components/Elements'
 import { Edit, Trash } from 'tabler-icons-react'
+
+interface InputData {
+  userResponse
+}
 
 interface users {
   id: number;
@@ -20,6 +26,7 @@ const UserListing: React.FC = () => {
   const navigate = useNavigate()
   const [usersData, setUserData] = useState([])
   const [searchTitles, setSearchTitle] = useState('')
+  const inputData = useLocation().state as InputData
 
   useEffect(() => {
     retrieveUsers()
@@ -53,6 +60,15 @@ const UserListing: React.FC = () => {
     const res = await api.get(`/users/search/${searchTitles}`)
     setUserData(res.data)
   }
+  const navigateWithId = async (id: number) => {
+    const res = await api.get(`/users/${id}`)
+    const userList = await res.data
+
+    const selectedUser = userList[0]
+    selectedUser.userSubCategory = selectedUser.usersubcategory
+
+    navigate('/film/register/subcategoryuserform', { state: { user: selectedUser } })
+  }
 
   return (
     <>
@@ -60,6 +76,7 @@ const UserListing: React.FC = () => {
       <h3 className="title text-center pt-3">Users Listing</h3>
       <div className="row ">
         <div className="col">
+
           <div className="input-group w-50 pt-3 userlisting-searchbar ">
             <input
               type="text"
@@ -79,18 +96,22 @@ const UserListing: React.FC = () => {
                 Search
               </button>
             </div>
-            <div className="float-right">
-              <button
-                type='button'
-                id="addUser"
-                className="float-right btn btn-primary"
-                onClick={addUserForm}
-              >
-                {' '}
-                ADD USER
-              </button>
-            </div>
+            {inputData.role === 'ADMIN'
+              ? <div className="float-right">
+                <button
+                  type='button'
+                  id="addUser"
+                  className="float-right btn btn-primary"
+                  onClick={addUserForm}
+                >
+                  {' '}
+                  ADD USER
+                </button>
+              </div>
+              : ''}
+
           </div>
+
         </div>
       </div>
       <br></br>
@@ -118,28 +139,30 @@ const UserListing: React.FC = () => {
                   <td>{item.role}</td>
                   <td>{item.status}</td>
                   <td>
-                    <div id="action" className="row">
-                      <div
-                        id="editUser"
-                        className="col-md-2 contactIcon pointer"
-                      >
-                        <Edit
-                          size={25}
+                    {inputData.role === 'ADMIN'
+                      ? <div id="action" className="row">
+                        <div
                           id="editUser"
-                          strokeWidth={1.5}
-                          onClick={() => editUser(item.id)}
-                          color={'#4048bf'}
-                        />
+                          className="col-md-2 contactIcon pointer"
+                        >
+                          <Edit
+                            size={25}
+                            id="editUser"
+                            strokeWidth={1.5}
+                            onClick={() => editUser(item.id)}
+                            color={'#4048bf'}
+                          />
+                        </div>
+                        <div className="col-md-2 contactIcon pointer">
+                          <Trash
+                            size={25}
+                            onClick={() => deleteUser(item.id)}
+                            strokeWidth={1.5}
+                            color={'#bf4064'}
+                          />
+                        </div>
                       </div>
-                      <div className="col-md-2 contactIcon pointer">
-                        <Trash
-                          size={25}
-                          onClick={() => deleteUser(item.id)}
-                          strokeWidth={1.5}
-                          color={'#bf4064'}
-                        />
-                      </div>
-                    </div>
+                      : <button onClick={() => navigateWithId(item.id)} className="btn btn-primary"> Update Content</button>}
                   </td>
                 </tr>
               )

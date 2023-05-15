@@ -1,3 +1,4 @@
+/* eslint-disable no-dupe-keys */
 /* eslint-disable no-undef */
 /* eslint-disable object-curly-spacing */
 /* eslint-disable array-callback-return */
@@ -67,7 +68,7 @@ export const FilmPersonRegister: React.FC = () => {
         password: '1234567890',
         phoneNumber: inputData.phonenumber,
         userName: inputData.phonenumber,
-        role: 'USER',
+        role: inputData.preference,
         step: '/film/register/filmpersonregister',
         industrySelection: selectedNodes
       })

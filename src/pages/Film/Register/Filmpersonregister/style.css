@@ -111,3 +111,20 @@ body {
   margin-top: 30px;
   font-weight: bold;
 }
+
+.tab-label #data-node-key .ant-tabs-tab {
+  font-size: 20px;
+}
+
+.ant-tabs-tab-btn {
+  font-size: 15px;
+  justify-content: center;
+}
+
+.add_new_movie {
+  float: right;
+  color: #3377ff;
+}
+.margin-top{
+  margin-top: 20px;
+}
