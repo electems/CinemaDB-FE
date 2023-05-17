@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react'
 
 export type ImgProps = React.DetailedHTMLProps<

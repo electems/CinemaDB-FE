@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react'
 import { Img, Text } from '../Elements/index'
 import './footer.css'
