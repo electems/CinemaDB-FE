@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react'
 import { ReactFormGenerator, ElementStore } from 'react-form-builder2'
 import './form.css'
@@ -77,8 +76,8 @@ export default class Demobar extends React.Component {
 
   async _onSubmit () {
     const data = jsondata
-    const labelPath = await removeSpaceAndSpecialCharacters(labelName)
-    if (labelPath) {
+    if (labelName) {
+      const labelPath = await removeSpaceAndSpecialCharacters(labelName)
       api.post(
         `form/writefile/${environment.formLayoutPath}/${labelPath}/${environment.professionalData}`,
         data
@@ -86,12 +85,10 @@ export default class Demobar extends React.Component {
       api.delete(`form/deletedirectory/${mainLablePath}`)
     } else {
       api.post(
-        `form/writefile/${environment.formLayoutPath}/${masterLabelFormLabel}/${environment.professionalData}`,
+        `form/writefile/${environment.masterFormPath}/${masterLabelFormLabel}/${environment.professionalData}`,
         data
       )
     }
-
-    this.props.history.push('/admin/formlisitng')
   }
 
   render () {
@@ -148,7 +145,6 @@ export default class Demobar extends React.Component {
                   answer_data={{ jsondata }}
                   form_method="POST"
                   onSubmit={this._onSubmit}
-                  variables={this.props.variables}
                   data={jsondata}
                 />
 
@@ -180,7 +176,6 @@ export default class Demobar extends React.Component {
                   form_action="/"
                   form_method="POST"
                   read_only={true}
-                  variables={this.props.variables}
                   hide_actions={true}
                   data={this.state.data}
                 />
@@ -212,7 +207,6 @@ export default class Demobar extends React.Component {
                   form_method="POST"
                   data={this.state.data}
                   display_short={true}
-                  variables={this.props.variables}
                   hide_actions={false}
                 />
 
