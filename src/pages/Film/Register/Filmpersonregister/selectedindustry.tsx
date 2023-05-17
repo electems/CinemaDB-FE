@@ -5,8 +5,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable array-callback-return */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react'
 import $ from 'jquery'
 import { api } from '../../../../services/api'
@@ -24,10 +22,6 @@ interface InputData {
   selectedNodes
   breadCrumPathList
 }
-/* const answers = {
-  'text_input_72DEFCA6-3735-487C-9A76-86AF3D021B88': '4444',
-  'text_input_54095680-698C-475B-B90D-06FA6C066895': '2222'
-} */
 
 let renderTabsOfSelectedNodes = []
 export const SelectedIndustry: React.FC = () => {

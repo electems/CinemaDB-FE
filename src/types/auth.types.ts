@@ -24,4 +24,6 @@ export type AuthUser = {
   type: string;
   industrySelection: DataNode[];
   userSubCategory: UserSubCategory[]
+  token?: string,
+  otp?: string
 };

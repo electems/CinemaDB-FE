@@ -1,5 +1,4 @@
-import { createGlobalStyle } from "styled-components";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
@@ -36,7 +35,7 @@ ul::-webkit-scrollbar-thumb {
     transition: all .2s ease-out;
     text-decoration: none;
   }
-`;
+`
 
 const FormContainer = styled.form`
   display: flex;
@@ -68,5 +67,5 @@ const FormContainer = styled.form`
     color: var(--green);
     font-weight: bold;
   }
-`;
-export { GlobalStyle, FormContainer };
+`
+export { GlobalStyle, FormContainer }

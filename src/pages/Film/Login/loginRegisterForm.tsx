@@ -87,7 +87,7 @@ export const LoginRegisterForm: React.FC = () => {
         })
       }
     } else if (loggedUser.role === 'LOVER') {
-      navigate('/film/register/cinemafansforms', { state:  loggedUser })
+      navigate('/film/register/cinemafansform', { state:  { loggedUser } })
     }
   }
   return (

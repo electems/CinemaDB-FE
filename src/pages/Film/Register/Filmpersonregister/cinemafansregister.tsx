@@ -8,8 +8,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable array-callback-return */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect } from 'react'
 import { api } from '../../../../services/api'
 import { environment } from '../../../../config/environment'
@@ -37,7 +35,7 @@ export const CinemaFansForm: React.FC = () => {
   const retriveTabs = async () => {
     const types = await loadSubCategoryTypes('Cinema Fans')
     currentSubCategoryType = types[0]
-    await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.role)
+    await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.loggedUser.role)
   }
   // load vertical menu
   const loadSubCategoryTypes = async (currentSubCategory) => {
@@ -56,7 +54,7 @@ export const CinemaFansForm: React.FC = () => {
     setFormGeneratorLayoutOfRoleAndType(response)
 
     // fetch user form data.
-    const formProfessionData = await api.get(`userprofession/formdata/${inputData.id}/${userRole}/${currentSubCategoryType}`)
+    const formProfessionData = await api.get(`userprofession/formdata/${inputData.loggedUser.id}/${userRole}/${currentSubCategoryType}`)
     const loadDataFromBackend = await formProfessionData.data
     if (loadDataFromBackend && loadDataFromBackend.length > 0) {
       setCinemaFansForm(loadDataFromBackend)
@@ -68,14 +66,14 @@ export const CinemaFansForm: React.FC = () => {
     setActive(!active)
     setSelectedIndex(i)
     currentSubCategoryType = selectedTab
-    await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.role)
+    await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.loggedUser.role)
   }
 
   // on save should call post api
   const onClickOfSave = async (data, pk?) => {
     const subCategoryUserForm: ISubCategoryUserForm = {
-      userId: inputData.id,
-      subCategory: inputData.role,
+      userId: inputData.loggedUser.id,
+      subCategory: inputData.loggedUser.role,
       subCategoryType: currentSubCategoryType,
       value: data
     }

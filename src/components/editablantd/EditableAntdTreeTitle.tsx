@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { Tooltip } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
-import { AiOutlineSisternode, AiOutlineSubnode, AiOutlineArrowRight, AiOutlineForm } from 'react-icons/ai'
+import { AiOutlineSisternode, AiOutlineSubnode, AiOutlineForm } from 'react-icons/ai'
 import { BiCheck } from 'react-icons/bi'
 import { GrFormClose } from 'react-icons/gr'
 import './styles.css'
@@ -63,8 +63,6 @@ export const EditableTreeTitle = ({
   const inputRef = useRef<HTMLInputElement>(null)
   const [inputValue, setInputValue] = useState((node.title as string) || '')
   const [edit, setEdit] = useState(treeData && !node.title)
-  const [modal, setModal] = useState(false)
-  const [show, setShow] = useState(false)
   const navigate = useNavigate()
   const handleCreateLeafClick = () => {
     if (!node.children) {
@@ -194,10 +192,10 @@ export const EditableTreeTitle = ({
               </button>
             </div>
           </div>
-        )
+          )
         : (
           <span>{node.title as string}</span>
-        )}
+          )}
       <div
         className={twMerge(
           'space-x-1 flex items-center text-gray-600',

@@ -8,20 +8,15 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable array-callback-return */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect } from 'react'
-import $ from 'jquery'
 import { api } from '../../../../services/api'
-import { Button, Img, List, Text } from '../../../../components/Elements'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { environment } from '../../../../config/environment'
 import { Tabs } from 'antd'
 import './style'
 import { ReactFormGenerator } from 'react-form-builder2'
 import { getTitleFromTabs } from '../../../../services/filmservices'
 import { ISubCategoryUserForm } from '../../../../types/subcategoryuserform.type'
-import Accordion from 'react-bootstrap/Accordion'
 interface InputData {
   user
   selectednodes

@@ -20,7 +20,6 @@ const AboutusPage: React.FC = () => {
     headerTitle: ''
   }
 
-  const token = localStorage.getItem('cinimaDb:Token')
   const [about, setAbout] = React.useState(aboutUs)
   useEffect(() => {
     retrieveAbouts('EN', 'aboutus')

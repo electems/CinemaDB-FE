@@ -5,7 +5,6 @@ import { TiArrowSortedDown } from 'react-icons/ti'
 import { twMerge } from 'tailwind-merge'
 import { v4 as uuidv4 } from 'uuid'
 import { EditableTreeTitle, TEditableTreeTitle } from './EditableAntdTreeTitle'
-import { TextInput } from './TextInput'
 import { loadTreeChildren } from './utils'
 
 const sizes = {
@@ -67,24 +66,6 @@ export const EditableAntdTree = ({
     updateNode,
     createLeaf,
     createParent
-  }
-
-  const handleCreateParentEnter = async () => {
-    const newTreeData = [
-      ...treeData,
-      {
-        key: uuidv4(),
-        title: parentTitleInput,
-        isLeaf: false,
-        children: []
-      }
-    ]
-    localStorage.setItem('parentTitleInput', parentTitleInput)
-    setTreeData(newTreeData)
-    setParentTitleInput(parentTitleInput)
-    if (createRootParent) {
-      createRootParent(newTreeData[newTreeData.length])
-    }
   }
 
   const handleLoadData = async (node: EventDataNode<DataNode>) => {

@@ -37,10 +37,10 @@ const UserListing: React.FC = () => {
     setUserData(res.data)
   }
 
-  function addUserForm() {
+  function addUserForm () {
     navigate('/admin/addform', { state: { folderName: 'useradminform' } })
   }
-  function editUser(id: number) {
+  function editUser (id: number) {
     navigate('/admin/editform/' + id, { state: { folderName: 'useradminform' } })
   }
 
@@ -96,7 +96,7 @@ const UserListing: React.FC = () => {
                 Search
               </button>
             </div>
-            {inputData.role === 'ADMIN'
+            {inputData.userResponse.role === 'ADMIN'
               ? <div className="float-right">
                 <button
                   type='button'
@@ -139,7 +139,7 @@ const UserListing: React.FC = () => {
                   <td>{item.role}</td>
                   <td>{item.status}</td>
                   <td>
-                    {inputData.role === 'ADMIN'
+                    {inputData.userResponse.role === 'ADMIN'
                       ? <div id="action" className="row">
                         <div
                           id="editUser"
