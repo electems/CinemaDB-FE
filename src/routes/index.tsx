@@ -18,7 +18,6 @@ import ProfessionalListing from '../pages/Admin/ProfessionalListing/professional
 import { SubCategoryUserForm } from '../pages/Film/Register/Filmpersonregister/subcategoryuserForm'
 import MasterForms from '../pages/Admin/MasterForms/masterforms'
 import ConnectProfessionAndMaster from '../pages/Admin/ConnectProfessionAndMaster/connectprofessionandmaster'
-import UserListingOfPenman from '../pages/Admin/Penman/userlisting'
 import { CustomForm } from '../pages/Admin/CustomForm/app'
 import { CinemaFansForm } from '../pages/Film/Register/Filmpersonregister/cinemafansregister'
 const RoutesMain = () => {
@@ -55,12 +54,15 @@ const RoutesMain = () => {
 export const RoutesAdmin = () => {
   return (
     <Routes>
+       <Route
+        path="/film/register/subcategoryuserform"
+        element={<SubCategoryUserForm />}
+      />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/userlisting" element={<UserListing />} />
       <Route path="/admin/formbuilders" element={<FormsBuilder />} />
       <Route path="/admin/customform" element={<CustomForm />} />
       <Route path="/admin/professionallisting" element={<ProfessionalListing />} />
-      <Route path="/admin/penmanlisting" element={<UserListingOfPenman />} />
       <Route path="/admin/professionforms" element={<ProfessionForms />} />
       <Route path="/admin/masterforms" element={<MasterForms />} />
       <Route path="/admin/connectprofessionandmaster" element={<ConnectProfessionAndMaster />} />

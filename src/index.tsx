@@ -14,13 +14,13 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 )
 root.render(
- <BrowserRouter>
+  <BrowserRouter>
     <GlobalStyle />
-      <ToastContainer />
-      <ContextProvider>
-        <AdminMain></AdminMain>
-      </ContextProvider>
-      <AppMain></AppMain>
+    <ToastContainer />
+    <ContextProvider>
+      <AdminMain></AdminMain>
+    </ContextProvider>
+    <AppMain></AppMain>
   </BrowserRouter>
 )
 reportWebVitals()

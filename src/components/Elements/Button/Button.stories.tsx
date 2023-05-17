@@ -16,8 +16,7 @@ const Template: Story<ButtonProps> = (props) => <Button {...props} />
 
 export const Primary = Template.bind({})
 Primary.args = {
-  children: 'Primary Button',
-  variant: 'primary'
+  children: 'Primary Button'
 }
 
 export const Inverse = Template.bind({})
