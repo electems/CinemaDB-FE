@@ -57,8 +57,6 @@ export const EditableAntdTree = ({
   )
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
 
-  const [parentTitleInput, setParentTitleInput] = useState('')
-
   const titleParams = {
     treeData,
     setTreeData,

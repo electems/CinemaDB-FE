@@ -20,6 +20,8 @@ import MasterForms from '../pages/Admin/MasterForms/masterforms'
 import ConnectProfessionAndMaster from '../pages/Admin/ConnectProfessionAndMaster/connectprofessionandmaster'
 import { CustomForm } from '../pages/Admin/CustomForm/app'
 import { CinemaFansForm } from '../pages/Film/Register/Filmpersonregister/cinemafansregister'
+import FilmFestivalRegistration from '../pages/Film/FilmFestival/filmFestival'
+import FilmFestivalForms from '../pages/Admin/FilmFestival/filmFestival'
 const RoutesMain = () => {
   return (
     <Routes>
@@ -42,6 +44,10 @@ const RoutesMain = () => {
       <Route
         path="/film/register/selectedindustry"
         element={<SelectedIndustry />}
+      />
+       <Route
+        path="/film/register/filmfestivalregistration"
+        element={<FilmFestivalRegistration />}
       />
       <Route path="/film/public/aboutus" element={<AboutusPage />} />
       <Route path="/film/public/mainscreen" element={<MainScreen />} />
@@ -66,6 +72,7 @@ export const RoutesAdmin = () => {
       <Route path="/admin/professionforms" element={<ProfessionForms />} />
       <Route path="/admin/masterforms" element={<MasterForms />} />
       <Route path="/admin/connectprofessionandmaster" element={<ConnectProfessionAndMaster />} />
+      <Route path="/admin/filmfestivalforms" element={<FilmFestivalForms />} />
       <Route path="/admin/professionaltree" element={<ProfessionalTree />} />
       <Route path="/admin/addform" element={<AddEditForms />} />
       <Route path="/admin/editform/:id" element={<AddEditForms />} />

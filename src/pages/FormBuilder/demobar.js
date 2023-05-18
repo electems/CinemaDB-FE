@@ -8,6 +8,7 @@ import { removeSpaceAndSpecialCharacters } from '../../services/filmservices'
 let jsondata = []
 const labelName = localStorage.getItem('selectedLabel')
 const masterLabelFormLabel = localStorage.getItem('masterFormslabel')
+const filmFestivalFormLabel = localStorage.getItem('filmFestivalFormLabel')
 export default class Demobar extends React.Component {
   constructor (props) {
     super(props)
@@ -83,9 +84,14 @@ export default class Demobar extends React.Component {
         data
       )
       api.delete(`form/deletedirectory/${mainLablePath}`)
-    } else {
+    } else if (masterLabelFormLabel) {
       api.post(
         `form/writefile/${environment.masterFormPath}/${masterLabelFormLabel}/${environment.professionalData}`,
+        data
+      )
+    } else {
+      api.post(
+        `form/writefile/${environment.filmFestival}/${filmFestivalFormLabel}/${environment.professionalData}`,
         data
       )
     }

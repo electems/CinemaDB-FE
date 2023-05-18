@@ -1,0 +1,64 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import AdminHeader from '../../../components/AdminHeader'
+import { api } from '../../../services/api'
+import { environment } from '../../../config/environment'
+import { Edit } from 'tabler-icons-react'
+const FilmFestivalForms: React.FC = () => {
+  const [directoryList, setDirectoryList] = React.useState([])
+  const navigate = useNavigate()
+  React.useEffect(() => {
+    retriveDirectories(environment.filmFestival)
+  }, [])
+
+  const retriveDirectories = async (path: string) => {
+    const res = await api.get(`form/${path}`)
+    console.log(res)
+    setDirectoryList(res.data)
+  }
+  const editMasterFormListing = (label: string) => {
+    // using local storage because form builder is js file
+    localStorage.setItem('filmFestivalFormLabel', label)
+    navigate('/admin/formbuilders')
+  }
+  return (
+    <>
+      <AdminHeader />
+      <h3 className="title text-center pt-3">Film Festival Form Directory Listing</h3>
+
+      <div className="relative px-10">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th className="px-6 py-3">Main</th>
+              <th className="px-6 py-3">Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {directoryList.map((item) => {
+              return (
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td>{item}</td>
+                  <td>
+                  <Edit
+                     size={25}
+                     onClick={() => editMasterFormListing(item)}
+                     strokeWidth={1.5}
+                     color={'#4048bf'}
+                     className='admin-edit-icon contactIcon pointer'
+                    />
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
+    </>
+  )
+}
+
+export default FilmFestivalForms
