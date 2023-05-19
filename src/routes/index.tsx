@@ -65,6 +65,10 @@ export const RoutesAdmin = () => {
         element={<SubCategoryUserForm />}
       />
       <Route path="/admin/login" element={<AdminLogin />} />
+      <Route
+        path="/film/register/filmfestivalregistration"
+        element={<FilmFestivalRegistration />}
+      />
       <Route path="/admin/userlisting" element={<UserListing />} />
       <Route path="/admin/formbuilders" element={<FormsBuilder />} />
       <Route path="/admin/customform" element={<CustomForm />} />

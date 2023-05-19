@@ -1,48 +1,113 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable array-callback-return */
+/* eslint-disable react/jsx-key */
 /* eslint-disable object-shorthand */
 /* eslint-disable no-undef */
 import React, { useEffect } from 'react';
 
 import { Text, List, Img, Line, Button } from '../../../components/Elements';
 import { api } from '../../../services/api';
-import { ReactFormGenerator } from 'react-form-builder2';
-import { environment } from '../../../config/environment';
+import { useLocation } from 'react-router-dom';
+
+const initialFilmFestivalState = {
+  id: null,
+  filmFestivalName: '',
+  address: '',
+  chairman_Headedby: '',
+  aboutUs: '',
+  startDate: '',
+  endDate: '',
+  movieTittle: '',
+  movieType: '',
+  genres: '',
+  runTime: '',
+  briefSynopsis: '',
+  movieSpecificationMovieType: '',
+  productionBudget: '',
+  countryOfOrigin: '',
+  completedDate: '',
+  state: '',
+  language: '',
+  category: [],
+  directors: [],
+  writers: [],
+  producers: [],
+  cast: [],
+  userId: null
+};
+interface InputData {
+  id,
+}
 const FilmFestivalRegistration: React.FC = () => {
   const date = new Date()
   const [currentFile, setCurrentFile] = React.useState('');
-  const [filmFestivalName, setFilmFestivalName] = React.useState('');
-  const [address, setAddress] = React.useState('');
-  const [startdate, setStartDate] = React.useState(date);
-  const [chairmanHeadedBy, setChairmanHeadedBy] = React.useState('');
-  const [enddate, setEnddate] = React.useState(date);
-  const [aboutUs, setAboutUs] = React.useState('');
-  const [movieTittle, setMovieTittle] = React.useState('');
-  const [movieType, setMovieType] = React.useState('');
-  const [briefSynopsis, setBriefSynopsis] = React.useState('');
-  const [movieSpecificationMovieType, setMovieSpecificationMovieType] = React.useState('');
-  const [runTime, setRunTime] = React.useState('');
-  const [completedDate, setCompletedDate] = React.useState('');
-  const [productionBudget, setProductionBudget] = React.useState('');
-  const [countryOfOrigin, setCountryOfOrigin] = React.useState('');
-  const [state, setState] = React.useState('');
-  const [language, setLanguage] = React.useState('');
-  const [addCategory, setAddCategory] = React.useState<any[]>([]);
-  const [director, setDirector] = React.useState<any[]>([])
-  const [writers, setWriters] = React.useState<any[]>([])
-  const [producers, setProducers] = React.useState<any[]>([])
-  const [keyCast, setKeyCast] = React.useState<any[]>([])
-  const [loadFromBackend, setLoadFromBackend] = React.useState<any[]>([])
-  const [loadFromBackendFileUpload, setLoadFromBackendFileUpload] = React.useState<any[]>([])
+  const [addCategory, setAddCategory] = React.useState([{ Category1: '', Category2: '' }]);
+  const [director, setDirector] = React.useState([{ FirstName: '', LastName: '', Photo: '' }])
+  const [writers, setWriters] = React.useState([{ FirstName: '', LastName: '', Photo: '' }])
+  const [producers, setProducers] = React.useState([{ FirstName: '', LastName: '', Photo: '' }])
+  const [cast, setCast] = React.useState([{ FirstName: '', LastName: '', Photo: '' }])
+  const [filmFestival, setFilmFestival] = React.useState(initialFilmFestivalState);
+  const inputData = useLocation().state as InputData
   useEffect(() => {
-    loadAddCategoryForm()
-    loadDirectorsForm()
-    loadWritersForm()
-    loadProducersForm()
-    loadKeyCastForm()
+    loadFromBackend()
   }, [])
+  const handleCategoryInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...addCategory];
+    list[index][name] = value;
+    setAddCategory(list);
+  };
 
-  // External File Select
   const selectFile = (event) => {
     setCurrentFile(event.target.files[0]);
+  };
+  const handleInputChange = event => {
+    const { name, value } = event.target;
+    setFilmFestival({ ...filmFestival, [name]: value });
+  };
+  const handleDirectorInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...director];
+    list[index][name] = value;
+    setDirector(list);
+  };
+
+  const handleWriterInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...writers];
+    list[index][name] = value;
+    setWriters(list);
+  };
+
+  const handleProducersInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...producers];
+    list[index][name] = value;
+    setProducers(list);
+  };
+
+  const handleCastInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...cast];
+    list[index][name] = value;
+    setCast(list);
+  };
+
+  const handleCategoryInput = () => {
+    setAddCategory([...addCategory, { Category1: '', Category2: '' }]);
+  };
+  const handleDirectorInput = () => {
+    setDirector([...director, { FirstName: '', LastName: '', Photo: '' }]);
+  };
+  const handleWritersInput = () => {
+    setWriters([...writers, { FirstName: '', LastName: '', Photo: '' }]);
+  };
+  const handleProducersInput = () => {
+    setProducers([...producers, { FirstName: '', LastName: '', Photo: '' }]);
+  };
+
+  const handleCastInput = () => {
+    setCast([...cast, { FirstName: '', LastName: '', Photo: '' }]);
   };
   // External File Upload
   const fileUpload = async () => {
@@ -52,149 +117,45 @@ const FilmFestivalRegistration: React.FC = () => {
     return fileUpload.data
   }
 
-  const handleFilmFestivalName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFilmFestivalName(event.target.value)
-  }
-  const handleAddress = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(event.target.value)
-  }
-  const handleStartDate = (e) => {
-    setStartDate(e.target.value);
-  };
-  const handleChairmanHeadedBy = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChairmanHeadedBy(event.target.value)
-  }
-  const handleEndDate = (e) => {
-    setEnddate(e.target.value);
-  };
-
-  const handleAboutUs = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAboutUs(event.target.value);
-  };
-
-  const handleMovieTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMovieTittle(event.target.value);
-  };
-
-  const handleMovieType = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMovieType(event.target.value);
-  };
-  const handleBriefSynopsis = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setBriefSynopsis(event.target.value);
-  };
-
-  const handleMovieSpecificationMovieType = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMovieSpecificationMovieType(event.target.value);
-  };
-
-  const handleRunTime = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRunTime(event.target.value);
-  };
-
-  const handleCompletedDate = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCompletedDate(event.target.value);
-  };
-
-  const handleProductionBudget = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setProductionBudget(event.target.value);
-  };
-  const handleCountryOfOrigin = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCountryOfOrigin(event.target.value);
-  };
-  const handleState = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState(event.target.value);
-  };
-  const handleLanguage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLanguage(event.target.value);
-  };
-  const loadAddCategoryForm = async () => {
-    const loadAddCategoryForm = await api.get(`form/readfile/FilmFestival/Add_Category/${environment.professionalData}`)
-    const response = await loadAddCategoryForm.data
-    setAddCategory(response)
-    await loadFromBackendCategory()
-  }
-  const loadDirectorsForm = async () => {
-    const loadAddCategoryForm = await api.get(`form/readfile/FilmFestival/Directors/${environment.professionalData}`)
-    const response = await loadAddCategoryForm.data
-    setDirector(response)
-    await loadFromBackendCategoryForUpload()
-  }
-  const loadWritersForm = async () => {
-    const loadAddCategoryForm = await api.get(`form/readfile/FilmFestival/Writers/${environment.professionalData}`)
-    const response = await loadAddCategoryForm.data
-    setWriters(response)
-  }
-  const loadProducersForm = async () => {
-    const loadAddCategoryForm = await api.get(`form/readfile/FilmFestival/Producers/${environment.professionalData}`)
-    const response = await loadAddCategoryForm.data
-    setProducers(response)
-  }
-  const loadKeyCastForm = async () => {
-    const loadAddCategoryForm = await api.get(`form/readfile/FilmFestival/Key_Cast/${environment.professionalData}`)
-    const response = await loadAddCategoryForm.data
-    setKeyCast(response)
-  }
-
-  const handleFormSubmit = (data) => {
-    api.post('/filmfestival/createfilmfestival', {
-      value: data,
-      userId: 1
+  // Load Saved Category From Backend For Checking Person fetching using userid column in film festival table
+  const loadFromBackend = async () => {
+    const loadFilmFestivalFormFromBackend = await api.get(`filmfestival/${inputData.id}`)
+    const responseFromBackend = await loadFilmFestivalFormFromBackend.data
+    let data: typeof initialFilmFestivalState = {} as typeof initialFilmFestivalState
+    responseFromBackend.map((item) => {
+      console.log(item)
+      data = item
+      setFilmFestival(item)
     })
   }
 
-  const handleFormSubmitForCategory = async (data, id?) => {
-    type Category = {
-      value?: any
-      id?: any;
-    }
-    const datas : Category = {
-      value: data
-    }
-    if (id) {
-      datas.id = id
-    }
-    api.post('/filmfestival/createfilmfestival', datas)
-  }
-
-  // Load Saved Category From Backend For Checking Person fetching using userid column in film festival table
-  const loadFromBackendCategory = async () => {
-    const loadAddCategoryFormFromBackend = await api.get('filmfestival/1')
-    const responseFromBackend = await loadAddCategoryFormFromBackend.data
-    setLoadFromBackend(responseFromBackend)
-  }
-  // Load Saved Director From Backend For Checking Person fetching using userid column in film festival table to check File upload
-  const loadFromBackendCategoryForUpload = async () => {
-    const loadAddCategoryFormFromBackend = await api.get('filmfestival/2')
-    const responseFromBackend = await loadAddCategoryFormFromBackend.data
-    setLoadFromBackendFileUpload(responseFromBackend)
-  }
-
-  // Add Category as last component logic
-  const addInputForCategory = async () => {
-    await handleFormSubmitForCategory([])
-    await loadAddCategoryForm()
-  }
   const saveFilmFestivalDetails = async () => {
-    const filmFestival = {
-      filmFestivalName: filmFestivalName,
-      address: address,
-      chairman_Headedby: chairmanHeadedBy,
-      aboutUs: aboutUs,
-      startDate: startdate,
-      endDate: enddate,
-      movieTittle: movieTittle,
-      movieType: movieType,
-      briefSynopsis: briefSynopsis,
-      movieSpecificationMovieType: movieSpecificationMovieType,
-      runTime: runTime,
-      completedDate: completedDate,
-      productionBudget: productionBudget,
-      countryOfOrigin: countryOfOrigin,
-      state: state,
-      language: language
+    const filmFestivalObject = {
+      filmFestivalName: filmFestival.filmFestivalName,
+      address: filmFestival.address,
+      chairman_Headedby: filmFestival.chairman_Headedby,
+      aboutUs: filmFestival.aboutUs,
+      startDate: filmFestival.startDate,
+      endDate: filmFestival.endDate,
+      movieTittle: filmFestival.movieTittle,
+      movieType: filmFestival.movieType,
+      genres: filmFestival.genres,
+      briefSynopsis: filmFestival.briefSynopsis,
+      movieSpecificationMovieType: filmFestival.movieSpecificationMovieType,
+      completedDate: filmFestival.completedDate,
+      productionBudget: filmFestival.productionBudget,
+      countryOfOrigin: filmFestival.countryOfOrigin,
+      state: filmFestival.state,
+      language: filmFestival.language,
+      category: addCategory,
+      directors: director,
+      writers: writers,
+      producers: producers,
+      cast: cast,
+      userId: 1
     }
 
-    api.post('/filmfestival/createfilmfestival', filmFestival)
+    api.post('/filmfestival/createfilmfestival', filmFestivalObject)
   }
 
   return (
@@ -231,7 +192,7 @@ const FilmFestivalRegistration: React.FC = () => {
                         Film Festival Name
                       </Text>
                         <div className="mb-6">
-                            <input onChange = {handleFilmFestivalName}type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                            <input name = "filmFestivalName" value = {filmFestival.filmFestivalName} onChange = {handleInputChange}type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                         </div>
                     </div>
                   </div>
@@ -244,7 +205,7 @@ const FilmFestivalRegistration: React.FC = () => {
                         Address{' '}
                       </Text>
                       <div className="mb-6">
-                            <input onChange = {handleAddress} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                            <input name = "address" value = {filmFestival.address} onChange = {handleInputChange} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                       </div>
                     </div>
                   </div>
@@ -260,7 +221,7 @@ const FilmFestivalRegistration: React.FC = () => {
                           Start Date
                         </Text>
                         <div className="mb-6">
-                            <input onChange = {handleStartDate} type="date" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                            <input name = "start_date" value = {filmFestival.startDate} onChange = {handleInputChange} type="date" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                         </div>
                       </div>
                     </div>
@@ -274,7 +235,7 @@ const FilmFestivalRegistration: React.FC = () => {
                         Chairman / Headed by
                       </Text>
                        <div className="mb-6">
-                            <input onChange = {handleChairmanHeadedBy} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                            <input name = "chairman_headedby" value = {filmFestival.chairman_Headedby} onChange = {handleInputChange} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                        </div>
                     </div>
                   </div>
@@ -290,7 +251,7 @@ const FilmFestivalRegistration: React.FC = () => {
                           End Date
                         </Text>
                         <div className="mb-6">
-                            <input onChange = {handleEndDate} type="date" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                            <input name = "end_date" onChange = {handleInputChange} value = {filmFestival.endDate} type="date" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                         </div>
                       </div>
                     </div>
@@ -304,7 +265,7 @@ const FilmFestivalRegistration: React.FC = () => {
                         About us
                       </Text>
                        <div className="mb-6">
-                            <input onChange = {handleAboutUs} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                            <input name = "aboutus" onChange = {handleInputChange} value = {filmFestival.aboutUs} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                       </div>
                     </div>
                   </div>
@@ -335,30 +296,31 @@ const FilmFestivalRegistration: React.FC = () => {
               <Text
                 className="font-normal not-italic text-left text-white_A700 w-auto"
                 variant="body13"
-                onClick={addInputForCategory}
+                onClick={handleCategoryInput}
+
               >
                 Add a Category
               </Text>
-               <div>
-               {loadFromBackend.length > 0 &&
-                loadFromBackend.map((record: any, i) => {
+              <div>
+                {addCategory.map((x, i) => {
                   return (
-                  <>
-                  <div>{record.value[0]?.value}</div>
-                    <div>
-                      <ReactFormGenerator
-                        back_action=""
-                        form_action=""
-                        form_method="POST"
-                        answer_data={record.value}
-                        data={addCategory}
-                        onSubmit={(data) => handleFormSubmitForCategory(data, record.id)}
+                    <div className="mb-6">
+                      <input
+                        name="Category1"
+                        className='placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                        value={x.Category1}
+                        onChange={e => handleCategoryInputChange(e, i)}
+                      />
+                      <input
+                        className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        name="Category2"
+                        value={x.Category2}
+                        onChange={e => handleCategoryInputChange(e, i)}
                       />
                     </div>
-                  </>
-                  )
+                  );
                 })}
-               </div>
+              </div>
             </div>
             <div className="flex font-montserrat items-center justify-start mt-[27px] w-full">
               <div className="flex flex-col justify-start w-full">
@@ -388,7 +350,7 @@ const FilmFestivalRegistration: React.FC = () => {
                             Movie Tittle
                           </Text>
                           <div className="mb-6">
-                            <input onChange = {handleMovieTitle }type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                            <input name = "movieTittle" value={filmFestival.movieTittle} onChange = {handleInputChange }type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                           </div>
                         </div>
                       </div>
@@ -401,7 +363,7 @@ const FilmFestivalRegistration: React.FC = () => {
                             Movie Type
                           </Text>
                           <div className="mb-6">
-                            <input onChange = {handleMovieType }type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                            <input name = "movieType" value={filmFestival.movieTittle} onChange = {handleInputChange }type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                           </div>
                         </div>
                       </div>
@@ -415,7 +377,7 @@ const FilmFestivalRegistration: React.FC = () => {
                           Brief Synopsis{' '}
                         </Text>
                           <div className="mb-6">
-                            <input onChange = {handleBriefSynopsis }type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                            <input name = "briefSynopsis" value={filmFestival.briefSynopsis} onChange = {handleInputChange }type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                           </div>
                       </div>
                     </div>
@@ -459,6 +421,7 @@ const FilmFestivalRegistration: React.FC = () => {
                             <Text
                               className="font-normal not-italic text-left text-white_A700 w-auto"
                               variant="body13"
+                              onClick={handleDirectorInput}
                             >
                               Add a Person
                             </Text>
@@ -466,29 +429,26 @@ const FilmFestivalRegistration: React.FC = () => {
                         </div>
                         <Line className="bg-white_A700 h-px mt-[17px] w-full" />
                         <div>
-                          {loadFromBackendFileUpload.length > 0 &&
-                            loadFromBackendFileUpload.map((record: any, i) => {
-                              return (
-                                <>
-                                  <div>{record.value[0]?.value}</div>
-                                  <div>
-                                    <ReactFormGenerator
-                                      back_action=""
-                                      form_action=""
-                                      form_method="POST"
-                                      answer_data={record.value}
-                                      data={director}
-                                      onSubmit={handleFormSubmit}
-                                    />
-                                  </div>
-                                </>
-                              )
-                            })}
+                          {director.map((x, i) => {
+                            return (
+                              <div className="mb-6">
+                                <input
+                                  name="FirstName"
+                                  className='placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                                  value={x.FirstName}
+                                  onChange={e => handleDirectorInputChange(e, i)}
+                                />
+                                <input
+                                  className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  name="LastName"
+                                  value={x.LastName}
+                                  onChange={e => handleDirectorInputChange(e, i)}
+                                />
+                                <input name="Photo" value ={x.Photo} type="file" onChange={e => handleDirectorInputChange(e, i)} />
+                              </div>
+                            );
+                          })}
                         </div>
-                        <label className="btn btn-default">
-                           <input type="file" onChange={selectFile} />
-                           <button className='text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900' onClick={fileUpload} type="submit">Save File</button>
-                        </label>
                       </div>
                     </div>
                   </div>
@@ -512,6 +472,7 @@ const FilmFestivalRegistration: React.FC = () => {
                             <Text
                               className="font-normal not-italic text-left text-white_A700 w-auto"
                               variant="body13"
+                              onClick={handleWritersInput}
                             >
                               Add a Person
                             </Text>
@@ -519,16 +480,25 @@ const FilmFestivalRegistration: React.FC = () => {
                         </div>
                         <Line className="bg-white_A700 h-px mt-[13px] w-full" />
                         <div className="flex md:flex-col flex-row font-roboto md:gap-[43px] items-center justify-between mt-6 w-[93%] md:w-full">
-
-                          <div>
-                            <ReactFormGenerator
-                              back_action=""
-                              form_action=""
-                              form_method="POST"
-                              data={writers}
-                              onSubmit={handleFormSubmit}
-                            />
-                          </div>
+                        {writers.map((x, i) => {
+                          return (
+                              <div className="mb-6">
+                                <input
+                                  name="FirstName"
+                                  className='placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                                  value={x.FirstName}
+                                  onChange={e => handleWriterInputChange(e, i)}
+                                />
+                                <input
+                                  className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  name="LastName"
+                                  value={x.LastName}
+                                  onChange={e => handleWriterInputChange(e, i)}
+                                />
+                                <input name="Photo" value = {x.Photo} type="file" onChange={e => handleWriterInputChange(e, i)} />
+                              </div>
+                          );
+                        })}
 
                         </div>
                       </div>
@@ -554,6 +524,7 @@ const FilmFestivalRegistration: React.FC = () => {
                             <Text
                               className="font-normal not-italic text-left text-white_A700 w-auto"
                               variant="body13"
+                              onClick={handleProducersInput}
                             >
                               Add a Person
                             </Text>
@@ -561,15 +532,25 @@ const FilmFestivalRegistration: React.FC = () => {
                         </div>
                         <Line className="bg-white_A700 h-px mt-[17px] w-full" />
                         <div className="flex md:flex-col flex-row font-roboto gap-10 items-center justify-start ml-6 md:ml-[0] mt-6 w-[90%] md:w-full">
-                          <div>
-                            <ReactFormGenerator
-                              back_action=""
-                              form_action=""
-                              form_method="POST"
-                              data={producers}
-                              onSubmit={handleFormSubmit}
-                            />
-                          </div>
+                          {producers.map((x, i) => {
+                            return (
+                              <div className="mb-6">
+                                <input
+                                  name="FirstName"
+                                  className='placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                                  value={x.FirstName}
+                                  onChange={e => handleProducersInputChange(e, i)}
+                                />
+                                <input
+                                  className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  name="LastName"
+                                  value={x.LastName}
+                                  onChange={e => handleProducersInputChange(e, i)}
+                                />
+                                <input name="Photo" value = {x.Photo} type="file" onChange={e => handleProducersInputChange(e, i)} />
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
 
@@ -596,21 +577,32 @@ const FilmFestivalRegistration: React.FC = () => {
                               <Text
                                 className="font-normal not-italic text-left text-white_A700 w-auto"
                                 variant="body13"
+                                onClick={handleCastInput}
                               >
                                 Add a Person
                               </Text>
                             </div>
                           </div>
                         </div>
-                        <div>
-                          <ReactFormGenerator
-                            back_action=""
-                            form_action=""
-                            form_method="POST"
-                            data={keyCast}
-                            onSubmit={handleFormSubmit}
-                          />
-                        </div>
+                        {cast.map((x, i) => {
+                          return (
+                              <div className="mb-6">
+                                <input
+                                  name="FirstName"
+                                  className='placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                                  value={x.FirstName}
+                                  onChange={e => handleCastInputChange(e, i)}
+                                />
+                                <input
+                                  className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  name="LastName"
+                                  value={x.LastName}
+                                  onChange={e => handleCastInputChange(e, i)}
+                                />
+                                <input name="Photo" value = {x.Photo} type="file" onChange={e => handleCastInputChange(e, i)} />
+                              </div>
+                          );
+                        })}
                       </div>
                     </div>
                     <Line className="absolute bg-white_A700 h-px inset-x-[0] mx-auto top-[19%] w-full" />
@@ -638,7 +630,7 @@ const FilmFestivalRegistration: React.FC = () => {
                             Movie Type
                     </Text>
                       <div className="mb-6">
-                                 <input onChange={handleMovieSpecificationMovieType} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                                 <input name='movieSpecificationMovieType' value = {filmFestival.movieSpecificationMovieType} onChange={handleInputChange} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                       </div>
                       <Text
                             className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
@@ -647,7 +639,7 @@ const FilmFestivalRegistration: React.FC = () => {
                            Run Time
                     </Text>
                       <div className="mb-6">
-                            <input onChange={handleRunTime} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                            <input name = 'runTime' value = {filmFestival.runTime} onChange={handleInputChange} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                       </div>
                   <div className="flex flex-col items-center justify-start mb-4 w-[95%] md:w-full">
                     <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-full">
@@ -662,7 +654,7 @@ const FilmFestivalRegistration: React.FC = () => {
                             Genres
                           </Text>
                               <div className="mb-6">
-                                 <input type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                                 <input name = "genres" value ={filmFestival.genres} onChange={handleInputChange} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                               </div>
                         </div>
                       </div>
@@ -679,7 +671,7 @@ const FilmFestivalRegistration: React.FC = () => {
                             Completed Date (Certification Date)
                           </Text>
                             <div className="mb-6">
-                                 <input onChange={handleCompletedDate} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                                 <input name = "completedDate" onChange={handleInputChange} value ={filmFestival.completedDate} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                             </div>
                         </div>
                       </div>
@@ -694,7 +686,7 @@ const FilmFestivalRegistration: React.FC = () => {
                             Production Budget
                           </Text>
                              <div className="mb-6">
-                                 <input onChange={handleProductionBudget} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                                 <input name = "productionBudget" value ={filmFestival.productionBudget} onChange={handleInputChange} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                              </div>
                         </div>
                       </div>
@@ -707,7 +699,7 @@ const FilmFestivalRegistration: React.FC = () => {
                             Country of Origin
                           </Text>
                             <div className="mb-6">
-                                 <input onChange={handleCountryOfOrigin} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                                 <input name = "countryOfOrigin" value ={filmFestival.countryOfOrigin} onChange={handleInputChange} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                             </div>
                         </div>
                       </div>
@@ -722,7 +714,7 @@ const FilmFestivalRegistration: React.FC = () => {
                             State
                           </Text>
                             <div className="mb-6">
-                                 <input onChange={handleState} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                                 <input name = "state" value ={filmFestival.state} onChange={handleInputChange} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                             </div>
                         </div>
                       </div>
@@ -735,7 +727,7 @@ const FilmFestivalRegistration: React.FC = () => {
                             Language
                           </Text>
                             <div className="mb-6">
-                                 <input onChange={handleLanguage} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
+                                 <input name = "language" value ={filmFestival.language} onChange={handleInputChange} type="text" id="default-input" className="placeholder-red-300 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></input>
                             </div>
                         </div>
                       </div>
