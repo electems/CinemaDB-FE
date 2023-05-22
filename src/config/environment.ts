@@ -5,5 +5,6 @@ export const environment = {
   mainProfessionalPath: 'mainprofessional',
   formLayoutPath: 'formlayout',
   masterFormPath: 'mastertemplates',
-  userFormPath: 'User'
+  userFormPath: 'User',
+  filmFestival: 'FilmFestival'
 }
