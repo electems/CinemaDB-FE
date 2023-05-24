@@ -129,7 +129,6 @@ export const SelectedIndustry: React.FC = () => {
       delete item.createdAt
       delete item.updatedAt
     })
-    api.put(`users/updateuser/${currentUser.id}`, currentUser)
     api.post('users/userAndUserSubCategory', currentUser)
 
     navigate('/film/register/subcategoryuserform', { state: { user: currentUser } })

@@ -9,23 +9,18 @@ import React, { useEffect, useState } from 'react'
 import { api } from '../../../../services/api'
 import './style.css'
 import { Button } from '../../../../components/Elements'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Tree } from 'antd'
 import { storage } from '../../../../storage/storage'
 import { Key } from 'antd/es/table/interface'
 import { DataNode } from 'antd/es/tree'
 import RegistrationHeader from '../../../../components/RegisterationHeader/registrationheader'
-interface InputData {
-  phonenumber,
-  preference
-}
 
 export const FilmPersonRegister: React.FC = () => {
   const [mainProfessional, setMainProfessional] = React.useState([])
   const [selectedNodes, setSelectedNodes] = React.useState<any[]>([])
   const [previouslySelectedIndustries, setPreviouslySelectedIndustries] = React.useState<Key[]>([])
   const navigate = useNavigate()
-  const inputData = useLocation().state as InputData
 
   useEffect(() => {
     retriveMainProfessionalList('mainprofessional', 'professionaldata')
@@ -61,19 +56,7 @@ export const FilmPersonRegister: React.FC = () => {
       currentUser.industrySelection = selectedNodes
       currentUser.step = '/film/register/filmpersonregister'
       api.put(`/users/updateuser/${currentUser.id}`, currentUser)
-    } else {
-      api.post('/users/createuser/', {
-        firstName: inputData.phonenumber,
-        email: inputData.phonenumber,
-        password: '1234567890',
-        phoneNumber: inputData.phonenumber,
-        userName: inputData.phonenumber,
-        role: inputData.preference,
-        step: '/film/register/filmpersonregister',
-        industrySelection: selectedNodes
-      })
     }
-
     navigate('/film/register/selectedindustry', { state: { selectedNodes } })
   }
 
