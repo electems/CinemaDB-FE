@@ -16,6 +16,7 @@ export interface User {
   filmIndustry?: string;
   type?: string;
   userSubCategory?: userSubCategory[]
+  planId?: number
 }
 
 export interface IndustrySelection {

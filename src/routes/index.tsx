@@ -22,6 +22,7 @@ import { CustomForm } from '../pages/Admin/CustomForm/app'
 import { CinemaFansForm } from '../pages/Film/Register/Filmpersonregister/cinemafansregister'
 import FilmFestivalRegistration from '../pages/Film/FilmFestival/filmFestival'
 import FilmFestivalForms from '../pages/Admin/FilmFestival/filmFestival'
+import MainScreenAfterLogin from '../pages/Film/Public/MainScreenAfterLogin/mainScreenAfterLogin'
 const RoutesMain = () => {
   return (
     <Routes>
@@ -51,8 +52,10 @@ const RoutesMain = () => {
       />
       <Route path="/film/public/aboutus" element={<AboutusPage />} />
       <Route path="/film/public/mainscreen" element={<MainScreen />} />
+      <Route path="/film/public/mainscreenafterlogin" element={<MainScreenAfterLogin />} />
 
       <Route path="*" element={<Page404 />} />
+      <Route path="/" element={<MainScreen />} />
     </Routes>
   )
 }

@@ -1,0 +1,30 @@
+[
+    {
+        "key": "f4df58ac-2557-429c-a8c3-9d36c1ff4204",
+        "title": "Ad agency / Promoter",
+        "isLeaf": false,
+        "children": [
+            {
+                "key": "18a32960-73f8-45a6-80de-1b98c0011cf7",
+                "title": "Adagency",
+                "isLeaf": false,
+                "parent": "f4df58ac-2557-429c-a8c3-9d36c1ff4204",
+                "children": []
+            },
+            {
+                "key": "3942671d-f492-49fa-b3af-e32f3da3e0a7",
+                "title": "Agency",
+                "isLeaf": false,
+                "parent": "f4df58ac-2557-429c-a8c3-9d36c1ff4204",
+                "children": []
+            },
+            {
+                "key": "59762df7-ec39-4d6f-9a1f-e5815077e896",
+                "title": "Promoter",
+                "isLeaf": false,
+                "parent": "f4df58ac-2557-429c-a8c3-9d36c1ff4204",
+                "children": []
+            }
+        ]
+    }
+]

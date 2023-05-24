@@ -48,14 +48,19 @@ export const LoginRegisterForm: React.FC = () => {
     }
   }, 1000)
   const generateOTP = async () => {
-    setActivateTimer(true)
     const userNamePhoneNumber = namePhoneNumber
-    await toastify('OTP Sent Successfully')
     const response = await api.get(`/auth/otp/${userNamePhoneNumber}`)
-    if (response) {
+    if (response === undefined) {
       await toastify('OTP Sent Successfully')
-    } else if (response === undefined && sendPreference === 'PERSON') {
-      navigate('/film/register/filmpersonregister', { state: { phoneNumber: namePhoneNumber, preference: sendPreference } })
+      api.post('/users/createuser/', {
+        firstName:namePhoneNumber,
+        email: namePhoneNumber,
+        password: '1234567890',
+        phoneNumber: namePhoneNumber,
+        userName: namePhoneNumber,
+        role: preference.preference,
+        status: 'ACTIVE'
+      })
     }
   }
   const verify = async () => {
@@ -67,7 +72,9 @@ export const LoginRegisterForm: React.FC = () => {
     storage.setUserLoggedUser(response.data)
     const loggedUser = storage.getLoggedUser()
     localStorage.setItem('@cinimaDb:Token', response.data.token)
-
+    if (loggedUser.planId != null) {
+      navigate('/film/public/mainscreenafterlogin')
+    }
     if (loggedUser.role === 'PERSON') {
       if (loggedUser.step === '/film/register/filmpersonregister' ||
           !loggedUser.step) {
@@ -92,7 +99,7 @@ export const LoginRegisterForm: React.FC = () => {
   }
   return (
     <>
-      <div className="bg-gray_800 font-montserrat h-[700px] mx-auto relative">
+      <div className="bg-gray_800 font-montserrat h-[650px] mx-auto relative">
         <div className="absolute bg-bluegray_101 flex h-full items-end justify-start p-[114px] md:px-5 right-[0]">
           <Img
             src="/images/img_authenticationrafiki.svg"

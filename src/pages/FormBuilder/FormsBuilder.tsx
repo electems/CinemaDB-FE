@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { Component } from 'react'
 import { ReactFormBuilder, ElementStore } from 'react-form-builder2'
 import Demobar from './demobar'
@@ -46,10 +47,11 @@ class FormsBuilder extends Component<Props, State> {
     )
     jsonData = response.data
     console.log(jsonData)
+    this.onLoad()
   }
 
   onLoad = () => {
-    const url = `form/readfile/${environment.formLayoutPath}/${labelName}/${environment.professionalData}`
+    const url = 'http://localhost:3001/form/readfile/mastertemplates/Personnel_Information/professionaldata'
     console.log('onLoad', url)
     return get(url)
   }
@@ -59,7 +61,7 @@ class FormsBuilder extends Component<Props, State> {
       <div className="App">
         <AdminHeader />
         <Demobar variables={variable} />
-        <ReactFormBuilder/>,
+        <ReactFormBuilder url='/editor' />,
       </div>
     )
   }
