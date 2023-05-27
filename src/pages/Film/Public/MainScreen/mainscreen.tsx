@@ -44,7 +44,7 @@ export const MainScreen: React.FC = () => {
   }, [])
 
   const retrieveFilmSections = async (language: string, formLayout: string) => {
-    const sections = await api.get(`form/${language}/${formLayout}`)
+    const sections = await api.get(`auth/${language}/${formLayout}`)
     let executeOnlyOnce = false
     sections.data.map(async (section:any) => {
       const movies = await retrieveFilmMovies(language, 'ottscreenimages')
@@ -70,14 +70,14 @@ export const MainScreen: React.FC = () => {
     })
   }
   const retrieveFilmMovies = async (language: string, formLayout: string) => {
-    return await api.get(`form/${language}/${formLayout}`)
+    return await api.get(`auth/${language}/${formLayout}`)
   }
 
   const retrieveCorusalImages = async (
     language: string,
     formLayout: string
   ) => {
-    const response = await api.get(`form/${language}/${formLayout}`)
+    const response = await api.get(`auth/${language}/${formLayout}`)
 
     setCarosualImage(response.data)
   }
