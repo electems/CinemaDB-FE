@@ -7,7 +7,7 @@ import { environment } from '../../../config/environment'
 import { useEffect, useState } from 'react'
 import AdminHeader from '../../../components/AdminHeader'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { EditableAntdTree, EditableAntdTreeNode } from '../../../components/Editablantd/EditableAntdTree'
+import { EditableAntdTree, EditableAntdTreeNode } from '../../../components/editablantd/editableAntdTree'
 import { v4 as uuidv4 } from 'uuid'
 import { removeSpaceAndSpecialCharacters } from '../../../services/filmservices'
 interface inputTitle {
@@ -51,7 +51,7 @@ const ProfessionalTree = () => {
     api.delete(`form/deletedirectory${environment.formLayoutPath}/${lablePath}`)
   }
 
-  function onClickCancel () {
+  function onClickCancel() {
     navigate('/admin/professionalListing')
   }
 
@@ -61,12 +61,12 @@ const ProfessionalTree = () => {
       <h1 className="title text-center pt-3">{lable}</h1>
       <br />
       <div>
-      {industryCategoryList.length > 0 &&
-        <div id='industry_lists'>
-        <EditableAntdTree source="level2" size="md" treeData={industryCategoryList}
-          />
-        </div>
-      }
+        {industryCategoryList.length > 0 &&
+          <div id='industry_lists'>
+            <EditableAntdTree source="level2" size="md" treeData={industryCategoryList}
+            />
+          </div>
+        }
         <button
           className="btn btn-success mr-4"
           onClick={() => saveProfessional()}
