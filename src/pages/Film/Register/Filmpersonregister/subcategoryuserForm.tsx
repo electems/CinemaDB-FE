@@ -1,3 +1,5 @@
+/* eslint-disable no-constant-condition */
+/* eslint-disable no-return-assign */
 /* eslint-disable object-shorthand */
 /* eslint-disable no-sequences */
 /* eslint-disable prefer-const */
@@ -8,15 +10,18 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable array-callback-return */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import React, { useEffect } from 'react'
+import React, { ChangeEvent, useEffect } from 'react'
 import { api } from '../../../../services/api'
 import { useLocation } from 'react-router-dom'
 import { environment } from '../../../../config/environment'
 import { Tabs } from 'antd'
 import './style'
+import Dropdown from 'react-dropdown';
+import { Text } from '../../../../components/Elements';
 import { ReactFormGenerator } from 'react-form-builder2'
 import { getTitleFromTabs } from '../../../../services/filmservices'
 import { ISubCategoryUserForm } from '../../../../types/subcategoryuserform.type'
+
 interface InputData {
   user
   selectednodes
@@ -27,22 +32,28 @@ interface Tab {
   label: string
 }
 
+const initialMovieState = {
+  value: '', text: '', id: 0
+}
+
 const displayTabs: Tab[] = []
 let renderTabsOfSelectedNodes: any = []
 let currentSubCategoryType: any
 let currentSubCategory: string = ''
 let userId: string
-
 export const SubCategoryUserForm: React.FC = () => {
-  // let formUserProfessionData = React.useRef([])
   const inputData = useLocation().state as InputData
   const [selectedMastersOfTheCurrentSubCategory, setSelectedMastersOfTheCurrentSubCategory] = React.useState([])
   const [formUserProfessionData, setFormUserProfessionData] = React.useState<any[]>([])
   const [active, setActive] = React.useState(false)
   const [selectedIndex, setSelectedIndex] = React.useState()
   const [formGeneratorLayoutOfSelectedTabAndType, setFormGeneratorLayoutOfSelectedTabAndType] = React.useState<any[]>([])
+  const [formValue, setFormValue] = React.useState<any[]>([])
+  const [dropdownId, setDropdownId] = React.useState('')
+  const [retriveDropdownValue, setRetriveDropdownValue] = React.useState(initialMovieState)
   useEffect(() => {
     userId = inputData.user.id
+    retriveMovies()
     retriveTabs()
   }, [])
 
@@ -72,7 +83,7 @@ export const SubCategoryUserForm: React.FC = () => {
     setSelectedMastersOfTheCurrentSubCategory(response)
     return response
   }
-  // load both tabs at same time
+
   const loadFormGeneratorAndUserProfessionData = async (currentSubCategory, currentSubCategoryType) => {
     const currentSubCategoryTypePath = currentSubCategoryType ? currentSubCategoryType.replaceAll(' ', '_') : ''
 
@@ -84,11 +95,15 @@ export const SubCategoryUserForm: React.FC = () => {
     // fetch user form data.
     const formProfessionData = await api.get(`userprofession/formdata/${userId}/${currentSubCategory}/${currentSubCategoryType}`)
     const loadDataFromBackend = await formProfessionData.data
-    if (loadDataFromBackend && loadDataFromBackend.length > 0) {
-      setFormUserProfessionData(loadDataFromBackend)
-    }
+    let movieFk: number
+    loadDataFromBackend.map((item) => {
+      movieFk = item.movie_fk
+    })
+    const dropDownValues = await retriveMovies()
+    const movieForCastAndCrew = dropDownValues.find(bird => bird.id === movieFk)
+    setRetriveDropdownValue(movieForCastAndCrew)
+    setFormUserProfessionData(loadDataFromBackend)
   }
-
   // vertical bar onclick
   const onClickOfSubCategoryType = async (selectedTab: string, i) => {
     setActive(!active)
@@ -105,6 +120,9 @@ export const SubCategoryUserForm: React.FC = () => {
     setFormUserProfessionData([])
     await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
   }
+  const handleChange = (e) => {
+    setDropdownId(JSON.parse(e.target.value).id)
+  };
 
   // on save should call post api
   const onClickOfSave = async (data, pk?) => {
@@ -112,7 +130,8 @@ export const SubCategoryUserForm: React.FC = () => {
       userId: userId,
       subCategory: currentSubCategory,
       subCategoryType: currentSubCategoryType,
-      value: data
+      value: data,
+      movieFk: dropdownId
     }
     if (pk) {
       subCategoryUserForm.id = pk
@@ -124,6 +143,15 @@ export const SubCategoryUserForm: React.FC = () => {
   const onClickOfAddNewMovie = async () => {
     await onClickOfSave([])
     await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
+    window.location.reload()
+  }
+
+  // Retrive Movies
+  const retriveMovies = async () => {
+    const movies = await api.get('userprofession/movies')
+    const response = await movies.data
+    setFormValue(response)
+    return response
   }
 
   return (
@@ -135,8 +163,8 @@ export const SubCategoryUserForm: React.FC = () => {
               return (
                 <div className="flex items-center justify-start mt-[10px] mx-auto w-[89%]">
                   <div onClick={() => onClickOfSubCategoryType(item, i)}
-                  className= {i === selectedIndex ? 'bg-white_A700 border-amber_A400 border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full' : ' bg-white_A700 border border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full'}>
-                       {item}
+                    className={i === selectedIndex ? 'bg-white_A700 border-amber_A400 border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full' : ' bg-white_A700 border border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full'}>
+                    {item}
                   </div>
                 </div>
               )
@@ -147,10 +175,27 @@ export const SubCategoryUserForm: React.FC = () => {
               <Tabs defaultActiveKey="1" items={renderTabsOfSelectedNodes} onChange={onClickOfSubCategoryTab} />
             </div>
             <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add New Movie</button>
-            {formUserProfessionData.length > 0 && formGeneratorLayoutOfSelectedTabAndType.length > 0 &&
-              formUserProfessionData.map((record: any, i) => {
-                return (
-                  <><div>{record.value[0]?.value}</div>
+            <div>
+              { currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC' || currentSubCategoryType === 'Professional Details' || currentSubCategoryType === 'Movie'
+                ? ' '
+                : <div>
+                  <label>Select Movie</label>
+              <select className = "form-control" placeholder="Please select your role" name='countryOfOrigin' onChange={handleChange}>
+              <option disabled={true} value="">
+                --Choose Movie--
+              </option>
+                {formValue.map(item => (
+                  <option key={item.value} value={JSON.stringify(item)}>
+                      {item.value}
+                  </option>
+                ))}
+              </select>
+            </div> }
+              {formUserProfessionData.length && formGeneratorLayoutOfSelectedTabAndType.length > 0
+                ? formUserProfessionData.map((record: any, i) => {
+                  return (
+                  <>
+                    <div>{record.value[0]?.value}</div>
                     <div>
                       <ReactFormGenerator
                         back_action=""
@@ -175,11 +220,40 @@ export const SubCategoryUserForm: React.FC = () => {
                               Save
                             </button>
                           </div>
-                        }/>
+                        } />
                     </div>
                   </>
-                )
-              })}
+                  )
+                })
+                : <>
+                {formGeneratorLayoutOfSelectedTabAndType.length > 0 &&
+                  <ReactFormGenerator
+                    back_action=""
+                    form_action=""
+                    form_method="POST"
+                    data={formGeneratorLayoutOfSelectedTabAndType}
+                    onSubmit={(data) => onClickOfSave(data)}
+                    submitButton={
+                      <div className="flex sm:flex-col flex-row font-poppins gap-[25px] items-center justify-end ml-auto w-[44%] md:w-full">
+                        <button className="border border-gray_400 border-solid capitalize cursor-pointer font-semibold leading-[normal] min-w-[139px] py-[13px] rounded-[5px] sm:text-[17.62px] md:text-[19.62px] text-[21.62px] text-center text-indigo_900 tracking-[1.73px] w-auto">
+                          Reset
+                        </button>
+                        <div className="flex items-center justify-center self-stretch w-auto">
+                          <button className="border border-gray_400 border-solid capitalize cursor-pointer font-semibold leading-[normal] min-w-[139px] py-[13px] rounded-[5px] sm:text-[17.62px] md:text-[19.62px] text-[21.62px] text-center text-indigo_900 tracking-[1.73px] w-auto">
+                            cancel
+                          </button>
+                        </div>
+                        <button type="submit"
+                          className="bg-red_A700 capitalize font-semibold h-[59px] justify-center pl-5 sm:pr-5 pr-8 py-[13px] rounded-[5px] text-center text-white_A700 tracking-[1.73px] w-[113px]"
+                        >
+                          Save
+                        </button>
+                      </div>
+                    } />
+                }
+
+              </>}
+            </div>
           </div>
         </div>
       </div>
