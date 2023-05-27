@@ -9,7 +9,7 @@ import { storage } from '../../../storage/storage'
 import { api } from '../../../services/api'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Img, Text, Input, Button, Line } from '../../../components/Elements'
-import { toastify } from '../../../services/filmservices'
+import { toastify, errorToastify } from '../../../services/filmservices'
 import { Radio, Space } from 'antd'
 
 interface types {
@@ -50,17 +50,13 @@ export const LoginRegisterForm: React.FC = () => {
   const generateOTP = async () => {
     const userNamePhoneNumber = namePhoneNumber
     const response = await api.get(`/auth/otp/${userNamePhoneNumber}`)
-    if (response === undefined) {
-      await toastify('OTP Sent Successfully')
-      api.post('/users/createuser/', {
-        firstName:namePhoneNumber,
-        email: namePhoneNumber,
-        password: '1234567890',
-        phoneNumber: namePhoneNumber,
-        userName: namePhoneNumber,
+    const userObject = response.data
+    if (userObject) {
+      api.put(`/users/updateuser/${userObject.id}`, {
         role: preference.preference,
         status: 'ACTIVE'
       })
+      await toastify('OTP Sent Successfully')
     }
   }
   const verify = async () => {
@@ -69,12 +65,17 @@ export const LoginRegisterForm: React.FC = () => {
       password: otpNumber
     }
     const response = await api.post('/auth/login', data)
+    if (response === undefined) {
+      await errorToastify('Please Enter Correct OTP')
+    }
     storage.setUserLoggedUser(response.data)
     const loggedUser = storage.getLoggedUser()
     localStorage.setItem('@cinimaDb:Token', response.data.token)
+
     if (loggedUser.planId != null) {
       navigate('/film/public/mainscreenafterlogin')
     }
+
     if (loggedUser.role === 'PERSON') {
       if (loggedUser.step === '/film/register/filmpersonregister' ||
           !loggedUser.step) {

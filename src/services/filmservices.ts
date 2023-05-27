@@ -82,3 +82,15 @@ export const toastify = async (sentenceToDisplay: string) => {
     progress: 0
   })
 }
+
+export const errorToastify = async (sentenceToDisplay: string) => {
+  toast.error(sentenceToDisplay, {
+    position: 'top-center',
+    autoClose: false,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: 0
+  })
+}
