@@ -8,7 +8,7 @@ type Footerhome = React.DetailedHTMLProps<
 > &
   Partial<{}>;
 
-const Footer: React.FC<Footerhome> = () => {
+const Footer: React.FC<Footerhome> = (props) => {
   return (
     <>
       <head>
@@ -19,7 +19,7 @@ const Footer: React.FC<Footerhome> = () => {
         />
         <link rel="manifest" href="manifest.json" />
       </head>
-      <footer className="bg-gray_800 flex font-roboto items-center justify-center md:px-5 w-full">
+      <footer className={props.className}>
         <div className="flex items-center justify-center mt-1.5 w-full">
           <div className="flex flex-col items-center justify-center w-full">
             <Img

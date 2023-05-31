@@ -92,10 +92,6 @@ body {
   border-color: #2196f3;
 }
 
-.border {
-  color: black;
-}
-
 :where(.css-dev-only-do-not-override-1fviqcj).ant-tree {
   box-sizing: border-box;
   margin: 0;
@@ -125,6 +121,7 @@ body {
   float: right;
   color: #3377ff;
 }
-.margin-top{
+
+.margin-top {
   margin-top: 20px;
 }

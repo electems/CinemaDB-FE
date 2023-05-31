@@ -54,7 +54,7 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
         ></Input>
         <div
           className="common-pointer flex flex-row gap-[11px] items-end justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] w-[10%] md:w-full"
-          onClick={() => navigate('/film/register/filmfestivalregistration')}
+          onClick={() => navigate('/film/filmfestival/filmfestivalregistration')}
         >
           <Text
             className="font-medium font-montserrat text-left text-white_A700 w-auto"

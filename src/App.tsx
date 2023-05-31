@@ -7,6 +7,10 @@ function AppMain () {
   if (!path.includes('admin')) {
     return (
       <div className="App">
+        <link
+          rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+        ></link>
         <RoutesMain></RoutesMain>
       </div>
     )

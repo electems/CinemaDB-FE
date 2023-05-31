@@ -22,7 +22,6 @@ export const LoginRegisterForm: React.FC = () => {
   const [activateTimer, setActivateTimer] = React.useState(false)
   const preference = useLocation().state as types
   const navigate = useNavigate()
-  const sendPreference = preference.preference
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNamePhoneNumber(event.target.value)
   }
@@ -52,12 +51,12 @@ export const LoginRegisterForm: React.FC = () => {
     const response = await api.get(`/auth/otp/${userNamePhoneNumber}`)
     const userObject = response.data
     if (userObject) {
-      api.put(`/users/updateuser/${userObject.id}`, {
+      await api.put(`/users/updateuser/${userObject.id}`, {
         role: preference.preference,
         status: 'ACTIVE'
       })
-      await toastify('OTP Sent Successfully')
     }
+    await toastify('OTP Sent Successfully')
   }
   const verify = async () => {
     const data: Login = {
@@ -100,7 +99,7 @@ export const LoginRegisterForm: React.FC = () => {
   }
   return (
     <>
-      <div className="bg-gray_800 font-montserrat h-[650px] mx-auto relative">
+      <div className="bg-gray_800 font-montserrat h-[982px] mx-auto relative w-full">
         <div className="absolute bg-bluegray_101 flex h-full items-end justify-start p-[114px] md:px-5 right-[0]">
           <Img
             src="/images/img_authenticationrafiki.svg"
@@ -124,7 +123,7 @@ export const LoginRegisterForm: React.FC = () => {
                   </div>
           <div className="flex flex-col items-center justify-start w-full">
             <div className=" h-[311px] relative w-full">
-              <input onChange={handleInputChange} placeholder="Enter Number Or Email" className="absolute border placeholder:text-gray_900 pl-[30px] `border-solid border-white_A700 flex inset-x-[0] items-start justify-end mx-auto p-[10px] sm:px-5 rounded-[10px] top-[0] w-full">
+              <input onChange={handleInputChange} placeholder="Enter Number Or Email" className="absolute border placeholder:text-gray_900 pl-[30px] border-solid border-white_A700 flex inset-x-[0] items-start justify-end mx-auto p-[10px] sm:px-5 rounded-[10px] top-[0] w-full">
               </input>
                 <div className="absolute top-2 right-2 ">
                    <button

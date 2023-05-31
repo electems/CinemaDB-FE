@@ -16,8 +16,6 @@ import { useLocation } from 'react-router-dom'
 import { environment } from '../../../../config/environment'
 import { Tabs } from 'antd'
 import './style'
-import Dropdown from 'react-dropdown';
-import { Text } from '../../../../components/Elements';
 import { ReactFormGenerator } from 'react-form-builder2'
 import { getTitleFromTabs } from '../../../../services/filmservices'
 import { ISubCategoryUserForm } from '../../../../types/subcategoryuserform.type'
@@ -49,7 +47,7 @@ export const SubCategoryUserForm: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = React.useState()
   const [formGeneratorLayoutOfSelectedTabAndType, setFormGeneratorLayoutOfSelectedTabAndType] = React.useState<any[]>([])
   const [formValue, setFormValue] = React.useState<any[]>([])
-  const [dropdownId, setDropdownId] = React.useState('')
+  const [dropdownId, setDropdownId] = React.useState(0)
   const [retriveDropdownValue, setRetriveDropdownValue] = React.useState(initialMovieState)
   useEffect(() => {
     userId = inputData.user.id
@@ -97,7 +95,9 @@ export const SubCategoryUserForm: React.FC = () => {
     const loadDataFromBackend = await formProfessionData.data
     let movieFk: number
     loadDataFromBackend.map((item) => {
-      movieFk = item.movie_fk
+      if (item.movie_fk !== 0) {
+        movieFk = item.movie_fk
+      }
     })
     const dropDownValues = await retriveMovies()
     const movieForCastAndCrew = dropDownValues.find(bird => bird.id === movieFk)
@@ -143,7 +143,6 @@ export const SubCategoryUserForm: React.FC = () => {
   const onClickOfAddNewMovie = async () => {
     await onClickOfSave([])
     await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
-    window.location.reload()
   }
 
   // Retrive Movies
@@ -153,7 +152,6 @@ export const SubCategoryUserForm: React.FC = () => {
     setFormValue(response)
     return response
   }
-
   return (
     <>
       <div className="">
@@ -163,7 +161,7 @@ export const SubCategoryUserForm: React.FC = () => {
               return (
                 <div className="flex items-center justify-start mt-[10px] mx-auto w-[89%]">
                   <div onClick={() => onClickOfSubCategoryType(item, i)}
-                    className={i === selectedIndex ? 'bg-white_A700 border-amber_A400 border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full' : ' bg-white_A700 border border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full'}>
+                    className={i === selectedIndex ? 'bg-white_A700 border-4 border-amber_A400 border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full' : ' bg-white_A700 border border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full'}>
                     {item}
                   </div>
                 </div>
@@ -174,85 +172,102 @@ export const SubCategoryUserForm: React.FC = () => {
             <div className="row mt-5 tab-label">
               <Tabs defaultActiveKey="1" items={renderTabsOfSelectedNodes} onChange={onClickOfSubCategoryTab} />
             </div>
-            <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add New Movie</button>
             <div>
-              { currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC' || currentSubCategoryType === 'Professional Details' || currentSubCategoryType === 'Movie'
+              {currentSubCategoryType === 'Movie'
+                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add New Movie</button>
+                : ''}
+            </div>
+               <div>
+               {currentSubCategoryType === 'Cast' || currentSubCategoryType === 'Crew'
+                 ? <div><button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add</button></div>
+                 : ''}
+               </div>
+              <div>
+              {currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC' || currentSubCategoryType === 'Professional Details' || currentSubCategoryType === 'Movie'
                 ? ' '
                 : <div>
-                  <label>Select Movie</label>
-              <select className = "form-control" placeholder="Please select your role" name='countryOfOrigin' onChange={handleChange}>
-              <option disabled={true} value="">
-                --Choose Movie--
-              </option>
-                {formValue.map(item => (
-                  <option key={item.value} value={JSON.stringify(item)}>
-                      {item.value}
-                  </option>
-                ))}
-              </select>
-            </div> }
-              {formUserProfessionData.length && formGeneratorLayoutOfSelectedTabAndType.length > 0
-                ? formUserProfessionData.map((record: any, i) => {
-                  return (
-                  <>
+                   <label>Select Movie</label>
+                  <select className="form-control" placeholder="Please select your role" name='countryOfOrigin' onChange={handleChange} value={JSON.stringify(retriveDropdownValue)}>
+                    {formValue.map(item => (
+                      <option key={item.value} value={JSON.stringify(item)}>
+                        {item.value}
+                      </option>
+                    ))}
+                  </select>
+                </div>}
+               {formUserProfessionData.length && formGeneratorLayoutOfSelectedTabAndType.length > 0
+                 ? formUserProfessionData.map((record: any, i) => {
+                   return (
+                    <>
                     <div>{record.value[0]?.value}</div>
-                    <div>
-                      <ReactFormGenerator
-                        back_action=""
-                        form_action=""
-                        answer_data={record.value}
-                        form_method="POST"
-                        data={formGeneratorLayoutOfSelectedTabAndType}
-                        onSubmit={(data) => onClickOfSave(data, record.id)}
-                        submitButton={
-                          <div className="flex sm:flex-col flex-row font-poppins gap-[25px] items-center justify-end ml-auto w-[44%] md:w-full">
-                            <button className="border border-gray_400 border-solid capitalize cursor-pointer font-semibold leading-[normal] min-w-[139px] py-[13px] rounded-[5px] sm:text-[17.62px] md:text-[19.62px] text-[21.62px] text-center text-indigo_900 tracking-[1.73px] w-auto">
-                              Reset
-                            </button>
-                            <div className="flex items-center justify-center self-stretch w-auto">
+                      <div>
+                        <ReactFormGenerator
+                          back_action=""
+                          form_action=""
+                          answer_data={record.value}
+                          form_method="POST"
+                          data={formGeneratorLayoutOfSelectedTabAndType}
+                          onSubmit={(data) => onClickOfSave(data, record.id)}
+                          submitButton={
+                            <div className="flex sm:flex-col flex-row font-poppins gap-[25px] items-center justify-end ml-auto w-[44%] md:w-full">
                               <button className="border border-gray_400 border-solid capitalize cursor-pointer font-semibold leading-[normal] min-w-[139px] py-[13px] rounded-[5px] sm:text-[17.62px] md:text-[19.62px] text-[21.62px] text-center text-indigo_900 tracking-[1.73px] w-auto">
-                                cancel
+                                Reset
+                              </button>
+                              <div className="flex items-center justify-center self-stretch w-auto">
+                                <button className="border border-gray_400 border-solid capitalize cursor-pointer font-semibold leading-[normal] min-w-[139px] py-[13px] rounded-[5px] sm:text-[17.62px] md:text-[19.62px] text-[21.62px] text-center text-indigo_900 tracking-[1.73px] w-auto">
+                                  cancel
+                                </button>
+                              </div>
+                              <button type="submit"
+                                className="bg-red_A700 capitalize font-semibold h-[59px] justify-center pl-5 sm:pr-5 pr-8 py-[13px] rounded-[5px] text-center text-white_A700 tracking-[1.73px] w-[113px]"
+                              >
+                                Save
                               </button>
                             </div>
-                            <button type="submit"
-                              className="bg-red_A700 capitalize font-semibold h-[59px] justify-center pl-5 sm:pr-5 pr-8 py-[13px] rounded-[5px] text-center text-white_A700 tracking-[1.73px] w-[113px]"
-                            >
-                              Save
+                          } />
+                      </div>
+                    </>
+                   )
+                 })
+                 : <>
+                 {currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC' || currentSubCategoryType === 'Professional Details' || currentSubCategoryType === 'Movie'
+                   ? ' '
+                   : <div>
+                   <label>Select Movie</label>
+                  <select className="form-control" placeholder="Please select your role" name='countryOfOrigin' onChange={handleChange} value={JSON.stringify(retriveDropdownValue)}>
+                    {formValue.map(item => (
+                      <option key={item.value} value={JSON.stringify(item)}>
+                        {item.value}
+                      </option>
+                    ))}
+                  </select>
+                </div>}
+                  {formGeneratorLayoutOfSelectedTabAndType.length > 0 &&
+                    <ReactFormGenerator
+                      back_action=""
+                      form_action=""
+                      form_method="POST"
+                      data={formGeneratorLayoutOfSelectedTabAndType}
+                      onSubmit={(data) => onClickOfSave(data)}
+                      submitButton={
+                        <div className="flex sm:flex-col flex-row font-poppins gap-[25px] items-center justify-end ml-auto w-[44%] md:w-full mr-4">
+                          <button className="border border-gray_400 border-solid capitalize cursor-pointer font-semibold leading-[normal] min-w-[139px] py-[9px] rounded-[5px] sm:text-[17.62px] md:text-[19.62px] text-[21.62px] text-center text-indigo_900 tracking-[1.73px] w-auto">
+                            Reset
+                          </button>
+                          <div className="flex items-center justify-center self-stretch w-auto">
+                            <button className="border border-gray_400 border-solid capitalize cursor-pointer font-semibold leading-[normal] min-w-[139px] py-[9px] rounded-[5px] sm:text-[17.62px] md:text-[19.62px] text-[21.62px] text-center text-indigo_900 tracking-[1.73px] w-auto">
+                              cancel
                             </button>
                           </div>
-                        } />
-                    </div>
-                  </>
-                  )
-                })
-                : <>
-                {formGeneratorLayoutOfSelectedTabAndType.length > 0 &&
-                  <ReactFormGenerator
-                    back_action=""
-                    form_action=""
-                    form_method="POST"
-                    data={formGeneratorLayoutOfSelectedTabAndType}
-                    onSubmit={(data) => onClickOfSave(data)}
-                    submitButton={
-                      <div className="flex sm:flex-col flex-row font-poppins gap-[25px] items-center justify-end ml-auto w-[44%] md:w-full">
-                        <button className="border border-gray_400 border-solid capitalize cursor-pointer font-semibold leading-[normal] min-w-[139px] py-[13px] rounded-[5px] sm:text-[17.62px] md:text-[19.62px] text-[21.62px] text-center text-indigo_900 tracking-[1.73px] w-auto">
-                          Reset
-                        </button>
-                        <div className="flex items-center justify-center self-stretch w-auto">
-                          <button className="border border-gray_400 border-solid capitalize cursor-pointer font-semibold leading-[normal] min-w-[139px] py-[13px] rounded-[5px] sm:text-[17.62px] md:text-[19.62px] text-[21.62px] text-center text-indigo_900 tracking-[1.73px] w-auto">
-                            cancel
+                          <button type="submit"
+                            className="bg-red_A700 capitalize font-semibold justify-center pl-5 sm:pr-5 pr-8 py-[13px] rounded-[5px] sm:text-[17.62px] md:text-[19.62px] text-center text-white_A700 tracking-[1.73px] w-[113px] text-lg"
+                          >
+                            Save
                           </button>
                         </div>
-                        <button type="submit"
-                          className="bg-red_A700 capitalize font-semibold h-[59px] justify-center pl-5 sm:pr-5 pr-8 py-[13px] rounded-[5px] text-center text-white_A700 tracking-[1.73px] w-[113px]"
-                        >
-                          Save
-                        </button>
-                      </div>
-                    } />
-                }
-
-              </>}
+                      } />
+                  }
+                </>}
             </div>
           </div>
         </div>

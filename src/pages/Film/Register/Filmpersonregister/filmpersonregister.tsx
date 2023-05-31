@@ -53,9 +53,10 @@ export const FilmPersonRegister: React.FC = () => {
     if (currentUser) {
       delete currentUser.token
       delete currentUser.otp
+      delete currentUser.userSubCategory
       currentUser.industrySelection = selectedNodes
-      currentUser.step = '/film/register/filmpersonregister'
-      api.put(`/users/updateuser/${currentUser.id}`, currentUser)
+      currentUser.step = '  '
+       api.put(`/users/updateuser/${currentUser.id}`, currentUser)
     }
     navigate('/film/register/selectedindustry', { state: { selectedNodes } })
   }

@@ -6,7 +6,6 @@ export const SelectPreferenceForm: React.FC = () => {
   const navigate = useNavigate()
 
   const storeUserPreference = (type: string) => {
-    localStorage.setItem('type', type)
     navigate('/film/login/loginregister', { state: { preference: type } })
   }
 

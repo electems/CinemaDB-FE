@@ -6,6 +6,7 @@ import { ContextProvider } from './contexts/contextLogin'
 import { ToastContainer } from 'react-toastify'
 import './styles/index.css'
 import './styles/tailwind.css'
+import './styles/font.css'
 
 import { GlobalStyle } from './styles/global'
 import AppMain, { AdminMain } from './App'

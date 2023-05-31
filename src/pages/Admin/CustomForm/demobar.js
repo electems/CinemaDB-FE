@@ -3,6 +3,7 @@ import { ReactFormGenerator, ElementStore } from 'react-form-builder2'
 import { environment } from '../../../config/environment'
 import { api } from '../../../services/api'
 let jsondata = []
+const masterLabelFormLabel = localStorage.getItem('masterFormslabel')
 export default class Demobar extends React.Component {
   constructor (props) {
     super(props)
@@ -16,29 +17,30 @@ export default class Demobar extends React.Component {
     this._onUpdate = this._onChange.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     ElementStore.subscribe(state => this._onUpdate(state.data))
+    this.retriveForms()
   }
 
-  showPreview () {
+  showPreview() {
     this.setState({
       previewVisible: true
     })
   }
 
-  showShortPreview () {
+  showShortPreview() {
     this.setState({
       shortPreviewVisible: true
     })
   }
 
-  showRoPreview () {
+  showRoPreview() {
     this.setState({
       roPreviewVisible: true
     })
   }
 
-  closePreview () {
+  closePreview() {
     this.setState({
       previewVisible: false,
       shortPreviewVisible: false,
@@ -46,7 +48,7 @@ export default class Demobar extends React.Component {
     })
   }
 
-  _onChange (data) {
+  _onChange(data) {
     this.setState({
       data
     })
@@ -55,12 +57,17 @@ export default class Demobar extends React.Component {
 
   _onSubmit () {
     const data = jsondata
-    console.log('onSubmit', data)
     api.post(
-        `form/writefile/${environment.masterFormPath}/movie/${environment.professionalData}`,
-        data
+      `form/writefile/${environment.masterFormPath}${masterLabelFormLabel}/${environment.professionalData}`,
+      data
     )
-    // Place code to post json data to server here
+  }
+
+  async retriveForms () {
+    const response = await api.get(
+      `form/readfile/${environment.masterFormPath}/${masterLabelFormLabel}/${environment.professionalData}`
+    )
+      jsondata = response.data
   }
 
   render () {
@@ -86,14 +93,13 @@ export default class Demobar extends React.Component {
         <button className="btn btn-default float-right" style={{ marginRight: '10px' }} onClick={this.showShortPreview.bind(this)}>Alternate/Short Form</button>
         <button className="btn btn-default float-right" style={{ marginRight: '10px' }} onClick={this.showRoPreview.bind(this)}>Read Only Form</button>
 
-        { this.state.previewVisible &&
+        {this.state.previewVisible &&
           <div className={modalClass} role="dialog">
             <div className="modal-dialog modal-lg" role="document">
               <div className="modal-content">
                 <ReactFormGenerator
                   download_path=""
                   back_action="/"
-                  back_name="Back"
                   answer_data={{ jsondata }}
                   action_name="Save"
                   form_action="/"
@@ -109,14 +115,13 @@ export default class Demobar extends React.Component {
           </div>
         }
 
-        { this.state.roPreviewVisible &&
+        {this.state.roPreviewVisible &&
           <div className={roModalClass}>
             <div className="modal-dialog modal-lg">
               <div className="modal-content">
                 <ReactFormGenerator
                   download_path=""
                   back_action="/"
-                  back_name="Back"
                   answer_data={{}}
                   action_name="Save"
                   form_action="/"
@@ -132,7 +137,7 @@ export default class Demobar extends React.Component {
           </div>
         }
 
-        { this.state.shortPreviewVisible &&
+        {this.state.shortPreviewVisible &&
           <div className={shortModalClass}>
             <div className="modal-dialog modal-lg">
               <div className="modal-content">

@@ -20,7 +20,7 @@ const Header: React.FC<MainHeader> = (props) => {
   }
   return (
     <>
-      <header className="bg-gray_800 flex flex-row font-roboto items-center justify-center md:px-5 w-full">
+      <header className={props.className}>
         <div className="h-[93px] md:ml-[0] ml-[99px] md:mt-0 mt-[5px] relative w-[16%] md:w-full">
           <Img
             src="/images/cinemadbheaderlogo.png"
@@ -61,7 +61,7 @@ const Header: React.FC<MainHeader> = (props) => {
                 )
           }
         ></Input>
-        <div className="flex flex-row gap-[11px] items-end justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] w-[10%] md:w-full">
+        <div className="flex flex-row gap-[11px] items-end justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] md:w-full">
           <Text
             className="font-medium font-montserrat text-left text-white_A700 w-auto"
             variant="body26"
@@ -70,11 +70,11 @@ const Header: React.FC<MainHeader> = (props) => {
           </Text>
           <Img
             src="/images/img_arrowdown.svg"
-            className="h-[9px] mb-[3px] mt-1.5 w-auto"
+            className="mb-2 h-[9px] w-auto"
             alt="arrowdown"
           />
         </div>
-        <div className="flex flex-row gap-2.5 items-center justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] w-[10%] md:w-full">
+        <div className="flex flex-row gap-2.5 items-center justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] md:w-full">
           <Text
             className="font-medium font-montserrat text-left text-white_A700 w-auto"
             variant="body26"
@@ -92,6 +92,7 @@ const Header: React.FC<MainHeader> = (props) => {
          size={34}
          strokeWidth={1.5}
          color={'white'}
+         className='cursor-pointer'
          onClick={navigateToPreferencePage}
            />
         </div>
