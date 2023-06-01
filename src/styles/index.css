@@ -240,3 +240,8 @@ ul li a {
 .form-builder-button {
   background-color: whitesmoke;
 }
+
+.custom-control-input {
+  margin-right: 10px;
+
+}

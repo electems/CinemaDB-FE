@@ -31,7 +31,6 @@ ul::-webkit-scrollbar-thumb {
     margin: 0;
     box-sizing: border-box;
     outline: none;
-    border: none;
     transition: all .2s ease-out;
     text-decoration: none;
   }

@@ -49,14 +49,18 @@ export const LoginRegisterForm: React.FC = () => {
   const generateOTP = async () => {
     const userNamePhoneNumber = namePhoneNumber
     const response = await api.get(`/auth/otp/${userNamePhoneNumber}`)
-    const userObject = response.data
-    if (userObject) {
-      await api.put(`/users/updateuser/${userObject.id}`, {
-        role: preference.preference,
-        status: 'ACTIVE'
-      })
+    if (response === undefined) {
+      await errorToastify('Please Enter Correct Email Or Phone Number')
+    } else {
+      const userObject = response.data
+      if (userObject) {
+        await api.put(`/users/updateuser/${userObject.id}`, {
+          role: preference.preference,
+          status: 'ACTIVE'
+        })
+        await toastify('OTP Sent Successfully')
+      }
     }
-    await toastify('OTP Sent Successfully')
   }
   const verify = async () => {
     const data: Login = {
