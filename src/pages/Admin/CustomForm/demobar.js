@@ -17,30 +17,30 @@ export default class Demobar extends React.Component {
     this._onUpdate = this._onChange.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     ElementStore.subscribe(state => this._onUpdate(state.data))
     this.retriveForms()
   }
 
-  showPreview() {
+  showPreview () {
     this.setState({
       previewVisible: true
     })
   }
 
-  showShortPreview() {
+  showShortPreview () {
     this.setState({
       shortPreviewVisible: true
     })
   }
 
-  showRoPreview() {
+  showRoPreview () {
     this.setState({
       roPreviewVisible: true
     })
   }
 
-  closePreview() {
+  closePreview () {
     this.setState({
       previewVisible: false,
       shortPreviewVisible: false,
@@ -48,7 +48,7 @@ export default class Demobar extends React.Component {
     })
   }
 
-  _onChange(data) {
+  _onChange (data) {
     this.setState({
       data
     })
@@ -61,13 +61,14 @@ export default class Demobar extends React.Component {
       `form/writefile/${environment.masterFormPath}${masterLabelFormLabel}/${environment.professionalData}`,
       data
     )
+    window.location.href = '/admin/masterforms'
   }
 
   async retriveForms () {
     const response = await api.get(
       `form/readfile/${environment.masterFormPath}/${masterLabelFormLabel}/${environment.professionalData}`
     )
-      jsondata = response.data
+    jsondata = response.data
   }
 
   render () {

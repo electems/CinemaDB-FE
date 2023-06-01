@@ -22,7 +22,12 @@ const MasterForms: React.FC = () => {
   const editMasterFormListing = (label: string) => {
     // using local storage because form builder is js file
     localStorage.setItem('masterFormslabel', label)
-    navigate('/admin/formbuilders')
+    if (label === 'Movie') {
+      navigate('/admin/customform')
+    } 
+    else {
+      navigate('/admin/formbuilders')
+    }
   }
   return (
     <>
@@ -43,12 +48,12 @@ const MasterForms: React.FC = () => {
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                   <td>{item}</td>
                   <td>
-                  <Edit
-                     size={25}
-                     onClick={() => editMasterFormListing(item)}
-                     strokeWidth={1.5}
-                     color={'#4048bf'}
-                     className='admin-edit-icon contactIcon pointer'
+                    <Edit
+                      size={25}
+                      onClick={() => editMasterFormListing(item)}
+                      strokeWidth={1.5}
+                      color={'#4048bf'}
+                      className='admin-edit-icon contactIcon pointer'
                     />
                   </td>
                 </tr>

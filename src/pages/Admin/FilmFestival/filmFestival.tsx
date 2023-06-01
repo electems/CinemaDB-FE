@@ -18,7 +18,7 @@ const FilmFestivalForms: React.FC = () => {
     setFilmFestival(res.data)
   }
   const approveFilmFormRegistration = (id: string) => {
-    navigate('/film/register/filmfestivalregistration', { state: { id } })
+    navigate('/film/filmfestival/filmfestivalregistration', { state: { id } })
   }
   return (
     <>
@@ -43,12 +43,12 @@ const FilmFestivalForms: React.FC = () => {
                   <td>{item.movieTittle}</td>
                   <td>{item.genres}</td>
                   <td>
-                  <Edit
-                     size={25}
-                     onClick={() => approveFilmFormRegistration(item.id)}
-                     strokeWidth={1.5}
-                     color={'#4048bf'}
-                     className='admin-edit-icon contactIcon pointer'
+                    <Edit
+                      size={25}
+                      onClick={() => approveFilmFormRegistration(item.id)}
+                      strokeWidth={1.5}
+                      color={'#4048bf'}
+                      className='admin-edit-icon contactIcon pointer'
                     />
                   </td>
                 </tr>

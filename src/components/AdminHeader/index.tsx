@@ -8,6 +8,9 @@ const AdminHeader = () => {
   function logout () {
     localStorage.removeItem('@cinimaDb:Token')
     localStorage.removeItem('authuser')
+    localStorage.removeItem('selectedLabel')
+    localStorage.removeItem('masterFormslabel')
+    localStorage.removeItem('filmFestivalFormLabel')
     navigate('/admin/login')
   };
 

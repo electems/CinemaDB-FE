@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
 import React from 'react'
 import { ReactFormGenerator, ElementStore } from 'react-form-builder2'
@@ -79,21 +80,27 @@ export default class Demobar extends React.Component {
     const data = jsondata
     if (labelName) {
       const labelPath = await removeSpaceAndSpecialCharacters(labelName)
-      api.post(
+      await api.post(
         `form/writefile/${environment.formLayoutPath}/${labelPath}/${environment.professionalData}`,
         data
       )
-      api.delete(`form/deletedirectory/${mainLablePath}`)
-    } else if (masterLabelFormLabel) {
-      api.post(
+      // await api.delete(`form/deletedirectory/${environment.mainProfessionalPath}`)
+      localStorage.removeItem('selectedLabel');
+      window.location.href = '/admin/professionallisting'
+    } else if (this.masterLabelFormLabel) {
+      await api.post(
         `form/writefile/${environment.masterFormPath}/${masterLabelFormLabel}/${environment.professionalData}`,
         data
       )
+      localStorage.removeItem('masterFormslabel');
+      window.location.href = '/admin/masterforms'
     } else {
-      api.post(
+      await api.post(
         `form/writefile/${environment.filmFestival}/${filmFestivalFormLabel}/${environment.professionalData}`,
         data
       )
+      localStorage.removeItem('filmFestivalFormLabel');
+      window.location.href = '/admin/filmfestivalforms'
     }
   }
 
