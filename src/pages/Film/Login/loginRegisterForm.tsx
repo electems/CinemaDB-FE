@@ -53,11 +53,13 @@ export const LoginRegisterForm: React.FC = () => {
       await errorToastify('Please Enter Correct Email Or Phone Number')
     } else {
       const userObject = response.data
-      if (userObject) {
+      if (userObject.role === '') {
         await api.put(`/users/updateuser/${userObject.id}`, {
           role: preference.preference,
           status: 'ACTIVE'
         })
+        await toastify('OTP Sent Successfully')
+      } else {
         await toastify('OTP Sent Successfully')
       }
     }
