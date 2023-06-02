@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-return-assign */
 /* eslint-disable object-shorthand */
@@ -10,7 +11,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable array-callback-return */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { api } from '../../../../services/api'
 import { useLocation } from 'react-router-dom'
 import { environment } from '../../../../config/environment'
@@ -23,7 +24,7 @@ import { ISubCategoryUserForm } from '../../../../types/subcategoryuserform.type
 interface InputData {
   user
   selectednodes
-  userObject
+  role
 }
 interface Tab {
   key: string;
@@ -136,8 +137,11 @@ export const SubCategoryUserForm: React.FC = () => {
     if (pk) {
       subCategoryUserForm.id = pk
     }
+    if (inputData.role === 'PENMAN') {
+      subCategoryUserForm.status = 'APPROVED'
+    }
 
-    api.post('userprofession/createform/formdata', subCategoryUserForm)
+    await api.post('userprofession/createform/formdata', subCategoryUserForm)
   }
 
   const onClickOfAddNewMovie = async () => {
@@ -230,18 +234,6 @@ export const SubCategoryUserForm: React.FC = () => {
                    )
                  })
                  : <>
-                 {currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC' || currentSubCategoryType === 'Professional Details' || currentSubCategoryType === 'Movie'
-                   ? ' '
-                   : <div>
-                   <label>Select Movie</label>
-                  <select className="form-control" placeholder="Please select your role" name='countryOfOrigin' onChange={handleChange} value={JSON.stringify(retriveDropdownValue)}>
-                    {formValue.map(item => (
-                      <option key={item.value} value={JSON.stringify(item)}>
-                        {item.value}
-                      </option>
-                    ))}
-                  </select>
-                </div>}
                   {formGeneratorLayoutOfSelectedTabAndType.length > 0 &&
                     <ReactFormGenerator
                       back_action=""

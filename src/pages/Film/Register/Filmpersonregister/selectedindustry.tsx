@@ -20,7 +20,6 @@ import { AuthUser } from '../../../../types/auth.types'
 import { getTitleFromTabs, removeSpaceAndSpecialCharacters, toastify } from '../../../../services/filmservices'
 interface InputData {
   selectedNodes
-  breadCrumPathList
 }
 
 let renderTabsOfSelectedNodes = []
@@ -33,24 +32,39 @@ export const SelectedIndustry: React.FC = () => {
   const [selectedNodes, setSelectedNodes] = React.useState<any[]>([])
   const [checkedkeys, setCheckedKeys] = React.useState<Key[]>()
   const [selectedTabKey, setSelectedTabKey] = useState('')
-
   const [currentUser, setCurrentUser] = useState<AuthUser>(storage.getLoggedUser())
   const navigate = useNavigate()
   const selectedTabIndex = 0
-  let path = inputData.selectedNodes[selectedTabIndex].title
+  let path: any
+  if (inputData.selectedNodes.length === 0) {
+    path = currentUser.industrySelection[selectedTabIndex].title
+  } else {
+    path = inputData.selectedNodes[selectedTabIndex].title
+  }
   useEffect(() => {
     renderTabs()
-    loadDataFromBE(inputData.selectedNodes[selectedTabIndex].key)
+    if (inputData.selectedNodes.length > 0) {
+      loadDataFromBE(inputData.selectedNodes[selectedTabIndex].key)
+    } else {
+      loadDataFromBE(currentUser.industrySelection[selectedTabIndex].title)
+    }
   }, [])
 
   const renderTabs = async () => {
-    const tabs = JSON.stringify(inputData.selectedNodes)
-    const replaceTitleToLabel = tabs.replaceAll('title', 'label')
-    const afterReplacedFromTitleToLabel = JSON.parse(replaceTitleToLabel)
-    renderTabsOfSelectedNodes = afterReplacedFromTitleToLabel
+    if (inputData.selectedNodes.length > 0) {
+      const tabs = JSON.stringify(inputData.selectedNodes)
+      const replaceTitleToLabel = tabs.replaceAll('title', 'label')
+      const afterReplacedFromTitleToLabel = JSON.parse(replaceTitleToLabel)
+      renderTabsOfSelectedNodes = afterReplacedFromTitleToLabel
+    } else {
+      const tabs = JSON.stringify(currentUser.industrySelection)
+      const replaceTitleToLabel = tabs.replaceAll('title', 'label')
+      const afterReplacedFromTitleToLabel = JSON.parse(replaceTitleToLabel)
+      renderTabsOfSelectedNodes = afterReplacedFromTitleToLabel
+    }
   }
 
-  const loadDataFromBE = async (key: string) => {
+  const loadDataFromBE = async (key: any) => {
     let treeResponse = []
     const tempIndustrySelection: Key[] = []
     const labelPath = await removeSpaceAndSpecialCharacters(path)

@@ -69,7 +69,7 @@ const UserListing: React.FC = () => {
     const selectedUser = userList[0]
     selectedUser.userSubCategory = selectedUser.usersubcategory
 
-    navigate('/film/register/subcategoryuserform', { state: { user: selectedUser } })
+    navigate('/film/register/subcategoryuserform', { state: { user: selectedUser, role: userObj.role } })
   }
 
   return (
@@ -170,16 +170,15 @@ const UserListing: React.FC = () => {
                           </Tooltip>
                         </div>
                       </div>
-                      :  <Tooltip title="update content" >
+                      : <Tooltip title="update content" >
                         <BookUpload
                         className="contactIcon pointer "
                         size={25}
                         onClick={() => navigateWithId(item.id)}
                         strokeWidth={1.5}
-                         color={'#4048bf'} 
+                         color={'#4048bf'}
                     />
                     </Tooltip>
-                   
                      }
                   </td>
                 </tr>

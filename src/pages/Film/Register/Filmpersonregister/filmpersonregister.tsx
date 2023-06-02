@@ -21,7 +21,7 @@ export const FilmPersonRegister: React.FC = () => {
   const [selectedNodes, setSelectedNodes] = React.useState<any[]>([])
   const [previouslySelectedIndustries, setPreviouslySelectedIndustries] = React.useState<Key[]>([])
   const navigate = useNavigate()
-
+  const loggedInUser = storage.getLoggedUser()
   useEffect(() => {
     retriveMainProfessionalList('mainprofessional', 'professionaldata')
   }, [])
@@ -31,7 +31,6 @@ export const FilmPersonRegister: React.FC = () => {
     const temp = await response.data
     setMainProfessional(temp)
 
-    const loggedInUser = storage.getLoggedUser()
 
     const tempIndustrySelection: Key[] = []
     if (loggedInUser.industrySelection) {
@@ -54,9 +53,13 @@ export const FilmPersonRegister: React.FC = () => {
       delete currentUser.token
       delete currentUser.otp
       delete currentUser.userSubCategory
-      currentUser.industrySelection = selectedNodes
-      currentUser.step = '  '
-       api.put(`/users/updateuser/${currentUser.id}`, currentUser)
+      if (selectedNodes.length > 0) {
+        currentUser.industrySelection = selectedNodes
+      }
+      currentUser.industrySelection = loggedInUser.industrySelection
+      setSelectedNodes(loggedInUser.industrySelection)
+      currentUser.step = '/film/register/filmpersonregister'
+      await api.put(`/users/updateuser/${currentUser.id}`, currentUser)
     }
     navigate('/film/register/selectedindustry', { state: { selectedNodes } })
   }
