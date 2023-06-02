@@ -7,7 +7,7 @@ import { environment } from '../../../config/environment'
 import { useEffect, useState } from 'react'
 import AdminHeader from '../../../components/AdminHeader'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { EditableAntdTree, EditableAntdTreeNode } from '../../../components/editablantd/editableAntdTree'
+import { EditableAntdTree, EditableAntdTreeNode } from '../../../components/editablantd/EditableAntdTree'
 import { v4 as uuidv4 } from 'uuid'
 import { removeSpaceAndSpecialCharacters } from '../../../services/filmservices'
 interface inputTitle {
@@ -48,11 +48,12 @@ const ProfessionalTree = () => {
 
   const saveProfessional = () => {
     api.post(`form/${lablePath}/${environment.professionalData}`, industryCategoryList)
-    api.delete(`form/deletedirectory${environment.formLayoutPath}/${lablePath}`)
+    api.delete(`form/deletedirectory/${environment.formLayoutPath}/${lablePath}`)
+    navigate('/admin/professionallisting')
   }
 
-  function onClickCancel() {
-    navigate('/admin/professionalListing')
+  function onClickCancel () {
+    navigate('/admin/professionallisting')
   }
 
   return (
@@ -67,8 +68,9 @@ const ProfessionalTree = () => {
             />
           </div>
         }
-        <button
-          className="btn btn-success mr-4"
+      </div>
+      <button
+          className="btn btn-success mr-4 ml-5"
           onClick={() => saveProfessional()}
           type="submit"
         >
@@ -80,9 +82,8 @@ const ProfessionalTree = () => {
           type="submit"
           onClick={() => onClickCancel()}
         >
-          Cancle
+          Cancel
         </button>
-      </div>
     </>
   )
 }
