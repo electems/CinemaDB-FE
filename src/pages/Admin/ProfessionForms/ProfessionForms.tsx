@@ -42,7 +42,7 @@ const ProfessionForms: React.FC = () => {
             {directoryList.map((item) => {
               return (
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td>{item}</td>
+                  <td className="px-6 py-3">{item}</td>
                   <td>
                     <Edit
                      size={25}
