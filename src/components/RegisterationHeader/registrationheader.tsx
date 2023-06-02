@@ -10,6 +10,18 @@ const RegistrationHeader = () => {
     localStorage.removeItem('LoggedUser')
     navigate('/film/login/loginregister')
   };
+
+  const back = () => {
+    if (window.location.pathname.includes('selectedindustry')) {
+      navigate('/film/register/filmpersonregister')
+    }
+    if (window.location.pathname.includes('filmpersonregister')) {
+      navigate('/film/login/loginregister')
+    }
+    if (window.location.pathname.includes('loginregister')) {
+      navigate('/film/login/selectpreference')
+    }
+  }
   return (
       <>
       <div className="flex items-center justify-start md:ml-[0] ml-[70px] md:px-5 w-[9%] md:w-full">
@@ -22,7 +34,7 @@ const RegistrationHeader = () => {
                 <Text
                   className="font-medium text-black_900"
                   variant="body11"
-                  onClick={() => navigate(-1)}
+                  onClick={back}
                 >
                   Back
                 </Text>
