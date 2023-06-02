@@ -1,3 +1,4 @@
+/* eslint-disable eol-last */
 /* eslint-disable no-unreachable-loop */
 /* eslint-disable no-return-assign */
 /* eslint-disable no-unused-vars */
@@ -66,15 +67,15 @@ export const retriveMainProfessionalList = async (path: string, fileName: string
 }
 
 export const removeSpaceAndSpecialCharacters = async (label: string) => {
-  const newLabelPath = await label.replace(/\s+/g, '').toLowerCase()
-  const mainLablePath = await newLabelPath.replace('/', '').toLocaleLowerCase()
+  const newLabelPath = label.replace(/\s+/g, '').toLowerCase()
+  const mainLablePath = newLabelPath.replace('/', '').toLocaleLowerCase()
   return mainLablePath
 }
 
 export const toastify = async (sentenceToDisplay: string) => {
   toast.success(sentenceToDisplay, {
     position: 'top-center',
-    autoClose: false,
+    autoClose: 5000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
@@ -86,11 +87,26 @@ export const toastify = async (sentenceToDisplay: string) => {
 export const errorToastify = async (sentenceToDisplay: string) => {
   toast.error(sentenceToDisplay, {
     position: 'top-center',
-    autoClose: false,
+    autoClose: 5000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,
     progress: 0
   })
+}
+
+export const setPreference = {
+  setPrefernce: (preference: string) => {
+    return preference
+  }
+}
+
+export const getPreference = {
+  getSelectedPreference: () => {
+    const preference = setPreference.setPrefernce
+    if (preference) {
+      return preference
+    }
+  }
 }
