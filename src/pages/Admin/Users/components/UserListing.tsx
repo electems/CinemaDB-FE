@@ -133,29 +133,31 @@ const UserListing: React.FC = () => {
             {usersData.map((item: users) => {
               return (
                 <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td>{item.firstName}</td>
-                  <td>{item.lastName}</td>
-                  <td>{item.filmIndustry}</td>
-                  <td>{item.email}</td>
-                  <td>{item.role}</td>
-                  <td>{item.status}</td>
-                  <td>
+                   <td className="px-6 ">{item.firstName}</td>
+                  <td className="px-6 py-3">{item.lastName}</td>
+                  <td className="px-6 py-3">{item.filmIndustry}</td>
+                  <td className="px-6 py-3">{item.email}</td>
+                  <td className="px-6 py-3">{item.role}</td>
+                  <td className="px-6 py-3">{item.status}</td>
+                  <td className="px-6 py-3">
                     {userObj.role === 'ADMIN'
                       ? <div id="action" className="row">
                         <div
                           id="editUser"
-                          className="col-md-2 contactIcon pointer"
+                          className="col-md-2 mr-4"
                         >
                           <Edit
                             size={25}
                             id="editUser"
+                            className="contactIcon pointer"
                             strokeWidth={1.5}
                             onClick={() => editUser(item.id)}
                             color={'#4048bf'}
                           />
                         </div>
-                        <div className="col-md-2 contactIcon pointer">
+                        <div className="col-md-2">
                           <Trash
+                            className="contactIcon pointer"
                             size={25}
                             onClick={() => deleteUser(item.id)}
                             strokeWidth={1.5}
