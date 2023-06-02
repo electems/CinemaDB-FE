@@ -42,25 +42,16 @@ const AddEditForms = () => {
 
   const retrieveUserById = async () => {
     if (id != undefined) {
-      const res = await api.get(`/users/${id}`)
+      const res = await api.get(`/users/user/${id}`)
       const response = await res.data
-      const userById = {
-        firstName: response[0].first_name,
-        lastName: response[0].last_name,
-        email: response[0].email,
-        password: response[0].password,
-        status: response[0].status,
-        filmIndustry: response[0].film_industry,
-        role: response[0].role
-      }
-      setData(userById)
+      setData(response)
     }
   }
 
   const handleCreateandUpdateuser = async () => {
     if (data.id == null) {
       await api
-        .post('/users/createuser', data)
+        .post('/auth/createuser', data)
     } else {
       await api
         .put(`/users/updateuser/${id}`, data)
