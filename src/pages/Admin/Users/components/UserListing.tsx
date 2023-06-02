@@ -63,10 +63,10 @@ const UserListing: React.FC = () => {
     setUserData(res.data)
   }
   const navigateWithId = async (id: number) => {
-    const res = await api.get(`/users/${id}`)
+    const res = await api.get(`/users/user/${id}`)
     const userList = await res.data
 
-    const selectedUser = userList[0]
+    const selectedUser = userList
     selectedUser.userSubCategory = selectedUser.usersubcategory
 
     navigate('/film/register/subcategoryuserform', { state: { user: selectedUser, role: userObj.role } })
