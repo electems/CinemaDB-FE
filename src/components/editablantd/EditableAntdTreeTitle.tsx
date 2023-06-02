@@ -9,7 +9,7 @@ import { MdDelete } from 'react-icons/md'
 import { RiPencilFill } from 'react-icons/ri'
 import { twMerge } from 'tailwind-merge'
 import { v4 as uuidv4 } from 'uuid'
-import { EditableAntdTreeNode } from './editableAntdTree'
+import { EditableAntdTreeNode } from './EditableAntdTree'
 import { TextInput } from './TextInput'
 import { deleteTreeNode } from './utils'
 import { useNavigate } from 'react-router-dom'
@@ -134,7 +134,8 @@ export const EditableTreeTitle = ({
 
     handleEditToggle(true)
     setTreeData([...treeData])
-    api.post(`/form/writefile/formlayout/${node.title}/professionaldata`)
+    const title = node.title.replaceAll(' ', '_')
+    api.post(`/form/writefile/formlayout/${title}/professionaldata`)
   }
 
   const navigateToTree = (title: string) => {

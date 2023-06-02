@@ -17,7 +17,7 @@ import RegistrationHeader from '../../../../components/RegisterationHeader/regis
 import { storage } from '../../../../storage/storage'
 import { Key } from 'antd/es/table/interface'
 import { AuthUser } from '../../../../types/auth.types'
-import { getTitleFromTabs, removeSpaceAndSpecialCharacters, toastify } from '../../../../services/filmservices'
+import { getTitleFromTabs, removeSpaceAndSpecialCharacters, tabs } from '../../../../services/filmservices'
 interface InputData {
   selectedNodes
 }
@@ -52,15 +52,13 @@ export const SelectedIndustry: React.FC = () => {
 
   const renderTabs = async () => {
     if (inputData.selectedNodes.length > 0) {
-      const tabs = JSON.stringify(inputData.selectedNodes)
-      const replaceTitleToLabel = tabs.replaceAll('title', 'label')
-      const afterReplacedFromTitleToLabel = JSON.parse(replaceTitleToLabel)
-      renderTabsOfSelectedNodes = afterReplacedFromTitleToLabel
+      const nodes = JSON.stringify(inputData.selectedNodes)
+      const selectedNodes = tabs(nodes)
+      renderTabsOfSelectedNodes = selectedNodes
     } else {
-      const tabs = JSON.stringify(currentUser.industrySelection)
-      const replaceTitleToLabel = tabs.replaceAll('title', 'label')
-      const afterReplacedFromTitleToLabel = JSON.parse(replaceTitleToLabel)
-      renderTabsOfSelectedNodes = afterReplacedFromTitleToLabel
+      const nodes = JSON.stringify(currentUser.industrySelection)
+      const selectedNodes = tabs(nodes)
+      renderTabsOfSelectedNodes = selectedNodes
     }
   }
 

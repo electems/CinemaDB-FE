@@ -110,3 +110,8 @@ export const getPreference = {
     }
   }
 }
+export const tabs = (label: string) => {
+  const replaceTitleToLabel = label.replaceAll('title', 'label')
+  const afterReplacedFromTitleToLabel = JSON.parse(replaceTitleToLabel)
+  return afterReplacedFromTitleToLabel
+}

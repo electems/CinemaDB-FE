@@ -53,9 +53,10 @@ export const FilmPersonRegister: React.FC = () => {
       delete currentUser.userSubCategory
       if (selectedNodes.length > 0) {
         currentUser.industrySelection = selectedNodes
+      } else {
+        currentUser.industrySelection = loggedInUser.industrySelection
+        setSelectedNodes(loggedInUser.industrySelection)
       }
-      currentUser.industrySelection = loggedInUser.industrySelection
-      setSelectedNodes(loggedInUser.industrySelection)
       currentUser.step = '/film/register/filmpersonregister'
       await api.put(`/users/updateuser/${currentUser.id}`, currentUser)
     }

@@ -35,7 +35,7 @@ const initialMovieState = {
   value: '', text: '', id: 0
 }
 
-const displayTabs: Tab[] = []
+let displayTabs: Tab[] = []
 let renderTabsOfSelectedNodes: any = []
 let currentSubCategoryType: any
 let currentSubCategory: string = ''
@@ -57,6 +57,8 @@ export const SubCategoryUserForm: React.FC = () => {
   }, [])
 
   const retriveTabs = async () => {
+    displayTabs = []
+    renderTabsOfSelectedNodes = []
     const userdata = inputData.user
     userdata.userSubCategory.map((item) => {
       item.value.map((item) => {
@@ -77,7 +79,8 @@ export const SubCategoryUserForm: React.FC = () => {
   }
   // load vertical menu
   const loadSubCategoryTypes = async (currentSubCategory) => {
-    const leftMenuData = await api.get(`form/readfile/formlayout/${currentSubCategory}/${environment.professionalData}`)
+    const subCategory = currentSubCategory.replaceAll(' ', '_')
+    const leftMenuData = await api.get(`form/readfile/formlayout/${subCategory}/${environment.professionalData}`)
     const response = await leftMenuData.data
     setSelectedMastersOfTheCurrentSubCategory(response)
     return response
