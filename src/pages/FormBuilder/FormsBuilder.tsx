@@ -61,7 +61,7 @@ class FormsBuilder extends Component<Props, State> {
       <div className="App">
         <AdminHeader />
         <Demobar variables={variable} />
-        <ReactFormBuilder url='/editor' />,
+        <ReactFormBuilder />,
       </div>
     )
   }

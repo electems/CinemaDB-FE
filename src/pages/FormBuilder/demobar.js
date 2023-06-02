@@ -5,11 +5,11 @@ import { ReactFormGenerator, ElementStore } from 'react-form-builder2'
 import './form.css'
 import { api } from '../../services/api'
 import { environment } from '../../config/environment'
-import { removeSpaceAndSpecialCharacters } from '../../services/filmservices'
+import { removeSpaceAndSpecialCharacters, errorToastify } from '../../services/filmservices'
 let jsondata = []
-const labelName = localStorage.getItem('selectedLabel')
-const masterLabelFormLabel = localStorage.getItem('masterFormslabel')
-const filmFestivalFormLabel = localStorage.getItem('filmFestivalFormLabel')
+let labelName = ''
+let masterLabelFormLabel = ''
+let filmFestivalFormLabel = ''
 export default class Demobar extends React.Component {
   constructor (props) {
     super(props)
@@ -25,6 +25,9 @@ export default class Demobar extends React.Component {
 
   componentDidMount () {
     ElementStore.subscribe((state) => this._onUpdate(state.data))
+    labelName = localStorage.getItem('selectedLabel')
+    masterLabelFormLabel = localStorage.getItem('masterFormslabel')
+    filmFestivalFormLabel = localStorage.getItem('filmFestivalFormLabel')
     this.retriveForms()
   }
 
@@ -62,17 +65,25 @@ export default class Demobar extends React.Component {
   }
 
   async retriveForms () {
-    const labelpath = await removeSpaceAndSpecialCharacters(labelName)
-    const response = await api.get(
-      `form/readfile/${environment.formLayoutPath}/${labelpath}/${environment.professionalData}`
-    )
-    if (response === undefined) {
+    if (labelName) {
+      const labelpath = await removeSpaceAndSpecialCharacters(labelName)
+      const response = await api.get(
+        `form/readfile/${environment.formLayoutPath}/${labelpath}/${environment.professionalData}`
+      )
+      if (response === undefined) {
+        await errorToastify('Form Not Found for ' + labelpath)
+      } else {
+        jsondata = response.data
+      }
+    } else if (masterLabelFormLabel) {
       const masterForm = await api.get(
         `form/readfile/${environment.masterFormPath}/${masterLabelFormLabel}/${environment.professionalData}`
       )
-      jsondata = masterForm.data
-    } else {
-      jsondata = response.data
+      if (masterForm === undefined) {
+        await errorToastify('Form Not Found for ' + masterLabelFormLabel)
+      } else {
+        jsondata = masterForm.data
+      }
     }
   }
 
@@ -87,20 +98,23 @@ export default class Demobar extends React.Component {
       await api.delete(`form/deletedirectory/${labelPath}`)
       localStorage.removeItem('selectedLabel');
       window.location.href = '/admin/professionallisting'
-    } else if (this.masterLabelFormLabel) {
+    } else if (masterLabelFormLabel) {
       await api.post(
         `form/writefile/${environment.masterFormPath}/${masterLabelFormLabel}/${environment.professionalData}`,
         data
       )
       localStorage.removeItem('masterFormslabel');
       window.location.href = '/admin/masterforms'
-    } else {
-      await api.post(
-        `form/writefile/${environment.filmFestival}/${filmFestivalFormLabel}/${environment.professionalData}`,
-        data
-      )
-      localStorage.removeItem('filmFestivalFormLabel');
-      window.location.href = '/admin/filmfestivalforms'
+    }
+  }
+
+  onGoBackPrevious () {
+    if (labelName) {
+      localStorage.removeItem('selectedLabel');
+      window.location.href = '/admin/professionallisting'
+    } else if (masterLabelFormLabel) {
+      localStorage.removeItem('masterFormslabel');
+      window.location.href = '/admin/masterforms'
     }
   }
 
@@ -131,18 +145,11 @@ export default class Demobar extends React.Component {
           Preview Form
         </button>
         <button
-          className="btn btn-default float-right"
-          style={{ marginRight: '10px' }}
-          onClick={this.showShortPreview.bind(this)}
+          className="btn btn-primary float-right"
+          style={{ marginRight: '25px' }}
+          onClick={this.onGoBackPrevious}
         >
-          Alternate/Short Form
-        </button>
-        <button
-          className="btn btn-default float-right"
-          style={{ marginRight: '10px' }}
-          onClick={this.showRoPreview.bind(this)}
-        >
-          Read Only Form
+          Go Back To Previous Page
         </button>
 
         {this.state.previewVisible && (
@@ -151,76 +158,13 @@ export default class Demobar extends React.Component {
               <div className="modal-content">
                 <ReactFormGenerator
                   download_path="src/download"
-                  back_action="/"
-                  back_name="Back"
                   action_name="Save"
                   form_action="/"
+
                   answer_data={{ jsondata }}
                   form_method="POST"
                   onSubmit={this._onSubmit}
                   data={jsondata}
-                />
-
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-default"
-                    data-dismiss="modal"
-                    onClick={this.closePreview.bind(this)}
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {this.state.roPreviewVisible && (
-          <div className={roModalClass}>
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <ReactFormGenerator
-                  download_path=""
-                  back_action="/"
-                  back_name="Back"
-                  answer_data={{ jsondata }}
-                  action_name="Save"
-                  form_action="/"
-                  form_method="POST"
-                  read_only={true}
-                  hide_actions={true}
-                  data={this.state.data}
-                />
-
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-default"
-                    data-dismiss="modal"
-                    onClick={this.closePreview.bind(this)}
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {this.state.shortPreviewVisible && (
-          <div className={shortModalClass}>
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <ReactFormGenerator
-                  download_path=""
-                  back_action=""
-                  answer_data={{ jsondata }}
-                  form_action="/"
-                  form_method="POST"
-                  data={this.state.data}
-                  display_short={true}
-                  hide_actions={false}
                 />
 
                 <div className="modal-footer">
