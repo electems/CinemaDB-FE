@@ -111,8 +111,9 @@ export const LoginRegisterForm: React.FC = () => {
           />
         </div>
         <div className="absolute bg-white_A700 flex flex-col md:gap-10 gap-[68px] h-full inset-y-[0] items-center justify-center left-[0] my-auto p-[140px] md:px-5 rounded-bl-none rounded-br-[30px] rounded-tl-none rounded-tr-[30px] w-1/2">
+          <div className="mt-30">
           <Text
-            className="font-semibold mt-16 text-gray_900 text-left w-auto"
+            className="font-semibold text-gray_900 text-left w-auto "
             variant="body3"
           >
             Login / Register
@@ -124,6 +125,7 @@ export const LoginRegisterForm: React.FC = () => {
           {seconds < 10 ? `0${seconds}` : seconds }
         </p>
             : ''}
+                  </div>
                   </div>
           <div className="flex flex-col items-center justify-start w-full">
             <div className=" h-[311px] relative w-full">
@@ -147,12 +149,14 @@ export const LoginRegisterForm: React.FC = () => {
               ></Input>
               </div>
               <div className="absolute bottom-[0] flex flex-col inset-x-[0] justify-start mx-auto w-full">
+                <div>
                   <Radio.Group>
                     <Space direction="vertical">
                       <Radio className="text-base" value={1}>I am 18 or Above and I agree to the </Radio>
                       <Radio className="text-base" value={2}>I am Not 18 or Above and I agree to the </Radio>
                     </Space>
                   </Radio.Group>
+                  </div>
                   <p className="text-red_A700 text-sm pl-6 pt-1">Terms & Conditions and Privacy Policy. </p>
                 <div className="flex items-center justify-start mt-[11px] w-full">
                   <Button
