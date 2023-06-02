@@ -5,4 +5,5 @@ export type ISubCategoryUserForm = {
     subCategoryType: string;
     value:[]
     movieFk?: number
+    status?: string
 }
