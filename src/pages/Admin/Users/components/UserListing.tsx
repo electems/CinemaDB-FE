@@ -5,7 +5,8 @@ import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { api } from '../../../../services/api'
 import AdminHeader from '../../../../components/AdminHeader'
-import { Edit, Trash } from 'tabler-icons-react'
+import { BookUpload, Edit, Trash } from 'tabler-icons-react'
+import { Tooltip } from 'antd'
 
 interface InputData {
   userResponse
@@ -146,6 +147,7 @@ const UserListing: React.FC = () => {
                           id="editUser"
                           className="col-md-2 mr-4"
                         >
+                          <Tooltip title="edit User" >
                           <Edit
                             size={25}
                             id="editUser"
@@ -154,8 +156,10 @@ const UserListing: React.FC = () => {
                             onClick={() => editUser(item.id)}
                             color={'#4048bf'}
                           />
+                          </Tooltip>
                         </div>
-                        <div className="col-md-2">
+                        <div className="col-md-2  pointer">
+                        <Tooltip title="delete User" >
                           <Trash
                             className="contactIcon pointer"
                             size={25}
@@ -163,9 +167,20 @@ const UserListing: React.FC = () => {
                             strokeWidth={1.5}
                             color={'#bf4064'}
                           />
+                          </Tooltip>
                         </div>
                       </div>
-                      : <button onClick={() => navigateWithId(item.id)} className="btn btn-primary"> Update Content</button>}
+                      :  <Tooltip title="update content" >
+                        <BookUpload
+                        className="contactIcon pointer "
+                        size={25}
+                        onClick={() => navigateWithId(item.id)}
+                        strokeWidth={1.5}
+                         color={'#4048bf'} 
+                    />
+                    </Tooltip>
+                   
+                     }
                   </td>
                 </tr>
               )

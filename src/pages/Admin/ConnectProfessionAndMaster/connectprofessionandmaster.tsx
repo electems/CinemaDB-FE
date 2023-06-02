@@ -88,8 +88,8 @@ const ConnectProfessionAndMaster: React.FC = () => {
               ? masterTemplateDirectoryList.map((item) => {
                 return (
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td>{item}</td>
-                  <td>
+                  <td className="px-6 py-3">{item}</td>
+                  <td className="px-6 py-3">
                     <input type="text" id="nome"className='w-10 gap-4 bg-gray-50 border text-gray-900 text-sm rounded-md' onChange={(e) => onChange(e, item)} defaultValue={onValue(item)}/>
                   </td>
                 </tr>
@@ -100,7 +100,7 @@ const ConnectProfessionAndMaster: React.FC = () => {
         </table>
          <div className="profession-master-button text-center">
          <button onClick={saveUserSubCategoryType} type="button" className="btn btn-success">Save</button>
-         <button onClick={() => onClickCancel}type="button" className="btn btn-danger ml-3">Cancel</button>
+         <button onClick={ onClickCancel}type="button" className="btn btn-danger ml-3">Cancel</button>
          </div>
       </div>
     </>

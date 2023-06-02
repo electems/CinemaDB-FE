@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import AdminHeader from '../../../components/AdminHeader'
 import { api } from '../../../services/api'
 import { Edit } from 'tabler-icons-react'
+import { Tooltip } from 'antd'
 const FilmFestivalForms: React.FC = () => {
   const [filmFestival, setFilmFestival] = React.useState([])
   const navigate = useNavigate()
@@ -39,10 +40,11 @@ const FilmFestivalForms: React.FC = () => {
             {filmFestival.map((item: any) => {
               return (
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td>{item.filmFestivalName}</td>
-                  <td>{item.movieTittle}</td>
-                  <td>{item.genres}</td>
-                  <td>
+                  <td className="px-6 py-3" >{item.filmFestivalName}</td>
+                  <td className="px-6 py-3" >{item.movieTittle}</td>
+                  <td className="px-6 py-3" >{item.genres}</td>
+                  <td className="px-6 py-3">
+                  <Tooltip title="edit User" >
                     <Edit
                       size={25}
                       onClick={() => approveFilmFormRegistration(item.id)}
@@ -50,6 +52,7 @@ const FilmFestivalForms: React.FC = () => {
                       color={'#4048bf'}
                       className='admin-edit-icon contactIcon pointer'
                     />
+                   </Tooltip>
                   </td>
                 </tr>
               )
