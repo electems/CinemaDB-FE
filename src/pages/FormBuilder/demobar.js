@@ -84,7 +84,7 @@ export default class Demobar extends React.Component {
         `form/writefile/${environment.formLayoutPath}/${labelPath}/${environment.professionalData}`,
         data
       )
-      // await api.delete(`form/deletedirectory/${environment.mainProfessionalPath}`)
+      await api.delete(`form/deletedirectory/${labelPath}`)
       localStorage.removeItem('selectedLabel');
       window.location.href = '/admin/professionallisting'
     } else if (this.masterLabelFormLabel) {

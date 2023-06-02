@@ -27,6 +27,7 @@ const UserListing: React.FC = () => {
   const [usersData, setUserData] = useState([])
   const [searchTitles, setSearchTitle] = useState('')
   const inputData = useLocation().state as InputData
+  const userObj = JSON.parse(localStorage.getItem('authuser')!)
 
   useEffect(() => {
     retrieveUsers()
@@ -96,7 +97,7 @@ const UserListing: React.FC = () => {
                 Search
               </button>
             </div>
-            {inputData.userResponse.role === 'ADMIN'
+            {userObj.role === 'ADMIN'
               ? <div className="float-right">
                 <button
                   type='button'
@@ -139,7 +140,7 @@ const UserListing: React.FC = () => {
                   <td>{item.role}</td>
                   <td>{item.status}</td>
                   <td>
-                    {inputData.userResponse.role === 'ADMIN'
+                    {userObj.role === 'ADMIN'
                       ? <div id="action" className="row">
                         <div
                           id="editUser"

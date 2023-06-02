@@ -54,7 +54,7 @@ export const ContextProvider = ({ children }: ProviderChildren) => {
         })
         const userResponse = res.data
         if (userResponse) {
-          navigate('/admin/userlisting', { state: { userResponse } })
+          navigate('/admin/userlisting')
         } else {
           navigate('/admin/login', { replace: true })
         }
