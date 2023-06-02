@@ -30,8 +30,6 @@ export const FilmPersonRegister: React.FC = () => {
     const response = await api.get(`form/${path}/${fileName}`)
     const temp = await response.data
     setMainProfessional(temp)
-
-
     const tempIndustrySelection: Key[] = []
     if (loggedInUser.industrySelection) {
       loggedInUser.industrySelection.map((item: DataNode) => {

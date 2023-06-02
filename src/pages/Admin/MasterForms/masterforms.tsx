@@ -25,8 +25,7 @@ const MasterForms: React.FC = () => {
     localStorage.setItem('masterFormslabel', label)
     if (label === 'Movie') {
       navigate('/admin/customform')
-    } 
-    else {
+    } else {
       navigate('/admin/formbuilders')
     }
   }
