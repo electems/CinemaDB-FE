@@ -20,9 +20,11 @@ import MasterForms from '../pages/Admin/MasterForms/masterforms'
 import ConnectProfessionAndMaster from '../pages/Admin/ConnectProfessionAndMaster/connectprofessionandmaster'
 import { CustomForm } from '../pages/Admin/CustomForm/app'
 import { CinemaFansForm } from '../pages/Film/Register/Filmpersonregister/cinemafansregister'
-import FilmFestivalRegistration from '../pages/Film/FilmFestival/filmFestival'
+import FilmFestivalRegistration from '../pages/Film/FilmFestival/filmFestivalRegistration'
 import FilmFestivalForms from '../pages/Admin/FilmFestival/filmFestival'
 import MainScreenAfterLogin from '../pages/Film/Public/MainScreenAfterLogin/mainScreenAfterLogin'
+import FilmFestival from '../pages/Film/FilmFestival/filmFestival'
+
 const RoutesMain = () => {
   return (
     <Routes>
@@ -46,10 +48,16 @@ const RoutesMain = () => {
         path="/film/register/selectedindustry"
         element={<SelectedIndustry />}
       />
+
        <Route
-        path="/film/register/filmfestivalregistration"
+        path="/film/filmfestival/filmfestivalregistration"
         element={<FilmFestivalRegistration />}
       />
+       <Route
+        path="/film/filmfestival/filmfestival"
+        element={<FilmFestival />}
+      />
+
       <Route path="/film/public/aboutus" element={<AboutusPage />} />
       <Route path="/film/public/mainscreen" element={<MainScreen />} />
       <Route path="/film/public/mainscreenafterlogin" element={<MainScreenAfterLogin />} />
@@ -69,7 +77,7 @@ export const RoutesAdmin = () => {
       />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route
-        path="/film/register/filmfestivalregistration"
+        path="/film/filmfestival/filmfestivalregistration"
         element={<FilmFestivalRegistration />}
       />
       <Route path="/admin/userlisting" element={<UserListing />} />

@@ -1,1171 +1,249 @@
-/* eslint-disable react/no-unknown-property */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable array-callback-return */
-/* eslint-disable react/jsx-key */
-/* eslint-disable object-shorthand */
-/* eslint-disable no-undef */
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { Text, List, Img, Line, Button } from '../../../components/Elements';
-import { api } from '../../../services/api';
-import { useLocation } from 'react-router-dom';
-import { IFIlmFestival } from '../../../types/filmfestival.types';
-import './style.css'
-const time = new Date().toLocaleTimeString()
-const initialFilmFestivalState = {
-  id: null,
-  filmFestivalName: '',
-  address: '',
-  chairman_Headedby: '',
-  aboutUs: '',
-  startDate: '',
-  endDate: '',
-  movieTittle: '',
-  movieType: '',
-  genres: '',
-  runTime: time,
-  briefSynopsis: '',
-  movieSpecificationMovieType: '',
-  productionBudget: '',
-  countryOfOrigin: '',
-  completedDate: '',
-  state: '',
-  language: '',
-  category: [],
-  directors: [],
-  writers: [],
-  producers: [],
-  cast: [],
-  status: '',
-  userId: null
-};
+import Header from '../../../components/MainScreenHeader/mainscreenheader';
+import { Text, Img, Line, Button } from '../../../components/Elements/index';
+import Footer from '../../../components/Footer/footer';
+import { useNavigate } from 'react-router-dom';
 
-const file = {
-  fieldname: '',
-  originalname: '',
-  encoding: '',
-  mimetype: '',
-  destination: '',
-  path: '',
-  size: 0
-}
-interface InputData {
-  id,
-}
-const FilmFestivalRegistration: React.FC = () => {
-  const [currentFile, setCurrentFile] = React.useState('');
-  const [trailer, setTrailer] = React.useState('');
-  const [addCategory, setAddCategory] = React.useState([{ Category1: '', Category2: '' }]);
-  const [director, setDirector] = React.useState([{ FirstName: '', LastName: '', Photo: file }])
-  const [writers, setWriters] = React.useState([{ FirstName: '', LastName: '', Photo: file }])
-  const [producers, setProducers] = React.useState([{ FirstName: '', LastName: '', Photo: file }])
-  const [cast, setCast] = React.useState([{ FirstName: '', LastName: '', Photo: file }])
-  const [filmFestival, setFilmFestival] = React.useState(initialFilmFestivalState);
-  const [backendData, setbackendData] = React.useState([]);
-  const [progress, setProgress] = React.useState(0)
-  const [trailerProgress, setTrailerProgress] = React.useState(0)
-  const [imageName, setImageName] = React.useState<string>('');
-  const [trailerName, setTrailerName] = React.useState<string>('');
-  const inputData = useLocation().state as InputData
-  useEffect(() => {
-    if (inputData) {
-      loadFromBackend()
-    }
-  }, [])
-  const handleCategoryInputChange = (e, index) => {
-    const { name, value } = e.target;
-    const list = [...addCategory];
-    list[index][name] = value;
-    setAddCategory(list);
-  };
+const FilmFestival: React.FC = () => {
+  const navigate = useNavigate();
 
-  const fileUpload = async (file) => {
-    const formData = new FormData()
-    formData.append('image', file);
-    const upload = await api.post('/fileupload/file', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
-    })
-    return upload.data
+  const navigateToFilmFestivalRegistation = () => {
+    navigate('/film/filmfestival/filmfestivalregistration')
   }
 
-  const videoAndTrailerUpload = async () => {
-    const formData = new FormData()
-    formData.append('video', currentFile)
-    const fileUpload = await api.post('/fileupload/file/video', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-      onUploadProgress: data => {
-      // Set the progress value to show the progress bar
-        setProgress(Math.round((100 * data.loaded) / data.total))
-      }
-    })
-    return fileUpload.data
-  }
-
-  const trailerUpload = async () => {
-    const formData = new FormData()
-    formData.append('video', trailer)
-    const fileUpload = await api.post('/fileupload/file/video', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-      onUploadProgress: data => {
-      // Set the progress value to show the progress bar
-        setTrailerProgress(Math.round((100 * data.loaded) / data.total))
-      }
-    })
-    return fileUpload.data
-  }
-  const selectFile = (event) => {
-    setCurrentFile(event.target.files[0]);
-    setImageName(event.target.files[0].name)
-  };
-  const selectTrailer = (event) => {
-    setTrailer(event.target.files[0]);
-    setTrailerName(event.target.files[0].name)
-  };
-  const handleInputChange = event => {
-    const { name, value } = event.target;
-    setFilmFestival({ ...filmFestival, [name]: value });
-  };
-  const handleDirectorInputChange = async (e, index) => {
-    let { name, value } = e.target;
-    if (name === 'Photo') {
-      value = e.target.files[0]
-      const data = await fileUpload(value)
-      value = data
-    }
-    const list = [...director];
-    list[index][name] = value;
-    setDirector(list);
-  };
-
-  const handleWriterInputChange = async (e, index) => {
-    let { name, value } = e.target;
-    if (name === 'Photo') {
-      value = e.target.files[0]
-      const path = await fileUpload(value)
-      value = path
-    }
-    const list = [...writers];
-    list[index][name] = value;
-    setWriters(list);
-  };
-
-  const handleProducersInputChange = async (e, index) => {
-    let { name, value } = e.target;
-    if (name === 'Photo') {
-      value = e.target.files[0]
-      const path = await fileUpload(value)
-      value = path
-    }
-    const list = [...producers];
-    list[index][name] = value;
-    setProducers(list);
-  };
-
-  const handleCastInputChange = async (e, index) => {
-    let { name, value } = e.target;
-    if (name === 'Photo') {
-      value = e.target.files[0]
-      const path = await fileUpload(value)
-      value = path
-    }
-    const list = [...cast];
-    list[index][name] = value;
-    setCast(list);
-  };
-
-  const handleCategoryInput = () => {
-    setAddCategory([...addCategory, { Category1: '', Category2: '' }]);
-  };
-  const handleDirectorInput = () => {
-    setDirector([...director, { FirstName: '', LastName: '', Photo: file }]);
-  };
-  const handleWritersInput = () => {
-    setWriters([...writers, { FirstName: '', LastName: '', Photo: file }]);
-  };
-  const handleProducersInput = () => {
-    setProducers([...producers, { FirstName: '', LastName: '', Photo: file }]);
-  };
-
-  const handleCastInput = () => {
-    setCast([...cast, { FirstName: '', LastName: '', Photo: file }]);
-  };
-
-  // Load Saved Category From Backend For Checking Person fetching using userid column in film festival table
-  const loadFromBackend = async () => {
-    const loadFilmFestivalFormFromBackend = await api.get(`filmfestival/${inputData.id}`)
-    const responseFromBackend = await loadFilmFestivalFormFromBackend.data
-    setbackendData(responseFromBackend)
-    let filmFestival: typeof initialFilmFestivalState = {} as typeof initialFilmFestivalState
-    responseFromBackend.map((item) => {
-      filmFestival = item
-      setFilmFestival(item)
-    })
-    setAddCategory(filmFestival.category)
-    setDirector(filmFestival.directors)
-    setWriters(filmFestival.writers)
-    setProducers(filmFestival.producers)
-    setCast(filmFestival.cast)
-  }
-
-  const saveFilmFestivalDetails = async () => {
-    const filmFestivalObject: IFIlmFestival = {
-      filmFestivalName: filmFestival.filmFestivalName,
-      address: filmFestival.address,
-      chairman_Headedby: filmFestival.chairman_Headedby,
-      aboutUs: filmFestival.aboutUs,
-      startDate: filmFestival.startDate,
-      endDate: filmFestival.endDate,
-      movieTittle: filmFestival.movieTittle,
-      movieType: filmFestival.movieType,
-      genres: filmFestival.genres,
-      briefSynopsis: filmFestival.briefSynopsis,
-      movieSpecificationMovieType: filmFestival.movieSpecificationMovieType,
-      completedDate: filmFestival.completedDate,
-      productionBudget: filmFestival.productionBudget,
-      countryOfOrigin: filmFestival.countryOfOrigin,
-      state: filmFestival.state,
-      runTime: filmFestival.runTime,
-      language: filmFestival.language,
-      category: addCategory,
-      directors: director,
-      writers: writers,
-      producers: producers,
-      cast: cast
-    }
-    if (backendData.length > 0) {
-      filmFestivalObject.id = inputData.id
-      filmFestival.status = 'Approved'
-    }
-    api.post('/filmfestival/createfilmfestival', filmFestivalObject)
-  }
-  const movieType = [
-    { value: 'Animation', label: 'Animation' },
-    { value: 'Action', label: 'Action' },
-    { value: 'Thriller', label: 'Thriller' }
-  ];
-  const genres = [
-    { value: 'Action', label: 'Action' },
-    { value: 'Horror', label: 'Horror' },
-    { value: 'Thriller', label: 'Thriller' }
-  ];
-
-  const countryOfOrigins = [
-    { value: 'India', label: 'India' },
-    { value: 'Australia', label: 'Australia' },
-    { value: 'Europe', label: 'Europe' }
-  ]
-  const states = [
-    { value: 'Karnataka', label: 'Karnataka' },
-    { value: 'TamilNadu', label: 'TamilNadu' },
-    { value: 'AndraPradesh', label: 'AndraPradesh' }
-  ]
   return (
     <>
-      <div className="bg-gray_900 flex font-roboto items-center justify-start mx-auto w-full">
-        <div className="flex flex-col md:gap-10 gap-[75px] items-center justify-start mb-[369px] w-full">
-          <div className="flex flex-col font-montserrat items-start justify-start max-w-[1265px] mx-auto md:px-5 w-full">
-            <div className="flex sm:flex-col flex-row gap-[23px] items-center justify-start w-[46%] md:w-full">
+      <div className="bg-gray_900 flex items-center justify-start mx-auto w-full">
+        <div className="flex flex-col items-center justify-start w-full">
+          <Header className="bg-gray_800 flex flex-row font-roboto items-center justify-center md:px-5 w-full" />
+          <Text
+            className="font-bold font-montserrat mt-[57px] text-amber_A400 text-left w-auto"
+            variant="body11"
+          >
+            Film Festivals
+          </Text>
+          <div className="flex md:flex-col flex-row font-montserrat md:gap-5 items-end justify-start max-w-[1267px] mt-[9px] mx-auto md:px-5 w-full">
+            <Text
+              className="font-bold md:mt-0 mt-3 text-amber_A400 text-left w-auto"
+              variant="body26"
+            >
+              Filters:
+            </Text>
+            <div className="flex md:flex-1 flex-row gap-[11px] items-end justify-center ml-2.5 md:ml-[0] md:mt-0 mt-1.5 w-[6%] md:w-full">
               <Text
-                className="bg-gray_800 flex h-[60px] items-center justify-center sm:px-5 rounded-[50%] text-center text-white_A700 w-[60px]"
-                variant="body8"
+                className="font-medium mt-[7px] text-left text-white_A700 w-auto"
+                variant="body26"
               >
-                1
+                Year
               </Text>
-              <Text
-                className="text-left text-white_A700 w-auto"
-                variant="body8"
-              >
-                Add/Register a New Film Festival{' '}
-              </Text>
+              <Img
+                src="/images/img_arrowdown.svg"
+                className="h-6 mb-[3px] w-6"
+                alt="arrowdown_Two"
+              />
             </div>
-            <div className="bg-gray_800 flex font-roboto items-center justify-end md:ml-[0] ml-[59px] mt-[11px] p-6 sm:px-5 w-[96%] md:w-full">
-              <List
-                className="flex-col gap-[15px] grid items-center w-[99%]"
-                orientation="vertical"
+            <div className="flex md:flex-1 flex-row gap-2 items-end justify-center md:ml-[0] ml-[18px] md:mt-0 mt-[7px] w-[7%] md:w-full">
+              <Text
+                className="font-medium mt-1.5 text-left text-white_A700 w-auto"
+                variant="body26"
               >
-                <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-full">
-                  <div className="flex md:flex-1 items-center justify-start md:mt-0 mt-0.5 w-[46%] md:w-full">
-                    <div className="flex flex-col gap-1.5 justify-start w-full">
-                      <Text
-                        className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                        variant="body26"
-                      >
-                        Film Festival Name
-                      </Text>
-                        <div className="mb-6">
-                            <input name = "filmFestivalName" value = {filmFestival.filmFestivalName} onChange = {handleInputChange}type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                        </div>
-                    </div>
-                  </div>
-                  <div className="flex md:flex-1 items-center justify-start mb-0.5 w-[46%] md:w-full">
-                    <div className="flex flex-col gap-1.5 justify-start w-full">
-                      <Text
-                        className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                        variant="body26"
-                      >
-                        Address{' '}
-                      </Text>
-                      <div className="mb-6">
-                            <input name = "address" value = {filmFestival.address} onChange = {handleInputChange} type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex md:flex-col flex-row md:gap-10 items-start justify-between w-full">
-                  <div className="flex md:flex-1 items-center justify-start mb-[7px] w-[46%] md:w-full">
-                    <div className="flex items-center justify-start w-full">
-                      <div className="flex flex-col gap-1.5 justify-start w-full">
-                        <Text
-                          className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                          variant="body26"
-                        >
-                          Start Date
-                        </Text>
-                        <div className="mb-6">
-                            <input name = "startDate" value={filmFestival.startDate} onChange = {handleInputChange} type="date" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex md:flex-1 items-center justify-start md:mt-0 mt-2 w-[46%] md:w-full">
-                    <div className="flex flex-col justify-start w-full">
-                      <Text
-                        className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                        variant="body26"
-                      >
-                        Chairman / Headed by
-                      </Text>
-                       <div className="mb-6">
-                            <input name = "chairman_Headedby" value = {filmFestival.chairman_Headedby} onChange = {handleInputChange} type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                       </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-full">
-                  <div className="flex md:flex-1 items-center justify-start w-[46%] md:w-full">
-                    <div className="flex items-center justify-start w-full">
-                      <div className="flex flex-col gap-1.5 justify-start w-full">
-                        <Text
-                          className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                          variant="body26"
-                        >
-                          End Date
-                        </Text>
-                        <div className="mb-6">
-                            <input name = "endDate" data-date-format="YYYY MM DD" onChange = {handleInputChange} type="date" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex md:flex-1 items-center justify-start w-[46%] md:w-full">
-                    <div className="flex flex-col gap-1.5 justify-start w-full">
-                      <Text
-                        className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                        variant="body26"
-                      >
-                        About us
-                      </Text>
-                       <div className="mb-6">
-                            <input name = "aboutUs" onChange = {handleInputChange} value = {filmFestival.aboutUs} type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </List>
+                Month
+              </Text>
+              <Img
+                src="/images/img_arrowdown.svg"
+                className="h-6 mb-0.5 w-6"
+                alt="arrowdown_Three"
+              />
             </div>
-            <div className="flex flex-row font-montserrat gap-[23px] items-center justify-start mt-[39px] w-[23%] md:w-full">
-              <Text
-                className="bg-gray_800 flex h-[60px] items-center justify-center sm:pl-5 rounded-[50%] text-center text-white_A700 w-[60px]"
-                variant="body8"
-              >
-                2
-              </Text>
-              <Text
-                className="text-left text-white_A700 w-auto"
-                variant="body8"
-              >
-                Add Category
-              </Text>
-            </div>
-            <div className="bg-gray_800 flex font-montserrat items-center justify-start md:ml-[0] ml-[59px] mt-[11px] p-[21px] sm:px-5 w-[96%] md:w-full">
-              <Text
-                className="font-bold text-left text-white_A700 w-auto"
-                variant="body11"
-              >
-                +
-              </Text>
-              <Text
-                className="font-normal not-italic text-left text-white_A700 w-auto"
-                variant="body13"
-                onClick={handleCategoryInput}
-
-              >
-                Add a Category
-              </Text>
-              <div>
-                {addCategory.map((x, i) => {
-                  return (
-                    <div className="mb-6">
-                      <input
-                        name="Category1"
-                        className='text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5'
-                        value={x.Category1}
-                        onChange={e => handleCategoryInputChange(e, i)}
-                      />
-                      <input
-                        className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
-                        name="Category2"
-                        value={x.Category2}
-                        onChange={e => handleCategoryInputChange(e, i)}
-                      />
-                    </div>
-                  );
-                })}
+            <div className="flex md:flex-1 sm:flex-col flex-row gap-6 items-center justify-between mb-1 md:ml-[0] ml-[541px] w-[39%] md:w-full">
+              <div className="flex flex-row gap-6 items-start justify-between w-[68%] sm:w-full">
+                <div className="flex flex-row gap-[27px] items-end justify-between w-[53%]">
+                  <Text
+                    className="font-medium mt-1.5 text-left text-white_A700 w-auto"
+                    variant="body26"
+                  >
+                    Call For Entries
+                  </Text>
+                  <Img
+                    src="/images/img_arrowdown.svg"
+                    className="h-6 mb-0.5 w-6"
+                    alt="arrowdown_Four"
+                  />
+                </div>
+                <div className="flex flex-row items-end justify-between w-[41%]">
+                  <Text
+                    className=" text-left text-white_A700 w-auto"
+                    variant="body26"
+                  >
+                    Event Type
+                  </Text>
+                  <Img
+                    src="/images/img_arrowdown.svg"
+                    className="h-6 mb-[5px] w-6"
+                    alt="arrowdown_Five"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="flex font-montserrat items-center justify-start mt-[27px] w-full">
-              <div className="flex flex-col justify-start w-full">
-                <div className="flex flex-row gap-6 items-center justify-start w-[28%] md:w-full">
-                  <Text
-                    className="bg-gray_800 flex h-[60px] items-center justify-center sm:pl-5 rounded-[50%] text-center text-white_A700 w-[60px]"
-                    variant="body8"
-                  >
-                    3
-                  </Text>
-                  <Text
-                    className="text-left text-white_A700 w-auto"
-                    variant="body8"
-                  >
-                    Movie Information
-                  </Text>
-                </div>
-                <div className="bg-gray_800 flex font-roboto items-center justify-start md:ml-[0] ml-[59px] mr-0.5 mt-[11px] p-[26px] sm:px-5 w-[96%] md:w-full">
-                  <div className="flex flex-col gap-[41px] items-start justify-start mb-[13px] w-[99%] md:w-full">
-                    <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-full">
-                      <div className="flex md:flex-1 items-center justify-start w-[46%] md:w-full">
-                        <div className="flex flex-col gap-1.5 justify-start w-full">
-                          <Text
-                            className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                            variant="body26"
-                          >
-                            Movie Tittle
-                          </Text>
-                          <div className="mb-6">
-                            <input name = "movieTittle" value={filmFestival.movieTittle} onChange = {handleInputChange }type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex md:flex-1 items-center justify-start w-[46%] md:w-full">
-                        <div className="flex flex-col justify-start w-full">
-                          <Text
-                            className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                            variant="body26"
-                          >
-                            Movie Type
-                          </Text>
-                          <div className="mb-6">
-                            <select className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5" placeholder="Please select your role" name='movieType' onChange={handleInputChange} value={filmFestival.movieType}>
-                              {genres.map(item => (
-                                <option key={item.value} value={item.value}>
-                                  {item.label}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-start w-[46%] md:w-full">
-                      <div className="flex flex-col justify-start w-full">
-                        <Text
-                          className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                          variant="body26"
-                        >
-                          Brief Synopsis{' '}
-                        </Text>
-                          <div className="mb-6">
-                            <input name = "briefSynopsis" value={filmFestival.briefSynopsis} onChange = {handleInputChange }type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                          </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-row font-montserrat gap-6 items-center justify-start mt-[11px] w-[15%] md:w-full">
-                  <Text
-                    className="bg-gray_800 flex h-[60px] items-center justify-center rounded-[50%] text-center text-white_A700 w-[60px]"
-                    variant="body8"
-                  >
-                    4
-                  </Text>
-                  <Text
-                    className="text-left text-white_A700 w-auto"
-                    variant="body8"
-                  >
-                    Credits
-                  </Text>
-                </div>
-                <List
-                  className="flex-col font-montserrat gap-[50px] grid md:ml-[0] ml-[59px] mt-4 w-[96%]"
-                  orientation="vertical"
-                >
-                  <div className="bg-gray_800 flex items-center justify-start w-full">
-                    <div className="flex flex-col gap-[41px] justify-start mb-[50px] mt-[17px] w-full">
-                      <div className="flex flex-col justify-start w-full">
-                        <div className="flex flex-row md:gap-10 items-end justify-between md:ml-[0] ml-[41px] w-[95%] md:w-full">
-                          <Text
-                            className="text-left text-white_A700 w-auto"
-                            variant="body8"
-                          >
-                            Director/s
-                          </Text>
-                          <div className="flex flex-row gap-[13px] items-start justify-start mt-[5px] w-auto">
-                            <Text
-                              className="font-bold text-left text-white_A700 w-auto"
-                              variant="body11"
-                            >
-                              +
-                            </Text>
-                            <Text
-                              className="font-normal not-italic text-left text-white_A700 w-auto"
-                              variant="body13"
-                              onClick={handleDirectorInput}
-                            >
-                              Add a Person
-                            </Text>
-                          </div>
-                        </div>
-                        <Line className="bg-white_A700 h-px mt-[17px] w-full" />
-                        <div>
-                        {director.map((x, i) => {
-                          return (
-                            <div className="flex flex-col gap-[41px] items-start justify-start mb-[13px] w-[99%] md:w-full">
-                              <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-full">
-                                <div className="flex md:flex-1 items-center justify-start w-[46%] md:w-full">
-                                  <div className="mt-6 ml-6 flex flex-col gap-1.5 justify-start w-full">
-                                    <Text
-                                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                                      variant="body26"
-                                    >
-                                      First Name
-                                    </Text>
-                                    <div className="mb-6">
-                                      <input name="FirstName" value={x.FirstName} onChange={e => handleDirectorInputChange(e, i)} type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="mt-6 flex md:flex-1 items-center justify-start w-[46%] md:w-full">
-                                  <div className="flex flex-col justify-start w-full">
-                                    <Text
-                                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                                      variant="body26"
-                                    >
-                                      Last Name
-                                    </Text>
-                                    <div className="mb-6">
-                                      <input name="LastName" value={x.LastName} onChange={e => handleDirectorInputChange(e, i)} type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="ml-6 flex items-center justify-start w-[46%] md:w-full">
-                                <div className="flex flex-col justify-start w-full">
-                                  <Text
-                                    className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                                    variant="body26"
-                                  >
-                                    Photo{' '}
-                                  </Text>
-                                  <div className="mb-6">
-
-                                    <input name="Photo" onChange={e => handleDirectorInputChange(e, i)} type="file" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                                    {inputData ? <label className='text-white' htmlFor="file">Selected Picture : {x.Photo.path}</label> : ''}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="bg-gray_800 flex items-center justify-start w-full">
-                    <div className="flex flex-col gap-[41px] justify-start mb-[50px] mt-[17px] w-full">
-                      <div className="flex flex-col justify-start w-full">
-                        <div className="flex flex-row md:gap-10 items-end justify-between md:ml-[0] ml-[41px] w-[95%] md:w-full">
-                          <Text
-                            className="text-left text-white_A700 w-auto"
-                            variant="body8"
-                          >
-                            Writer/s
-                          </Text>
-                          <div className="flex flex-row gap-[13px] items-start justify-start mt-[5px] w-auto">
-                            <Text
-                              className="font-bold text-left text-white_A700 w-auto"
-                              variant="body11"
-                            >
-                              +
-                            </Text>
-                            <Text
-                              className="font-normal not-italic text-left text-white_A700 w-auto"
-                              variant="body13"
-                              onClick={handleWritersInput}
-                            >
-                              Add a Person
-                            </Text>
-                          </div>
-                        </div>
-                        <Line className="bg-white_A700 h-px mt-[17px] w-full" />
-                        <div>
-                        {writers.map((x, i) => {
-                          return (
-                            <div className="flex flex-col gap-[41px] items-start justify-start mb-[13px] w-[99%] md:w-full">
-                              <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-full">
-                                <div className="flex md:flex-1 items-center justify-start w-[46%] md:w-full">
-                                  <div className="mt-6 ml-6 flex flex-col gap-1.5 justify-start w-full">
-                                    <Text
-                                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                                      variant="body26"
-                                    >
-                                      First Name
-                                    </Text>
-                                    <div className="mb-6">
-                                      <input name="FirstName" value={x.FirstName} onChange={e => handleWriterInputChange(e, i)} type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="mt-6 flex md:flex-1 items-center justify-start w-[46%] md:w-full">
-                                  <div className="flex flex-col justify-start w-full">
-                                    <Text
-                                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                                      variant="body26"
-                                    >
-                                      Last Name
-                                    </Text>
-                                    <div className="mb-6">
-                                      <input name="LastName" value={x.LastName} onChange={e => handleWriterInputChange(e, i)} type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="ml-6 flex items-center justify-start w-[46%] md:w-full">
-                                <div className="flex flex-col justify-start w-full">
-                                  <Text
-                                    className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                                    variant="body26"
-                                  >
-                                    Photo{' '}
-                                  </Text>
-                                  <div className="mb-6">
-
-                                    <input name="Photo" onChange={e => handleWriterInputChange(e, i)} type="file" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                                    {inputData ? <label htmlFor="file">Selected Picture : {x.Photo.path}</label> : ''}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="bg-gray_800 flex items-center justify-start w-full">
-                    <div className="flex flex-col gap-[41px] justify-start mb-[50px] mt-[17px] w-full">
-                      <div className="flex flex-col justify-start w-full">
-                        <div className="flex flex-row md:gap-10 items-end justify-between md:ml-[0] ml-[41px] w-[95%] md:w-full">
-                          <Text
-                            className="text-left text-white_A700 w-auto"
-                            variant="body8"
-                          >
-                            Producer/s
-                          </Text>
-                          <div className="flex flex-row gap-[13px] items-start justify-start mt-[5px] w-auto">
-                            <Text
-                              className="font-bold text-left text-white_A700 w-auto"
-                              variant="body11"
-                            >
-                              +
-                            </Text>
-                            <Text
-                              className="font-normal not-italic text-left text-white_A700 w-auto"
-                              variant="body13"
-                              onClick={handleProducersInput}
-                            >
-                              Add a Person
-                            </Text>
-                          </div>
-                        </div>
-                        <Line className="bg-white_A700 h-px mt-[17px] w-full" />
-                        <div>
-                        {producers.map((x, i) => {
-                          return (
-                            <div className="flex flex-col gap-[41px] items-start justify-start mb-[13px] w-[99%] md:w-full">
-                              <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-full">
-                                <div className="flex md:flex-1 items-center justify-start w-[46%] md:w-full">
-                                  <div className="mt-6 ml-6 flex flex-col gap-1.5 justify-start w-full">
-                                    <Text
-                                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                                      variant="body26"
-                                    >
-                                      First Name
-                                    </Text>
-                                    <div className="mb-6">
-                                      <input name="FirstName" value={x.FirstName} onChange={e => handleProducersInputChange(e, i)} type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="mt-6 flex md:flex-1 items-center justify-start w-[46%] md:w-full">
-                                  <div className="flex flex-col justify-start w-full">
-                                    <Text
-                                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                                      variant="body26"
-                                    >
-                                      Last Name
-                                    </Text>
-                                    <div className="mb-6">
-                                      <input name="LastName" value={x.LastName} onChange={e => handleProducersInputChange(e, i)} type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="ml-6 flex items-center justify-start w-[46%] md:w-full">
-                                <div className="flex flex-col justify-start w-full">
-                                  <Text
-                                    className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                                    variant="body26"
-                                  >
-                                    Photo{' '}
-                                  </Text>
-                                  <div className="mb-6">
-
-                                    <input name="Photo" onChange={e => handleProducersInputChange(e, i)} type="file" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                                    {inputData ? <label htmlFor="file">Selected Picture : {x.Photo.path}</label> : ''}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                <div className="bg-gray_800 flex items-center justify-start w-full">
-                    <div className="flex flex-col gap-[41px] justify-start mb-[50px] mt-[17px] w-full">
-                      <div className="flex flex-col justify-start w-full">
-                        <div className="flex flex-row md:gap-10 items-end justify-between md:ml-[0] ml-[41px] w-[95%] md:w-full">
-                          <Text
-                            className="text-left text-white_A700 w-auto"
-                            variant="body8"
-                          >
-                            Cast
-                          </Text>
-                          <div className="flex flex-row gap-[13px] items-start justify-start mt-[5px] w-auto">
-                            <Text
-                              className="font-bold text-left text-white_A700 w-auto"
-                              variant="body11"
-                            >
-                              +
-                            </Text>
-                            <Text
-                              className="font-normal not-italic text-left text-white_A700 w-auto"
-                              variant="body13"
-                              onClick={handleCastInput}
-                            >
-                              Add a Person
-                            </Text>
-                          </div>
-                        </div>
-                        <Line className="bg-white_A700 h-px mt-[17px] w-full" />
-                        <div>
-                        {cast.map((x, i) => {
-                          return (
-                            <div className="flex flex-col gap-[41px] items-start justify-start mb-[13px] w-[99%] md:w-full">
-                              <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-full">
-                                <div className="flex md:flex-1 items-center justify-start w-[46%] md:w-full">
-                                  <div className="mt-6 ml-6 flex flex-col gap-1.5 justify-start w-full">
-                                    <Text
-                                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                                      variant="body26"
-                                    >
-                                      First Name
-                                    </Text>
-                                    <div className="mb-6">
-                                      <input name="FirstName" value={x.FirstName} onChange={e => handleCastInputChange(e, i)} type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="mt-6 flex md:flex-1 items-center justify-start w-[46%] md:w-full">
-                                  <div className="flex flex-col justify-start w-full">
-                                    <Text
-                                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                                      variant="body26"
-                                    >
-                                      Last Name
-                                    </Text>
-                                    <div className="mb-6">
-                                      <input name="LastName" value={x.LastName} onChange={e => handleCastInputChange(e, i)} type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="ml-6 flex items-center justify-start w-[46%] md:w-full">
-                                <div className="flex flex-col justify-start w-full">
-                                  <Text
-                                    className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                                    variant="body26"
-                                  >
-                                    Photo{' '}
-                                  </Text>
-                                  <div className="mb-6">
-
-                                    <input name="Photo" onChange={e => handleCastInputChange(e, i)} type="file" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                                    {inputData ? <label htmlFor="file">Selected Picture : {x.Photo.path}</label> : ''}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </List>
-                <div className="flex sm:flex-col flex-row font-montserrat gap-6 items-center justify-start mt-10 w-[31%] md:w-full">
-                  <Text
-                    className="bg-gray_800 flex h-[60px] items-center justify-center sm:px-5 rounded-[50%] text-center text-white_A700 w-[60px]"
-                    variant="body8"
-                  >
-                    5
-                  </Text>
-                  <Text
-                    className="text-left text-white_A700 w-auto"
-                    variant="body8"
-                  >
-                    Movie Specifications
-                  </Text>
-                </div>
-                <div className="bg-gray_800 flex font-roboto items-center justify-start md:ml-[0] ml-[47px] mt-[19px] p-3 w-[97%] md:w-full">
-                  <List
-                className="flex-col gap-[15px] grid items-center w-[99%]"
-                orientation="vertical"
-              >
-                <div className="flex md:flex-col flex-row md:gap-10 items-center justify-between w-full">
-                  <div className="flex md:flex-1 items-center justify-start md:mt-0 mt-0.5 w-[46%] md:w-full">
-                    <div className="mt-6 flex flex-col gap-1.5 justify-start w-full">
-                      <Text
-                        className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                        variant="body26"
-                      >
-                         Movie Type
-                      </Text>
-                        <div>
-                          <select className = "text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5" placeholder="Please select your role" name='movieSpecificationMovieType' onChange={handleInputChange} value={filmFestival.movieSpecificationMovieType}>
-                            {movieType.map(item => (
-                              <option key={item.value} value={item.value}>
-                                {item.label}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                    </div>
-                  </div>
-                  <div className="flex md:flex-1 items-center justify-start mb-0.5 w-[46%] md:w-full">
-                    <div className="mt-6 flex flex-col gap-1.5 justify-start w-full">
-                      <Text
-                        className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                        variant="body26"
-                      >
-                        Genres{' '}
-                      </Text>
-                      <div>
-                        <select className = "text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5" placeholder="Please select your role" name='genres' onChange={handleInputChange} value={filmFestival.genres}>
-                        <option disabled={true} value="">
-                         --Choose Genere--
-                        </option>
-                          {genres.map(item => (
-                          <option key={item.value} value={item.value}>
-                            {item.label}
-                          </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex md:flex-col flex-row md:gap-10 items-start justify-between w-full">
-                  <div className="flex md:flex-1 items-center justify-start mb-[7px] w-[46%] md:w-full">
-                    <div className="flex items-center justify-start w-full">
-                      <div className="mt-6 lex flex-col gap-1.5 justify-start w-full">
-                        <Text
-                          className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                          variant="body26"
-                        >
-                          Run Time
-                        </Text>
-                        <div className="mb-6">
-                          <input name = "runTime" value={filmFestival.runTime} onChange = {handleInputChange} type="date" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex md:flex-1 items-center justify-start md:mt-0 mt-2 w-[46%] md:w-full">
-                    <div className="mt-6 flex flex-col justify-start w-full">
-                      <Text
-                        className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                        variant="body26"
-                      >
-                      Completed Date (Certification Date)
-                      </Text>
-                       <div>
-                          <input name = "completedDate" value = {filmFestival.completedDate} onChange = {handleInputChange} type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                       </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex md:flex-col flex-row md:gap-10 items-start justify-between w-full">
-                  <div className="flex md:flex-1 items-center justify-start mb-[7px] w-[46%] md:w-full">
-                    <div className="flex items-center justify-start w-full">
-                      <div className="flex flex-col gap-1.5 justify-start w-full">
-                        <Text
-                          className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                          variant="body26"
-                        >
-                          Production Budget
-                        </Text>
-                        <div className="mb-6">
-                            <input name = "productionBudget" value={filmFestival.productionBudget} onChange = {handleInputChange} type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex md:flex-1 items-center justify-start md:mt-0 mt-2 w-[46%] md:w-full">
-                    <div className="flex flex-col justify-start w-full">
-                      <Text
-                        className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                        variant="body26"
-                      >
-                      Country of Origin
-                      </Text>
-                       <div>
-                       <select className = "text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5" placeholder="Please select your role" name='countryOfOrigin' onChange={handleInputChange} value={filmFestival.countryOfOrigin}>
-                          {countryOfOrigins.map(item => (
-                          <option key={item.value} value={item.value}>
-                            {item.label}
-                          </option>
-                          ))}
-                        </select>
-                       </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex md:flex-col flex-row md:gap-10 items-start justify-between w-full">
-                  <div className="flex md:flex-1 items-center justify-start mb-[7px] w-[46%] md:w-full">
-                    <div className="flex items-center justify-start w-full">
-                      <div className="flex flex-col gap-1.5 justify-start w-full">
-                        <Text
-                          className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                          variant="body26"
-                        >
-                         State
-                        </Text>
-                        <div>
-                        <select className = "text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5" placeholder="Please select your role" name='state' onChange={handleInputChange} value={filmFestival.state}>
-                          {states.map(item => (
-                          <option key={item.value} value={item.value}>
-                            {item.label}
-                          </option>
-                          ))}
-                        </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex md:flex-1 items-center justify-start md:mt-0 mt-2 w-[46%] md:w-full">
-                    <div className="flex flex-col justify-start w-full">
-                      <Text
-                        className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                        variant="body26"
-                      >
-                        Language
-                      </Text>
-                       <div className="mb-6">
-                            <input name = "language" value = {filmFestival.language} onChange = {handleInputChange} type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                       </div>
-                    </div>
-                  </div>
-                </div>
-              </List>
-                </div>
-                <div className="flex sm:flex-col flex-row font-montserrat gap-6 items-center justify-start ml-0.5 md:ml-[0] mt-[70px] w-[32%] md:w-full">
-                  <Text
-                    className="bg-gray_800 flex h-[60px] items-center justify-center sm:px-5 rounded-[50%] text-center text-white_A700 w-[60px]"
-                    variant="body8"
-                  >
-                    6
-                  </Text>
-                  <Text
-                    className="text-left text-white_A700 w-auto"
-                    variant="body8"
-                  >
-                    Movie File for Upload
-                  </Text>
-                </div>
-                <List
-                  className="sm:flex-col flex-row font-mulish gap-[29px] grid md:grid-cols-1 grid-cols-2 md:ml-[0] ml-[66px] mt-[30px] w-[95%]"
-                  orientation="horizontal"
-                >
-                  <div className="bg-gray_800 flex flex-col gap-[23px] justify-start p-[43px] md:px-10 sm:px-5 rounded shadow-bs7 w-full">
-                    <Text
-                      className="md:ml-[0] ml-[118px] text-center text-white_A700 w-auto"
-                      variant="body12"
-                    >
-                      Upload Movie File
-                    </Text>
-                    <div className="flex flex-col items-start justify-start mb-[33px] mx-auto w-[97%] md:w-full">
-                      <div className="bg-gray_900 border border-blue_700_4c border-dashed flex flex-col items-center justify-end p-[31px] sm:px-5 rounded w-full">
-                        <img
-                          src="/images/img_download.svg"
-                          className="h-16 w-auto"
-                          alt="download"
-                        />
-                        <input type='file' onChange={selectFile}></input>
-                        <div className="flex items-start justify-start mt-[21px] p-[5.38px] self-stretch w-auto">
-                          <Text
-                            className="text-center text-white_A700 w-auto"
-                            variant="body25"
-                          ></Text>
-                        </div>
-                        <div className="flex items-start justify-start p-[5.38px] self-stretch w-auto">
-                          <Text
-                            className="not-italic text-center text-white_A700 w-auto"
-                            variant="body32"
-                          >
-                            Supported formates: MP4, AI, Word, PPT
-                          </Text>
-                        </div>
-                      </div>
-                      <div className="flex h-[19px] md:h-auto items-start justify-start mt-[21px] w-[146px]">
-                        <Text
-                          className="text-center text-white_A700 w-auto"
-                          variant="body28"
-                        >
-                          Uploading - 1files
-                        </Text>
-                      </div>
-                      <div className="flex flex-col items-start justify-start mt-2.5 w-full">
-                        <div className="bg-gray_800 border border-gray_303 border-solid flex flex-row items-center justify-between p-2 rounded w-full">
-                          <div className="flex items-start justify-start ml-0.5 self-stretch w-auto">
-                            <Text
-                              className="not-italic text-center text-white_A700 w-auto"
-                              variant="body32"
-                            >
-                              { imageName }
-                            </Text>
-                          </div>
-                          <Img
-                            src={currentFile}
-                            className="h-[18px] mr-3 w-[17px]"
-                            alt="Image Alt"
-                            loading="lazy"
-                          />
-                        </div>
-                        {
-                          <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-                            <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: progress + '%' }}></div>
-                          </div>}
-                      </div>
-                      <Button onClick={videoAndTrailerUpload} className="bg-light_blue_A700_87 cursor-pointer font-bold h-12 mt-[33px] px-[15.07px] py-[9.69px] rounded text-[15.07px] text-center text-white_A700 uppercase w-[478px]">
-                        Upload Files
-                      </Button>
-
-                    </div>
-                  </div>
-                  <div className="bg-gray_800 flex flex-col gap-8 items-center justify-start p-[35px] sm:px-5 rounded shadow-bs7 w-full">
-                    <div className="flex h-[30px] md:h-auto items-start justify-start px-[10.76px] w-[143px]">
-                      <Text
-                        className="text-center text-white_A700 w-auto"
-                        variant="body12"
-                      >
-                        Add Trailer
-                      </Text>
-                    </div>
-                    <div className="flex flex-col items-start justify-start mb-[33px] mx-auto w-[97%] md:w-full">
-                      <div className="bg-gray_900 border border-blue_700_4c border-dashed flex flex-col items-center justify-end p-[31px] sm:px-5 rounded w-full">
-                        <Img
-                          src="/images/img_download.svg"
-                          className="h-16 w-auto"
-                          alt="download"
-                        />
-                        <input type='file' onChange={selectTrailer}></input>
-                        <div className="flex items-start justify-start mt-[21px] p-[5.38px] self-stretch w-auto">
-                          <Text
-                            className="text-center text-white_A700 w-auto"
-                            variant="body25"
-                          ></Text>
-                        </div>
-                        <div className="flex items-start justify-start p-[5.38px] self-stretch w-auto">
-                          <Text
-                            className="not-italic text-center text-white_A700 w-auto"
-                            variant="body32"
-                          >
-                            Supported formates: MP4, AI, Word, PPT
-                          </Text>
-                        </div>
-                      </div>
-                      <div className="flex h-[19px] md:h-auto items-start justify-start mt-[21px] w-[146px]">
-                        <Text
-                          className="text-center text-white_A700 w-auto"
-                          variant="body28"
-                        >
-                          Uploading - 1files
-                        </Text>
-                      </div>
-                      <div className="flex flex-col items-start justify-start mt-2.5 w-full">
-                        <div className="bg-gray_800 border border-gray_303 border-solid flex flex-row items-center justify-between p-2 rounded w-full">
-                          <div className="flex items-start justify-start ml-0.5 self-stretch w-auto">
-                            <Text
-                              className="not-italic text-center text-white_A700 w-auto"
-                              variant="body32"
-                            >
-                              { trailerName }
-                            </Text>
-                          </div>
-                          <Img
-                            src={trailer}
-                            className="h-[18px] mr-3 w-[17px]"
-                            alt="Image Alt"
-                            loading="lazy"
-                          />
-                        </div>
-                        {
-                          <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-                            <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: trailerProgress + '%' }}></div>
-                          </div>}
-                      </div>
-                      <Button onClick={trailerUpload} className="bg-light_blue_A700_87 cursor-pointer font-bold h-12 mt-[33px] px-[15.07px] py-[9.69px] rounded text-[15.07px] text-center text-white_A700 uppercase w-[478px]">
-                        Upload Files
-                      </Button>
-
-                    </div>
-                  </div>
-                </List>
+              <div className="flex flex-row gap-[22px] items-end justify-between w-[28%] sm:w-full">
                 <Text
-                  className="common-pointer bg-green_A700 h-[95px] max-w-[1060px] md:max-w-full md:ml-[0] ml-[117px] mr-[88px] mt-[74px] pb-[33px] pt-[26px] sm:px-5 px-[35px] rounded text-left text-white_A700 w-full"
-                  variant="body8"
-                  onClick={saveFilmFestivalDetails}
+                  className="mt-2 text-left text-white_A700 w-auto"
+                  variant="body26"
                 >
-                  Save now
+                  Categories
                 </Text>
+                <Img
+                  src="/images/img_arrowdown.svg"
+                  className="h-6 mb-1 w-6"
+                  alt="arrowdown_Six"
+                />
               </div>
             </div>
           </div>
+          <Line className="bg-white_A700 h-px max-w-[1312px] mt-[39px] mx-auto w-full" />
+          <div className="font-montserrat h-[855px] md:h-[868px] max-w-[1287px] mt-[13px] mx-auto md:px-5 relative w-full">
+            <div className="absolute flex inset-x-[0] items-center justify-start mx-auto top-[8%] w-full">
+              <div className="flex flex-col gap-[34px] items-start justify-start w-full">
+                <div className="gap-[33px] grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 items-center justify-between w-full">
+                  <Img
+                    src="/images/img_rectangle590.png"
+                    className="flex-1 h-[236px] md:h-auto object-cover rounded w-full"
+                    alt="rectangle590"
+                  />
+                  <Img
+                    src="/images/img_rectangle591.png"
+                    className="flex-1 h-[236px] md:h-auto object-cover rounded w-full"
+                    alt="rectangle591"
+                  />
+                  <Img
+                    src="/images/img_rectangle592.png"
+                    className="flex-1 h-[236px] md:h-auto object-cover rounded w-full"
+                    alt="rectangle592"
+                  />
+                </div>
+                <div className="flex md:flex-col flex-row gap-[33px] items-center justify-start w-[66%] md:w-full">
+                  <Img
+                    src="/images/img_rectangle593.png"
+                    className="h-[236px] sm:h-auto object-cover rounded w-[49%] md:w-full"
+                    alt="rectangle593"
+                  />
+                  <Img
+                    src="/images/img_rectangle594.png"
+                    className="h-[236px] sm:h-auto object-cover rounded w-[49%] md:w-full"
+                    alt="rectangle594"
+                  />
+                </div>
+              </div>
+            </div>
+            <Img
+              src="/images/img_rectangle595_229x404.png"
+              className="common-pointer absolute bottom-[33%] h-[229px] object-cover right-[0] rounded w-[32%]"
+              onClick={() => navigate('/filimfestival')}
+              alt="rectangle595"
+            />
+            <div className="absolute flex h-full inset-[0] items-center justify-center m-auto w-full">
+              <div className="flex flex-col md:gap-10 gap-[565px] justify-start w-full">
+                <div className="flex flex-row gap-6 items-center justify-end ml-auto w-[26%] md:w-full">
+                  <Img
+                    src="/images/img_calendar.svg"
+                    className="h-6 w-auto"
+                    alt="calendar"
+                  />
+                  <Button
+                    className="common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[207px] py-[13px] rounded text-base text-center text-white_A700 w-auto"
+                    onClick={navigateToFilmFestivalRegistation}
+                  >
+                    Add a Film Festival
+                  </Button>
+                </div>
+                <div className="bg-gray_800 flex items-center justify-end p-4 rounded w-full">
+                  <div className="flex md:flex-col flex-row gap-[30px] items-start justify-between w-[98%] md:w-full">
+                    <Img
+                      src="/images/img_rectangle595_199x368.png"
+                      className="h-[199px] sm:h-auto md:mt-0 mt-2.5 object-cover rounded-[3px] w-auto md:w-full"
+                      alt="rectangle595_One"
+                    />
+                    <div className="flex flex-col items-start justify-start w-auto md:w-full">
+                      <div className="flex sm:flex-col flex-row sm:gap-10 items-start justify-between w-full">
+                        <Text
+                          className="font-bold sm:mt-0 mt-[15px] text-left text-white_A700 w-auto"
+                          variant="body22"
+                        >
+                          Bengaluru International Film Festival{' '}
+                        </Text>
+                        <Img
+                          src="/images/img_iconparkoutlinelike.svg"
+                          className="h-[30px] mb-[7px] w-[30px]"
+                          alt="iconparkoutline"
+                        />
+                      </div>
+                      <div className="flex md:flex-col flex-row md:gap-10 items-end justify-between mt-[19px] w-[99%] md:w-full">
+                        <Text
+                          className="font-bold md:mt-0 mt-1.5 text-left text-white_A700"
+                          variant="body11"
+                        ></Text>
+                        <Text
+                          className="common-pointer bg-gray_900 font-bold h-[62px] mb-0.5 pb-[22px] pt-[19px] sm:px-5 px-[35px] rounded text-left text-white_A700 w-[218px]"
+                          variant="body26"
+                          onClick={() => navigate('/filimfestival')}
+                        >
+                          Get Tickets
+                        </Text>
+                      </div>
+                      <Button className="bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[218px] md:ml-[0] ml-[584px] mt-[22px] py-[17px] rounded text-base text-center text-white_A700 w-auto">
+                        Submit the Movie
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-gray_800 flex font-montserrat items-center justify-start max-w-[1284px] mt-6 mx-auto p-[17px] md:px-5 rounded w-full">
+            <div className="flex md:flex-col flex-row gap-[30px] items-center justify-between mb-2.5 w-[97%] md:w-full">
+              <Img
+                src="/images/img_rectangle598.png"
+                className="h-[199px] sm:h-auto object-cover rounded w-auto md:w-full"
+                alt="rectangle598"
+              />
+              <div className="flex flex-col gap-[22px] items-start justify-start w-auto md:w-full">
+                <div className="flex flex-row sm:gap-10 items-start justify-between w-full">
+                  <Text
+                    className="font-bold mt-[13px] text-left text-white_A700 w-auto"
+                    variant="body22"
+                  >
+                    Mumbai International Film Festival{' '}
+                  </Text>
+                  <Img
+                    src="/images/img_iconparkoutlinelike.svg"
+                    className="h-[30px] mb-[5px] w-[30px]"
+                    alt="iconparkoutline_One"
+                  />
+                </div>
+                <div className="flex md:flex-col flex-row md:gap-10 items-end justify-between w-[99%] md:w-full">
+                  <Text
+                    className="font-bold md:mt-0 mt-1.5 text-left text-white_A700"
+                    variant="body11"
+                  ></Text>
+                  <Text
+                    className="common-pointer bg-gray_900 font-bold h-[62px] mb-0.5 pb-[22px] pt-[19px] sm:px-5 px-[35px] rounded text-left text-white_A700 w-[218px]"
+                    variant="body26"
+                    onClick={() => navigate('/filimfestival')}
+                  >
+                    Get Tickets
+                  </Text>
+                </div>
+                <Button className="bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[218px] md:ml-[0] ml-[584px] py-[17px] rounded text-base text-center text-white_A700 w-auto">
+                  Submit the Movie
+                </Button>
+              </div>
+            </div>
+          </div>
+          <Footer className="bg-gray_800 flex font-roboto items-center justify-center mt-[70px] md:px-5 w-full" />
         </div>
       </div>
     </>
   );
 };
 
-export default FilmFestivalRegistration;
+export default FilmFestival;

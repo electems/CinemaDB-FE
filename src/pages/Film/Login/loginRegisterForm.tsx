@@ -53,7 +53,7 @@ export const LoginRegisterForm: React.FC = () => {
       await errorToastify('Please Enter Correct Email Or Phone Number')
     } else {
       const userObject = response.data
-      if (userObject.role === '') {
+      if (userObject.role === null || userObject.role === '') {
         await api.put(`/users/updateuser/${userObject.id}`, {
           role: preference.preference,
           status: 'ACTIVE'
@@ -79,9 +79,7 @@ export const LoginRegisterForm: React.FC = () => {
 
     if (loggedUser.planId != null) {
       navigate('/film/public/mainscreenafterlogin')
-    }
-
-    if (loggedUser.role === 'PERSON') {
+    } else if (loggedUser.role === 'PERSON') {
       if (loggedUser.step === '/film/register/filmpersonregister' ||
           !loggedUser.step) {
         // step2
