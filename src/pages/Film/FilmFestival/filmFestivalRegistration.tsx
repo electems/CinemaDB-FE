@@ -659,7 +659,7 @@ const FilmFestivalRegistration: React.FC = () => {
                                   <div className="mb-6">
 
                                     <input name="Photo" onChange={e => handleWriterInputChange(e, i)} type="file" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                                    {inputData ? <label htmlFor="file">Selected Picture : {x.Photo.path}</label> : ''}
+                                    {inputData ? <label className='text-white' htmlFor="file">Selected Picture : {x.Photo.path}</label> : ''}
                                   </div>
                                 </div>
                               </div>
@@ -740,7 +740,7 @@ const FilmFestivalRegistration: React.FC = () => {
                                   <div className="mb-6">
 
                                     <input name="Photo" onChange={e => handleProducersInputChange(e, i)} type="file" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                                    {inputData ? <label htmlFor="file">Selected Picture : {x.Photo.path}</label> : ''}
+                                    {inputData ? <label className='text-white' htmlFor="file">Selected Picture : {x.Photo.path}</label> : ''}
                                   </div>
                                 </div>
                               </div>
@@ -821,7 +821,7 @@ const FilmFestivalRegistration: React.FC = () => {
                                   <div className="mb-6">
 
                                     <input name="Photo" onChange={e => handleCastInputChange(e, i)} type="file" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                                    {inputData ? <label htmlFor="file">Selected Picture : {x.Photo.path}</label> : ''}
+                                    {inputData ? <label className='text-white' htmlFor="file">Selected Picture : {x.Photo.path}</label> : ''}
                                   </div>
                                 </div>
                               </div>
