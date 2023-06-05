@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom'
 import AdminHeader from '../../../components/AdminHeader'
 import { api } from '../../../services/api'
 import { Edit } from 'tabler-icons-react'
-import { Tooltip } from 'antd'
 const FilmFestivalForms: React.FC = () => {
   const [filmFestival, setFilmFestival] = React.useState([])
+  const userObj = JSON.parse(localStorage.getItem('authuser')!)
   const navigate = useNavigate()
   React.useEffect(() => {
     retriveFilmFestivalUsers()
@@ -18,8 +18,10 @@ const FilmFestivalForms: React.FC = () => {
     const res = await api.get('/filmfestival')
     setFilmFestival(res.data)
   }
-  const approveFilmFormRegistration = (id: string) => {
-    navigate('/film/filmfestival/filmfestivalregistration', { state: { id } })
+  const approveFilmFormRegistration = async (id: string) => {
+    const res = await api.get(`/users/user/${id}`)
+    const userList = await res.data
+    navigate('/film/filmfestival/filmfestivalregistration', { state: { user: userList, penmanUser: userObj } })
   }
   return (
     <>
@@ -44,7 +46,6 @@ const FilmFestivalForms: React.FC = () => {
                   <td className="px-6 py-3" >{item.movieTittle}</td>
                   <td className="px-6 py-3" >{item.genres}</td>
                   <td className="px-6 py-3">
-                  <Tooltip title="edit User" >
                     <Edit
                       size={25}
                       onClick={() => approveFilmFormRegistration(item.id)}
@@ -52,7 +53,6 @@ const FilmFestivalForms: React.FC = () => {
                       color={'#4048bf'}
                       className='admin-edit-icon contactIcon pointer'
                     />
-                   </Tooltip>
                   </td>
                 </tr>
               )

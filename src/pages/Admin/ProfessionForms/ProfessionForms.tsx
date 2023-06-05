@@ -45,7 +45,6 @@ const ProfessionForms: React.FC = () => {
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                   <td className="px-6 py-3">{item}</td>
                   <td>
-                  <Tooltip title="edit Profession Form" >
                     <Edit
                      size={25}
                      onClick={() => editFormListing(item)}
@@ -53,7 +52,6 @@ const ProfessionForms: React.FC = () => {
                      color={'#4048bf'}
                      className='admin-edit-icon contactIcon pointer'
                     />
-                    </Tooltip>
                   </td>
                 </tr>
               )

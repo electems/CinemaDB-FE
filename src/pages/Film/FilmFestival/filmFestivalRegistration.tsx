@@ -50,7 +50,8 @@ const file = {
   size: 0
 }
 interface InputData {
-  id,
+  user,
+  penmanUser
 }
 const FilmFestivalRegistration: React.FC = () => {
   const [currentFile, setCurrentFile] = React.useState('');
@@ -192,7 +193,7 @@ const FilmFestivalRegistration: React.FC = () => {
 
   // Load Saved Category From Backend For Checking Person fetching using userid column in film festival table
   const loadFromBackend = async () => {
-    const loadFilmFestivalFormFromBackend = await api.get(`filmfestival/${inputData.id}`)
+    const loadFilmFestivalFormFromBackend = await api.get(`filmfestival/${inputData.user.id}`)
     const responseFromBackend = await loadFilmFestivalFormFromBackend.data
     setbackendData(responseFromBackend)
     let filmFestival: typeof initialFilmFestivalState = {} as typeof initialFilmFestivalState
@@ -232,9 +233,9 @@ const FilmFestivalRegistration: React.FC = () => {
       producers: producers,
       cast: cast
     }
-    if (backendData.length > 0) {
-      filmFestivalObject.id = inputData.id
-      filmFestival.status = 'Approved'
+    if (inputData.penmanUser.role === 'PENMAN') {
+      filmFestivalObject.id = inputData.user.id
+      filmFestivalObject.status = 'APPROVED'
     }
     api.post('/filmfestival/createfilmfestival', filmFestivalObject)
   }
@@ -1072,10 +1073,11 @@ const FilmFestivalRegistration: React.FC = () => {
                             loading="lazy"
                           />
                         </div>
-                        {
+                          {
                           <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
                             <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: progress + '%' }}></div>
-                          </div>}
+                          </div>
+                          }
                       </div>
                       <Button onClick={videoAndTrailerUpload} className="bg-light_blue_A700_87 cursor-pointer font-bold h-12 mt-[33px] px-[15.07px] py-[9.69px] rounded text-[15.07px] text-center text-white_A700 uppercase w-[478px]">
                         Upload Files
@@ -1140,10 +1142,11 @@ const FilmFestivalRegistration: React.FC = () => {
                             loading="lazy"
                           />
                         </div>
-                        {
+                         {
                           <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
                             <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: trailerProgress + '%' }}></div>
-                          </div>}
+                          </div>
+                         }
                       </div>
                       <Button onClick={trailerUpload} className="bg-light_blue_A700_87 cursor-pointer font-bold h-12 mt-[33px] px-[15.07px] py-[9.69px] rounded text-[15.07px] text-center text-white_A700 uppercase w-[478px]">
                         Upload Files
