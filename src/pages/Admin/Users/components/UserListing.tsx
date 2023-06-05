@@ -7,6 +7,8 @@ import { api } from '../../../../services/api'
 import AdminHeader from '../../../../components/AdminHeader'
 import { BookUpload, Edit, Trash } from 'tabler-icons-react'
 import { Tooltip } from 'antd'
+import { Subject, Observable } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 interface InputData {
   userResponse
@@ -26,9 +28,9 @@ interface users {
 const UserListing: React.FC = () => {
   const navigate = useNavigate()
   const [usersData, setUserData] = useState([])
-  const [searchTitles, setSearchTitle] = useState('')
   const inputData = useLocation().state as InputData
   const userObj = JSON.parse(localStorage.getItem('authuser')!)
+  const [searchTitles, setSearchTitle] = useState('');
 
   useEffect(() => {
     retrieveUsers()
@@ -53,19 +55,31 @@ const UserListing: React.FC = () => {
     window.location.reload()
   }
 
-  const onChangeSearchTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTitle = e.target.value
-    setSearchTitle(searchTitle)
+  const subject = new Subject();
+  subject
+    .asObservable()
+    .pipe(debounceTime(100))
+    .subscribe(data => {
+      findByTitle(data)
+    })
+  const onKeyUp = event => {
+    subject.next(event.target.value)
   }
 
-  const findByTitle = async () => {
-    const res = await api.get(`/users/search/${searchTitles}`)
-    setUserData(res.data)
+  const findByTitle = async (val :any) => {
+    const searchTitle = val
+    setSearchTitle(searchTitle)
+    if (searchTitles.length > 0) {
+      const res = await api.get(`/users/search/${searchTitles}`)
+      setUserData(res.data)
+    }
+    if (searchTitles.length === 0) {
+      retrieveUsers()
+    }
   }
   const navigateWithId = async (id: number) => {
     const res = await api.get(`/users/${id}`)
     const userList = await res.data
-
     const selectedUser = userList[0]
     selectedUser.userSubCategory = selectedUser.usersubcategory
 
@@ -85,21 +99,10 @@ const UserListing: React.FC = () => {
               id="searchBar"
               className="form-control w-25 px-10"
               placeholder="Search by title"
-              value={searchTitles}
-              onChange={onChangeSearchTitle}
-            />
-            <div className="input-group-append">
-              <button
-                className="btn btn-outline-secondary mr-8 userlisting-searchbutton"
-                id="searchButton"
-                type="button"
-                onClick={() => findByTitle()}
-              >
-                Search
-              </button>
-            </div>
+              onKeyUp={onKeyUp}
+              />
             {userObj.role === 'ADMIN'
-              ? <div className="float-right">
+              ? <div className="float-right ">
                 <button
                   type='button'
                   id="addUser"
@@ -147,7 +150,6 @@ const UserListing: React.FC = () => {
                           id="editUser"
                           className="col-md-2 mr-4"
                         >
-
                           <Edit
                             size={25}
                             id="editUser"
@@ -159,6 +161,7 @@ const UserListing: React.FC = () => {
 
                         </div>
                         <div className="col-md-2  pointer">
+
                           <Trash
                             className="contactIcon pointer"
                             size={25}
@@ -166,6 +169,7 @@ const UserListing: React.FC = () => {
                             strokeWidth={1.5}
                             color={'#bf4064'}
                           />
+
                         </div>
                       </div>
                       : <BookUpload
@@ -175,6 +179,7 @@ const UserListing: React.FC = () => {
                         strokeWidth={1.5}
                          color={'#4048bf'}
                     />
+
                      }
                   </td>
                 </tr>
