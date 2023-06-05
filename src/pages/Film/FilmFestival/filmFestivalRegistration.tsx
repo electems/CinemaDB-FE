@@ -11,6 +11,8 @@ import { api } from '../../../services/api';
 import { useLocation } from 'react-router-dom';
 import { IFIlmFestival } from '../../../types/filmfestival.types';
 import './style.css'
+import moment from 'moment';
+import { storage } from '../../../storage/storage';
 const time = new Date().toLocaleTimeString()
 const initialFilmFestivalState = {
   id: null,
@@ -50,8 +52,8 @@ const file = {
   size: 0
 }
 interface InputData {
-  user,
-  penmanUser
+  filmFestivalId,
+  role
 }
 const FilmFestivalRegistration: React.FC = () => {
   const [currentFile, setCurrentFile] = React.useState('');
@@ -68,6 +70,7 @@ const FilmFestivalRegistration: React.FC = () => {
   const [imageName, setImageName] = React.useState<string>('');
   const [trailerName, setTrailerName] = React.useState<string>('');
   const inputData = useLocation().state as InputData
+  const loggedUser = storage.getLoggedUser()
   useEffect(() => {
     if (inputData) {
       loadFromBackend()
@@ -193,7 +196,7 @@ const FilmFestivalRegistration: React.FC = () => {
 
   // Load Saved Category From Backend For Checking Person fetching using userid column in film festival table
   const loadFromBackend = async () => {
-    const loadFilmFestivalFormFromBackend = await api.get(`filmfestival/${inputData.user.id}`)
+    const loadFilmFestivalFormFromBackend = await api.get(`filmfestival/${inputData.filmFestivalId}`)
     const responseFromBackend = await loadFilmFestivalFormFromBackend.data
     setbackendData(responseFromBackend)
     let filmFestival: typeof initialFilmFestivalState = {} as typeof initialFilmFestivalState
@@ -231,13 +234,16 @@ const FilmFestivalRegistration: React.FC = () => {
       directors: director,
       writers: writers,
       producers: producers,
-      cast: cast
+      cast: cast,
+      userId: loggedUser.id
     }
-    if (inputData.penmanUser.role === 'PENMAN') {
-      filmFestivalObject.id = inputData.user.id
+    if (inputData === null) {
+      await api.post('/filmfestival/createfilmfestival', filmFestivalObject)
+    } else {
+      filmFestivalObject.id = inputData.filmFestivalId
       filmFestivalObject.status = 'APPROVED'
+      await api.post('/filmfestival/createfilmfestival', filmFestivalObject)
     }
-    api.post('/filmfestival/createfilmfestival', filmFestivalObject)
   }
   const movieType = [
     { value: 'Animation', label: 'Animation' },
@@ -907,7 +913,7 @@ const FilmFestivalRegistration: React.FC = () => {
                           Run Time
                         </Text>
                         <div className="mb-6">
-                          <input name = "runTime" value={filmFestival.runTime} onChange = {handleInputChange} type="date" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                          <input name = "runTime" value={filmFestival.runTime} onChange = {handleInputChange} type="time" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
                         </div>
                       </div>
                     </div>

@@ -20,8 +20,7 @@ const FilmFestivalForms: React.FC = () => {
   }
   const approveFilmFormRegistration = async (id: string) => {
     const res = await api.get(`/users/user/${id}`)
-    const userList = await res.data
-    navigate('/film/filmfestival/filmfestivalregistration', { state: { user: userList, penmanUser: userObj } })
+    navigate('/film/filmfestival/filmfestivalregistration', { state: { filmFestivalId: id, role: userObj.role } })
   }
   return (
     <>
