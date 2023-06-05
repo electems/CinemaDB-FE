@@ -11,9 +11,19 @@ import { api } from '../../../services/api';
 import { useLocation } from 'react-router-dom';
 import { IFIlmFestival } from '../../../types/filmfestival.types';
 import './style.css'
-import moment from 'moment';
+import { CloseCircleFilled } from '@ant-design/icons';
 import { storage } from '../../../storage/storage';
 const time = new Date().toLocaleTimeString()
+
+const file = {
+  fieldname: '',
+  originalname: '',
+  encoding: '',
+  mimetype: '',
+  destination: '',
+  path: '',
+  size: 0
+}
 const initialFilmFestivalState = {
   id: null,
   filmFestivalName: '',
@@ -39,18 +49,11 @@ const initialFilmFestivalState = {
   producers: [],
   cast: [],
   status: '',
+  movieFile: [],
+  trailer: [],
   userId: null
 };
 
-const file = {
-  fieldname: '',
-  originalname: '',
-  encoding: '',
-  mimetype: '',
-  destination: '',
-  path: '',
-  size: 0
-}
 interface InputData {
   filmFestivalId,
   role
@@ -69,6 +72,8 @@ const FilmFestivalRegistration: React.FC = () => {
   const [trailerProgress, setTrailerProgress] = React.useState(0)
   const [imageName, setImageName] = React.useState<string>('');
   const [trailerName, setTrailerName] = React.useState<string>('');
+  const [movieFile, setMovieFile] = React.useState([file]);
+  const [trailerVideo, setTrailerVideo] = React.useState([file]);
   const inputData = useLocation().state as InputData
   const loggedUser = storage.getLoggedUser()
   useEffect(() => {
@@ -102,6 +107,7 @@ const FilmFestivalRegistration: React.FC = () => {
         setProgress(Math.round((100 * data.loaded) / data.total))
       }
     })
+    setMovieFile(fileUpload.data)
     return fileUpload.data
   }
 
@@ -115,6 +121,7 @@ const FilmFestivalRegistration: React.FC = () => {
         setTrailerProgress(Math.round((100 * data.loaded) / data.total))
       }
     })
+    setTrailerVideo(fileUpload.data)
     return fileUpload.data
   }
   const selectFile = (event) => {
@@ -209,6 +216,8 @@ const FilmFestivalRegistration: React.FC = () => {
     setWriters(filmFestival.writers)
     setProducers(filmFestival.producers)
     setCast(filmFestival.cast)
+    setMovieFile(filmFestival.movieFile)
+    setTrailerVideo(filmFestival.trailer)
   }
 
   const saveFilmFestivalDetails = async () => {
@@ -235,6 +244,8 @@ const FilmFestivalRegistration: React.FC = () => {
       writers: writers,
       producers: producers,
       cast: cast,
+      movieFile: movieFile,
+      trailer: trailerVideo,
       userId: loggedUser.id
     }
     if (inputData === null) {
@@ -913,7 +924,7 @@ const FilmFestivalRegistration: React.FC = () => {
                           Run Time
                         </Text>
                         <div className="mb-6">
-                          <input name = "runTime" value={filmFestival.runTime} onChange = {handleInputChange} type="time" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                          <input name = "runTime" value={filmFestival.runTime} onChange = {handleInputChange} type="date" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
                         </div>
                       </div>
                     </div>
@@ -1072,12 +1083,15 @@ const FilmFestivalRegistration: React.FC = () => {
                               { imageName }
                             </Text>
                           </div>
-                          <Img
+                          <CloseCircleFilled
+                           className="h-[18px] mr-3 w-[17px]" />
+                          {/* <Img
                             src={currentFile}
                             className="h-[18px] mr-3 w-[17px]"
                             alt="Image Alt"
                             loading="lazy"
-                          />
+                          /> */}
+
                         </div>
                           {
                           <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
@@ -1085,6 +1099,7 @@ const FilmFestivalRegistration: React.FC = () => {
                           </div>
                           }
                       </div>
+                      {inputData ? <label className='text-white' htmlFor="file">Selected Video : {movieFile[0].path}</label> : ''}
                       <Button onClick={videoAndTrailerUpload} className="bg-light_blue_A700_87 cursor-pointer font-bold h-12 mt-[33px] px-[15.07px] py-[9.69px] rounded text-[15.07px] text-center text-white_A700 uppercase w-[478px]">
                         Upload Files
                       </Button>
@@ -1154,6 +1169,7 @@ const FilmFestivalRegistration: React.FC = () => {
                           </div>
                          }
                       </div>
+                      {inputData ? <label className='text-white' htmlFor="file">Selected Video : {trailerVideo[0].path}</label> : ''}
                       <Button onClick={trailerUpload} className="bg-light_blue_A700_87 cursor-pointer font-bold h-12 mt-[33px] px-[15.07px] py-[9.69px] rounded text-[15.07px] text-center text-white_A700 uppercase w-[478px]">
                         Upload Files
                       </Button>

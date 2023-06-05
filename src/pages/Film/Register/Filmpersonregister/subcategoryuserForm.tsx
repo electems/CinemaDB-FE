@@ -44,16 +44,15 @@ export const SubCategoryUserForm: React.FC = () => {
   const inputData = useLocation().state as InputData
   const [selectedMastersOfTheCurrentSubCategory, setSelectedMastersOfTheCurrentSubCategory] = React.useState([])
   const [formUserProfessionData, setFormUserProfessionData] = React.useState<any[]>([])
-  const [active, setActive] = React.useState(false)
-  const [selectedIndex, setSelectedIndex] = React.useState()
+  const [active, setActive] = React.useState('')
   const [formGeneratorLayoutOfSelectedTabAndType, setFormGeneratorLayoutOfSelectedTabAndType] = React.useState<any[]>([])
   const [formValue, setFormValue] = React.useState<any[]>([])
   const [dropdownId, setDropdownId] = React.useState(0)
   const [retriveDropdownValue, setRetriveDropdownValue] = React.useState(initialMovieState)
   useEffect(() => {
     userId = inputData.user.id
-    retriveMovies()
     retriveTabs()
+    retriveMovies()
   }, [])
 
   const retriveTabs = async () => {
@@ -88,7 +87,7 @@ export const SubCategoryUserForm: React.FC = () => {
 
   const loadFormGeneratorAndUserProfessionData = async (currentSubCategory, currentSubCategoryType) => {
     const currentSubCategoryTypePath = currentSubCategoryType ? currentSubCategoryType.replaceAll(' ', '_') : ''
-
+    setActive(currentSubCategoryType)
     // fetch form layout
     const formGeneratorLayoutOfSelectedTabAndType = await api.get(`form/readfile/mastertemplates/${currentSubCategoryTypePath}/${environment.professionalData}`)
     const response = await formGeneratorLayoutOfSelectedTabAndType.data
@@ -109,10 +108,10 @@ export const SubCategoryUserForm: React.FC = () => {
     setFormUserProfessionData(loadDataFromBackend)
   }
   // vertical bar onclick
-  const onClickOfSubCategoryType = async (selectedTab: string, i) => {
-    setActive(!active)
-    setSelectedIndex(i)
+  const onClickOfSubCategoryType = async (selectedTab: string) => {
+    setActive(selectedTab)
     currentSubCategoryType = selectedTab
+    setFormUserProfessionData([])
     await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
   }
   // horizontal bar on click
@@ -151,7 +150,6 @@ export const SubCategoryUserForm: React.FC = () => {
     await onClickOfSave([])
     await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
   }
-
   // Retrive Movies
   const retriveMovies = async () => {
     const movies = await api.get('userprofession/movies')
@@ -167,8 +165,8 @@ export const SubCategoryUserForm: React.FC = () => {
             {selectedMastersOfTheCurrentSubCategory.map((item, i) => {
               return (
                 <div className="flex items-center justify-start mt-[10px] mx-auto w-[89%]">
-                  <div onClick={() => onClickOfSubCategoryType(item, i)}
-                    className={i === selectedIndex ? 'bg-white_A700 border-4 border-amber_A400 border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full' : ' bg-white_A700 border border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full'}>
+                  <div onClick={() => onClickOfSubCategoryType(item)}
+                    className={item === active ? 'bg-white_A700 border-4 border-amber_A400 border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full' : ' bg-white_A700 border border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full'}>
                     {item}
                   </div>
                 </div>
@@ -179,20 +177,9 @@ export const SubCategoryUserForm: React.FC = () => {
             <div className="row mt-5 tab-label">
               <Tabs defaultActiveKey="1" items={renderTabsOfSelectedNodes} onChange={onClickOfSubCategoryTab} />
             </div>
-            <div>
-              {currentSubCategoryType === 'Movie'
-                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add New Movie</button>
-                : ''}
-            </div>
-               <div>
-               {currentSubCategoryType === 'Cast' || currentSubCategoryType === 'Crew'
-                 ? <div><button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add</button></div>
-                 : ''}
-               </div>
-              <div>
-              {currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC' || currentSubCategoryType === 'Professional Details' || currentSubCategoryType === 'Movie'
-                ? ' '
-                : <div>
+            <div>{currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC' || currentSubCategoryType === 'Professional Details' || currentSubCategoryType === 'Movie'
+              ? ' '
+              : <div>
                    <label>Select Movie</label>
                   <select className="form-control" placeholder="Please select your role" name='countryOfOrigin' onChange={handleChange} value={JSON.stringify(retriveDropdownValue)}>
                     {formValue.map(item => (
@@ -201,13 +188,18 @@ export const SubCategoryUserForm: React.FC = () => {
                       </option>
                     ))}
                   </select>
-                </div>}
+                </div>}</div>
+            <div>
+              {currentSubCategoryType === 'Movie'
+                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add New Movie</button>
+                : ''}
+            </div>
+              <div>
                {formUserProfessionData.length && formGeneratorLayoutOfSelectedTabAndType.length > 0
                  ? formUserProfessionData.map((record: any, i) => {
                    return (
                     <>
-                    <div>{record.value[0]?.value}</div>
-                      <div>
+                      <div className='mt-6'>
                         <ReactFormGenerator
                           back_action=""
                           form_action=""
@@ -236,7 +228,7 @@ export const SubCategoryUserForm: React.FC = () => {
                     </>
                    )
                  })
-                 : <>
+                 : <div className='mt-6'>
                   {formGeneratorLayoutOfSelectedTabAndType.length > 0 &&
                     <ReactFormGenerator
                       back_action=""
@@ -262,7 +254,7 @@ export const SubCategoryUserForm: React.FC = () => {
                         </div>
                       } />
                   }
-                </>}
+                </div>}
             </div>
           </div>
         </div>

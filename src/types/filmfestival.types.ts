@@ -22,6 +22,8 @@ export type IFIlmFestival = {
     writers?: any,
     producers?: any,
     cast?: any,
+    movieFile?: any,
+    trailer?: any,
     status?: string,
     userId?: null
 }
