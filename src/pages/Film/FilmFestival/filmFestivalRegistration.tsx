@@ -124,7 +124,7 @@ const FilmFestivalRegistration: React.FC = () => {
     setTrailerVideo(fileUpload.data)
     return fileUpload.data
   }
-  const selectFile = (event) => {
+  const selectMovie = (event) => {
     setCurrentFile(event.target.files[0]);
     setImageName(event.target.files[0].name)
   };
@@ -199,6 +199,15 @@ const FilmFestivalRegistration: React.FC = () => {
 
   const handleCastInput = () => {
     setCast([...cast, { FirstName: '', LastName: '', Photo: file }]);
+  };
+  const cancelMovie = () => {
+    setCurrentFile('');
+    setImageName('')
+  };
+
+  const cancelTrailer = () => {
+    setTrailer('');
+    setTrailerName('')
   };
 
   // Load Saved Category From Backend For Checking Person fetching using userid column in film festival table
@@ -1049,7 +1058,7 @@ const FilmFestivalRegistration: React.FC = () => {
                           className="h-16 w-auto"
                           alt="download"
                         />
-                        <input type='file' onChange={selectFile}></input>
+                        <input type='file' onChange={selectMovie}></input>
                         <div className="flex items-start justify-start mt-[21px] p-[5.38px] self-stretch w-auto">
                           <Text
                             className="text-center text-white_A700 w-auto"
@@ -1084,14 +1093,8 @@ const FilmFestivalRegistration: React.FC = () => {
                             </Text>
                           </div>
                           <CloseCircleFilled
+                          onClick={cancelMovie}
                            className="h-[18px] mr-3 w-[17px]" />
-                          {/* <Img
-                            src={currentFile}
-                            className="h-[18px] mr-3 w-[17px]"
-                            alt="Image Alt"
-                            loading="lazy"
-                          /> */}
-
                         </div>
                           {
                           <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
@@ -1156,12 +1159,9 @@ const FilmFestivalRegistration: React.FC = () => {
                               { trailerName }
                             </Text>
                           </div>
-                          <Img
-                            src={trailer}
-                            className="h-[18px] mr-3 w-[17px]"
-                            alt="Image Alt"
-                            loading="lazy"
-                          />
+                          <CloseCircleFilled
+                          onClick={cancelTrailer}
+                           className="h-[18px] mr-3 w-[17px]" />
                         </div>
                          {
                           <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
@@ -1178,7 +1178,7 @@ const FilmFestivalRegistration: React.FC = () => {
                   </div>
                 </List>
                 <Text
-                  className="common-pointer bg-green_A700 h-[95px] max-w-[1060px] md:max-w-full md:ml-[0] ml-[117px] mr-[88px] mt-[74px] pb-[33px] pt-[26px] sm:px-5 px-[35px] rounded text-left text-white_A700 w-full"
+                  className="common-pointer bg-green_A700 h-[95px] max-w-[1060px] md:max-w-full md:ml-[0] ml-[117px] mr-[88px] mt-[74px] pb-[33px] pt-[26px] sm:px-5 px-[35px] rounded text-center text-white_A700 w-full"
                   variant="body8"
                   onClick={saveFilmFestivalDetails}
                 >
