@@ -1,67 +1,52 @@
+/* eslint-disable no-useless-constructor */
 /* eslint-disable no-undef */
 import React, { Component } from 'react'
-import { ReactFormBuilder, ElementStore } from 'react-form-builder2'
+import { ReactFormBuilder } from 'react-form-builder2'
 import Demobar from './demobar'
-import { get } from './request.js'
-import { variable } from './variables'
 import './form.css'
 import { api } from '../../services/api'
 import { environment } from '../../config/environment'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AdminHeader from '../../components/AdminHeader'
 import 'font-awesome/css/font-awesome.min.css'
-const getUrl = (cid: string) =>
-  `https://safe-springs-35306.herokuapp.com/api/formdata?cid=${cid}`
-const labelName = localStorage.getItem('formlabelname')
-let jsonData = []
+import { removeSpaceAndSpecialCharacters } from '../../services/filmservices'
+let jsonData: any = []
 
 type Props = {};
 
-type State = {
-  formId: string;
-};
-class FormsBuilder extends Component<Props, State> {
+class FormsBuilder extends Component<Props> {
   constructor (props: Props) {
     super(props)
-    this.state = { formId: '1' }
-    this.formId = this.state.formId
-    this.handleChange = this.handleChange.bind(this)
   }
 
-  componentDidMount (): void {
-  }
-
-  formId = ''
-
-  handleChange (event: { target: { value: string } }) {
-    this.formId = event.target.value
-    const url = getUrl(this.formId)
-    console.log('handleChange', url)
-    ElementStore.dispatch('load', { loadUrl: url })
-    this.setState({ formId: this.formId })
-  }
-
-  async retriveForms () {
-    const response = await api.get(
-      `form/readfile/${environment.formLayoutPath}/${labelName}/${environment.professionalData}`
-    )
-    jsonData = response.data
-    console.log(jsonData)
+  componentDidMount () {
     this.onLoad()
   }
 
-  onLoad = () => {
-    const url = 'http://localhost:3001/form/readfile/mastertemplates/Personnel_Information/professionaldata'
-    console.log('onLoad', url)
-    return get(url)
+  onLoad = async () => {
+    const labelname = localStorage.getItem('selectedLabel')
+    const masterFormLabelName = localStorage.getItem('masterFormslabel')
+    if (labelname) {
+      const labelpath = await removeSpaceAndSpecialCharacters(labelname)
+      const buildeResponse = await api.get(
+        `form/readfile/${environment.formLayoutPath}/${labelpath}/${environment.professionalData}`
+      )
+      jsonData = buildeResponse.data
+    } else {
+      const masterForm = await api.get(
+        `form/readfile/${environment.masterFormPath}/${masterFormLabelName}/${environment.professionalData}`
+      )
+      jsonData = masterForm.data
+    }
+    return jsonData
   }
 
   render () {
     return (
       <div className="App">
         <AdminHeader />
-        <Demobar variables={variable} />
-        <ReactFormBuilder />,
+        <Demobar/>
+        <ReactFormBuilder onLoad={this.onLoad}/>,
       </div>
     )
   }

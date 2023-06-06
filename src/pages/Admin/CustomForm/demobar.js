@@ -1,15 +1,16 @@
+/* eslint-disable no-undef */
 import React from 'react'
 import { ReactFormGenerator, ElementStore } from 'react-form-builder2'
 import { environment } from '../../../config/environment'
 import { api } from '../../../services/api'
 let jsondata = []
-const masterLabelFormLabel = localStorage.getItem('masterFormslabel')
+let masterLabelFormLabel = ''
 export default class Demobar extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       data: [],
-      previewVisible: false,
+      closePreview: false,
       shortPreviewVisible: false,
       roPreviewVisible: false
     }
@@ -19,24 +20,13 @@ export default class Demobar extends React.Component {
 
   componentDidMount () {
     ElementStore.subscribe(state => this._onUpdate(state.data))
+    masterLabelFormLabel = localStorage.getItem('masterFormslabel')
     this.retriveForms()
   }
 
   showPreview () {
     this.setState({
       previewVisible: true
-    })
-  }
-
-  showShortPreview () {
-    this.setState({
-      shortPreviewVisible: true
-    })
-  }
-
-  showRoPreview () {
-    this.setState({
-      roPreviewVisible: true
     })
   }
 
@@ -55,10 +45,10 @@ export default class Demobar extends React.Component {
     jsondata = data
   }
 
-  _onSubmit () {
+  async _onSubmit () {
     const data = jsondata
-    api.post(
-      `form/writefile/${environment.masterFormPath}${masterLabelFormLabel}/${environment.professionalData}`,
+    await api.post(
+      `form/writefile/${environment.masterFormPath}/${masterLabelFormLabel}/${environment.professionalData}`,
       data
     )
     window.location.href = '/admin/masterforms'
@@ -71,28 +61,29 @@ export default class Demobar extends React.Component {
     jsondata = response.data
   }
 
+  onGoBackPrevious () {
+    // eslint-disable-next-line no-undef
+    localStorage.removeItem('masterFormslabel');
+    window.location.href = '/admin/masterforms'
+  }
+
   render () {
     let modalClass = 'modal'
     if (this.state.previewVisible) {
       modalClass += ' show d-block'
     }
 
-    let shortModalClass = 'modal short-modal'
-    if (this.state.shortPreviewVisible) {
-      shortModalClass += ' show d-block'
-    }
-
-    let roModalClass = 'modal ro-modal'
-    if (this.state.roPreviewVisible) {
-      roModalClass += ' show d-block'
-    }
-
     return (
       <div className="clearfix" style={{ margin: '10px', width: '70%' }}>
-        <h4 className="float-left">Preview</h4>
+        <h4 className="float-left">Build Movie Form</h4>
         <button className="btn btn-primary float-right" style={{ marginRight: '10px' }} onClick={this.showPreview.bind(this)}>Preview Form</button>
-        <button className="btn btn-default float-right" style={{ marginRight: '10px' }} onClick={this.showShortPreview.bind(this)}>Alternate/Short Form</button>
-        <button className="btn btn-default float-right" style={{ marginRight: '10px' }} onClick={this.showRoPreview.bind(this)}>Read Only Form</button>
+        <button
+          className="btn btn-primary float-right"
+          style={{ marginRight: '25px' }}
+          onClick={this.onGoBackPrevious}
+        >
+          Go Back To Previous Page
+        </button>
 
         {this.state.previewVisible &&
           <div className={modalClass} role="dialog">
@@ -100,57 +91,12 @@ export default class Demobar extends React.Component {
               <div className="modal-content">
                 <ReactFormGenerator
                   download_path=""
-                  back_action="/"
                   answer_data={{ jsondata }}
                   action_name="Save"
                   form_action="/"
                   form_method="POST"
                   onSubmit={this._onSubmit}
                   data={jsondata} />
-
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.closePreview.bind(this)}>Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        }
-
-        {this.state.roPreviewVisible &&
-          <div className={roModalClass}>
-            <div className="modal-dialog modal-lg">
-              <div className="modal-content">
-                <ReactFormGenerator
-                  download_path=""
-                  back_action="/"
-                  answer_data={{}}
-                  action_name="Save"
-                  form_action="/"
-                  form_method="POST"
-                  read_only={true}
-                  hide_actions={true} data={this.state.data} />
-
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.closePreview.bind(this)}>Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        }
-
-        {this.state.shortPreviewVisible &&
-          <div className={shortModalClass}>
-            <div className="modal-dialog modal-lg">
-              <div className="modal-content">
-                <ReactFormGenerator
-                  download_path=""
-                  back_action=""
-                  answer_data={{}}
-                  form_action="/"
-                  form_method="POST"
-                  data={this.state.data}
-                  display_short={true}
-                  hide_actions={false} />
 
                 <div className="modal-footer">
                   <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.closePreview.bind(this)}>Close</button>

@@ -9,7 +9,6 @@ import { removeSpaceAndSpecialCharacters, errorToastify } from '../../services/f
 let jsondata = []
 let labelName = ''
 let masterLabelFormLabel = ''
-let filmFestivalFormLabel = ''
 export default class Demobar extends React.Component {
   constructor (props) {
     super(props)
@@ -27,7 +26,6 @@ export default class Demobar extends React.Component {
     ElementStore.subscribe((state) => this._onUpdate(state.data))
     labelName = localStorage.getItem('selectedLabel')
     masterLabelFormLabel = localStorage.getItem('masterFormslabel')
-    filmFestivalFormLabel = localStorage.getItem('filmFestivalFormLabel')
     this.retriveForms()
   }
 
@@ -124,19 +122,9 @@ export default class Demobar extends React.Component {
       modalClass += ' show d-block'
     }
 
-    let shortModalClass = 'modal short-modal'
-    if (this.state.shortPreviewVisible) {
-      shortModalClass += ' show d-block'
-    }
-
-    let roModalClass = 'modal ro-modal'
-    if (this.state.roPreviewVisible) {
-      roModalClass += ' show d-block'
-    }
-
     return (
       <div className="clearfix" style={{ margin: '25px', width: '70%' }}>
-        <h4 className="float-left">Preview</h4>
+        <h4 className="float-left">Build Forms</h4>
         <button
           className="btn btn-primary float-right"
           style={{ marginRight: '25px' }}
@@ -160,7 +148,6 @@ export default class Demobar extends React.Component {
                   download_path="src/download"
                   action_name="Save"
                   form_action="/"
-
                   answer_data={{ jsondata }}
                   form_method="POST"
                   onSubmit={this._onSubmit}
