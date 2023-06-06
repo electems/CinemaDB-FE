@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable quotes */
 /* eslint-disable array-callback-return */
 /* eslint-disable react/jsx-key */
@@ -48,7 +49,9 @@ const ConnectProfessionAndMaster: React.FC = () => {
     if (removeIndex !== -1) {
       selectedMasters.splice(removeIndex, 1)
     }
-    selectedMasters.splice(Number(event.target.value), 0, title)
+    if (event.target.value != "") {
+      selectedMasters.splice(Number(event.target.value), 0, title)
+    }
     setChangedOrderMasters(selectedMasters)
   }
 
@@ -63,8 +66,9 @@ const ConnectProfessionAndMaster: React.FC = () => {
   }
 
   const saveUserSubCategoryType = async () => {
-    await api.post(`form/writefile/${environment.formLayoutPath}/${inputData.label}/${environment.professionalData}`, changedOrderMasters)
-    toastify("User Subcategory Type Saved Successfully")
+    const labelPath = inputData.label.replaceAll(' ', '_')
+    await api.post(`form/writefile/${environment.formLayoutPath}/${labelPath}/${environment.professionalData}`, changedOrderMasters)
+    await toastify("User Subcategory Type Saved Successfully")
   }
 
   function onClickCancel () {
