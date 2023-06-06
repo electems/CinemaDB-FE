@@ -11,6 +11,7 @@ import { api } from '../../../services/api';
 import { useLocation } from 'react-router-dom';
 import { IFIlmFestival } from '../../../types/filmfestival.types';
 import './style.css'
+import { toastify } from '../../../services/filmservices';
 import { CloseCircleFilled } from '@ant-design/icons';
 import { storage } from '../../../storage/storage';
 const time = new Date().toLocaleTimeString()
@@ -96,6 +97,10 @@ const FilmFestivalRegistration: React.FC = () => {
     })
     return upload.data
   }
+  const selectMovie = (event) => {
+    setCurrentFile(event.target.files[0]);
+    setImageName(event.target.files[0].name)
+  };
 
   const videoAndTrailerUpload = async () => {
     const formData = new FormData()
@@ -111,6 +116,11 @@ const FilmFestivalRegistration: React.FC = () => {
     return fileUpload.data
   }
 
+  const selectTrailer = (event) => {
+    setTrailer(event.target.files[0]);
+    setTrailerName(event.target.files[0].name)
+  };
+
   const trailerUpload = async () => {
     const formData = new FormData()
     formData.append('video', trailer)
@@ -124,18 +134,12 @@ const FilmFestivalRegistration: React.FC = () => {
     setTrailerVideo(fileUpload.data)
     return fileUpload.data
   }
-  const selectMovie = (event) => {
-    setCurrentFile(event.target.files[0]);
-    setImageName(event.target.files[0].name)
-  };
-  const selectTrailer = (event) => {
-    setTrailer(event.target.files[0]);
-    setTrailerName(event.target.files[0].name)
-  };
+
   const handleInputChange = event => {
     const { name, value } = event.target;
     setFilmFestival({ ...filmFestival, [name]: value });
   };
+
   const handleDirectorInputChange = async (e, index) => {
     let { name, value } = e.target;
     if (name === 'Photo') {
@@ -259,10 +263,12 @@ const FilmFestivalRegistration: React.FC = () => {
     }
     if (inputData === null) {
       await api.post('/filmfestival/createfilmfestival', filmFestivalObject)
+      await toastify('Film Festival Uploaded Successfully')
     } else {
       filmFestivalObject.id = inputData.filmFestivalId
       filmFestivalObject.status = 'APPROVED'
       await api.post('/filmfestival/createfilmfestival', filmFestivalObject)
+      await toastify('Film Festival Approved By Penman Successfully')
     }
   }
   const movieType = [
@@ -1075,12 +1081,19 @@ const FilmFestivalRegistration: React.FC = () => {
                         </div>
                       </div>
                       <div className="flex h-[19px] md:h-auto items-start justify-start mt-[21px] w-[146px]">
-                        <Text
-                          className="text-center text-white_A700 w-auto"
-                          variant="body28"
+                      {progress === 100
+                        ? <Text
+                       className="text-center text-white_A700 w-auto"
+                       variant="body28"
                         >
-                          Uploading - 1files
-                        </Text>
+                        Uploaded
+                      </Text>
+                        : <Text
+                       className="text-center text-white_A700 w-auto"
+                       variant="body28"
+                        >
+                        Uploading - 1files
+                       </Text>}
                       </div>
                       <div className="flex flex-col items-start justify-start mt-2.5 w-full">
                         <div className="bg-gray_800 border border-gray_303 border-solid flex flex-row items-center justify-between p-2 rounded w-full">
@@ -1142,12 +1155,19 @@ const FilmFestivalRegistration: React.FC = () => {
                         </div>
                       </div>
                       <div className="flex h-[19px] md:h-auto items-start justify-start mt-[21px] w-[146px]">
-                        <Text
-                          className="text-center text-white_A700 w-auto"
-                          variant="body28"
+                      {trailerProgress === 100
+                        ? <Text
+                       className="text-center text-white_A700 w-auto"
+                       variant="body28"
                         >
-                          Uploading - 1files
-                        </Text>
+                        Uploaded
+                      </Text>
+                        : <Text
+                       className="text-center text-white_A700 w-auto"
+                       variant="body28"
+                        >
+                        Uploading - 1files
+                       </Text>}
                       </div>
                       <div className="flex flex-col items-start justify-start mt-2.5 w-full">
                         <div className="bg-gray_800 border border-gray_303 border-solid flex flex-row items-center justify-between p-2 rounded w-full">
