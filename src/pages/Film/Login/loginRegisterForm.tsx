@@ -48,57 +48,66 @@ export const LoginRegisterForm: React.FC = () => {
   }, 1000)
   const generateOTP = async () => {
     const userNamePhoneNumber = namePhoneNumber
-    const response = await api.get(`/auth/otp/${userNamePhoneNumber}`)
-    if (response === undefined) {
-      await errorToastify('Please Enter Correct Email Or Phone Number')
+    if (userNamePhoneNumber.length === 0) {
+      await errorToastify('Please Enter Email Or Phone Number')
     } else {
-      const userObject = response.data
-      if (userObject.role === null || userObject.role === '') {
-        await api.put(`/users/updateuser/${userObject.id}`, {
-          role: preference.preference,
-          status: 'ACTIVE'
-        })
-        await toastify('OTP Sent Successfully')
+      const response = await api.get(`/auth/otp/${userNamePhoneNumber}`)
+      if (response === undefined) {
+        await errorToastify('Please Enter Correct Email Or Phone Number')
       } else {
-        await toastify('OTP Sent Successfully')
+        const userObject = response.data
+        if (userObject.role === null || userObject.role === '') {
+          await api.put(`/users/updateuser/${userObject.id}`, {
+            role: preference.preference,
+            status: 'ACTIVE'
+          })
+          await toastify('OTP Sent Successfully')
+        } else {
+          await toastify('OTP Sent Successfully')
+        }
       }
     }
   }
   const verify = async () => {
-    const data: Login = {
-      username: namePhoneNumber,
-      password: otpNumber
-    }
-    const response = await api.post('/auth/login', data)
-    if (response === undefined) {
-      await errorToastify('Please Enter Correct OTP')
-    }
-    storage.setUserLoggedUser(response.data)
-    const loggedUser = storage.getLoggedUser()
-    localStorage.setItem('@cinimaDb:Token', response.data.token)
+    if (namePhoneNumber.length === 0) {
+      await errorToastify('Please Enter Email Or Phone Number')
+    } else {
+      const data: Login = {
+        username: namePhoneNumber,
+        password: otpNumber
+      }
 
-    if (loggedUser.planId != null) {
-      navigate('/film/public/mainscreenafterlogin')
-    } else if (loggedUser.role === 'PERSON') {
-      if (loggedUser.step === '/film/register/filmpersonregister' ||
-          !loggedUser.step) {
-        // step2
-        navigate('/film/register/filmpersonregister')
+      const response = await api.post('/auth/login', data)
+      if (response === undefined) {
+        await errorToastify('Please Enter Correct OTP')
       }
-      const keys: number[] = []
-      if (loggedUser.step === '/film/register/selectedindustry') {
-        // step3
-        for (let i = 0; i <= loggedUser.industrySelection.length - 1; i++) {
-          keys.push(loggedUser.industrySelection[i].key as number)
+      storage.setUserLoggedUser(response.data)
+      const loggedUser = storage.getLoggedUser()
+      localStorage.setItem('@cinimaDb:Token', response.data.token)
+
+      if (loggedUser.planId != null) {
+        navigate('/film/public/mainscreenafterlogin')
+      } else if (loggedUser.role === 'PERSON') {
+        if (loggedUser.step === '/film/register/filmpersonregister' ||
+            !loggedUser.step) {
+          // step2
+          navigate('/film/register/filmpersonregister')
         }
-        navigate(loggedUser.step, {
-          state: {
-            selectedNodes: loggedUser.industrySelection
+        const keys: number[] = []
+        if (loggedUser.step === '/film/register/selectedindustry') {
+          // step3
+          for (let i = 0; i <= loggedUser.industrySelection.length - 1; i++) {
+            keys.push(loggedUser.industrySelection[i].key as number)
           }
-        })
+          navigate(loggedUser.step, {
+            state: {
+              selectedNodes: loggedUser.industrySelection
+            }
+          })
+        }
+      } else if (loggedUser.role === 'LOVER') {
+        navigate('/film/register/cinemafansform', { state:  { loggedUser } })
       }
-    } else if (loggedUser.role === 'LOVER') {
-      navigate('/film/register/cinemafansform', { state:  { loggedUser } })
     }
   }
   return (
@@ -156,7 +165,7 @@ export const LoginRegisterForm: React.FC = () => {
                       <Radio className="text-base" value={2}>I am Not 18 or Above and I agree to the </Radio>
                     </Space>
                   </Radio.Group>
-                  </div>
+                </div>
                   <p className="text-red_A700 text-sm pl-6 pt-1">Terms & Conditions and Privacy Policy. </p>
                 <div className="flex items-center justify-start mt-[11px] w-full">
                   <Button

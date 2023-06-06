@@ -15,6 +15,8 @@ import { deleteTreeNode } from './utils'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../services/api'
 import { BinaryTree } from 'tabler-icons-react'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 type EditableTreeTitleProps = {
   treeData: EditableAntdTreeNode[];
@@ -81,6 +83,33 @@ export const EditableTreeTitle = ({
     setTreeData([...treeData])
   }
 
+  const onsubmit = () => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div >
+            <h1>Are you sure?</h1>
+            <p>You want to delete?</p>
+            <div className="row">
+            <div className= "col-md-6">
+            <button className="btn btn-success" onClick={onClose}>No</button>
+            </div>
+            <div className= "col-md-6">
+            <button className="btn btn-danger"
+             onClick={() => {
+               handleDeleteClick();
+               onClose();
+             }} >
+              Yes
+            </button>
+            </div>
+            </div>
+          </div>
+        );
+      }
+    });
+  }
+
   const handleCreateParentClick = () => {
     if (!node.children) {
       return
@@ -103,6 +132,7 @@ export const EditableTreeTitle = ({
     deleteTreeNode(treeData, node.key)
     setTreeData([...treeData])
     api.delete(`form/deletedirectory/formlayout/${node.title}`)
+    window.location.reload()
 
     if (deleteNode?.event) {
       deleteNode.event(node)
@@ -228,11 +258,9 @@ export const EditableTreeTitle = ({
         )}
 
         {isActionDisabled(deleteNode?.disable) && source === 'level2' && (
-          <Tooltip title={deleteNode?.caption || 'Delete Node'}>
-            <button onClick={handleDeleteClick}>
+            <button onClick={onsubmit}>
               <MdDelete />
             </button>
-          </Tooltip>
         )}
 
         {source === 'level1' && (

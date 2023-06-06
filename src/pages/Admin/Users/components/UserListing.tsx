@@ -6,9 +6,10 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { api } from '../../../../services/api'
 import AdminHeader from '../../../../components/AdminHeader'
 import { BookUpload, Edit, Trash } from 'tabler-icons-react'
-import { Tooltip } from 'antd'
-import { Subject, Observable } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs'
+import { debounceTime } from 'rxjs/operators'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 interface InputData {
   userResponse
@@ -49,10 +50,39 @@ const UserListing: React.FC = () => {
   }
 
   const deleteUser = async (id: number) => {
-    if (window.confirm('Are you sure you want to delete?')) {
-      await api.delete(`/users/delete/${id}`)
-    }
+    await api.delete(`/users/delete/${id}`)
     window.location.reload()
+  }
+
+  const closepage = async () => {
+    navigate('/admin/userlisting')
+  }
+
+  const onsubmit = (id:number) => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div >
+            <h1>Are you sure?</h1>
+            <p>You want to delete?</p>
+            <div className="row">
+            <div className= "col-md-6">
+            <button className="btn btn-success" onClick={onClose}>No</button>
+            </div>
+            <div className= "col-md-6">
+            <button className="btn btn-danger"
+            onClick={() => {
+              deleteUser(id);
+              onClose();
+            }}>
+              Yes
+            </button>
+            </div>
+            </div>
+          </div>
+        );
+      }
+    });
   }
 
   const subject = new Subject();
@@ -101,6 +131,7 @@ const UserListing: React.FC = () => {
               placeholder="Search by title"
               onKeyUp={onKeyUp}
               />
+
             {userObj.role === 'ADMIN'
               ? <div className="float-right ">
                 <button
@@ -161,15 +192,13 @@ const UserListing: React.FC = () => {
 
                         </div>
                         <div className="col-md-2  pointer">
-
                           <Trash
                             className="contactIcon pointer"
                             size={25}
-                            onClick={() => deleteUser(item.id)}
+                            onClick={() => onsubmit(item.id)}
                             strokeWidth={1.5}
                             color={'#bf4064'}
                           />
-
                         </div>
                       </div>
                       : <BookUpload

@@ -2,6 +2,9 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Logout } from 'tabler-icons-react'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
+
 const AdminHeader = () => {
   const getUserRole = JSON.parse(localStorage.getItem('authuser') || '{}')
   const navigate = useNavigate()
@@ -14,6 +17,32 @@ const AdminHeader = () => {
     navigate('/admin/login')
   };
 
+  const onsubmit = () => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div >
+            <h1>Are you sure?</h1>
+            <p>You want to logout?</p>
+            <div className="row">
+            <div className= "col-md-6">
+            <button className="btn btn-success" onClick={onClose}>No</button>
+            </div>
+            <div className= "col-md-6">
+            <button className="btn btn-danger"
+             onClick={() => {
+               logout();
+               onClose();
+             }} >
+              Yes
+            </button>
+            </div>
+            </div>
+          </div>
+        );
+      }
+    });
+  }
   return (
       <div>
         <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -49,7 +78,7 @@ const AdminHeader = () => {
               <li className="text-right">
                <Logout
                   className=" position-absolute top-8 end-0 translate-middle pointer "
-                  onClick={logout}
+                  onClick={onsubmit}
                   size={30}
                   strokeWidth={2}
                   color={'#FFFFFF'}
@@ -72,7 +101,7 @@ const AdminHeader = () => {
             <li className="text-right">
                <Logout
                   className=" position-absolute top-8 end-0 translate-middle pointer "
-                  onClick={logout}
+                  onClick={onsubmit}
                   size={30}
                   strokeWidth={2}
                   color={'#FFFFFF'}
