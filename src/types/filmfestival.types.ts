@@ -9,7 +9,7 @@ export type IFIlmFestival = {
     movieTittle?: string,
     movieType?: string,
     genres?: string,
-    runTime?: string,
+    runTime?: any,
     briefSynopsis?: string,
     movieSpecificationMovieType?: string,
     productionBudget?: string,

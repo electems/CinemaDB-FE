@@ -71,12 +71,13 @@ export const LoginRegisterForm: React.FC = () => {
   const verify = async () => {
     if (namePhoneNumber.length === 0) {
       await errorToastify('Please Enter Email Or Phone Number')
+    } else if (otpNumber.length === 0) {
+      await errorToastify('Please Enter OTP To Continue')
     } else {
       const data: Login = {
         username: namePhoneNumber,
         password: otpNumber
       }
-
       const response = await api.post('/auth/login', data)
       if (response === undefined) {
         await errorToastify('Please Enter Correct OTP')

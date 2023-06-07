@@ -68,7 +68,7 @@ export default class Demobar extends React.Component {
       const response = await api.get(
         `form/readfile/${environment.formLayoutPath}/${labelpath}/${environment.professionalData}`
       )
-      if (response === undefined) {
+      if (response.data === 'FILE_NOT_FOUND') {
         await errorToastify('Form Not Found for ' + labelpath)
       } else {
         jsondata = response.data
@@ -77,7 +77,7 @@ export default class Demobar extends React.Component {
       const masterForm = await api.get(
         `form/readfile/${environment.masterFormPath}/${masterLabelFormLabel}/${environment.professionalData}`
       )
-      if (masterForm === undefined) {
+      if (masterForm.data === 'FILE_NOT_FOUND') {
         await errorToastify('Form Not Found for ' + masterLabelFormLabel)
       } else {
         jsondata = masterForm.data

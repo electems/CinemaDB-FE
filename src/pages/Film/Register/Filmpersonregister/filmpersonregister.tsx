@@ -17,22 +17,29 @@ import { DataNode } from 'antd/es/tree'
 import RegistrationHeader from '../../../../components/RegisterationHeader/registrationheader'
 
 export const FilmPersonRegister: React.FC = () => {
+  const loggedInUser = storage.getLoggedUser()
   const [mainProfessional, setMainProfessional] = React.useState([])
   const [selectedNodes, setSelectedNodes] = React.useState<any[]>([])
   const [previouslySelectedIndustries, setPreviouslySelectedIndustries] = React.useState<Key[]>([])
+
   const navigate = useNavigate()
-  const loggedInUser = storage.getLoggedUser()
   useEffect(() => {
     retriveMainProfessionalList('mainprofessional', 'professionaldata')
   }, [])
 
+  const retrieveUserById = async () => {
+      const res = await api.get(`/users/user/${loggedInUser.id}`)
+      const response = await res.data
+      return response
+  }
   const retriveMainProfessionalList = async (path: string, fileName: string) => {
     const response = await api.get(`form/${path}/${fileName}`)
     const temp = await response.data
+    const userData = await retrieveUserById()
     setMainProfessional(temp)
     const tempIndustrySelection: Key[] = []
-    if (loggedInUser.industrySelection) {
-      loggedInUser.industrySelection.map((item: DataNode) => {
+    if (userData.industrySelection) {
+      userData.industrySelection.map((item: DataNode) => {
         if (item.key) {
           tempIndustrySelection.push(item.key)
         }
@@ -54,8 +61,9 @@ export const FilmPersonRegister: React.FC = () => {
       if (selectedNodes.length > 0) {
         currentUser.industrySelection = selectedNodes
       } else {
-        currentUser.industrySelection = loggedInUser.industrySelection
-        setSelectedNodes(loggedInUser.industrySelection)
+        const userData = await retrieveUserById()
+        currentUser.industrySelection = userData.industrySelection
+        setSelectedNodes(userData.industrySelection)
       }
       currentUser.step = '/film/register/filmpersonregister'
       await api.put(`/users/updateuser/${currentUser.id}`, currentUser)

@@ -15,7 +15,6 @@ import { toastify } from '../../../services/filmservices';
 import { CloseCircleFilled } from '@ant-design/icons';
 import { storage } from '../../../storage/storage';
 const time = new Date().toLocaleTimeString()
-
 const file = {
   fieldname: '',
   originalname: '',
@@ -31,12 +30,12 @@ const initialFilmFestivalState = {
   address: '',
   chairman_Headedby: '',
   aboutUs: '',
-  startDate: '',
-  endDate: '',
+  start_date: '',
+  end_date: '',
   movieTittle: '',
   movieType: '',
   genres: '',
-  runTime: time,
+  run_time: time,
   briefSynopsis: '',
   movieSpecificationMovieType: '',
   productionBudget: '',
@@ -112,10 +111,8 @@ const FilmFestivalRegistration: React.FC = () => {
         setProgress(Math.round((100 * data.loaded) / data.total))
       }
     })
-    setMovieFile(fileUpload.data)
-    return fileUpload.data
+    setMovieFile([fileUpload.data])
   }
-
   const selectTrailer = (event) => {
     setTrailer(event.target.files[0]);
     setTrailerName(event.target.files[0].name)
@@ -131,8 +128,7 @@ const FilmFestivalRegistration: React.FC = () => {
         setTrailerProgress(Math.round((100 * data.loaded) / data.total))
       }
     })
-    setTrailerVideo(fileUpload.data)
-    return fileUpload.data
+    setTrailerVideo([fileUpload.data])
   }
 
   const handleInputChange = event => {
@@ -239,8 +235,8 @@ const FilmFestivalRegistration: React.FC = () => {
       address: filmFestival.address,
       chairman_Headedby: filmFestival.chairman_Headedby,
       aboutUs: filmFestival.aboutUs,
-      startDate: filmFestival.startDate,
-      endDate: filmFestival.endDate,
+      startDate: filmFestival.start_date,
+      endDate: filmFestival.end_date,
       movieTittle: filmFestival.movieTittle,
       movieType: filmFestival.movieType,
       genres: filmFestival.genres,
@@ -250,7 +246,7 @@ const FilmFestivalRegistration: React.FC = () => {
       productionBudget: filmFestival.productionBudget,
       countryOfOrigin: filmFestival.countryOfOrigin,
       state: filmFestival.state,
-      runTime: filmFestival.runTime,
+      runTime: filmFestival.run_time,
       language: filmFestival.language,
       category: addCategory,
       directors: director,
@@ -353,9 +349,10 @@ const FilmFestivalRegistration: React.FC = () => {
                           variant="body26"
                         >
                           Start Date
+
                         </Text>
                         <div className="mb-6">
-                            <input name = "startDate" value={filmFestival.startDate} onChange = {handleInputChange} type="date" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                            <input name = "start_date" value={filmFestival.start_date} onChange = {handleInputChange} type="date" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
                         </div>
                       </div>
                     </div>
@@ -385,7 +382,7 @@ const FilmFestivalRegistration: React.FC = () => {
                           End Date
                         </Text>
                         <div className="mb-6">
-                            <input name = "endDate" data-date-format="YYYY MM DD" onChange = {handleInputChange} type="date" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                            <input name = "end_date" value={filmFestival.end_date} onChange = {handleInputChange} type="date" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
                         </div>
                       </div>
                     </div>
@@ -939,7 +936,7 @@ const FilmFestivalRegistration: React.FC = () => {
                           Run Time
                         </Text>
                         <div className="mb-6">
-                          <input name = "runTime" value={filmFestival.runTime} onChange = {handleInputChange} type="date" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                          <input name = "run_time" value={filmFestival.run_time} onChange = {handleInputChange} type="time" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
                         </div>
                       </div>
                     </div>
@@ -1111,11 +1108,18 @@ const FilmFestivalRegistration: React.FC = () => {
                         </div>
                           {
                           <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-                            <div className="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: progress + '%' }}></div>
+                            <div className="bg-blue-600 text-xs font-medium text- blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: progress + '%' }}></div>
                           </div>
                           }
                       </div>
-                      {inputData ? <label className='text-white' htmlFor="file">Selected Video : {movieFile[0].path}</label> : ''}
+                      {movieFile
+                        ? <> {movieFile.map((x) => {
+                          return (
+                            <label className='text-white' htmlFor="file">Selected Video : {x.path}</label>
+                          );
+                        })} </>
+                        : <label className='text-white' htmlFor="file">No Movie Selected</label>
+                        }
                       <Button onClick={videoAndTrailerUpload} className="bg-light_blue_A700_87 cursor-pointer font-bold h-12 mt-[33px] px-[15.07px] py-[9.69px] rounded text-[15.07px] text-center text-white_A700 uppercase w-[478px]">
                         Upload Files
                       </Button>
@@ -1189,7 +1193,14 @@ const FilmFestivalRegistration: React.FC = () => {
                           </div>
                          }
                       </div>
-                      {inputData ? <label className='text-white' htmlFor="file">Selected Video : {trailerVideo[0].path}</label> : ''}
+                       {trailerVideo
+                         ? <> {trailerVideo.map((x) => {
+                           return (
+                            <label className='text-white' htmlFor="file">Selected Video : {x.path}</label>
+                           );
+                         })} </>
+                         : <label className='text-white' htmlFor="file">No Movie Selected</label>
+                        }
                       <Button onClick={trailerUpload} className="bg-light_blue_A700_87 cursor-pointer font-bold h-12 mt-[33px] px-[15.07px] py-[9.69px] rounded text-[15.07px] text-center text-white_A700 uppercase w-[478px]">
                         Upload Files
                       </Button>

@@ -46,7 +46,7 @@ export const SelectedIndustry: React.FC = () => {
     if (inputData.selectedNodes.length > 0) {
       loadDataFromBE(inputData.selectedNodes[selectedTabIndex].key)
     } else {
-      loadDataFromBE(currentUser.industrySelection[selectedTabIndex].title)
+      loadDataFromBE(currentUser.industrySelection[selectedTabIndex].key)
     }
   }, [])
 

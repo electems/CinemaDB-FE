@@ -25,7 +25,7 @@ const FilmFestivalForms: React.FC = () => {
   return (
     <>
       <AdminHeader />
-      <h3 className="title text-center pt-3">Film Festival Form Users Listing</h3>
+      <h3 className="title text-center pt-3">Film Festival Listing</h3>
 
       <div className="relative px-10">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
