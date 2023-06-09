@@ -31,12 +31,12 @@ const AddEditForms = () => {
   }, [])
 
   const retrieveSchemaForm = async (folderName:string) => {
-    const res = await api.get(`/form/${folderName}/adduserform`)
+    const res = await api.get(`/auth/${folderName}/adduserform`)
     setSchemaFormData(res.data)
   }
 
   const retrieveUIForm = async (folderName:string) => {
-    const res = await api.get(`/form/${folderName}/UIadduser`)
+    const res = await api.get(`/auth/${folderName}/UIadduser`)
     setUIFormData(res.data)
   }
 
