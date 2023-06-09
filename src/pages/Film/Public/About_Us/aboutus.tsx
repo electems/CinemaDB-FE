@@ -27,7 +27,7 @@ const AboutusPage: React.FC = () => {
 
   const retrieveAbouts = async (language: string, formLayout: string) => {
     await api
-      .get(`form/${language}/${formLayout}`)
+      .get(`auth/${language}/${formLayout}`)
       .then((response) => {
         setAbout(response.data)
       })
