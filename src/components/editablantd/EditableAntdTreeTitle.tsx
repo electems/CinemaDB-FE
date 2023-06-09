@@ -164,8 +164,18 @@ export const EditableTreeTitle = ({
 
     handleEditToggle(true)
     setTreeData([...treeData])
+    const formData = [
+      'Personnel Information',
+      'Biography',
+      'Social Media Links',
+      'KYC',
+      'Professional Details',
+      'Movie',
+      'Cast',
+      'Crew'
+    ]
     const title = node.title.replaceAll(' ', '_')
-    api.post(`/form/writefile/formlayout/${title}/professionaldata`)
+    api.post(`/form/writefile/formlayout/${title}/professionaldata`, formData)
   }
 
   const navigateToTree = (title: string) => {
