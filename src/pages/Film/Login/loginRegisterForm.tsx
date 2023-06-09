@@ -46,6 +46,7 @@ export const LoginRegisterForm: React.FC = () => {
       setActivateTimer(false)
     }
   }, 1000)
+
   const generateOTP = async () => {
     const userNamePhoneNumber = namePhoneNumber
     if (userNamePhoneNumber.length === 0) {
@@ -57,7 +58,7 @@ export const LoginRegisterForm: React.FC = () => {
       } else {
         const userObject = response.data
         if (userObject.role === null || userObject.role === '') {
-          await api.put(`/users/updateuser/${userObject.id}`, {
+          await api.put(`/auth/updateuser/${userObject.id}`, {
             role: preference.preference,
             status: 'ACTIVE'
           })
@@ -79,45 +80,49 @@ export const LoginRegisterForm: React.FC = () => {
         password: otpNumber
       }
       const response = await api.post('/auth/login', data)
-      if (response === undefined) {
-        await errorToastify('Please Enter Correct OTP')
-      }
-      storage.setUserLoggedUser(response.data)
-      const loggedUser = storage.getLoggedUser()
-      localStorage.setItem('@cinimaDb:Token', response.data.token)
-
-      if (loggedUser.planId != null) {
-        navigate('/film/public/mainscreenafterlogin')
-      } else if (loggedUser.role === 'PERSON') {
-        if (loggedUser.step === '/film/register/filmpersonregister' ||
-            !loggedUser.step) {
-          // step2
-          navigate('/film/register/filmpersonregister')
-        }
-        const keys: number[] = []
-        if (loggedUser.step === '/film/register/selectedindustry') {
-          // step3
-          for (let i = 0; i <= loggedUser.industrySelection.length - 1; i++) {
-            keys.push(loggedUser.industrySelection[i].key as number)
+      const userResponse = response.data
+      if (userResponse.status === 'Invalid_Password') {
+        await errorToastify('Enter Correct OTP')
+      } else if (userResponse.status === 'Expired_OTP') {
+        await errorToastify('Your OTP Is Expired')
+      } else {
+        storage.setUserLoggedUser(response.data)
+        const loggedUser = storage.getLoggedUser()
+        localStorage.setItem('@cinimaDb:Token', response.data.token)
+        if (loggedUser.planId != null) {
+          navigate('/film/public/mainscreenafterlogin')
+        } else if (loggedUser.role === 'PERSON') {
+          if (loggedUser.step === '/film/register/filmpersonregister' ||
+              !loggedUser.step) {
+            // step2
+            navigate('/film/register/filmpersonregister')
           }
-          navigate(loggedUser.step, {
-            state: {
-              selectedNodes: loggedUser.industrySelection
+          const keys: number[] = []
+          if (loggedUser.step === '/film/register/selectedindustry') {
+            // step3
+            for (let i = 0; i <= loggedUser.industrySelection.length - 1; i++) {
+              keys.push(loggedUser.industrySelection[i].key as number)
             }
-          })
+            navigate(loggedUser.step, {
+              state: {
+                selectedNodes: loggedUser.industrySelection
+              }
+            })
+          }
+        } else if (loggedUser.role === 'LOVER') {
+          navigate('/film/register/cinemafansform', { state:  { loggedUser } })
         }
-      } else if (loggedUser.role === 'LOVER') {
-        navigate('/film/register/cinemafansform', { state:  { loggedUser } })
       }
     }
   }
+
   return (
     <>
-      <div className="bg-gray_800 font-montserrat h-[982px] mx-auto relative w-full">
+      <div className="bg-gray_800 font-montserrat h-screen">
         <div className="absolute bg-bluegray_101 flex h-full items-end justify-start p-[114px] md:px-5 right-[0]">
           <Img
             src="/images/img_authenticationrafiki.svg"
-            className="my-8"
+            className=""
           />
         </div>
         <div className="absolute bg-white_A700 flex flex-col md:gap-10 gap-[68px] h-full inset-y-[0] items-center justify-center left-[0] my-auto p-[140px] md:px-5 rounded-bl-none rounded-br-[30px] rounded-tl-none rounded-tr-[30px] w-1/2">
@@ -144,7 +149,7 @@ export const LoginRegisterForm: React.FC = () => {
                 <div className="absolute top-2 right-2 ">
                    <button
                     onClick={generateOTP}
-                    className="text-sm text-left text-red_A700 get-otp"
+                    className="cursor-pointer text-left text-red_A700 get-otp"
                      >
                      Get OTP
                    </button>

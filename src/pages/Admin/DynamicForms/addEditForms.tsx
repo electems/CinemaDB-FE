@@ -54,7 +54,7 @@ const AddEditForms = () => {
         .post('/auth/createuser', data)
     } else {
       await api
-        .put(`/users/updateuser/${id}`, data)
+        .put(`/auth/updateuser/${id}`, data)
     }
   }
   function handleSaveuser () {

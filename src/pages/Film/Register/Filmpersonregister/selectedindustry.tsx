@@ -67,7 +67,7 @@ export const SelectedIndustry: React.FC = () => {
     const tempIndustrySelection: Key[] = []
     const labelPath = await removeSpaceAndSpecialCharacters(path)
     const serverData = await api
-      .get(`form/${labelPath}/${environment.professionalData}`)
+      .get(`auth/${labelPath}/${environment.professionalData}`)
     treeResponse = await serverData.data
     const temp = JSON.stringify(treeResponse)
 

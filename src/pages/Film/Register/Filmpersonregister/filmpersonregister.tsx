@@ -33,7 +33,7 @@ export const FilmPersonRegister: React.FC = () => {
       return response
   }
   const retriveMainProfessionalList = async (path: string, fileName: string) => {
-    const response = await api.get(`form/${path}/${fileName}`)
+    const response = await api.get(`auth/${path}/${fileName}`)
     const temp = await response.data
     const userData = await retrieveUserById()
     setMainProfessional(temp)
@@ -66,7 +66,7 @@ export const FilmPersonRegister: React.FC = () => {
         setSelectedNodes(userData.industrySelection)
       }
       currentUser.step = '/film/register/filmpersonregister'
-      await api.put(`/users/updateuser/${currentUser.id}`, currentUser)
+      await api.put(`/auth/updateuser/${currentUser.id}`, currentUser)
     }
     navigate('/film/register/selectedindustry', { state: { selectedNodes } })
   }
