@@ -30,7 +30,7 @@ const ProfessionalTree = () => {
     setLablePath(labelPath)
 
     const response = await api.get(
-      `form/${labelPath}/${environment.professionalData}`)
+      `auth/${labelPath}/${environment.professionalData}`)
     const temp = await response.data
     if (temp.error !== 'FILE_NOT_FOUND') {
       setIndustryCategoryList(temp)
@@ -52,7 +52,7 @@ const ProfessionalTree = () => {
     navigate('/admin/professionallisting')
   }
 
-  function onClickCancel () {
+  function onClickCancel() {
     navigate('/admin/professionallisting')
   }
 
@@ -70,20 +70,20 @@ const ProfessionalTree = () => {
         }
       </div>
       <button
-          className="btn btn-success mr-4 ml-5"
-          onClick={() => saveProfessional()}
-          type="submit"
-        >
-          Save
-        </button>
-        <button
-          id="profcancle"
-          className="btn btn-danger"
-          type="submit"
-          onClick={() => onClickCancel()}
-        >
-          Cancel
-        </button>
+        className="btn btn-success mr-4 ml-5"
+        onClick={() => saveProfessional()}
+        type="submit"
+      >
+        Save
+      </button>
+      <button
+        id="profcancle"
+        className="btn btn-danger"
+        type="submit"
+        onClick={() => onClickCancel()}
+      >
+        Cancel
+      </button>
     </>
   )
 }

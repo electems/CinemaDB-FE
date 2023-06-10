@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import AdminHeader from '../../../components/AdminHeader'
 import { api } from '../../../services/api'
 import { environment } from '../../../config/environment'
-import { EditableAntdTree, EditableAntdTreeNode } from '../../../components/editablantd/editableAntdTree'
+import { EditableAntdTree, EditableAntdTreeNode } from '../../../components/editablantd/EditableAntdTree'
 
 const ProfessionalListing: React.FC = () => {
   const [industrySelectionList, setIndustrySelectionList] = React.useState<EditableAntdTreeNode[]>([])
@@ -16,7 +16,7 @@ const ProfessionalListing: React.FC = () => {
 
   const retrieveMainProfessional = async () => {
     const response = await api.get(
-      `form/${environment.mainProfessionalPath}/${environment.professionalData}`)
+      `auth/${environment.mainProfessionalPath}/${environment.professionalData}`)
 
     const data = await response.data
     const temp: EditableAntdTreeNode[] = []
