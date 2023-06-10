@@ -14,6 +14,22 @@ import './style.css'
 import { toastify } from '../../../services/filmservices';
 import { CloseCircleFilled } from '@ant-design/icons';
 import { storage } from '../../../storage/storage';
+
+const HOURES: any = []
+for (let i = 0; i < 4; i++) {
+  HOURES.push(i);
+}
+
+const MINUTES:any = []
+for (let i = 0; i < 60; i++) {
+  MINUTES.push(i)
+}
+
+const SECONDS:any = []
+for (let i = 0; i < 60; i++) {
+  SECONDS.push(i)
+}
+
 const time = new Date().toLocaleTimeString()
 const file = {
   fieldname: '',
@@ -935,9 +951,47 @@ const FilmFestivalRegistration: React.FC = () => {
                         >
                           Run Time
                         </Text>
-                        <div className="mb-6">
-                          <input name = "run_time" value={filmFestival.run_time} onChange = {handleInputChange} type="time" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                        <div className="container">
+                        <div className="row">
+                        <div className="col-md">
+                        <select className = "text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-100 p-2.5" placeholder="Please select your role" name='genres' >
+                        <option value="">
+                         Hours
+                        </option>
+                        {HOURES.map(item => (
+                          <option key={item} value={item}>
+                            {item}
+                          </option>
+                        ))}
+                        </select>
                         </div>
+                        <div className="col-md">
+                        <select className = "text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-100 p-2.5" placeholder="Please select your role" name='genres' >
+                        <option value="">
+                         Minutes
+                        </option>
+                        {MINUTES.map(item => (
+                          <option key={item} value={item}>
+                            {item}
+                          </option>
+                        ))}
+                        </select>
+                        </div>
+                        <div className="col-md">
+                        <select className = "text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-100 p-2.5" placeholder="Please select your role" name='genres' >
+                        <option value="">
+                         Seconds
+                        </option>
+                        {SECONDS.map(item => (
+                          <option key={item} value={item}>
+                            {item}
+                          </option>
+                        ))}
+                        </select>
+                        </div>
+                        </div>
+                        </div>
+
                       </div>
                     </div>
                   </div>
