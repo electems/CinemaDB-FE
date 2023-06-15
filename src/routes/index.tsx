@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import Page404 from '../pages/Page404'
 import { SelectPreferenceForm } from '../pages/Film/Login/selectPreferences'
 import { AdminLogin } from '../pages/Admin/Login'
-import AboutusPage from '../pages/Film/Public/About_Us/aboutus'
+import AboutusPage from '../pages/Film/About_Us/aboutus'
 import { LoginRegisterForm } from '../pages/Film/Login/loginRegisterForm'
 import { FilmPersonRegister } from '../pages/Film/Register/Filmpersonregister/filmpersonregister'
 import { SelectedIndustry } from '../pages/Film/Register/Filmpersonregister/selectedindustry'
@@ -24,6 +24,9 @@ import FilmFestivalRegistration from '../pages/Film/FilmFestival/filmFestivalReg
 import FilmFestivalForms from '../pages/Admin/FilmFestival/filmFestival'
 import MainScreenAfterLogin from '../pages/Film/Public/MainScreenAfterLogin/mainScreenAfterLogin'
 import FilmFestival from '../pages/Film/FilmFestival/filmFestival'
+import AuditionsCall from '../pages/Film/AuditionCall/auditionCall'
+import AuditionsCallRegistration from '../pages/Film/AuditionCall/auditionCallRegistration'
+import AuditionsCallSingleMovie from '../pages/Film/AuditionCall/auditionCallSingleMovie'
 
 const RoutesMain = () => {
   return (
@@ -49,13 +52,22 @@ const RoutesMain = () => {
         element={<SelectedIndustry />}
       />
 
-       <Route
+      <Route
         path="/film/filmfestival/filmfestivalregistration"
         element={<FilmFestivalRegistration />}
       />
-       <Route
+      <Route
         path="/film/filmfestival/filmfestival"
         element={<FilmFestival />}
+      />
+      <Route path="/film/auditioncall/auditioncall" element={<AuditionsCall />} />
+      <Route
+        path="/film/auditioncall/auditioncallregistration"
+        element={<AuditionsCallRegistration />}
+      />
+      <Route
+        path="/film/auditioncall/auditioncallsinglemovie"
+        element={<AuditionsCallSingleMovie />}
       />
 
       <Route path="/film/public/aboutus" element={<AboutusPage />} />
@@ -71,7 +83,7 @@ const RoutesMain = () => {
 export const RoutesAdmin = () => {
   return (
     <Routes>
-       <Route
+      <Route
         path="/film/register/subcategoryuserform"
         element={<SubCategoryUserForm />}
       />

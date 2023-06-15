@@ -1,0 +1,339 @@
+import React, { useEffect } from 'react';
+
+import OTTHeadergroup986 from '../../../components/MainScreenHeader/mainscreenheader';
+import { Text, Button } from '../../../components/Elements/index';
+import OTTFooterhome from '../../../components/Footer/footer';
+import { IAuditionCall } from '../../../types/auditioncall.type';
+import { api } from '../../../services/api';
+import { useNavigate } from 'react-router-dom';
+
+const initialFilmFestivalState = {
+  id: null,
+  auditionCategory: '',
+  auditionDescription: '',
+  gender: '',
+  ageRange: '',
+  start_date: '',
+  end_date: '',
+  timeDurationForAudition: '',
+  preferredLanguageToSpeak: '',
+  movieType: '',
+  seoTags: '',
+  auditionAgencyEmailId: '',
+  contactNumber: '',
+  auditionReason: '',
+  venueOrInterviewLocation: '',
+  duration: '',
+  movieFk: null
+};
+const AuditionsCallRegistration: React.FC = () => {
+  const [filmFestival, setFilmFestival] = React.useState(initialFilmFestivalState);
+  const [age1, setAge1] = React.useState('');
+  const [age2, setAge2] = React.useState('');
+  const [formValue, setFormValue] = React.useState<any[]>([])
+  const [dropdownId, setDropdownId] = React.useState()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    retriveMovies()
+  }, [])
+
+  const handleInputChange = event => {
+    const { name, value } = event.target;
+    setFilmFestival({ ...filmFestival, [name]: value });
+  };
+
+  const ageFrom = (event) => {
+    setAge1(event.target.value);
+  };
+  const ageTo = (event) => {
+    setAge2(event.target.value);
+  };
+  const saveFilmFestivalDetails = async () => {
+    const filmFestivalObject: IAuditionCall = {
+      auditionCategory: filmFestival.auditionCategory,
+      auditionDescription: filmFestival.auditionDescription,
+      gender: filmFestival.gender,
+      ageRange: age1 + '-' + age2,
+      startDate: filmFestival.start_date,
+      endDate: filmFestival.end_date,
+      timeDurationForAudition: filmFestival.timeDurationForAudition,
+      movieType: filmFestival.movieType,
+      preferredLanguageToSpeak: filmFestival.preferredLanguageToSpeak,
+      seoTags: filmFestival.seoTags,
+      auditionAgencyEmailId: filmFestival.auditionAgencyEmailId,
+      contactNumber: filmFestival.contactNumber,
+      auditionReason: filmFestival.auditionReason,
+      venueOrInterviewLocation: filmFestival.venueOrInterviewLocation,
+      duration: filmFestival.duration,
+      movieFk: dropdownId
+    }
+    console.log(filmFestivalObject)
+    await api.post('/auditioncall/createAuditionCall', filmFestivalObject)
+    navigate('/film/auditioncall/auditioncallsinglemovie', { state: { movieFK: dropdownId } })
+  }
+
+  const retriveMovies = async () => {
+    const movies = await api.get('userprofession/movies')
+    const response = await movies.data
+    setFormValue(response)
+    return response
+  }
+
+  const handleMovieChange = (e) => {
+    setDropdownId(JSON.parse(e.target.value).id)
+  };
+
+  return (
+    <>
+      <div className="bg-gray_900 flex flex-col font-roboto items-start justify-start mx-auto w-full">
+        <div className="flex items-center w-full">
+          <OTTHeadergroup986 className="bg-gray_800 flex flex-row items-center justify-center md:px-5 w-full" />
+        </div>
+        <div className="flex items-end mt-[46px] md:px-10 sm:px-5 px-[117px] w-full">
+          <div className="bg-gray_800 flex items-center justify-start p-[26px] md:px-5 w-[95%] md:w-full">
+            <div className="flex flex-col items-start justify-start mb-[45px] w-[99%] md:w-full">
+            <div className="flex md:flex-1 items-center justify-start mb-0.5 w-[46%] md:w-full">
+                    <div className="mt-6 flex flex-col gap-1.5 justify-start w-full">
+                      <Text
+                        className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                        variant="body26"
+                      >
+                        Select the registered movie on CinemaDBS for Audition call
+                      </Text>
+                      <div>
+                        <select className = "text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5" placeholder="Please select your role" name='genres' onChange={handleMovieChange}>
+                        <option disabled={true} value="">
+                         --Choose Movie--
+                        </option>
+                          {formValue.map(item => (
+                          <option key={item.value} value={JSON.stringify(item)}>
+                            {item.value}
+                          </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+              <div className="font-roboto md:gap-5 gap-[99px] grid md:grid-cols-1 grid-cols-2 justify-center min-h-[auto] w-full">
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      Audition Title
+                    </Text>
+                    <div className="mb-6">
+                        <input onChange = {handleInputChange} name = "auditionCategory" placeholder = "Female Actor Required in lead Role" type="text" id="default-input" className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      Audition Description{' '}
+                    </Text>
+                    <div className="mb-6">
+                        <input onChange = {handleInputChange} name = "auditionDescription" type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      Gender
+                    </Text>
+                    <div className="mb-6">
+                        <input onChange = {handleInputChange} name = "gender" type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex items-center justify-start w-full">
+                    <div className="flex flex-col gap-[5px] justify-start w-full">
+                      <Text
+                        className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                        variant="body26"
+                      >
+                        Age Range
+                      </Text>
+                      <div className="flex sm:flex-col flex-row sm:gap-10 items-center justify-between w-full">
+                      <div className="mb-6">
+                        <input onChange = {ageFrom} name = "age1" type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                    <div className="mb-6">
+                        <input onChange = {ageTo} name = "age2" type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      Start date
+                    </Text>
+                    <div className="mb-6">
+                        <input onChange = {handleInputChange} name = "start_date" type="date" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      End date
+                    </Text>
+                    <div className="mb-6">
+                        <input onChange = {handleInputChange} name = "end_date" type="date" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      Time Duration  for Audition{' '}
+                    </Text>
+                    <div className="mb-6">
+                        <input onChange = {handleInputChange} name = "timeDurationForAudition" type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      Preferred Language  to Speak/Converse{' '}
+                    </Text>
+                    <div className="mb-6">
+                        <input onChange = {handleInputChange} name = "preferredLanguageToSpeak" type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      Movie Type
+                    </Text>
+                    <div className="mb-6">
+                        <input onChange = {handleInputChange} name = "movieType" type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                     SEO Tags
+                    </Text>
+                    <div className="mb-6">
+                       <input onChange = {handleInputChange} name = "seoTags" type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      Audition Agency Email id
+                    </Text>
+                    <div className="mb-6">
+                        <input onChange = {handleInputChange} name = "auditionAgencyEmailId" type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      Contact Number
+                    </Text>
+                    <div className="mb-6">
+                        <input onChange = {handleInputChange} name = "contactNumber" type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                     Audition Reason
+                    </Text>
+                    <div className="mb-6">
+                        <input onChange = {handleInputChange} name = "auditionReason" type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      Venue / Interview Location
+                    </Text>
+                    <div className="mb-6">
+                        <input onChange = {handleInputChange} name = "venueOrInterviewLocation" type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex font-roboto items-center justify-start mt-[23px] w-[46%] md:w-full">
+                <div className="flex flex-col gap-1.5 justify-start w-full">
+                  <Text
+                    className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                    variant="body26"
+                  >
+                    Duration
+                  </Text>
+                  <div className="mb-6">
+                        <input onChange = {handleInputChange} name = "duration" type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                    </div>
+                </div>
+              </div>
+              <Button onClick = {saveFilmFestivalDetails} className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[219px] md:ml-[0] ml-[907px] mt-[45px] md:px-10 px-11 sm:px-5 py-1.5 text-base text-center text-white_A700 w-auto">
+                Submit the Post
+              </Button>
+              <Button className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[215px] md:ml-[0] ml-[907px] mt-[18px] md:px-10 sm:px-5 px-[72px] py-1.5 text-base text-center text-white_A700 w-auto">
+                Promote
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center mt-9 w-full">
+          <OTTFooterhome className="bg-gray_800 flex items-center justify-center md:px-5 w-full" />
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default AuditionsCallRegistration;
