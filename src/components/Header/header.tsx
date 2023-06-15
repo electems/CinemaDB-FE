@@ -5,6 +5,7 @@ import { CloseSVG } from './index'
 import './header.css'
 import { useNavigate } from 'react-router-dom'
 import { Login } from 'tabler-icons-react'
+import { Nav, Navbar } from 'react-bootstrap'
 type MainHeader = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
@@ -18,19 +19,26 @@ const Header: React.FC<MainHeader> = (props) => {
   const navigateToPreferencePage = () => {
     navigate('/film/login/selectpreference')
   }
+  const handleInputChange = (e) => {
+    const data = e.target.value
+    if (data === 'AuditionCall') {
+      navigate('/film/auditioncall/auditioncall')
+    }
+  };
+
+  const menus = [
+    { value: 'Film Festival', label: 'Film Festival' },
+    { value: 'AuditionCall', label: 'AuditionCall' },
+    { value: 'Award News', label: 'Award News' }
+  ];
   return (
     <>
-      <header className={props.className}>
+      <Navbar collapseOnSelect expand="sm" className={props.className}>
         <div className="h-[93px] md:ml-[0] ml-[99px] md:mt-0 mt-[5px] relative w-[16%] md:w-full">
           <Img
             src="/images/cinemadbheaderlogo.png"
             className="absolute h-[93px] inset-[0] justify-center m-auto object-cover w-full"
             alt="imageSixteen"
-          />
-          <Img
-            src="/images/cinemadbheaderlogo.png"
-            className="absolute h-[93px] inset-[0] justify-center m-auto object-cover w-full"
-            alt="imageSixteen_One"
           />
         </div>
         <Input
@@ -61,31 +69,53 @@ const Header: React.FC<MainHeader> = (props) => {
                 )
           }
         ></Input>
+        <Navbar.Toggle className="navbar-toggler" aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="me-auto"></Nav>
         <div className="flex flex-row gap-[11px] items-end justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] md:w-full">
           <Text
-            className="font-medium font-montserrat text-left text-white_A700 w-auto"
+            className="cursor-pointer font-medium font-montserrat text-left text-white_A700 w-auto"
             variant="body26"
           >
             Film Industry{' '}
           </Text>
           <Img
             src="/images/img_arrowdown.svg"
-            className="mb-2 h-[9px] w-auto"
+            className="cursor-pointer mb-2 h-[9px] w-auto"
             alt="arrowdown"
           />
         </div>
         <div className="flex flex-row gap-2.5 items-center justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] md:w-full">
           <Text
-            className="font-medium font-montserrat text-left text-white_A700 w-auto"
+            className="cursor-pointer font-medium font-montserrat text-left text-white_A700 w-auto"
             variant="body26"
           >
             Film Updates{' '}
           </Text>
           <Img
             src="/images/img_arrowdown.svg"
-            className="h-[9px] w-auto"
+            className="cursor-pointer h-[9px] w-auto"
             alt="arrowdown_One"
           />
+        </div>
+        <div className="flex md:flex-1 items-center justify-start w-[46%] md:w-full">
+          <div className="flex flex-col justify-start w-full">
+            <Text
+            className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+            variant="body26"
+            >
+            Movie Type
+            </Text>
+            <div className="mb-6">
+              <select className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5" placeholder="Please select your role" name='movieType' onChange={handleInputChange}>
+                {menus.map(item => (
+                <option key={item.value} value={item.value}>
+                    {item.label}
+                    </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
         <div className="flex flex-row gap-2.5 items-center justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] w-[10%] md:w-full">
           <Login
@@ -96,7 +126,8 @@ const Header: React.FC<MainHeader> = (props) => {
          onClick={navigateToPreferencePage}
            />
         </div>
-      </header>
+        </Navbar.Collapse>
+      </Navbar>
     </>
   )
 }
