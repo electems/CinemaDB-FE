@@ -92,7 +92,6 @@ const AuditionsCallSingleMovie: React.FC = () => {
                       </Text>
                       <Text
                         className="mb-0.5 sm:ml-[0] ml-[55px] text-lg text-white_A700"
-                        size="txtMontserratBold18"
                       >
                         <span className="text-white_A700 font-montserrat text-left font-bold">
                           Role :{' '}
@@ -103,7 +102,6 @@ const AuditionsCallSingleMovie: React.FC = () => {
                       </Text>
                       <Text
                         className="sm:ml-[0] ml-[22px] sm:mt-0 mt-0.5 text-lg text-white_A700"
-                        size="txtMontserratBold18"
                       >
                         <span className="text-white_A700 font-montserrat text-left font-bold">
                           Age :{' '}
@@ -126,13 +124,11 @@ const AuditionsCallSingleMovie: React.FC = () => {
                   </div>
                   <Text
                     className="md:ml-[0] ml-[22px] md:mt-0 mt-[5px] text-lg text-white_A700"
-                    size="txtMontserratBold18"
                   >
                     Venue : {auditioncall.venueOrInterviewLocation}
                   </Text>
                   <Text
                     className="md:ml-[0] ml-[11px] md:mt-0 mt-1 text-lg text-white_A700"
-                    size="txtMontserratBold18"
                   >
                     Type : {auditioncall.movieType}
                   </Text>
