@@ -5,6 +5,8 @@ import { Text, Img, Button, List } from '../../../components/Elements';
 import OTTFooterhome from '../../../components/Footer/footer';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../../../services/api';
+import { storage } from '../../../storage/storage';
+import { Modal } from 'react-bootstrap'
 interface InputData {
   movieFK
 }
@@ -12,6 +14,9 @@ const AuditionsCallSingleMovie: React.FC = () => {
   const navigate = useNavigate();
   const inputData = useLocation().state as InputData
   const [seconds, setSeconds] = React.useState<any>([]);
+  const [isShow, invokeModal] = React.useState(false)
+  const [modalForSuccessfulRegistration, invokeModalForSuccessfulRegistration] = React.useState(false)
+  const loggedUser = storage.getLoggedUser()
 
   useEffect(() => {
     retriveAuditionByMovieId()
@@ -19,10 +24,34 @@ const AuditionsCallSingleMovie: React.FC = () => {
 
   const retriveAuditionByMovieId = async () => {
     const res = await api.get(`/auditioncall/audition/${inputData.movieFK}`)
-    const userList = await res.data
-    setSeconds(userList)
+    const auditionLists = await res.data
+    setSeconds(auditionLists)
   }
 
+  const applyForAudition = async () => {
+    if (loggedUser && loggedUser.role === 'LOVER') {
+      modalOnForSuccessfullRegistration()
+    } else {
+      modalOn()
+    }
+  }
+  const modalOn = () => {
+    return invokeModal(!false)
+  }
+  const modalOnForSuccessfullRegistration = () => {
+    return invokeModalForSuccessfulRegistration(!false)
+  }
+
+  const modalOffForSuccessfullRegistration = () => {
+    return invokeModalForSuccessfulRegistration(false)
+  }
+  const registerProcess = () => {
+    navigate('/film/login/selectpreference')
+  }
+
+  const modalOff = () => {
+    return invokeModal(false)
+  }
   return (
         <>
         <div className="bg-gray_900 flex flex-col font-roboto items-center justify-start mx-auto w-full">
@@ -147,10 +176,19 @@ const AuditionsCallSingleMovie: React.FC = () => {
                     <Button className="bg-red_A700 cursor-pointer font-medium leading-[normal] min-w-[202px] py-[19px] rounded text-[14.7px] text-center text-white_A700 w-auto">
                       Upload Audition Video{' '}
                     </Button>
-                    <Button className="bg-red_A700 cursor-pointer font-medium leading-[normal] min-w-[202px] py-[19px] rounded text-[14.7px] text-center text-white_A700 w-auto">
+                    <Button onClick = {applyForAudition}className="bg-red_A700 cursor-pointer font-medium leading-[normal] min-w-[202px] py-[19px] rounded text-[14.7px] text-center text-white_A700 w-auto">
                       Apply from CDBS Profile
                     </Button>
                   </div>
+                  <Modal show={isShow} onHide={() => modalOn()}>
+                   <Modal.Body>You are not registered in CinemaDBS. Do you want to register and Apply?</Modal.Body>
+                   <Button onClick={() => registerProcess()}>Click Here To Register For Cinema DBS</Button>
+                   <Button onClick={() => modalOff()}>No</Button>
+                 </Modal>
+                 <Modal show={modalForSuccessfulRegistration} onHide={() => modalOnForSuccessfullRegistration()}>
+                   <Modal.Body>Successfully applied for {auditioncall.auditionCategory} you will get notified once you are selected</Modal.Body>
+                   <Button onClick={() => modalOffForSuccessfullRegistration()}>OK</Button>
+                 </Modal>
                 </div>
               </div>
             </div>

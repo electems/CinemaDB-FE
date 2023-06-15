@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 
-import OTTHeadergroup986 from '../../../components/MainScreenHeader/mainscreenheader';
+import Header from '../../../components/MainScreenHeader/mainscreenheader';
 import { Text, Button } from '../../../components/Elements/index';
-import OTTFooterhome from '../../../components/Footer/footer';
+import Footer from '../../../components/Footer/footer';
 import { IAuditionCall } from '../../../types/auditioncall.type';
 import { api } from '../../../services/api';
 import { useNavigate } from 'react-router-dom';
 
-const initialFilmFestivalState = {
+const initialAuditionCallState = {
   id: null,
   auditionCategory: '',
   auditionDescription: '',
@@ -27,9 +27,9 @@ const initialFilmFestivalState = {
   movieFk: null
 };
 const AuditionsCallRegistration: React.FC = () => {
-  const [filmFestival, setFilmFestival] = React.useState(initialFilmFestivalState);
-  const [age1, setAge1] = React.useState('');
-  const [age2, setAge2] = React.useState('');
+  const [auditionCall, setAuditionCall] = React.useState(initialAuditionCallState);
+  const [fromAge, setFromAge] = React.useState('');
+  const [toAge, setToAge] = React.useState('');
   const [formValue, setFormValue] = React.useState<any[]>([])
   const [dropdownId, setDropdownId] = React.useState()
   const navigate = useNavigate()
@@ -40,32 +40,32 @@ const AuditionsCallRegistration: React.FC = () => {
 
   const handleInputChange = event => {
     const { name, value } = event.target;
-    setFilmFestival({ ...filmFestival, [name]: value });
+    setAuditionCall({ ...auditionCall, [name]: value });
   };
 
   const ageFrom = (event) => {
-    setAge1(event.target.value);
+    setFromAge(event.target.value);
   };
   const ageTo = (event) => {
-    setAge2(event.target.value);
+    setToAge(event.target.value);
   };
   const saveFilmFestivalDetails = async () => {
     const filmFestivalObject: IAuditionCall = {
-      auditionCategory: filmFestival.auditionCategory,
-      auditionDescription: filmFestival.auditionDescription,
-      gender: filmFestival.gender,
-      ageRange: age1 + '-' + age2,
-      startDate: filmFestival.start_date,
-      endDate: filmFestival.end_date,
-      timeDurationForAudition: filmFestival.timeDurationForAudition,
-      movieType: filmFestival.movieType,
-      preferredLanguageToSpeak: filmFestival.preferredLanguageToSpeak,
-      seoTags: filmFestival.seoTags,
-      auditionAgencyEmailId: filmFestival.auditionAgencyEmailId,
-      contactNumber: filmFestival.contactNumber,
-      auditionReason: filmFestival.auditionReason,
-      venueOrInterviewLocation: filmFestival.venueOrInterviewLocation,
-      duration: filmFestival.duration,
+      auditionCategory: auditionCall.auditionCategory,
+      auditionDescription: auditionCall.auditionDescription,
+      gender: auditionCall.gender,
+      ageRange: fromAge + '-' + toAge,
+      startDate: auditionCall.start_date,
+      endDate: auditionCall.end_date,
+      timeDurationForAudition: auditionCall.timeDurationForAudition,
+      movieType: auditionCall.movieType,
+      preferredLanguageToSpeak: auditionCall.preferredLanguageToSpeak,
+      seoTags: auditionCall.seoTags,
+      auditionAgencyEmailId: auditionCall.auditionAgencyEmailId,
+      contactNumber: auditionCall.contactNumber,
+      auditionReason: auditionCall.auditionReason,
+      venueOrInterviewLocation: auditionCall.venueOrInterviewLocation,
+      duration: auditionCall.duration,
       movieFk: dropdownId
     }
     console.log(filmFestivalObject)
@@ -88,7 +88,7 @@ const AuditionsCallRegistration: React.FC = () => {
     <>
       <div className="bg-gray_900 flex flex-col font-roboto items-start justify-start mx-auto w-full">
         <div className="flex items-center w-full">
-          <OTTHeadergroup986 className="bg-gray_800 flex flex-row items-center justify-center md:px-5 w-full" />
+          <Header className="bg-gray_800 flex flex-row items-center justify-center md:px-5 w-full" />
         </div>
         <div className="flex items-end mt-[46px] md:px-10 sm:px-5 px-[117px] w-full">
           <div className="bg-gray_800 flex items-center justify-start p-[26px] md:px-5 w-[95%] md:w-full">
@@ -329,7 +329,7 @@ const AuditionsCallRegistration: React.FC = () => {
           </div>
         </div>
         <div className="flex items-center mt-9 w-full">
-          <OTTFooterhome className="bg-gray_800 flex items-center justify-center md:px-5 w-full" />
+          <Footer className="bg-gray_800 flex items-center justify-center md:px-5 w-full" />
         </div>
       </div>
     </>

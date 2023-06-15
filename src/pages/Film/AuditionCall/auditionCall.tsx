@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 
 import Header from '../../../components/MainScreenHeader/mainscreenheader';
 import { Text, Img, Button } from '../../../components/Elements';
-import OTTFooterhome from '../../../components/Footer/footer';
+import Footer from '../../../components/Footer/footer';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../../services/api';
+import { storage } from '../../../storage/storage';
+import { Modal } from 'react-bootstrap'
 
 interface IAudition {
     image1?: string;
@@ -16,10 +18,12 @@ interface IAudition {
   }
 
 const AuditionsCall: React.FC = () => {
-  const aboutUs: IAudition = {}
-  const [audition, setAudition] = React.useState(aboutUs)
+  const auditionsListing: IAudition = {}
+  const [audition, setAudition] = React.useState(auditionsListing)
   const [formValue, setFormValue] = React.useState<any[]>([])
+  const [isShow, invokeModal] = React.useState(false)
   const navigate = useNavigate();
+  const loggedUser = storage.getLoggedUser()
 
   useEffect(() => {
     retrieveAudition('EN', 'auditioncall')
@@ -42,6 +46,20 @@ const AuditionsCall: React.FC = () => {
     console.log(item)
     navigate('/film/auditioncall/auditioncallsinglemovie', { state: { movieFK: item.id } })
   }
+  const navigateToRegistrationPage = async () => {
+    if (loggedUser && loggedUser.role === 'PERSON') {
+      navigate('/film/auditioncall/auditioncallregistration')
+    } else {
+      modalOn()
+    }
+  }
+  const modalOn = () => {
+    return invokeModal(!false)
+  }
+
+  const modalOff = () => {
+    return invokeModal(false)
+  }
   return (
         <>
       <div className="bg-gray_900 flex font-roboto items-center justify-start mx-auto w-full">
@@ -56,7 +74,7 @@ const AuditionsCall: React.FC = () => {
             </Text>
             <Button
               className="common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[189px] py-[13px] rounded text-base text-center text-white_A700 w-auto"
-              onClick={() => navigate('/film/auditioncall/auditioncallregistration')}
+              onClick={navigateToRegistrationPage}
             >
               Create New Audition Call
             </Button>
@@ -103,7 +121,11 @@ const AuditionsCall: React.FC = () => {
             )
           })}
           </div>
-          <OTTFooterhome className="bg-gray_800 flex font-roboto items-center justify-center mt-[72px] md:px-5 w-full" />
+          <Modal show={isShow} onHide={() => modalOn()}>
+            <Modal.Body>You are not registered as film person so you cannot create audition</Modal.Body>
+            <Button onClick={() => modalOff()}>OK</Button>
+          </Modal>
+          <Footer className="bg-gray_800 flex font-roboto items-center justify-center mt-[72px] md:px-5 w-full" />
         </div>
       </div>
         </>
