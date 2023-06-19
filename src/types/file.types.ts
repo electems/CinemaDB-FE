@@ -4,5 +4,5 @@ export interface IFile {
     destination?: string;
     originalName?: string;
     tableName?: string;
-    movieFk?: number;
+    tableId?: number;
 }
