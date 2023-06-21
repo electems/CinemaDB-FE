@@ -8,8 +8,10 @@ import { api } from '../../../services/api';
 import { storage } from '../../../storage/storage';
 import { Modal } from 'react-bootstrap'
 interface InputData {
-  movieFK
+  tableId,
+  movieName
 }
+
 const AuditionsCallSingleMovie: React.FC = () => {
   const navigate = useNavigate();
   const inputData = useLocation().state as InputData
@@ -23,7 +25,7 @@ const AuditionsCallSingleMovie: React.FC = () => {
   }, [])
 
   const retriveAuditionByMovieId = async () => {
-    const res = await api.get(`/auditioncall/audition/${inputData.movieFK}`)
+    const res = await api.get(`/auditioncall/audition/${inputData.tableId}`)
     const auditionLists = await res.data
     setSeconds(auditionLists)
   }
@@ -38,8 +40,16 @@ const AuditionsCallSingleMovie: React.FC = () => {
   const modalOn = () => {
     return invokeModal(!false)
   }
-  const modalOnForSuccessfullRegistration = () => {
-    return invokeModalForSuccessfulRegistration(!false)
+
+  const modalOnForSuccessfullRegistration = async () => {
+    await api.post('/auditioncall/createAuditionCallNotification', {
+      userFk: loggedUser.id,
+      role: seconds[0].auditionCategory,
+      auditionCallFk: seconds[0].id,
+      movie: inputData.movieName,
+      firstName: loggedUser.firstName,
+      lastName: loggedUser.lastName
+    })
   }
 
   const modalOffForSuccessfullRegistration = () => {

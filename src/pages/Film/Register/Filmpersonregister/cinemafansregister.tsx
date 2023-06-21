@@ -11,7 +11,7 @@
 import React, { useEffect } from 'react'
 import { api } from '../../../../services/api'
 import { environment } from '../../../../config/environment'
-import './style'
+import './style.css'
 import { ReactFormGenerator } from 'react-form-builder2'
 import { ISubCategoryUserForm } from '../../../../types/subcategoryuserform.type'
 import { useLocation } from 'react-router-dom'

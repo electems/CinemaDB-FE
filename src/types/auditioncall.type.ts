@@ -16,4 +16,5 @@ export type IAuditionCall = {
     venueOrInterviewLocation?: string,
     duration: string,
     movieFk?: number,
+    userFK?: number
 }

@@ -27,6 +27,7 @@ import FilmFestival from '../pages/Film/FilmFestival/filmFestival'
 import AuditionsCall from '../pages/Film/AuditionCall/auditionCall'
 import AuditionsCallRegistration from '../pages/Film/AuditionCall/auditionCallRegistration'
 import AuditionsCallSingleMovie from '../pages/Film/AuditionCall/auditionCallSingleMovie'
+import Notification from '../pages/Film/Public/Notification/notification'
 
 const RoutesMain = () => {
   return (
@@ -73,6 +74,7 @@ const RoutesMain = () => {
       <Route path="/film/public/aboutus" element={<AboutusPage />} />
       <Route path="/film/public/mainscreen" element={<MainScreen />} />
       <Route path="/film/public/mainscreenafterlogin" element={<MainScreenAfterLogin />} />
+      <Route path="/film/public/notification" element={<Notification />} />
 
       <Route path="*" element={<Page404 />} />
       <Route path="/" element={<MainScreen />} />

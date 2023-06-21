@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, { useEffect } from 'react';
 
 import Header from '../../../components/MainScreenHeader/mainscreenheader';
@@ -7,45 +8,176 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../../../services/api';
 import { storage } from '../../../storage/storage';
 import { Modal } from 'react-bootstrap'
-
-interface IAudition {
-    image1?: string;
-    image2?: string;
-    image3?: string;
-    image4?: string;
-    image5?: string;
-    image6?: string;
-  }
+import { debounceTime } from 'rxjs/operators'
+import { Subject } from 'rxjs'
+import Pagination from './pagination';
+import { LayoutGrid, List } from 'tabler-icons-react'
+import { returnUniqueData } from '../../../services/filmservices'
 
 const AuditionsCall: React.FC = () => {
-  const auditionsListing: IAudition = {}
-  const [audition, setAudition] = React.useState(auditionsListing)
-  const [formValue, setFormValue] = React.useState<any[]>([])
   const [isShow, invokeModal] = React.useState(false)
+  const [images, setImages] = React.useState([]);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [gridsView, setGridsView] = React.useState(true);
+  const [listsView, setListsView] = React.useState(false);
+  const [postsPerPage] = React.useState(6);
   const navigate = useNavigate();
+  const [activeLastWeekAuditions, setActiveLastWeekAuditions] = React.useState(false)
+  const [activeThisWeekAuditions, setActiveThisWeekAuditions] = React.useState(false)
+  const [activeThisMonthAuditions, setActiveThisMonthAuditions] = React.useState(false)
   const loggedUser = storage.getLoggedUser()
-
   useEffect(() => {
-    retrieveAudition('EN', 'auditioncall')
-    retriveMovies()
+    retriveBasedOnThisWeekAuditions()
   }, [])
-
-  const retrieveAudition = async (language: string, formLayout: string) => {
-    const response = await api.get(`auth/${language}/${formLayout}`)
-    setAudition(response.data)
-  }
 
   const retriveMovies = async () => {
     const movies = await api.get('userprofession/movies')
     const response = await movies.data
-    setFormValue(response)
     return response
   }
 
-  const navigateToAuditionCall = async (item) => {
-    console.log(item)
-    navigate('/film/auditioncall/auditioncallsinglemovie', { state: { movieFK: item.id } })
+  const subject = new Subject();
+  subject
+    .asObservable()
+    .pipe(debounceTime(100))
+    .subscribe(data => {
+      retriveBasedOnSearchString(data)
+    })
+  const onKeyUp = event => {
+    subject.next(event.target.value)
   }
+
+  const retriveBasedOnSearchString = async (searchString: any) => {
+    if (searchString.length > 0) {
+      const movies = await api.get(`auditioncall/search/${searchString}`)
+      const auditionResponse = await movies.data
+      const movieResponse = await retriveMovies()
+      const movieHasAudition: any = [];
+      const moviesWithImages: any = [];
+      const imagesNames: any = []
+      auditionResponse.forEach(arr1Obj => {
+        const matchedObject = movieResponse.find(arr2Obj => arr2Obj.id === arr1Obj.movieFk);
+        if (matchedObject) {
+          movieHasAudition.push(matchedObject);
+        }
+      })
+      const getOnlyUniqueDatas = await returnUniqueData(movieHasAudition)
+      const imageResponse = await retriveAllImages()
+      getOnlyUniqueDatas.forEach(arr1Obj => {
+        const matchedObject = imageResponse.find(arr2Obj => arr2Obj.tableId === arr1Obj.id);
+        if (matchedObject) {
+          moviesWithImages.push(matchedObject);
+        }
+      })
+      moviesWithImages.map(async (item) => {
+        imagesNames.push(item.fileName)
+      })
+      await retriveImageUrls(imagesNames)
+    } if (searchString.length === 0) {
+      await retriveBasedOnThisWeekAuditions()
+    }
+  }
+
+  const retriveBasedOnThisWeekAuditions = async () => {
+    setActiveThisWeekAuditions(true)
+    const auditions = await api.get('auditioncall/week')
+    const auditionResponse = await auditions.data
+    const movieResponse = await retriveMovies()
+    const movieHasAudition: any = [];
+    const imagesOfMovies: any = [];
+    const imagesNames: any = []
+    auditionResponse.forEach(arr1Obj => {
+      const matchedObject = movieResponse.find(arr2Obj => arr2Obj.id === arr1Obj.movie_fk);
+      if (matchedObject) {
+        movieHasAudition.push(matchedObject);
+      }
+    })
+    const getOnlyUniqueDatas = await returnUniqueData(movieHasAudition)
+    const getImagesFromDb = await retriveAllImages()
+    getOnlyUniqueDatas.forEach(arr1Obj => {
+      const matchedObject = getImagesFromDb.find(arr2Obj => arr2Obj.tableId === arr1Obj.id);
+      if (matchedObject) {
+        imagesOfMovies.push(matchedObject);
+      }
+    })
+
+    imagesOfMovies.map(async (item) => {
+      imagesNames.push(item.fileName)
+    })
+    await retriveImageUrls(imagesNames)
+  }
+  // Retrive Pictures Urls To Display
+  const retriveImageUrls = async (name) => {
+    const items: any = []
+    for (let i = 0; i < name.length; i++) {
+      const movies = await api.get(`/fileupload/files/profile/${name[i]}`)
+      items.push(movies.request.responseURL)
+    }
+    setImages(items)
+  }
+  // For now added for images but has to change based on table name Movies
+  const retriveAllImages = async () => {
+    const allFiles = await api.get('/fileupload/allfiles')
+    const files = allFiles.data
+    return files
+  }
+
+  const retriveBasedOnThisMonthAuditions = async () => {
+    setActiveThisWeekAuditions(true)
+    const movies = await api.get('auditioncall/month')
+    const auditionResponse = await movies.data
+    const movieResponse = await retriveMovies()
+    const movieHasAudition: any = [];
+    const movieContainsImages: any = [];
+    const imagesNames: any = []
+    auditionResponse.forEach(arr1Obj => {
+      const matchedObject = movieResponse.find(arr2Obj => arr2Obj.id === arr1Obj.movie_fk);
+      if (matchedObject) {
+        movieHasAudition.push(matchedObject);
+      }
+    })
+    const getOnlyUniqueDatas = await returnUniqueData(movieHasAudition)
+    const getImagesFromDb = await retriveAllImages()
+    getOnlyUniqueDatas.forEach(arr1Obj => {
+      const matchedObject = getImagesFromDb.find(arr2Obj => arr2Obj.tableId === arr1Obj.id);
+      if (matchedObject) {
+        movieContainsImages.push(matchedObject);
+      }
+    })
+    movieContainsImages.map(async (item) => {
+      imagesNames.push(item.fileName)
+    })
+    await retriveImageUrls(imagesNames)
+  }
+
+  const onClickOfThisWeekAudition = async () => {
+    setActiveThisWeekAuditions(true)
+    setActiveLastWeekAuditions(false)
+    setActiveThisMonthAuditions(false)
+    await retriveBasedOnThisWeekAuditions()
+  }
+
+  const onClickOfLastWeekAuditions = async () => {
+    setActiveLastWeekAuditions(true)
+    setActiveThisWeekAuditions(false)
+    setActiveThisMonthAuditions(false)
+  }
+
+  const onClickOfThisMonthAuditions = async () => {
+    setActiveThisMonthAuditions(true)
+    await retriveBasedOnThisMonthAuditions()
+    setActiveLastWeekAuditions(false)
+    setActiveThisWeekAuditions(false)
+  }
+
+  const navigateToAuditionCall = async (item) => {
+    const data = item.split('/')
+    const datas = await api.get(`fileupload/filename/${data[6]}`)
+    const movieName = data[6].split('.')
+    const response = datas.data
+    navigate('/film/auditioncall/auditioncallsinglemovie', { state: { tableId: response.tableId, movieName: movieName[0] } })
+  }
+
   const navigateToRegistrationPage = async () => {
     if (loggedUser && loggedUser.role === 'PERSON') {
       navigate('/film/auditioncall/auditioncallregistration')
@@ -60,6 +192,25 @@ const AuditionsCall: React.FC = () => {
   const modalOff = () => {
     return invokeModal(false)
   }
+
+  const listView = () => {
+    setGridsView(false)
+    setListsView(true)
+    console.log('list View')
+  }
+
+  const gridView = () => {
+    setGridsView(true)
+    setListsView(false)
+    console.log('GridView')
+  }
+
+  // Pagination
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = images.slice(indexOfFirstPost, indexOfLastPost);
+  // Change page
+  const paginate = pageNumber => setCurrentPage(pageNumber);
   return (
         <>
       <div className="bg-gray_900 flex font-roboto items-center justify-start mx-auto w-full">
@@ -79,48 +230,73 @@ const AuditionsCall: React.FC = () => {
               Create New Audition Call
             </Button>
           </div>
-          <div className="flex md:flex-col flex-row font-montserrat md:gap-5 items-start justify-end ml-auto mt-[29px] md:px-5 w-[70%] md:w-full">
+          <div className="flex md:flex-col flex-row font-montserrat md:gap-5 items-start justify-end ml-auto mt-[29px] md:px-5 md:w-full ml-[34px]">
             <div
-              className="bg-cover bg-no-repeat flex h-7 items-end justify-end md:mt-0 mt-[5px] p-1 w-[23%] md:w-full"
-              style={{ backgroundImage: "url('/images/img_group2353.svg')" }}
-            >
-              <Img
-                src="/images/img_target.png"
-                className="h-5 md:h-auto object-cover w-5"
-                alt="target"
-              />
+              className="form-field">
+                <input className = "rounded text-base no-outline bg-bluegray_100 bg-cover bg-no-repeat flex h-7 items-end justify-end md:mt-0 mt-[5px]" type='text' onKeyUp={onKeyUp}/>
+                <i className="fa fa-search absolute top-2 right-2 mt-1 mr-3" aria-hidden="true"></i>
             </div>
-            <Button className="bg-gray_800 cursor-pointer font-normal leading-[normal] min-w-[198px] ml-7 md:ml-[0] not-italic py-[7px] rounded-sm text-base text-center text-white_A700 w-auto">
+            <Button onClick={onClickOfLastWeekAuditions} className={activeLastWeekAuditions ? 'bg-red_A700 cursor-pointer font-normal leading-[normal] min-w-[214px] ml-6 md:ml-[0] not-italic py-[7px] rounded-sm text-base text-center text-white_A700 w-auto' : 'bg-gray_800 cursor-pointer font-normal leading-[normal] min-w-[198px] ml-7 md:ml-[0] not-italic py-[7px] rounded-sm text-base text-center text-white_A700 w-auto'}>
               Last Week Auditions
             </Button>
-            <Button className="bg-red_A700 cursor-pointer font-normal leading-[normal] min-w-[214px] ml-6 md:ml-[0] not-italic py-[7px] rounded-sm text-base text-center text-white_A700 w-auto">
+            <Button onClick={onClickOfThisWeekAudition} className={activeThisWeekAuditions ? 'bg-red_A700 cursor-pointer font-normal leading-[normal] min-w-[214px] ml-6 md:ml-[0] not-italic py-[7px] rounded-sm text-base text-center text-white_A700 w-auto' : 'bg-gray_800 cursor-pointer font-normal leading-[normal] min-w-[198px] ml-7 md:ml-[0] not-italic py-[7px] rounded-sm text-base text-center text-white_A700 w-auto'}>
               This week Auditions
             </Button>
-            <div className="flex items-center justify-start ml-6 md:ml-[0] w-1/5 md:w-full">
-              <Button className="bg-gray_800 cursor-pointer font-normal leading-[normal] min-w-[203px] not-italic py-[7px] rounded-sm text-base text-center text-white_A700 w-auto">
+            <Button onClick={onClickOfThisMonthAuditions} className={activeThisMonthAuditions ? 'bg-red_A700 cursor-pointer font-normal leading-[normal] min-w-[214px] ml-6 md:ml-[0] not-italic py-[7px] rounded-sm text-base text-center text-white_A700 w-auto' : 'bg-gray_800 cursor-pointer font-normal leading-[normal] min-w-[198px] ml-7 md:ml-[0] not-italic py-[7px] rounded-sm text-base text-center text-white_A700 w-auto'}>
                 This month Auditions
-              </Button>
-            </div>
-            <Img
-              src="/images/img_calendar.svg"
-              className="h-6 ml-6 md:ml-[0] md:mt-0 mt-0.5 w-auto"
-              alt="calendar"
+            </Button>
+            <LayoutGrid
+              size={30}
+              strokeWidth={2}
+              className='cursor-pointer mt-0.5 ml-3'
+              color={'#FFFFFF'}
+              onClick ={gridView}
+            />
+            <List
+              size={30}
+              strokeWidth={2}
+              className='cursor-pointer mt-0.5 ml-3'
+              color={'#FFFFFF'}
+              onClick ={listView}
             />
           </div>
-          <div className="md:gap-5 gap-[29px] grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center max-w-[1180px] min-h-[auto] mt-[31px] mx-auto md:px-5 w-full">
-
-          {formValue.map((item) => {
-            return (
-              <Text key={item.id}
-              className="cursor-pointer font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-              variant="body26"
-              onClick={() => navigateToAuditionCall(item)}
-              >
-              {item.value}
-              </Text>
-            )
-          })}
+          { gridsView
+            ? <div className="md:gap-5 gap-[29px] grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center max-w-[1180px] min-h-[auto] mt-[31px] mx-auto md:px-5 w-full">
+            {currentPosts.map((item) => {
+              return (
+              <>
+              <Img
+                src={item}
+                className="flex-1 h-[455px] md:h-auto object-cover w-full"
+                alt="rectangle"
+                onClick={() => navigateToAuditionCall(item)}
+            />
+              </>
+              )
+            })}
           </div>
+            : ''}
+          { listsView
+            ? <div className="grid gap-4 grid-cols-0 justify-center max-w-[500px] min-h-[auto] mt-[31px] mx-auto">
+            {currentPosts.map((item) => {
+              return (
+              <>
+              <Img
+                src={item}
+                className="flex-1 h-[455px] md:h-auto object-cover w-full"
+                alt="rectangle"
+                onClick={() => navigateToAuditionCall(item)}
+            />
+              </>
+              )
+            })}
+          </div>
+            : ''}
+          <Pagination
+            postsPerPage={postsPerPage}
+            totalPosts={images.length}
+            paginate={paginate}
+          />
           <Modal show={isShow} onHide={() => modalOn()}>
             <Modal.Body>You are not registered as film person so you cannot create audition</Modal.Body>
             <Button onClick={() => modalOff()}>OK</Button>

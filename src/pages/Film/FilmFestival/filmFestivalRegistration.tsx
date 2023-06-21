@@ -15,22 +15,6 @@ import { toastify } from '../../../services/filmservices';
 import { CloseCircleFilled } from '@ant-design/icons';
 import { storage } from '../../../storage/storage';
 
-const HOURES: any = []
-for (let i = 0; i < 4; i++) {
-  HOURES.push(i);
-}
-
-const MINUTES:any = []
-for (let i = 0; i < 60; i++) {
-  MINUTES.push(i)
-}
-
-const SECONDS:any = []
-for (let i = 0; i < 60; i++) {
-  SECONDS.push(i)
-}
-
-const time = new Date().toLocaleTimeString()
 const file = {
   fieldname: '',
   originalname: '',
@@ -51,7 +35,7 @@ const initialFilmFestivalState = {
   movieTittle: '',
   movieType: '',
   genres: '',
-  run_time: time,
+  run_time: '',
   briefSynopsis: '',
   movieSpecificationMovieType: '',
   productionBudget: '',
@@ -74,6 +58,21 @@ interface InputData {
   filmFestivalId,
   role
 }
+
+const hour: any = []
+for (let i = 0; i < 4; i++) {
+  hour.push(i);
+}
+
+const minute : any = []
+for (let i = 0; i < 60; i++) {
+  minute.push(i)
+}
+
+const second:any = []
+for (let i = 0; i < 60; i++) {
+  second.push(i)
+}
 const FilmFestivalRegistration: React.FC = () => {
   const [currentFile, setCurrentFile] = React.useState('');
   const [trailer, setTrailer] = React.useState('');
@@ -83,13 +82,15 @@ const FilmFestivalRegistration: React.FC = () => {
   const [producers, setProducers] = React.useState([{ FirstName: '', LastName: '', Photo: file }])
   const [cast, setCast] = React.useState([{ FirstName: '', LastName: '', Photo: file }])
   const [filmFestival, setFilmFestival] = React.useState(initialFilmFestivalState);
-  const [backendData, setbackendData] = React.useState([]);
   const [progress, setProgress] = React.useState(0)
   const [trailerProgress, setTrailerProgress] = React.useState(0)
   const [imageName, setImageName] = React.useState<string>('');
   const [trailerName, setTrailerName] = React.useState<string>('');
   const [movieFile, setMovieFile] = React.useState([file]);
   const [trailerVideo, setTrailerVideo] = React.useState([file]);
+  const [hours, setHours] = React.useState('');
+  const [minutes, setMinutes] = React.useState('');
+  const [seconds, setSeconds] = React.useState('');
   const inputData = useLocation().state as InputData
   const loggedUser = storage.getLoggedUser()
   useEffect(() => {
@@ -230,12 +231,15 @@ const FilmFestivalRegistration: React.FC = () => {
   const loadFromBackend = async () => {
     const loadFilmFestivalFormFromBackend = await api.get(`filmfestival/${inputData.filmFestivalId}`)
     const responseFromBackend = await loadFilmFestivalFormFromBackend.data
-    setbackendData(responseFromBackend)
     let filmFestival: typeof initialFilmFestivalState = {} as typeof initialFilmFestivalState
     responseFromBackend.map((item) => {
       filmFestival = item
       setFilmFestival(item)
     })
+    const runTime = filmFestival.run_time.split(':')
+    setHours(runTime[0])
+    setMinutes(runTime[1])
+    setSeconds(runTime[2])
     setAddCategory(filmFestival.category)
     setDirector(filmFestival.directors)
     setWriters(filmFestival.writers)
@@ -262,7 +266,7 @@ const FilmFestivalRegistration: React.FC = () => {
       productionBudget: filmFestival.productionBudget,
       countryOfOrigin: filmFestival.countryOfOrigin,
       state: filmFestival.state,
-      runTime: filmFestival.run_time,
+      runTime: hours + ':' + minutes + ':' + seconds,
       language: filmFestival.language,
       category: addCategory,
       directors: director,
@@ -288,6 +292,7 @@ const FilmFestivalRegistration: React.FC = () => {
     { value: 'Action', label: 'Action' },
     { value: 'Thriller', label: 'Thriller' }
   ];
+
   const genres = [
     { value: 'Action', label: 'Action' },
     { value: 'Horror', label: 'Horror' },
@@ -299,11 +304,25 @@ const FilmFestivalRegistration: React.FC = () => {
     { value: 'Australia', label: 'Australia' },
     { value: 'Europe', label: 'Europe' }
   ]
+
   const states = [
     { value: 'Karnataka', label: 'Karnataka' },
     { value: 'TamilNadu', label: 'TamilNadu' },
     { value: 'AndraPradesh', label: 'AndraPradesh' }
   ]
+
+  const handleChangeHours = event => {
+    setHours(event.target.value)
+  };
+
+  const handleChangeMinutes = event => {
+    setMinutes(event.target.value)
+  };
+
+  const handleChangeSeconds = event => {
+    setSeconds(event.target.value)
+  };
+
   return (
     <>
       <div className="bg-gray_900 flex font-roboto items-center justify-start mx-auto w-full">
@@ -954,11 +973,11 @@ const FilmFestivalRegistration: React.FC = () => {
                         <div className="container">
                         <div className="row">
                         <div className="col-md">
-                        <select className = "text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-100 p-2.5" placeholder="Please select your role" name='genres' >
+                        <select onChange={handleChangeHours} value={hours} className = "text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-100 p-2.5" placeholder="Please select your role" name='hours' >
                         <option value="">
                          Hours
                         </option>
-                        {HOURES.map(item => (
+                        {hour.map(item => (
                           <option key={item} value={item}>
                             {item}
                           </option>
@@ -966,11 +985,11 @@ const FilmFestivalRegistration: React.FC = () => {
                         </select>
                         </div>
                         <div className="col-md">
-                        <select className = "text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-100 p-2.5" placeholder="Please select your role" name='genres' >
+                        <select onChange={handleChangeMinutes} value={minutes} className = "text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-100 p-2.5" placeholder="Please select your role" name='minutes' >
                         <option value="">
                          Minutes
                         </option>
-                        {MINUTES.map(item => (
+                        {minute.map(item => (
                           <option key={item} value={item}>
                             {item}
                           </option>
@@ -978,11 +997,11 @@ const FilmFestivalRegistration: React.FC = () => {
                         </select>
                         </div>
                         <div className="col-md">
-                        <select className = "text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-100 p-2.5" placeholder="Please select your role" name='genres' >
+                        <select onChange={handleChangeSeconds} value={seconds} className = "text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-100 p-2.5" placeholder="Please select your role" name='seconds' >
                         <option value="">
                          Seconds
                         </option>
-                        {SECONDS.map(item => (
+                        {second.map(item => (
                           <option key={item} value={item}>
                             {item}
                           </option>
@@ -1263,7 +1282,7 @@ const FilmFestivalRegistration: React.FC = () => {
                   </div>
                 </List>
                 <Text
-                  className="common-pointer bg-green_A700 h-[95px] max-w-[1060px] md:max-w-full md:ml-[0] ml-[117px] mr-[88px] mt-[74px] pb-[33px] pt-[26px] sm:px-5 px-[35px] rounded text-center text-white_A700 w-full"
+                  className="cursor-pointer bg-green_A700 h-[95px] max-w-[1060px] md:max-w-full md:ml-[0] ml-[117px] mr-[88px] mt-[74px] pb-[33px] pt-[26px] sm:px-5 px-[35px] rounded text-center text-white_A700 w-full"
                   variant="body8"
                   onClick={saveFilmFestivalDetails}
                 >

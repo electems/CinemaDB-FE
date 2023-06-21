@@ -115,3 +115,16 @@ export const tabs = (label: string) => {
   const afterReplacedFromTitleToLabel = JSON.parse(replaceTitleToLabel)
   return afterReplacedFromTitleToLabel
 }
+
+export const returnUniqueData = async (data: any) => {
+  const uniqueIds: any = [];
+  const unique = data.filter(element => {
+    const isDuplicate = uniqueIds.includes(element.id);
+    if (!isDuplicate) {
+      uniqueIds.push(element.id);
+      return true;
+    }
+    return false;
+  });
+  return unique
+}

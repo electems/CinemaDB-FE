@@ -6,6 +6,7 @@ import Footer from '../../../components/Footer/footer';
 import { IAuditionCall } from '../../../types/auditioncall.type';
 import { api } from '../../../services/api';
 import { useNavigate } from 'react-router-dom';
+import { storage } from '../../../storage/storage';
 
 const initialAuditionCallState = {
   id: null,
@@ -33,6 +34,7 @@ const AuditionsCallRegistration: React.FC = () => {
   const [formValue, setFormValue] = React.useState<any[]>([])
   const [dropdownId, setDropdownId] = React.useState()
   const navigate = useNavigate()
+  const loggedUser = storage.getLoggedUser()
 
   useEffect(() => {
     retriveMovies()
@@ -66,11 +68,12 @@ const AuditionsCallRegistration: React.FC = () => {
       auditionReason: auditionCall.auditionReason,
       venueOrInterviewLocation: auditionCall.venueOrInterviewLocation,
       duration: auditionCall.duration,
-      movieFk: dropdownId
+      movieFk: dropdownId,
+      userFK: loggedUser.id
     }
     console.log(filmFestivalObject)
     await api.post('/auditioncall/createAuditionCall', filmFestivalObject)
-    navigate('/film/auditioncall/auditioncallsinglemovie', { state: { movieFK: dropdownId } })
+    navigate('/film/auditioncall/auditioncallsinglemovie', { state: { tableId: dropdownId } })
   }
 
   const retriveMovies = async () => {
@@ -115,7 +118,7 @@ const AuditionsCallRegistration: React.FC = () => {
                       </div>
                     </div>
                   </div>
-              <div className="font-roboto md:gap-5 gap-[99px] grid md:grid-cols-1 grid-cols-2 justify-center min-h-[auto] w-full">
+              <div className="font-roboto md:gap-5 gap-[20px] grid md:grid-cols-1 grid-cols-2 justify-center min-h-[auto] w-full">
                 <div className="flex flex-1 items-center justify-start w-full">
                   <div className="flex flex-col gap-1.5 justify-start w-full">
                     <Text
@@ -315,15 +318,15 @@ const AuditionsCallRegistration: React.FC = () => {
                     Duration
                   </Text>
                   <div className="mb-6">
-                        <input onChange = {handleInputChange} name = "duration" type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
-                    </div>
+                      <input onChange = {handleInputChange} name = "duration" type="text" id="default-input" className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"></input>
+                  </div>
                 </div>
               </div>
-              <Button onClick = {saveFilmFestivalDetails} className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[219px] md:ml-[0] ml-[907px] mt-[45px] md:px-10 px-11 sm:px-5 py-1.5 text-base text-center text-white_A700 w-auto">
-                Submit the Post
+              <Button onClick = {saveFilmFestivalDetails} className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[219px] md:ml-[0] mt-[45px] md:px-10 px-11 sm:px-5 py-1.5 text-base text-center text-white_A700 w-auto">
+              Submit the Audition Category
               </Button>
-              <Button className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[215px] md:ml-[0] ml-[907px] mt-[18px] md:px-10 sm:px-5 px-[72px] py-1.5 text-base text-center text-white_A700 w-auto">
-                Promote
+              <Button className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[215px] md:ml-[0]   mt-[18px] md:px-10 sm:px-5 px-[72px] py-1.5 text-base text-center text-white_A700 w-auto">
+              Promote The Audition Call
               </Button>
             </div>
           </div>
