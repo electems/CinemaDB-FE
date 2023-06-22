@@ -12,6 +12,8 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import React, { useEffect } from 'react'
+
+import $ from 'jquery'
 import { api } from '../../../../services/api'
 import { useLocation } from 'react-router-dom'
 import { environment } from '../../../../config/environment'
@@ -20,6 +22,7 @@ import './style'
 import { ReactFormGenerator } from 'react-form-builder2'
 import { getTitleFromTabs } from '../../../../services/filmservices'
 import { ISubCategoryUserForm } from '../../../../types/subcategoryuserform.type'
+import { IFile } from '../../../../types/file.types'
 
 interface InputData {
   user
@@ -142,8 +145,18 @@ export const SubCategoryUserForm: React.FC = () => {
     if (inputData.role === 'PENMAN') {
       subCategoryUserForm.status = 'APPROVED'
     }
-
-    await api.post('userprofession/createform/formdata', subCategoryUserForm)
+    await api.post('/userprofession/createform/formdata', subCategoryUserForm)
+    const fileValue = $('#fileName').val()
+    const filedatas = String(fileValue)
+    const files = JSON.parse(filedatas)
+    const file: IFile = {
+      fileName: files.filename,
+      destination: files.destination,
+      originalName: files.originalname,
+      tableName: currentSubCategoryType,
+      tableId: subCategoryUserForm.id
+    }
+    await api.post('/fileupload/createfile', file)
   }
 
   const onClickOfAddNewMovie = async () => {
@@ -152,7 +165,7 @@ export const SubCategoryUserForm: React.FC = () => {
   }
   // Retrive Movies
   const retriveMovies = async () => {
-    const movies = await api.get('userprofession/movies')
+    const movies = await api.get(`userprofession/movies/${userId}`)
     const response = await movies.data
     setFormValue(response)
     return response
@@ -199,7 +212,7 @@ export const SubCategoryUserForm: React.FC = () => {
                  ? formUserProfessionData.map((record: any, i) => {
                    return (
                     <>
-                      <div className='mt-6'>
+                      <div className='mt-8'>
                         <ReactFormGenerator
                           back_action=""
                           form_action=""

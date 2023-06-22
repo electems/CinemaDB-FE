@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
-import { IFile } from '../../types/file.types';
 const file = {
   id: '',
   fieldname: '',
@@ -12,13 +11,12 @@ const file = {
   path: '',
   size: 0
 }
+
 const ImageUpload = () => {
   const [currentFile, setCurrentFile] = useState('');
-  const [movieFile, setMovieFile] = React.useState(file);
-  useEffect(() => {
-  }, []);
+  const [movieFile, setMovieFile] = React.useState();
 
-  const selectFile = (event) => {
+  const selectFile = async (event) => {
     setCurrentFile(event.target.files[0]);
   };
 
@@ -36,14 +34,14 @@ const ImageUpload = () => {
       <div className="row">
         <div className="col-8">
           <label className="btn btn-default p-0">
-            <input type="text" id="fileName" className="form-control" value={JSON.stringify(movieFile)} />
-            <input type="file" accept="image/*" onChange={selectFile} />
+          <input type="text" id="fileName" className="hidden" value={movieFile} />
+          <input type="file" accept="image/*" onChange={selectFile} />
           </label>
         </div>
         <div className="col-4">
           <button
+          id='fileuploadButton'
             className="btn btn-success btn-sm"
-            disabled={!currentFile}
             onClick={upload}
           >
             Upload

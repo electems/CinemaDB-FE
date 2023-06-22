@@ -61,6 +61,11 @@
     color: white;
 }
 
-.mainheader .select:not([size]) {
-    border: none;
+select:not([size]) {
+    border: black;
+}
+
+.select:focus {
+    --tw-ring-color: black;
+    border-color: black;
 }

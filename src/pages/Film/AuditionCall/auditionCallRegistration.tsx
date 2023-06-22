@@ -77,7 +77,7 @@ const AuditionsCallRegistration: React.FC = () => {
   }
 
   const retriveMovies = async () => {
-    const movies = await api.get('userprofession/movies')
+    const movies = await api.get(`userprofession/movies/${loggedUser.id}`)
     const response = await movies.data
     setFormValue(response)
     return response

@@ -5,7 +5,7 @@ import { CloseSVG } from './index'
 import './header.css'
 import { useNavigate } from 'react-router-dom'
 import { Login } from 'tabler-icons-react'
-import { Nav, Navbar } from 'react-bootstrap'
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap'
 type MainHeader = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
@@ -98,24 +98,26 @@ const Header: React.FC<MainHeader> = (props) => {
             alt="arrowdown_One"
           />
         </div>
-        <div className="flex md:flex-1 items-center justify-start w-[46%] md:w-full">
-          <div className="flex flex-col justify-start w-full">
-            <Text
-            className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-            variant="body26"
-            >
-            Movie Type
-            </Text>
-            <div className="mb-6">
-              <select className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5" placeholder="Please select your role" name='movieType' onChange={handleInputChange}>
-                {menus.map(item => (
-                <option key={item.value} value={item.value}>
-                    {item.label}
-                    </option>
-                ))}
-              </select>
-            </div>
-          </div>
+        <div className="flex flex-row gap-2.5 items-center justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] md:w-full">
+          <NavDropdown
+            className="font-montserrat"
+            title = "Menu"
+            id="collasible-nav-dropdown"
+          >
+            <NavDropdown.Item>Legacy of the Industry</NavDropdown.Item>
+            <NavDropdown.Item>
+            Film Festival
+            </NavDropdown.Item>
+            <NavDropdown.Item>Award News</NavDropdown.Item>
+            <NavDropdown.Item>OTT</NavDropdown.Item>
+            <NavDropdown.Item>Tickets</NavDropdown.Item>
+            <NavDropdown.Item>Master class</NavDropdown.Item>
+            <NavDropdown.Item onClick={() => navigate('/film/auditioncall/auditioncall')}>Audition Call</NavDropdown.Item>
+            <NavDropdown.Item>Film Institute</NavDropdown.Item>
+            <NavDropdown.Item>Birthdays</NavDropdown.Item>
+            <NavDropdown.Item>Shop</NavDropdown.Item>
+            <NavDropdown.Item>Contact  us</NavDropdown.Item>
+          </NavDropdown>
         </div>
         <div className="flex flex-row gap-2.5 items-center justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] w-[10%] md:w-full">
           <Login
