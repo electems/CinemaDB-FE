@@ -31,7 +31,7 @@ const AuditionsCall: React.FC = () => {
   }, [])
 
   const retriveMovies = async () => {
-    const movies = await api.get(`userprofession/movies/${loggedUser.id}`)
+    const movies = await api.get('userprofession/movies/auditionmovies/lovers')
     const response = await movies.data
     return response
   }
