@@ -7,14 +7,35 @@ import { ReactFormBuilder, Registry } from 'react-form-builder2'
 import Demobar from './demobar'
 import { environment } from '../../../config/environment'
 import { api } from '../../../services/api'
-const TestComponent = () => <h2>Hello</h2>
+import ImageUpload from '../../../components/FIleUpload/fileUpload'
+
+const TestComponent = () => {
+  return <><div className='form-control'>
+<div className="row">
+  <div className="col-8">
+    <label className="btn btn-default p-0">
+      <input type="file" accept="image/*"/>
+    </label>
+  </div>
+
+  <div className="col-4">
+    <button
+      className="btn btn-success btn-sm"
+    >
+      Upload
+    </button>
+  </div>
+</div>
+</div></>
+}
 const MyInput = React.forwardRef((props, ref) => {
   const { name, defaultValue, disabled } = props
   return <input ref={ref} name={name} defaultValue={defaultValue} disabled={disabled} />
 })
+
 Registry.register('MyInput', MyInput)
 Registry.register('TestComponent', TestComponent)
-
+Registry.register('FileUpload', ImageUpload)
 const items = [{
   key: 'Header'
 }, {
@@ -27,18 +48,6 @@ const items = [{
   key: 'Checkboxes'
 }, {
   key: 'Image'
-},
-{
-  group_name: 'Movie Form',
-  key: 'TestComponent',
-  element: 'TwoColumnRow',
-  component: MyInput,
-  type: 'custom',
-  field_name: 'movie_input',
-  name: 'Movie Form',
-  static: true,
-  props: { test: 'test_comp' },
-  label: 'Movie Inputs'
 },
 {
   group_name: 'Movie Form',
@@ -67,6 +76,17 @@ const items = [{
   field_name: 'director_name',
   name: 'DirectorName',
   label: 'Director Name'
+},
+{
+  group_name: 'Movie Form',
+  key: 'FileUpload',
+  element: 'CustomElement',
+  component: ImageUpload,
+  type: 'custom',
+  field_name: 'image_component',
+  name: 'MovieImage',
+  icon: 'fa fa-file',
+  label: 'Movie Image Upload'
 }
 ]
 let jsonData = []
