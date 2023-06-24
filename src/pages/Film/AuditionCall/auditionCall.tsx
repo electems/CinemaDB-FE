@@ -123,7 +123,6 @@ const AuditionsCall: React.FC = () => {
   }
 
   const retriveBasedOnThisMonthAuditions = async () => {
-    setActiveThisWeekAuditions(true)
     const movies = await api.get('auditioncall/month')
     const auditionResponse = await movies.data
     const movieResponse = await retriveMovies()
@@ -165,9 +164,9 @@ const AuditionsCall: React.FC = () => {
 
   const onClickOfThisMonthAuditions = async () => {
     setActiveThisMonthAuditions(true)
-    await retriveBasedOnThisMonthAuditions()
     setActiveLastWeekAuditions(false)
     setActiveThisWeekAuditions(false)
+    await retriveBasedOnThisMonthAuditions()
   }
 
   const navigateToAuditionCall = async (item) => {
