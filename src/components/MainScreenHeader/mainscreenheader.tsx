@@ -60,21 +60,21 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
           suffix={
             inputvalue?.length > 0
               ? (
-              <CloseSVG
-                className="cursor-pointer ml-[35px] my-auto"
-                onClick={() => setInputvalue('')}
-                fillColor="#3a3a3c"
-                height={32}
-                width={32}
-                viewBox="0 0 32 32"
-              />
+                <CloseSVG
+                  className="cursor-pointer ml-[35px] my-auto"
+                  onClick={() => setInputvalue('')}
+                  fillColor="#3a3a3c"
+                  height={32}
+                  width={32}
+                  viewBox="0 0 32 32"
+                />
                 )
               : (
-              <Img
-                src="/images/img_search.svg"
-                className="cursor-pointer ml-[35px] my-auto"
-                alt="search"
-              />
+                <Img
+                  src="/images/img_search.svg"
+                  className="cursor-pointer ml-[35px] my-auto"
+                  alt="search"
+                />
                 )
           }
         ></Input>
@@ -83,7 +83,7 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
           <Nav className="me-auto">
           </Nav>
           <Nav>
-          <div className="flex flex-row gap-[11px] items-end justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] md:w-full">
+            <div className="flex flex-row gap-[11px] items-end justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] md:w-full">
               <div className="">
                 <select className="text-white bg-gray_800 block" name='movieType'>
                   <option>Film Industry</option>
@@ -94,66 +94,66 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
                   ))}
                 </select>
               </div>
-          </div>
-        <div className="flex flex-row gap-[11px] items-end justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] md:w-full">
-          <Text
-            className="font-medium font-montserrat text-left text-white_A700 w-auto"
-            variant="body26"
-            onClick={navigateToSubCategoryUserForm}
-          >
-            Movies
-          </Text>
-        </div>
-        <div className="flex flex-row gap-2.5 items-center justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] md:w-full">
-          <NavDropdown
-            title = "Film Updates"
-            id="collasible-nav-dropdown"
-          >
-            <NavDropdown.Item>Coming Soon</NavDropdown.Item>
-            <NavDropdown.Item>This Week Release</NavDropdown.Item>
-            <NavDropdown.Item>Trailers</NavDropdown.Item>
-            <NavDropdown.Item>Movie Songs</NavDropdown.Item>
-            <NavDropdown.Item>Movie News</NavDropdown.Item>
-          </NavDropdown>
-        </div>
-        <div
-          className="mainheader common-pointer flex flex-row gap-2 items-start justify-center mb-[31px] md:ml-[0] ml-[53px] md:mt-0 mt-9 w-[6%] md:w-full"
-        >
-          <NavDropdown
-            className="font-montserrat"
-            title = "Menu"
-            id="collasible-nav-dropdown"
-          >
-            <NavDropdown.Item>Legacy of the Industry</NavDropdown.Item>
-            <NavDropdown.Item>
-            Film Festival
-            </NavDropdown.Item>
-            <NavDropdown.Item>Award News</NavDropdown.Item>
-            <NavDropdown.Item>OTT</NavDropdown.Item>
-            <NavDropdown.Item>Tickets</NavDropdown.Item>
-            <NavDropdown.Item>Master class</NavDropdown.Item>
-            <NavDropdown.Item onClick={() => navigate('/film/auditioncall/auditioncall')}>Audition Call</NavDropdown.Item>
-            <NavDropdown.Item>Film Institute</NavDropdown.Item>
-            <NavDropdown.Item>Birthdays</NavDropdown.Item>
-            <NavDropdown.Item>Shop</NavDropdown.Item>
-            <NavDropdown.Item>Contact  us</NavDropdown.Item>
-          </NavDropdown>
-        </div>
-        <div className="flex flex-row gap-2 items-start justify-center ">
-          <Img
-            src="/images/img_notification.svg"
-            className="cursor-pointer h-[30px]  mb-[31px] md:ml-[0] ml-[52px] md:mt-0 mt-[38px] w-[30px]"
-            alt="notification"
-            onClick={navigateToNotificationPage}
-          />
-        </div>
-        <div className="flex flex-row gap-2 items-start justify-center">
-          <Img
-            src="/images/img_ellipse29.png"
-            className="common-pointer h-[50px] h-[50px] md:h-auto mb-[22px] md:ml-[0] ml-[53px] md:mt-0 mt-[27px] rounded-[50%] w-[50px]"
-            alt="arrowdown_One"
-          />
-        </div>
+            </div>
+            <div className="flex flex-row gap-[11px] items-end justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] md:w-full">
+              <Text
+                className="font-medium font-montserrat text-left text-white_A700 w-auto"
+                variant="body26"
+                onClick={navigateToSubCategoryUserForm}
+              >
+                Movies
+              </Text>
+            </div>
+            <div className="flex flex-row gap-2.5 items-center justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] md:w-full">
+              <NavDropdown
+                title="Film Updates"
+                id="collasible-nav-dropdown"
+              >
+                <NavDropdown.Item>Coming Soon</NavDropdown.Item>
+                <NavDropdown.Item>This Week Release</NavDropdown.Item>
+                <NavDropdown.Item>Trailers</NavDropdown.Item>
+                <NavDropdown.Item>Movie Songs</NavDropdown.Item>
+                <NavDropdown.Item>Movie News</NavDropdown.Item>
+              </NavDropdown>
+            </div>
+            <div
+              className="mainheader common-pointer flex flex-row gap-2 items-start justify-center mb-[31px] md:ml-[0] ml-[53px] md:mt-0 mt-9 w-[6%] md:w-full"
+            >
+              <NavDropdown
+                className="font-montserrat"
+                title="Menu"
+                id="collasible-nav-dropdown"
+              >
+                <NavDropdown.Item>Legacy of the Industry</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => navigate('/film/filmfestival/filmfestival')}>
+                  Film Festival
+                </NavDropdown.Item>
+                <NavDropdown.Item>Award News</NavDropdown.Item>
+                <NavDropdown.Item>OTT</NavDropdown.Item>
+                <NavDropdown.Item>Tickets</NavDropdown.Item>
+                <NavDropdown.Item>Master class</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => navigate('/film/auditioncall/auditioncall')}>Audition Call</NavDropdown.Item>
+                <NavDropdown.Item>Film Institute</NavDropdown.Item>
+                <NavDropdown.Item>Birthdays</NavDropdown.Item>
+                <NavDropdown.Item>Shop</NavDropdown.Item>
+                <NavDropdown.Item>Contact  us</NavDropdown.Item>
+              </NavDropdown>
+            </div>
+            <div className="flex flex-row gap-2 items-start justify-center ">
+              <Img
+                src="/images/img_notification.svg"
+                className="cursor-pointer h-[30px]  mb-[31px] md:ml-[0] ml-[52px] md:mt-0 mt-[38px] w-[30px]"
+                alt="notification"
+                onClick={navigateToNotificationPage}
+              />
+            </div>
+            <div className="flex flex-row gap-2 items-start justify-center">
+               <Img
+                src="/images/img_ellipse29.png"
+                className="common-pointer h-[50px] h-[50px] md:h-auto mb-[22px] md:ml-[0] ml-[53px] md:mt-0 mt-[27px] rounded-[50%] w-[50px]"
+                 alt="arrowdown_One"
+              />
+            </div>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

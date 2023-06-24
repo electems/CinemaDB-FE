@@ -61,7 +61,7 @@ export const getBreadCrumbs = (keys, tree) => {
   return breadCrumPath
 }
 export const retriveMainProfessionalList = async (path: string, fileName: string) => {
-  const response = await api.get(`form/${path}/${fileName}`)
+  const response = await api.get(`auth/${path}/${fileName}`)
   const temp = await response.data
   return temp
 }
@@ -128,3 +128,12 @@ export const returnUniqueData = async (data: any) => {
   });
   return unique
 }
+
+export const upload = async (data: any) => {
+  const formData = new FormData()
+  formData.append('image', data)
+  const fileUpload = await api.post('/fileupload/file', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  })
+  return fileUpload
+};
