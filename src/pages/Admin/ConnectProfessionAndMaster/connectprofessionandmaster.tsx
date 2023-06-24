@@ -44,7 +44,10 @@ const ConnectProfessionAndMaster: React.FC = () => {
     }
   }
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>, title: string) => {
+  const onChange = (event, title) => {
+    if (event.target.value === "") {
+      event.preventDefault();
+    }
     const removeIndex = selectedMasters.indexOf(title)
     if (removeIndex !== -1) {
       selectedMasters.splice(removeIndex, 1)
@@ -53,7 +56,7 @@ const ConnectProfessionAndMaster: React.FC = () => {
       selectedMasters.splice(Number(event.target.value), 0, title)
     }
     setChangedOrderMasters(selectedMasters)
-  }
+  };
 
   const onValue = (items) => {
     const checkItemContains = selectedMasters.includes(items)
@@ -91,21 +94,21 @@ const ConnectProfessionAndMaster: React.FC = () => {
             {masterTemplateDirectoryList.length && selectedMasters.length > 0
               ? masterTemplateDirectoryList.map((item) => {
                 return (
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td className="px-6 py-3">{item}</td>
-                  <td className="px-6 py-3">
-                    <input type="text" id="nome"className='w-10 gap-4 bg-gray-50 border text-gray-900 text-sm rounded-md' onChange={(e) => onChange(e, item)} defaultValue={onValue(item)}/>
-                  </td>
-                </tr>
+                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <td className="px-6 py-3">{item}</td>
+                    <td className="px-6 py-3">
+                      <input type="text" id="nome" className='w-10 gap-4 bg-gray-50 border text-gray-900 text-sm rounded-md' onChange={event => onChange(event, item)} defaultValue={onValue(item)} />
+                    </td>
+                  </tr>
                 )
               })
               : "Data is not available"}
           </tbody>
         </table>
-         <div className="profession-master-button text-center">
-         <button onClick={saveUserSubCategoryType} type="button" className="btn btn-success">Save</button>
-         <button onClick={ onClickCancel}type="button" className="btn btn-danger ml-3">Cancel</button>
-         </div>
+        <div className="profession-master-button text-center">
+          <button onClick={saveUserSubCategoryType} type="button" className="btn btn-success">Save</button>
+          <button onClick={onClickCancel} type="button" className="btn btn-danger ml-3">Cancel</button>
+        </div>
       </div>
     </>
   )

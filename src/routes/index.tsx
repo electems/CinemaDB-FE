@@ -28,6 +28,7 @@ import AuditionsCall from '../pages/Film/AuditionCall/auditionCall'
 import AuditionsCallRegistration from '../pages/Film/AuditionCall/auditionCallRegistration'
 import AuditionsCallSingleMovie from '../pages/Film/AuditionCall/auditionCallSingleMovie'
 import Notification from '../pages/Film/Public/Notification/notification'
+import MainScreenBeforeLogin from '../pages/Film/Public/MainScreenBeforeLogin/mainscreenbeforelogin'
 
 const RoutesMain = () => {
   return (
@@ -74,10 +75,11 @@ const RoutesMain = () => {
       <Route path="/film/public/aboutus" element={<AboutusPage />} />
       <Route path="/film/public/mainscreen" element={<MainScreen />} />
       <Route path="/film/public/mainscreenafterlogin" element={<MainScreenAfterLogin />} />
+      <Route path="/film/public/mainscreenbeforelogin" element={<MainScreenBeforeLogin/>} />
       <Route path="/film/public/notification" element={<Notification />} />
 
       <Route path="*" element={<Page404 />} />
-      <Route path="/" element={<MainScreen />} />
+      <Route path="/" element={<MainScreenBeforeLogin />} />
     </Routes>
   )
 }

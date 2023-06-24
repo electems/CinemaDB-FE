@@ -26,11 +26,6 @@ const Header: React.FC<MainHeader> = (props) => {
     }
   };
 
-  const menus = [
-    { value: 'Film Festival', label: 'Film Festival' },
-    { value: 'AuditionCall', label: 'AuditionCall' },
-    { value: 'Award News', label: 'Award News' }
-  ];
   return (
     <>
       <Navbar collapseOnSelect expand="sm" className={props.className}>
@@ -105,7 +100,7 @@ const Header: React.FC<MainHeader> = (props) => {
             id="collasible-nav-dropdown"
           >
             <NavDropdown.Item>Legacy of the Industry</NavDropdown.Item>
-            <NavDropdown.Item>
+            <NavDropdown.Item onClick={() => navigate('/film/filmfestival/filmfestival')}>
             Film Festival
             </NavDropdown.Item>
             <NavDropdown.Item>Award News</NavDropdown.Item>

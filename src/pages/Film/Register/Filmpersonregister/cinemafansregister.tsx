@@ -10,11 +10,12 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import React, { useEffect } from 'react'
 import { api } from '../../../../services/api'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { environment } from '../../../../config/environment'
 import './style.css'
 import { ReactFormGenerator } from 'react-form-builder2'
 import { ISubCategoryUserForm } from '../../../../types/subcategoryuserform.type'
-import { useLocation } from 'react-router-dom'
+
 import Accordion from 'react-bootstrap/Accordion'
 
 interface InputData{
@@ -28,6 +29,8 @@ export const CinemaFansForm: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = React.useState()
   const [formGeneratorLayoutOfRoleAndType, setFormGeneratorLayoutOfRoleAndType] = React.useState<any[]>([])
   const inputData = useLocation().state as InputData
+  const navigate = useNavigate()
+
   useEffect(() => {
     retriveTabs()
   }, [])
@@ -82,6 +85,7 @@ export const CinemaFansForm: React.FC = () => {
     }
 
     api.post('userprofession/createform/formdata', subCategoryUserForm)
+    navigate('/film/public/mainscreenafterlogin')
   }
 
   return (

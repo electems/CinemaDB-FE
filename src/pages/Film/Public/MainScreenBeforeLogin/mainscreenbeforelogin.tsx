@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Header from '../../../../components/MainScreenHeader/mainscreenheader';
+import Header from '../../../../components/Header/header';
 import { Text, Img, List, Line } from '../../../../components/Elements/index';
 import Footer from '../../../../components/Footer/footer';
 import { useNavigate } from 'react-router-dom';
 import Dropdown from 'react-dropdown';
 import ReactPlayer from 'react-player'
 
-const MainScreenAfterLogin: React.FC = () => {
+const MainScreenBeforeLogin: React.FC = () => {
   const navigate = useNavigate();
   const selectOptions = [
     { value: 'option1', label: 'Option1' },
@@ -1173,4 +1173,4 @@ const MainScreenAfterLogin: React.FC = () => {
   );
 };
 
-export default MainScreenAfterLogin;
+export default MainScreenBeforeLogin;

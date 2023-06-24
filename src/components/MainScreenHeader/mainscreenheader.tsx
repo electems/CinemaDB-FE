@@ -104,7 +104,7 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
                 Movies
               </Text>
             </div>
-            <div className="flex flex-row gap-2.5 items-center justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] md:w-full">
+            <div className="mainheader flex flex-row gap-2.5 items-center justify-center mb-[35px] md:ml-[0] ml-[53px] md:mt-0 mt-[43px] md:w-full">
               <NavDropdown
                 title="Film Updates"
                 id="collasible-nav-dropdown"
