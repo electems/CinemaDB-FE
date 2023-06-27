@@ -26,6 +26,9 @@ const AuditionsCall: React.FC = () => {
   const [activeThisWeekAuditions, setActiveThisWeekAuditions] = React.useState(false)
   const [activeThisMonthAuditions, setActiveThisMonthAuditions] = React.useState(false)
   const loggedUser = storage.getLoggedUser()
+  const lastWeekAudition = 'Last_Week_Auditions'
+  const thisWeekAudition = 'This_week_Auditions'
+  const thisMonthAudition = 'This_Month_Auditions'
   useEffect(() => {
     retriveBasedOnThisWeekAuditions()
   }, [])
@@ -74,13 +77,21 @@ const AuditionsCall: React.FC = () => {
       })
       await retriveImageUrls(imagesNames)
     } if (searchString.length === 0) {
-      await retriveBasedOnThisWeekAuditions()
+      if (activeLastWeekAuditions === true) {
+        await retriveBasedOnLastWeekAuditions()
+      }
+      if (activeThisWeekAuditions === true) {
+        await retriveBasedOnThisWeekAuditions()
+      }
+      if (activeThisMonthAuditions === true) {
+        await retriveBasedOnThisMonthAuditions()
+      }
     }
   }
 
   const retriveBasedOnThisWeekAuditions = async () => {
     setActiveThisWeekAuditions(true)
-    const auditions = await api.get('auditioncall/week')
+    const auditions = await api.get(`auditioncall/getauditionbyweekandmonth/${thisWeekAudition}`)
     const auditionResponse = await auditions.data
     const movieResponse = await retriveMovies()
     const movieHasAudition: any = [];
@@ -123,7 +134,34 @@ const AuditionsCall: React.FC = () => {
   }
 
   const retriveBasedOnThisMonthAuditions = async () => {
-    const movies = await api.get('auditioncall/month')
+    const movies = await api.get(`auditioncall/getauditionbyweekandmonth/${thisMonthAudition}`)
+    const auditionResponse = await movies.data
+    const movieResponse = await retriveMovies()
+    const movieHasAudition: any = [];
+    const movieContainsImages: any = [];
+    const imagesNames: any = []
+    auditionResponse.forEach(arr1Obj => {
+      const matchedObject = movieResponse.find(arr2Obj => arr2Obj.id === arr1Obj.movie_fk);
+      if (matchedObject) {
+        movieHasAudition.push(matchedObject);
+      }
+    })
+    const getOnlyUniqueDatas = await returnUniqueData(movieHasAudition)
+    const getImagesFromDb = await retriveAllImages()
+    getOnlyUniqueDatas.forEach(arr1Obj => {
+      const matchedObject = getImagesFromDb.find(arr2Obj => arr2Obj.tableId === arr1Obj.id);
+      if (matchedObject) {
+        movieContainsImages.push(matchedObject);
+      }
+    })
+    movieContainsImages.map(async (item) => {
+      imagesNames.push(item.fileName)
+    })
+    await retriveImageUrls(imagesNames)
+  }
+
+  const retriveBasedOnLastWeekAuditions = async () => {
+    const movies = await api.get(`auditioncall/getauditionbyweekandmonth/${lastWeekAudition}`)
     const auditionResponse = await movies.data
     const movieResponse = await retriveMovies()
     const movieHasAudition: any = [];
@@ -160,6 +198,7 @@ const AuditionsCall: React.FC = () => {
     setActiveLastWeekAuditions(true)
     setActiveThisWeekAuditions(false)
     setActiveThisMonthAuditions(false)
+    await retriveBasedOnLastWeekAuditions()
   }
 
   const onClickOfThisMonthAuditions = async () => {
