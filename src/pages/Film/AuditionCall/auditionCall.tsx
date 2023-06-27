@@ -29,6 +29,7 @@ const AuditionsCall: React.FC = () => {
   const lastWeekAudition = 'Last_Week_Auditions'
   const thisWeekAudition = 'This_week_Auditions'
   const thisMonthAudition = 'This_Month_Auditions'
+
   useEffect(() => {
     retriveBasedOnThisWeekAuditions()
   }, [])
