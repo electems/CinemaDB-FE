@@ -29,6 +29,10 @@ import AuditionsCallRegistration from '../pages/Film/AuditionCall/auditionCallRe
 import AuditionsCallSingleMovie from '../pages/Film/AuditionCall/auditionCallSingleMovie'
 import Notification from '../pages/Film/Public/Notification/notification'
 import MainScreenBeforeLogin from '../pages/Film/Public/MainScreenBeforeLogin/mainscreenbeforelogin'
+import MyProfilePage from '../pages/Film/MyProfile/myprofile'
+import TrainingInstitutesPage from '../components/FilmTrainingInstitute/film_training_institute_list'
+import FilmInstituteRegistration from '../components/FilmTrainingInstitute/film_training_institute_form'
+import FilmTrainingInstituteDetailPage from '../components/FilmTrainingInstitute/film_training_institute_deatils'
 
 const RoutesMain = () => {
   return (
@@ -77,6 +81,10 @@ const RoutesMain = () => {
       <Route path="/film/public/mainscreenafterlogin" element={<MainScreenAfterLogin />} />
       <Route path="/film/public/mainscreenbeforelogin" element={<MainScreenBeforeLogin/>} />
       <Route path="/film/public/notification" element={<Notification />} />
+      <Route path="film/public/myprofile" element={<MyProfilePage />} />
+      <Route path="film/public/traininginstitutes" element={<TrainingInstitutesPage />} />
+      <Route path="film/public/filminstituteregistration" element={<FilmInstituteRegistration />} />
+      <Route path="film/public/filminstitutedetails" element={<FilmTrainingInstituteDetailPage />} />
 
       <Route path="*" element={<Page404 />} />
       <Route path="/" element={<MainScreenBeforeLogin />} />
