@@ -84,7 +84,7 @@ const RoutesMain = () => {
       <Route path="film/public/myprofile" element={<MyProfilePage />} />
       <Route path="film/public/traininginstitutes" element={<TrainingInstitutesPage />} />
       <Route path="film/public/filminstituteregistration" element={<FilmInstituteRegistration />} />
-      <Route path="film/public/filminstitutedetails" element={<FilmTrainingInstituteDetailPage />} />
+      <Route path="film/public/filminstitutedetails/:fileName" element={<FilmTrainingInstituteDetailPage />} />
 
       <Route path="*" element={<Page404 />} />
       <Route path="/" element={<MainScreenBeforeLogin />} />

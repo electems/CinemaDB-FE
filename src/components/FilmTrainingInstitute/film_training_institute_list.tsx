@@ -43,6 +43,12 @@ const TrainingInstitutesPage: React.FC = () => {
     }
   }
 
+  const navigateToAuditionCall = async (item) => {
+    const data = item.split('/')
+    const datas = await api.get(`filminsitutetraining/filmInstituteDetails/${data[6]}`)
+    navigate(`/film/public/filminstitutedetails/${data[6]}`)
+  }
+
   return (
     <>
       <div className="bg-gray_900 flex font-roboto items-center justify-start mx-auto w-full">
@@ -89,6 +95,7 @@ const TrainingInstitutesPage: React.FC = () => {
                 src={item}
                 className="cursor-pointer flex-1 h-[455px] md:h-auto object-cover w-full"
                 alt="rectangle"
+                onClick={() => navigateToAuditionCall(item)}
             />
               </>
             )
