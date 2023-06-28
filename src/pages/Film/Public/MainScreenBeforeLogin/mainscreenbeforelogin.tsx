@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Header from '../../../../components/Header/header';
 import { Text, Img, List, Line } from '../../../../components/Elements/index';
@@ -6,14 +6,66 @@ import Footer from '../../../../components/Footer/footer';
 import { useNavigate } from 'react-router-dom';
 import Dropdown from 'react-dropdown';
 import ReactPlayer from 'react-player'
+import { api } from '../../../../services/api';
 
 const MainScreenBeforeLogin: React.FC = () => {
+  const [images, setImages] = React.useState([]);
+  const [expand, setExpand] = React.useState(false);
+  const [activeToda, setActiveLastWeekAuditions] = React.useState(false)
+  const [activeThisWeekAuditions, setActiveThisWeekAuditions] = React.useState(false)
+  const [activeThisMonthAuditions, setActiveThisMonthAuditions] = React.useState(false)
   const navigate = useNavigate();
+  const Today = 'Today'
+  const thisWeek = 'Last_30_Days'
+  const last30Days = 'This_Week'
+
+  useEffect(() => {
+    retriveBasedOnToday()
+  }, [])
+
   const selectOptions = [
     { value: 'option1', label: 'Option1' },
     { value: 'option2', label: 'Option2' },
     { value: 'option3', label: 'Option3' }
   ];
+
+  const retriveAllImages = async () => {
+    const allFiles = await api.get('/fileupload/getallfilesbymovietype')
+    const files = allFiles.data
+    return files
+  }
+
+  const retriveBasedOnToday = async () => {
+    const allFiles = await api.get(`/userprofession/getmoviesbyweekmonthand30days/${Today}`)
+    const files = allFiles.data
+    const movieResponse = await retriveAllImages()
+    const imagesOfMovies: any = [];
+    files.forEach(arr1Obj => {
+      const matchedObject = movieResponse.find(arr2Obj => arr2Obj.tableId === arr1Obj.id);
+      if (matchedObject) {
+        imagesOfMovies.push(matchedObject);
+      }
+    })
+    await retriveImageUrls(imagesOfMovies)
+  }
+
+  const retriveImageUrls = async (name) => {
+    const items: any = []
+    for (let i = 0; i < name.length; i++) {
+      const movies = await api.get(`/fileupload/files/profile/${name[i].fileName}`)
+      const split = name[i].fileName.split('.');
+      items.push({
+        urls: movies.request.responseURL,
+        name: split[0]
+      })
+    }
+    console.log(items)
+    setImages(items)
+  }
+
+  const onExpandOfImage = async () => {
+    setExpand(true)
+  }
   return (
     <>
       <div className="bg-gray_900 flex flex-col font-roboto items-center justify-start mx-auto pt-0.5 w-full">
@@ -98,11 +150,30 @@ const MainScreenBeforeLogin: React.FC = () => {
             <Text
               className="font-semibold md:mt-0 mt-[9px] text-left text-red_A700 w-auto"
               variant="body22"
-            ></Text>
+            >
+              <span className="text-red-A700 font-montserrat text-left font-semibold">
+                Today{' '}
+              </span>
+              <span className="text-white-A700 font-montserrat text-left font-semibold">
+                {' '}
+                /
+              </span>
+            </Text>
             <Text
               className="font-semibold ml-2 md:ml-[0] md:mt-0 mt-2 text-left text-red_A700 w-auto"
               variant="body22"
-            ></Text>
+            >
+              <span className="text-white_A700 font-montserrat text-left font-semibold">
+                This Week{' '}
+              </span>
+              <span className="text-red-A700 font-montserrat text-left font-semibold">
+                {' '}
+              </span>
+              <span className="text-white_A700 font-montserrat text-left font-semibold">
+                {' '}
+                /
+              </span>
+            </Text>
             <Text
               className="font-semibold ml-3 md:ml-[0] md:mt-0 mt-2.5 text-left text-white_A700 w-auto"
               variant="body22"
@@ -128,6 +199,35 @@ const MainScreenBeforeLogin: React.FC = () => {
               className="sm:flex-col flex-row gap-5 grid sm:grid-cols-1 md:grid-cols-2 grid-cols-4 w-[81%] md:w-full"
               orientation="horizontal"
             >
+              {images.map((item:any) => {
+                return (
+                  <>
+                    <div className="flex items-center justify-start sm:ml-[0] w-full" onClick={onExpandOfImage}>
+                      <div className="flex flex-col items-start justify-start w-full">
+                        <div className="flex items-center justify-start pb-0.5 w-full">
+                          <Img
+                                src={item.urls}
+                                className="h-[311px] md:h-auto object-cover rounded-[3px] w-full"
+                                alt="rectangle515"
+                              />
+                            </div>
+                            <Text
+                              className="font-normal mt-3.5 not-italic text-left text-white_A700 w-auto"
+                              variant="body31"
+                            >
+                              Romatic
+                            </Text>
+                            <Text
+                              className="font-semibold mt-2.5 text-left text-white_A700 w-auto"
+                              variant="body26"
+                            >
+                              {item.name}
+                            </Text>
+                          </div>
+                        </div>
+                  </>
+                )
+              })}
               <div className="flex items-center justify-start sm:ml-[0] w-full">
                 <div className="flex flex-col items-start justify-start w-full">
                   <div className="flex items-center justify-start pb-0.5 w-full">
@@ -148,75 +248,6 @@ const MainScreenBeforeLogin: React.FC = () => {
                     variant="body26"
                   >
                     Love Mocktail 2
-                  </Text>
-                </div>
-              </div>
-              <div className="flex items-center justify-start mb-1 sm:ml-[0] w-full">
-                <div className="flex flex-col items-start justify-start w-full">
-                  <div className="flex items-center justify-start w-full">
-                    <Img
-                      src="/images/img_rectangle515_311x240.png"
-                      className="h-[311px] md:h-auto object-cover rounded-[3px] w-full"
-                      alt="rectangle515"
-                    />
-                  </div>
-                  <Text
-                    className="font-normal mt-[15px] not-italic text-left text-red_A701 w-auto"
-                    variant="body31"
-                  >
-                    Action ,Drama
-                  </Text>
-                  <Text
-                    className="font-semibold mt-1.5 text-left text-red_A700 w-auto"
-                    variant="body26"
-                  >
-                    KGF
-                  </Text>
-                </div>
-              </div>
-              <div className="flex items-center justify-start sm:ml-[0] w-full">
-                <div className="flex flex-col items-start justify-start w-full">
-                  <div className="flex items-center justify-start pb-0.5 w-full">
-                    <Img
-                      src="/images/img_rectangle515_1.png"
-                      className="h-[311px] md:h-auto object-cover rounded-[3px] w-full"
-                      alt="rectangle515"
-                    />
-                  </div>
-                  <Text
-                    className="font-normal mt-3.5 not-italic text-left text-white_A700 w-auto"
-                    variant="body31"
-                  >
-                    Action ,Drama
-                  </Text>
-                  <Text
-                    className="font-semibold mt-2.5 text-left text-white_A700 w-auto"
-                    variant="body26"
-                  >
-                    Kabzaa
-                  </Text>
-                </div>
-              </div>
-              <div className="flex items-center justify-start sm:ml-[0] w-full">
-                <div className="flex flex-col items-start justify-start w-full">
-                  <div className="flex items-center justify-start pb-0.5 w-full">
-                    <Img
-                      src="/images/img_rectangle515_2.png"
-                      className="h-[311px] md:h-auto object-cover rounded-[3px] w-full"
-                      alt="rectangle515"
-                    />
-                  </div>
-                  <Text
-                    className="font-normal mt-3.5 not-italic text-left text-white_A700 w-auto"
-                    variant="body31"
-                  >
-                    Action ,Drama
-                  </Text>
-                  <Text
-                    className="font-semibold mt-2.5 text-left text-white_A700 w-auto"
-                    variant="body26"
-                  >
-                    Head Bush
                   </Text>
                 </div>
               </div>
@@ -250,7 +281,9 @@ const MainScreenBeforeLogin: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="font-montserrat h-[301px] sm:h-[340px] md:h-[656px] mt-[39px] relative w-[98%] md:w-full">
+          { expand
+            ? <>
+            <div className="font-montserrat h-[301px] sm:h-[340px] md:h-[656px] mt-[39px] relative w-[98%] md:w-full">
             <div className="flex flex-row h-full items-center justify-center ml-auto mr-[233px] mt-[42px] w-[23%]">
               <div className="flex items-center justify-start w-[51%]">
                 <div className="flex flex-row gap-2 items-center justify-between w-full">
@@ -421,6 +454,179 @@ const MainScreenBeforeLogin: React.FC = () => {
               </div>
             </div>
           </div>
+                </>
+            : ''}
+          {/* <div className="font-montserrat h-[301px] sm:h-[340px] md:h-[656px] mt-[39px] relative w-[98%] md:w-full">
+            <div className="flex flex-row h-full items-center justify-center ml-auto mr-[233px] mt-[42px] w-[23%]">
+              <div className="flex items-center justify-start w-[51%]">
+                <div className="flex flex-row gap-2 items-center justify-between w-full">
+                  <Text
+                    className="font-medium text-left text-white_A700 w-auto"
+                    variant="body31"
+                  >
+                    CDBS RATING
+                  </Text>
+                  <Text
+                    className="font-medium text-left text-white_A700 w-auto"
+                    variant="body31"
+                  >
+                    4.5 / 5
+                  </Text>
+                </div>
+              </div>
+              <Img
+                src="/images/img_iconparkoutlinelike.svg"
+                className="h-6 ml-[11px] w-6"
+                alt="iconparkoutline"
+              />
+              <Img
+                src="/images/img_ticket.svg"
+                className="h-6 ml-[13px] w-auto"
+                alt="ticket"
+              />
+            </div>
+            <div className="absolute flex md:flex-col flex-row gap-5 h-full inset-[0] items-center justify-center m-auto w-full">
+              <div className="flex md:flex-1 items-center justify-start w-[83%] md:w-full">
+                <div className="flex items-center justify-start w-full">
+                  <div className="flex md:flex-col flex-row md:gap-[46px] items-center justify-between w-full">
+                    <div className="h-[296px] relative w-[44%] md:w-full">
+                      <ReactPlayer
+                      className='react-player'
+                        url="https://www.youtube.com/watch?v=yT8H8x8iTTk"
+                        playing
+                        controls
+                        width='100%'
+                        height='100%'
+                      />
+                    </div>
+                    <div className="flex md:flex-1 flex-col items-end justify-start w-[53%] md:w-full">
+                      <div className="flex items-center justify-start w-auto md:w-full">
+                        <Text
+                          className="font-semibold text-left text-white_A700 w-auto"
+                          variant="body26"
+                        >
+                          KGF
+                        </Text>
+                      </div>
+                      <Text
+                        className="font-normal mt-[55px] not-italic text-justify text-white_A700 w-full"
+                        variant="body36"
+                      ></Text>
+                      <List
+                        className="sm:flex-col flex-row gap-2.5 grid sm:grid-cols-1 grid-cols-6 justify-center mt-[26px] w-[98%]"
+                        orientation="horizontal"
+                      >
+                        <div className="h-20 relative w-full">
+                          <Img
+                            src="/images/img_rectangle770.png"
+                            className="h-20 m-auto object-cover w-20"
+                            alt="rectangle770"
+                          />
+                          <Text
+                            className="absolute bottom-[0] left-[5%] text-left text-white_A700 w-auto"
+                            as="h5"
+                            variant="h5"
+                          >
+                            Yash
+                          </Text>
+                        </div>
+                        <div className="h-20 relative w-full">
+                          <Img
+                            src="/images/img_rectangle770_80x80.png"
+                            className="h-20 m-auto object-cover w-20"
+                            alt="rectangle770"
+                          />
+                          <Text
+                            className="absolute bottom-[0] left-[5%] text-left text-white_A700 w-auto"
+                            as="h5"
+                            variant="h5"
+                          >
+                            Yash
+                          </Text>
+                        </div>
+                        <div className="h-20 relative w-full">
+                          <Img
+                            src="/images/img_rectangle770_1.png"
+                            className="h-20 m-auto object-cover w-20"
+                            alt="rectangle770"
+                          />
+                          <Text
+                            className="absolute bottom-[0] left-[5%] text-left text-white_A700 w-auto"
+                            as="h5"
+                            variant="h5"
+                          >
+                            Yash
+                          </Text>
+                        </div>
+                        <div className="h-20 relative w-full">
+                          <Img
+                            src="/images/img_rectangle770_2.png"
+                            className="h-20 m-auto object-cover w-20"
+                            alt="rectangle770"
+                          />
+                          <Text
+                            className="absolute bottom-[0] left-[5%] text-left text-white_A700 w-auto"
+                            as="h5"
+                            variant="h5"
+                          >
+                            Yash
+                          </Text>
+                        </div>
+                        <div className="h-20 relative w-full">
+                          <Img
+                            src="/images/img_rectangle770_3.png"
+                            className="h-20 m-auto object-cover w-20"
+                            alt="rectangle770"
+                          />
+                          <Text
+                            className="absolute bottom-[0] left-[5%] text-left text-white_A700 w-auto"
+                            as="h5"
+                            variant="h5"
+                          >
+                            Yash
+                          </Text>
+                        </div>
+                        <div className="h-20 relative w-full">
+                          <Img
+                            src="/images/img_rectangle770_4.png"
+                            className="h-20 m-auto object-cover w-20"
+                            alt="rectangle770"
+                          />
+                          <Text
+                            className="absolute bottom-[0] left-[5%] text-left text-white_A700 w-auto"
+                            as="h5"
+                            variant="h5"
+                          >
+                            Yash
+                          </Text>
+                        </div>
+                      </List>
+                      <div className="flex flex-row gap-5 items-center justify-start mt-[21px] w-[15%] md:w-full">
+                        <Img
+                          src="/images/img_clock.svg"
+                          className="h-[30px] w-[30px]"
+                          alt="clock"
+                        />
+                        <Img
+                          src="/images/img_arrowright_white_a700.svg"
+                          className="h-[30px] w-[30px]"
+                          alt="arrowright"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-gray_600 flex md:flex-1 items-center justify-end p-[90px] md:px-10 sm:px-5 w-auto md:w-full">
+                <Text
+                  className="font-medium h-[13px] mb-[34px] mt-[71px] text-left text-white_A700 w-auto"
+                  variant="body41"
+                >
+                  Ad
+                </Text>
+              </div>
+            </div>
+          </div> */}
           <Dropdown
           options={selectOptions}
           placeholder="Movie Bites"
