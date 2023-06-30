@@ -128,7 +128,7 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                 Create an event under your Film institute{' '}
               </Text>
               <div className="flex flex-col font-roboto items-start justify-start w-full">
-                <div className="md:gap-5 gap-[90px] grid md:grid-cols-1 grid-cols-2 justify-center min-h-[auto] w-full">
+                <div className="md:gap-5 gap-[30px] grid md:grid-cols-1 grid-cols-2 justify-center min-h-[auto] w-full">
                   <div className="flex md:h-[86px] h-[87px] justify-end relative w-full">
                     <div className="absolute flex flex-col h-full inset-[0] items-center justify-center m-auto w-full">
                       <div className="flex flex-col gap-[5px] justify-start w-full">
@@ -264,6 +264,7 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                         ></input>
                       </div>
                     </div>
+                    &nbsp;&nbsp;&nbsp;
                     <div className="flex flex-col gap-1.5 justify-start w-full">
                       <Text
                         className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
@@ -346,7 +347,7 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex flex-1 md:flex-col flex-row md:gap-10 items-start justify-between w-full">
-                    <div className="flex md:flex-1 flex-col items-center justify-start md:mt-0 mt-2 w-[46%] md:w-full">
+                    <div className="flex md:flex-1 flex-col items-center mt-[15px] justify-start md:mt-0 mt-2 w-[46%] md:w-full">
                       <div className="flex flex-col gap-[5px] justify-start w-full">
                         <Text
                           className="ml-2.5 md:ml-[0] text-base text-white_A700"
@@ -384,7 +385,7 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex flex-1 md:flex-col flex-row md:gap-10 items-center justify-between w-full">
-                    <div className="flex md:flex-1 flex-col items-center justify-start md:mt-0 mt-0.5 w-[46%] md:w-full">
+                    <div className="flex md:flex-1 flex-col items-center justify-start mt-[15px] md:mt-0 mt-0.5 w-[46%] md:w-full">
                       <div className="flex flex-col gap-[5px] justify-start w-full">
                         <Text
                           className="ml-2.5 md:ml-[0] text-base text-white_A700"
@@ -422,7 +423,7 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex flex-1 md:flex-col flex-row md:gap-10 items-center justify-between w-full">
-                    <div className="flex md:flex-1 flex-col items-center justify-start w-[46%] md:w-full">
+                    <div className="flex md:flex-1 flex-col items-center justify-start mt-[15px] w-[46%] md:w-full">
                       <div className="flex flex-col justify-start w-full">
                         <Text
                           className="ml-2.5 md:ml-[0] text-base text-white_A700"
@@ -461,29 +462,39 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                   </div>
                 </List>
 
-                <div className="flex md:flex-col flex-row font-montserrat md:gap-5 items-end justify-start md:ml-[0] ml-[11px] mt-[60px] w-[93%] md:w-full">
-                  <div className="mb-6">
-                    <Text
-                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                      variant="body26"
-                    >
-                      Upload Event Poster/s{' '}
+                <div className="flex flex-1 md:flex-col flex-row md:gap-10 items-center justify-between w-full">
+                    <div className="flex md:flex-1 flex-col items-center justify-start mt-[15px] w-[46%] md:w-full">
+                      <div className="flex flex-col justify-start w-full">
+                        <Text
+                          className="ml-2.5 md:ml-[0] text-base text-white_A700"
+
+                        >
+                         Upload Event Poster/s{' '}
                     </Text>
                     <input
                       name="Photo"
                       onChange={(e) => handleFileUpload(e)}
                       type="file"
                       id="default-input"
-                      className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
+                      className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-1"
                     ></input>
-                  </div>
-                  <Button className="bg-red_A700 cursor-pointer font-semibold h-[31px] leading-[normal] min-w-[211px] md:ml-[0] ml-[415px] md:mt-0 mt-[25px] py-[5px] text-base text-center text-white_A700">
+                      </div>
+                    </div>
+                    <div className="flex md:flex-1 flex-col items-center justify-start w-[46%] md:w-full">
+
+                      <div className="flex flex-col gap-[5px] justify-start w-full">
+                      <Button className="bg-red_A700 cursor-pointer font-semibold h-[31px] leading-[normal] min-w-[211px] md:ml-[0] ml-[415px] md:mt-0 mt-[25px] py-[5px] text-base text-center text-white_A700"
+                      style={{marginLeft: '10px'}}>
                     Clear the Form
                   </Button>
-                  <Button className="bg-red_A700 cursor-pointer font-semibold h-[31px] leading-[normal] min-w-[149px] md:ml-[0] ml-[69px] md:mt-0 mt-[25px] py-[5px] text-base text-center text-white_A700" onClick={saveFilmInstituteForm}>
+                  </div>
+                  <div className="flex flex-col gap-[5px] justify-start w-full">
+                  <Button className="bg-red_A700 cursor-pointer font-semibold h-[31px] leading-[normal] min-w-[149px] md:ml-[0] ml-[69px] md:mt-0 mt-[25px] py-[5px] text-base text-center text-white_A700" onClick={saveFilmInstituteForm} style={{marginLeft: '10px'}}>
                     Submit
                   </Button>
-                </div>
+                      </div>
+                    </div>
+                  </div>
               </div>
             </div>
           </div>
