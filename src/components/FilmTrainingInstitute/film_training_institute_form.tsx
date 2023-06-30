@@ -40,15 +40,7 @@ const FilmInstituteRegistration: React.FC = () => {
   const loggedInUser = storage.getLoggedUser();
   const [filmInstitute, setFilmInstitute] =
     React.useState(initialFilmInstitute);
-  //   const [fromAge, setFromAge] = React.useState('');
-  //   const [toAge, setToAge] = React.useState('');
-  //   const [formValue, setFormValue] = React.useState<any[]>([])
-  //   const [dropdownId, setDropdownId] = React.useState()
   const navigate = useNavigate();
-
-  //   useEffect(() => {
-  //     retriveMovies()
-  //   }, [])
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -61,13 +53,6 @@ const FilmInstituteRegistration: React.FC = () => {
     }
     setFilmInstitute({ ...filmInstitute, [name]: value });
   };
-
-  //   const ageFrom = (event) => {
-  //     setFromAge(event.target.value);
-  //   };
-  //   const ageTo = (event) => {
-  //     setToAge(event.target.value);
-  //   };
 
   const fileUpload = async (file) => {
     const formData = new FormData()
@@ -104,8 +89,9 @@ const FilmInstituteRegistration: React.FC = () => {
       experience: filmInstitute.experience,
       userFK: loggedInUser.id
     };
+
     const filmInstituteRecord = await api.post('/filminsitutetraining/createfilminsitutetraining', filmInstituteObject)
-    console.log(filmInstituteRecord.data);
+    const filmInstituteTraining = filmInstituteRecord.data;
     const file = {
       fileName: fileRecord.filename,
       destination: fileRecord.destination,
@@ -114,21 +100,19 @@ const FilmInstituteRegistration: React.FC = () => {
       tableId: loggedInUser.id,
       filmInstituteFK: filmInstituteRecord.data.id
     }
-    const fileObject = await api.post('/fileupload/createfile', file)
-    console.log(fileObject);
+    await api.post('/fileupload/createfile', file)
+
+    const filmInstituteNotification = {
+    email:loggedInUser.email,
+    content:filmInstituteTraining,
+    tableId:loggedInUser.id,
+    userType:loggedInUser.role,
+    notificationType : "FILM INSTITUTE TRAINING"
+    }
+    await api.post('/filminsitutetraining/filmInstituteTraining/notification', filmInstituteNotification)
+
     navigate('/film/public/traininginstitutes')
   };
-
-  //   const retriveMovies = async () => {
-  //     const movies = await api.get('userprofession/movies')
-  //     const response = await movies.data
-  //     setFormValue(response)
-  //     return response
-  //   }
-
-  //   const handleMovieChange = (e) => {
-  //     setDropdownId(JSON.parse(e.target.value).id)
-  //   };
 
   const dropdownValues = [
     { value: 'Select Any One', label: 'Select Any One' },

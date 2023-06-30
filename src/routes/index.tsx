@@ -33,6 +33,13 @@ import MyProfilePage from '../pages/Film/MyProfile/myprofile'
 import TrainingInstitutesPage from '../components/FilmTrainingInstitute/film_training_institute_list'
 import FilmInstituteRegistration from '../components/FilmTrainingInstitute/film_training_institute_form'
 import FilmTrainingInstituteDetailPage from '../components/FilmTrainingInstitute/film_training_institute_deatils'
+import FilmTrainingInstituteEventsRegistrationFormPage from '../components/FilmTrainingInstitute/film_training_institute_eventform'
+import CopyrightPage from '../pages/Film/Public/Copyright/copyright'
+import TermsConditionsPage from '../pages/Film/Public/Terms_Conditions/termsAndConditions'
+import DisclaimerPage from '../pages/Film/Public/Disclaimer/disclaimer'
+import PromotionTermsConditionsPage from '../pages/Film/Public/Promotions_TermsConditions/promotion_terms_conditions'
+import PrivacyAndPolicyPage from '../pages/Film/Public/Privacy_And_Policy/privacy_policy'
+import QandAPage from '../pages/Film/Public/QA/qa'
 
 const RoutesMain = () => {
   return (
@@ -85,6 +92,8 @@ const RoutesMain = () => {
       <Route path="film/public/traininginstitutes" element={<TrainingInstitutesPage />} />
       <Route path="film/public/filminstituteregistration" element={<FilmInstituteRegistration />} />
       <Route path="film/public/filminstitutedetails/:fileName" element={<FilmTrainingInstituteDetailPage />} />
+      <Route path="film/public/FilmTrainingInstituteEventsRegistrationForm" element={<FilmTrainingInstituteEventsRegistrationFormPage />} />
+
 
       <Route path="*" element={<Page404 />} />
       <Route path="/" element={<MainScreenBeforeLogin />} />

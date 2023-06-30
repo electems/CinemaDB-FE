@@ -4,6 +4,9 @@ import { MathLower, Logout } from 'tabler-icons-react'
 import { Text } from '../Elements'
 import { Modal, Button } from 'react-bootstrap'
 import React from 'react'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
+
 const RegistrationHeader = () => {
   const navigate = useNavigate()
   const [isShow, invokeModal] = React.useState(false)
@@ -18,15 +21,35 @@ const RegistrationHeader = () => {
     if (window.location.pathname.includes('selectedindustry')) {
       navigate('/film/register/filmpersonregister')
     } else if (window.location.pathname.includes('filmpersonregister')) {
-      modalOn()
+      onsubmit()
     }
   }
 
-  const modalOn = () => {
-    return invokeModal(!false)
-  }
-  const modalOff = () => {
-    return invokeModal(false)
+  const onsubmit = () => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div >
+            <h1>Are you sure?</h1>
+            <p>You want to logout?</p>
+            <div className="row">
+            <div className= "col-md-6">
+            <button className="btn btn-success" onClick={onClose}>No</button>
+            </div>
+            <div className= "col-md-6">
+            <button className="btn btn-danger"
+             onClick={() => {
+               logout();
+               onClose();
+             }} >
+              Yes
+            </button>
+            </div>
+            </div>
+          </div>
+        );
+      }
+    });
   }
   return (
     <>
@@ -46,16 +69,9 @@ const RegistrationHeader = () => {
           </Text>
         </div>
       </div>
-      <Modal show={isShow} onHide={() => modalOn()}>
-          <Modal.Body>Are You Sure You Want To Logout?</Modal.Body>
-          <Modal.Footer>
-            <Button onClick={() => modalOff()}>No</Button>
-            <Button className='btn btn-danger' onClick={() => logout()}>Yes</Button>
-          </Modal.Footer>
-      </Modal>
       <Logout
         className=" position-absolute top-8 end-0 translate-middle pointer "
-        onClick={modalOn}
+        onClick={onsubmit}
         size={30}
         strokeWidth={2}
         color={'#000000'}
