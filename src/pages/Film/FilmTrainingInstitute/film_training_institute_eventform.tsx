@@ -77,6 +77,10 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
     setFilmInstituteEvent({ ...filmInstituteEvent, [name]: value });
   };
 
+  const clearForm = async () => {
+    setFilmInstituteEvent({ ...initialFilmTrainingInstituteEvent});
+  }
+
   const saveFilmInstituteForm = async () => {
     const filmInstituteEventObject: FilmTrainingInstituteEvent = {
       nameOfTheFilmInstitute: filmInstituteEvent.nameOfTheFilmInstitute,
@@ -101,7 +105,7 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
 
     }
     const filmInstituteRecord = await api.post('/filminsitutetraining/createfilminsitutetrainingevent', filmInstituteEventObject)
-    navigate('/film/public/traininginstitutes')
+
     const file = {
       fileName: fileRecord.filename,
       destination: fileRecord.destination,
@@ -111,7 +115,7 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
     }
     const fileObject = await api.post('/fileupload/createfile', file)
     console.log(fileObject);
-    navigate('/film/public/traininginstitutes')
+    navigate('/film/filminstitutetraining/traininginstitutes')
   };
 
   return (
@@ -237,7 +241,7 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                       <input
                         onChange={handleInputChange}
                         name="eventStartDate"
-                        type="text"
+                        type="date"
                         id="default-input"
                         value={filmInstituteEvent.eventStartDate}
                         className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
@@ -296,7 +300,7 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                       <input
                         onChange={handleInputChange}
                         name="eventendDate"
-                        type="text"
+                        type="date"
                         id="default-input"
                         value={filmInstituteEvent.eventendDate}
                         className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
@@ -484,7 +488,7 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
 
                       <div className="flex flex-col gap-[5px] justify-start w-full">
                       <Button className="bg-red_A700 cursor-pointer font-semibold h-[31px] leading-[normal] min-w-[211px] md:ml-[0] ml-[415px] md:mt-0 mt-[25px] py-[5px] text-base text-center text-white_A700"
-                      style={{marginLeft: '10px'}}>
+                      style={{marginLeft: '10px'}} onClick={clearForm}>
                     Clear the Form
                   </Button>
                   </div>

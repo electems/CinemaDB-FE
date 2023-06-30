@@ -88,6 +88,12 @@ const RoutesMain = () => {
       <Route path="/film/filminstitutetraining/FilmTrainingInstituteEventsRegistrationForm" element={<FilmTrainingInstituteEventsRegistrationFormPage />} />
 
       <Route path="/film/public/aboutus" element={<AboutusPage />} />
+      <Route path="/film/public/copyrightpage" element={<CopyrightPage />} />
+      <Route path="/film/public/termsconditionspage" element={<TermsConditionsPage />} />
+      <Route path="/film/public/disclaimerpage" element={<DisclaimerPage />} />
+      <Route path="/film/public/promotiontermsconditionspage" element={<PromotionTermsConditionsPage />} />
+      <Route path="/film/public/PrivacyAndPolicyPage" element={<PrivacyAndPolicyPage />} />
+      <Route path="/film/public/QandAPage" element={<QandAPage />} />
       <Route path="/film/public/mainscreen" element={<MainScreen />} />
       <Route path="/film/public/mainscreenafterlogin" element={<MainScreenAfterLogin />} />
       <Route path="/film/public/mainscreenbeforelogin" element={<MainScreenBeforeLogin/>} />

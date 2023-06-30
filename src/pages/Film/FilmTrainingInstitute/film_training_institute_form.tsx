@@ -54,6 +54,11 @@ const FilmInstituteRegistration: React.FC = () => {
     setFilmInstitute({ ...filmInstitute, [name]: value });
   };
 
+
+  const clearForm = async () => {
+    setFilmInstitute({ ...initialFilmInstitute});
+  }
+
   const fileUpload = async (file) => {
     const formData = new FormData()
     formData.append('image', file);
@@ -111,7 +116,7 @@ const FilmInstituteRegistration: React.FC = () => {
     }
     await api.post('/filminsitutetraining/filmInstituteTraining/notification', filmInstituteNotification)
 
-    navigate('/film/public/traininginstitutes')
+    navigate('/film/filminstitutetraining/traininginstitutes')
   };
 
   const dropdownValues = [
@@ -221,7 +226,7 @@ const FilmInstituteRegistration: React.FC = () => {
                       <input
                         onChange={handleInputChange}
                         name="instituteStartDate"
-                        type="text"
+                        type="date"
                         id="default-input"
                         value={filmInstitute.instituteStartDate}
                         className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
@@ -281,7 +286,7 @@ const FilmInstituteRegistration: React.FC = () => {
                       <input
                         onChange={handleInputChange}
                         name="instituteendDate"
-                        type="text"
+                        type="date"
                         id="default-input"
                         value={filmInstitute.instituteendDate}
                         className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
@@ -582,6 +587,7 @@ const FilmInstituteRegistration: React.FC = () => {
                     <Button
                       className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[215px] md:ml-[0] ml-[907px] mt-[18px] md:px-10 sm:px-5 px-[72px] py-1.5 text-base text-center text-white_A700 w-auto"
                       style={{ marginLeft: 'auto' }}
+                      onClick={clearForm}
                     >
                       Clear
                     </Button>
