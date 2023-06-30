@@ -30,10 +30,10 @@ import AuditionsCallSingleMovie from '../pages/Film/AuditionCall/auditionCallSin
 import Notification from '../pages/Film/Public/Notification/notification'
 import MainScreenBeforeLogin from '../pages/Film/Public/MainScreenBeforeLogin/mainscreenbeforelogin'
 import MyProfilePage from '../pages/Film/MyProfile/myprofile'
-import TrainingInstitutesPage from '../components/FilmTrainingInstitute/film_training_institute_list'
-import FilmInstituteRegistration from '../components/FilmTrainingInstitute/film_training_institute_form'
-import FilmTrainingInstituteDetailPage from '../components/FilmTrainingInstitute/film_training_institute_deatils'
-import FilmTrainingInstituteEventsRegistrationFormPage from '../components/FilmTrainingInstitute/film_training_institute_eventform'
+import TrainingInstitutesPage from '../pages/Film/FilmTrainingInstitute/film_training_institute_list'
+import FilmInstituteRegistration from '../pages/Film/FilmTrainingInstitute/film_training_institute_form'
+import FilmTrainingInstituteDetailPage from '../pages/Film/FilmTrainingInstitute/film_training_institute_details'
+import FilmTrainingInstituteEventsRegistrationFormPage from '../pages/Film/FilmTrainingInstitute/film_training_institute_eventform'
 import CopyrightPage from '../pages/Film/Public/Copyright/copyright'
 import TermsConditionsPage from '../pages/Film/Public/Terms_Conditions/termsAndConditions'
 import DisclaimerPage from '../pages/Film/Public/Disclaimer/disclaimer'
@@ -82,6 +82,10 @@ const RoutesMain = () => {
         path="/film/auditioncall/auditioncallsinglemovie"
         element={<AuditionsCallSingleMovie />}
       />
+      <Route path="film/filminstitutetraining/traininginstitutes" element={<TrainingInstitutesPage />} />
+      <Route path="/film/filminstitutetraining/filminstituteregistration" element={<FilmInstituteRegistration />} />
+      <Route path="/film/filminstitutetraining/filminstitutedetails/:fileName" element={<FilmTrainingInstituteDetailPage />} />
+      <Route path="/film/filminstitutetraining/FilmTrainingInstituteEventsRegistrationForm" element={<FilmTrainingInstituteEventsRegistrationFormPage />} />
 
       <Route path="/film/public/aboutus" element={<AboutusPage />} />
       <Route path="/film/public/mainscreen" element={<MainScreen />} />
@@ -89,11 +93,6 @@ const RoutesMain = () => {
       <Route path="/film/public/mainscreenbeforelogin" element={<MainScreenBeforeLogin/>} />
       <Route path="/film/public/notification" element={<Notification />} />
       <Route path="film/public/myprofile" element={<MyProfilePage />} />
-      <Route path="film/public/traininginstitutes" element={<TrainingInstitutesPage />} />
-      <Route path="film/public/filminstituteregistration" element={<FilmInstituteRegistration />} />
-      <Route path="film/public/filminstitutedetails/:fileName" element={<FilmTrainingInstituteDetailPage />} />
-      <Route path="film/public/FilmTrainingInstituteEventsRegistrationForm" element={<FilmTrainingInstituteEventsRegistrationFormPage />} />
-
 
       <Route path="*" element={<Page404 />} />
       <Route path="/" element={<MainScreenBeforeLogin />} />
