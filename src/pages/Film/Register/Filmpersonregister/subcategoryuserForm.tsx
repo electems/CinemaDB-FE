@@ -13,7 +13,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import React, { useEffect } from 'react'
 
-import $ from 'jquery'
 import { api } from '../../../../services/api'
 import { useLocation } from 'react-router-dom'
 import { environment } from '../../../../config/environment'
@@ -22,12 +21,13 @@ import './style'
 import { ReactFormGenerator } from 'react-form-builder2'
 import { getTitleFromTabs } from '../../../../services/filmservices'
 import { ISubCategoryUserForm } from '../../../../types/subcategoryuserform.type'
-import { IFile } from '../../../../types/file.types'
+import MyProfilePage from '../../MyProfile/myprofile'
 
 interface InputData {
   user
   selectednodes
   role
+  profile
 }
 interface Tab {
   key: string;
@@ -142,21 +142,19 @@ export const SubCategoryUserForm: React.FC = () => {
     if (pk) {
       subCategoryUserForm.id = pk
     }
+
     if (inputData.role === 'PENMAN') {
       subCategoryUserForm.status = 'APPROVED'
     }
     await api.post('/userprofession/createform/formdata', subCategoryUserForm)
-    const fileValue = $('#fileName').val()
-    const filedatas = String(fileValue)
-    const files = JSON.parse(filedatas)
-    const file: IFile = {
+    const files = JSON.parse(localStorage.getItem('fileupload')!)
+    await api.post('/fileupload/createfile', {
       fileName: files.filename,
       destination: files.destination,
       originalName: files.originalname,
       tableName: currentSubCategoryType,
       tableId: subCategoryUserForm.id
-    }
-    await api.post('/fileupload/createfile', file)
+    })
   }
 
   const onClickOfAddNewMovie = async () => {
@@ -173,6 +171,7 @@ export const SubCategoryUserForm: React.FC = () => {
   return (
     <>
       <div className="">
+        {inputData.profile === true ? <MyProfilePage/> : ''}
         <div className="row">
           <div className="col-6 col-md-4 mt-5">
             {selectedMastersOfTheCurrentSubCategory.map((item, i) => {
@@ -209,7 +208,7 @@ export const SubCategoryUserForm: React.FC = () => {
             </div>
               <div>
                {formUserProfessionData.length && formGeneratorLayoutOfSelectedTabAndType.length > 0
-                 ? formUserProfessionData.map((record: any, i) => {
+                 ? formUserProfessionData.map((record: any) => {
                    return (
                     <>
                       <div className='mt-8'>

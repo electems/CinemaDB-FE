@@ -18,6 +18,7 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
   const navigate = useNavigate();
 
   const [inputvalue, setInputvalue] = React.useState<string>('');
+  const [displayProfile, setDisplayProfile] = React.useState(true);
   const loggedUser = storage.getLoggedUser()
 
   useEffect(() => {
@@ -33,6 +34,10 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
 
   const navigateToNotificationPage = async () => {
     navigate('/film/public/notification', { state: { user: loggedUser } })
+  }
+
+  const navigateToProfilePage = async () => {
+    navigate('/film/register/subcategoryuserform', { state: { profile: displayProfile, user: loggedUser } })
   }
   const movieType = [
     { value: 'Sandalwood', label: 'Sandalwood' },
@@ -151,7 +156,8 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
                <Img
                 src="/images/img_ellipse29.png"
                 className="common-pointer h-[50px] h-[50px] md:h-auto mb-[22px] md:ml-[0] ml-[53px] md:mt-0 mt-[27px] rounded-[50%] w-[50px]"
-                 alt="arrowdown_One"
+                alt="arrowdown_One"
+                onClick={navigateToProfilePage}
               />
             </div>
           </Nav>
