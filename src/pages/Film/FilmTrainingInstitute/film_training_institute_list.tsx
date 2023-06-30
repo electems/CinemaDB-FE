@@ -6,7 +6,10 @@ import Footer from '../../../components/Footer/footer';
 import { storage } from '../../../storage/storage';
 import { api } from '../../../services/api';
 
+import { LayoutGrid, List } from 'tabler-icons-react'
+
 import { useNavigate } from 'react-router-dom';
+import { Subject } from 'rxjs';
 
 const TrainingInstitutesPage: React.FC = () => {
   const loggedInUser = storage.getLoggedUser();
@@ -17,6 +20,8 @@ const TrainingInstitutesPage: React.FC = () => {
   }, [])
   const trainingInstitutesPostersNames: string [] = [];
   const navigate = useNavigate();
+  const [gridsView, setGridsView] = React.useState(true);
+  const [listsView, setListsView] = React.useState(false);
   const retriveAllPostersOfInstitute = async () => {
     let currentUsersInstitutePosters: any
     if (loggedInUser && loggedInUser.role === 'PERSON') {
@@ -54,6 +59,24 @@ const TrainingInstitutesPage: React.FC = () => {
     }
   }
 
+  const subject = new Subject();
+
+  const onKeyUp = event => {
+    subject.next(event.target.value)
+  }
+
+  const listView = () => {
+    setGridsView(false)
+    setListsView(true)
+    console.log('list View')
+  }
+
+  const gridView = () => {
+    setGridsView(true)
+    setListsView(false)
+    console.log('GridView')
+  }
+
   const navigateToAuditionCall = async (item) => {
     const data = item.split('/')
     const filmInstituteRecord = await api.get(`filminsitutetraining/filmInstituteDetailsByFileName/${data[6]}`)
@@ -68,44 +91,60 @@ const TrainingInstitutesPage: React.FC = () => {
           <Header className="bg-gray_800 flex md:flex-col flex-row md:gap-5 items-center justify-center md:px-5 w-full" />
           <div className="flex md:flex-col flex-row font-montserrat md:gap-5 items-start justify-start max-w-[1171px] mt-9 mx-auto md:px-5 w-full">
             <Text
-              className="text-2xl md:text-[22px] text-amber_A400 sm:text-xl"
+              className="text-1xl md:text-[22px] text-amber_A400 sm:text-xl"
+              style={{ fontSize: '20px',fontWeight: '800'}}
+
             >
               Film Training Institutes
             </Text>
+            &nbsp;&nbsp;&nbsp;
             { isEnableCreateButton
               ? <Button
             className="common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[189px] py-[13px] rounded text-base text-center text-white_A700 w-auto"
+            style={ {padding: '40px'}}
             onClick={navigateToRegistrationPage}
           >
             Create Training Institute
           </Button>
 
               : ''}
+              &nbsp;&nbsp;&nbsp;
            { isEnableCreateButton
              ? <Button
             className="common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[189px] py-[13px] rounded text-base text-center text-white_A700 w-auto"
+            style={ {padding: '50px'}}
             onClick={navigateToEventCreatePage}
           >
             Create an Event
           </Button>
 
              : ''}
-            <Img
-              className="h-6 md:mt-0 mt-5"
-              src="/images/img_calendar.svg"
-              alt="calendar"
+             &nbsp;&nbsp;&nbsp;
+             <LayoutGrid
+              size={30}
+              strokeWidth={2}
+              className='cursor-pointer mt-0.5 ml-3'
+              color={'#FFFFFF'}
+              onClick ={gridView}
             />
-            <div
-              className="bg-cover bg-no-repeat flex md:flex-1 flex-col h-[39px] items-end justify-start md:ml-[0] ml-[18px] md:mt-0 mt-4 p-[5px] w-[27%] md:w-full"
-              style={{ backgroundImage: "url('/images/img_group2353.svg')" }}
-            >
-              <Img
-                className="h-7 md:h-auto object-cover w-7"
-                src="/images/img_target.png"
-                alt="target"
-              />
+            <List
+              size={30}
+              strokeWidth={2}
+              className='cursor-pointer mt-0.5 ml-3'
+              color={'#FFFFFF'}
+              onClick ={listView}
+            />
+            &nbsp;&nbsp;&nbsp;
+           <div
+              className="form-field">
+                <input className = "rounded text-base no-outline bg-bluegray_100 bg-cover bg-no-repeat flex h-7 items-end justify-end md:mt-0 mt-[5px]" type='text' onKeyUp={onKeyUp}
+                style={ {padding: '30px 30px 5px'}}
+            />
+                <i className="fa fa-search absolute top-2 right-2 mt-1 mr-3" aria-hidden="true"></i>
             </div>
           </div>
+          { gridsView
+            ?
           <div className="md:gap-5 gap-[29px] grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center max-w-[1187px] min-h-[auto] mt-[35px] mx-auto md:px-5 w-full">
           { images.map((item) => {
             return (
@@ -120,6 +159,24 @@ const TrainingInstitutesPage: React.FC = () => {
             )
           })}
           </div>
+           : ''}
+           { listsView
+            ?
+          <div className="md:gap-5 gap-[29px] grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center max-w-[1187px] min-h-[auto] mt-[35px] mx-auto md:px-5 w-full">
+          { images.map((item) => {
+            return (
+              <>
+              <Img
+                src={item}
+                className="cursor-pointer flex-1 h-[455px] md:h-auto object-cover w-full"
+                alt="rectangle"
+                onClick={() => navigateToAuditionCall(item)}
+            />
+              </>
+            )
+          })}
+          </div>
+           : ''}
           <Footer className="bg-gray_800 flex font-roboto items-center justify-center mt-[97px] md:px-5 w-full" />
         </div>
       </div>
