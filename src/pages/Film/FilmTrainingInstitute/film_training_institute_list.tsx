@@ -49,13 +49,13 @@ const TrainingInstitutesPage: React.FC = () => {
 
   const navigateToRegistrationPage = async () => {
     if (loggedInUser && loggedInUser.role === 'PERSON') {
-      navigate('/film/public/filminstituteregistration')
+      navigate('/film/filminstitutetraining/filminstituteregistration')
     }
   }
 
   const navigateToEventCreatePage = async () => {
     if (loggedInUser && loggedInUser.role === 'PERSON') {
-      navigate('/film/public/FilmTrainingInstituteEventsRegistrationForm')
+      navigate('/film/filminstitutetraining/FilmTrainingInstituteEventsRegistrationForm')
     }
   }
 
@@ -92,7 +92,7 @@ const TrainingInstitutesPage: React.FC = () => {
           <div className="flex md:flex-col flex-row font-montserrat md:gap-5 items-start justify-start max-w-[1171px] mt-9 mx-auto md:px-5 w-full">
             <Text
               className="text-1xl md:text-[22px] text-amber_A400 sm:text-xl"
-              style={{ fontSize: '20px',fontWeight: '800'}}
+              style={{ fontSize: '20px',fontWeight: '600'}}
 
             >
               Film Training Institutes

@@ -583,7 +583,7 @@ const FilmInstituteRegistration: React.FC = () => {
                       className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[215px] md:ml-[0] ml-[907px] mt-[18px] md:px-10 sm:px-5 px-[72px] py-1.5 text-base text-center text-white_A700 w-auto"
                       style={{ marginLeft: 'auto' }}
                     >
-                      Clear the Form
+                      Clear
                     </Button>
                     </div>
                   </div>

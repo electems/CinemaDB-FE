@@ -173,7 +173,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
           </List>
           <Text
             className="md:ml-[0] ml-[105px] mt-[34px] text-3xl sm:text-[26px] md:text-[28px] text-amber_A400"
-
+            style={{marginLeft: "10px"}}
           >
             <>EVENTS organized by {filmInstitute.nameOfTheFilmInstitute} </>
           </Text>
