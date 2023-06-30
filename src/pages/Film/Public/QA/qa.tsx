@@ -3,7 +3,8 @@ import { api } from '../../../../services/api'
 import { Img, Text } from '../../../../components/Elements'
 import Header from '../../../../components/Header/header';
 import Footer from '../../../../components/Footer/footer';
-
+import { Accordion } from 'react-bootstrap';
+import './qa.css';
 interface QandA {
   headerImg?:string;
   headerTitle: string;
@@ -13,6 +14,12 @@ interface QandA {
   paragraph4?: string;
   paragraph5?: string;
   paragraph6?: string;
+  content1?: string;
+  content2?: string;
+  content3?: string;
+  content4?: string;
+  content5?: string;
+  content6?: string;
 
 
 }
@@ -77,89 +84,72 @@ const QandAPage: React.FC = () => {
 
             >
               <div className="flex flex-col gap-7 items-start justify-start mb-[39px] mt-[25px] self-stretch w-auto md:w-full">
-                <div className="bg-bluegray_101 border border-indigo_101 border-solid flex md:flex-col flex-row md:gap-10 items-center justify-between p-[25px] sm:px-5 rounded-[17px] shadow-bs9 w-full">
-                  <Text
-                    className="font-bold text-black_900 text-left w-auto"
-                    variant="body11"
-                  >
-                    What is the diffrence between Draft and a traditional bank
-                    account ?
-                  </Text>
-                  <Img
-                    src="images/img_plus.svg"
-                    className="h-[27px] w-[27px]"
-                    alt="plus"
-                  />
+                <div className = "notification flex-col font-montserrat gap-2.5 grid items-center max-w-[1265px] mt-[26px] mx-auto md:px-5 w-full">
+
+             <Accordion>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header >{qa.paragraph1} </Accordion.Header>
+              <Accordion.Body >
+             {qa.content1}
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
                 </div>
-                <div className="bg-bluegray_101 border border-indigo_101 border-solid flex md:flex-col flex-row md:gap-10 items-center justify-between p-[25px] sm:px-5 rounded-[17px] shadow-bs9 w-full">
-                  <Text
-                    className="font-bold text-black_900 text-left w-auto"
-                    variant="body11"
-                  >
-                    What is the diffrence between Draft and a traditional bank
-                    account ?
-                  </Text>
-                  <Img
-                    src="images/img_plus.svg"
-                    className="h-[27px] w-[27px]"
-                    alt="plus_One"
-                  />
-                </div>
-                <div className="bg-bluegray_101 border border-indigo_101 border-solid flex md:flex-col flex-row md:gap-10 items-center justify-between p-[25px] sm:px-5 rounded-[17px] shadow-bs9 w-full">
-                  <Text
-                    className="font-bold text-black_900 text-left w-auto"
-                    variant="body11"
-                  >
-                    What is the diffrence between Draft and a traditional bank
-                    account ?
-                  </Text>
-                  <Img
-                    src="images/img_plus.svg"
-                    className="h-[27px] w-[27px]"
-                    alt="plus_Two"
-                  />
-                </div>
-                <div className="bg-bluegray_101 border border-indigo_101 border-solid flex md:flex-col flex-row md:gap-10 items-center justify-between p-[25px] sm:px-5 rounded-[17px] shadow-bs9 w-full">
-                  <Text
-                    className="font-bold text-black_900 text-left w-auto"
-                    variant="body11"
-                  >
-                    What is the diffrence between Draft and a traditional bank
-                    account ?
-                  </Text>
-                  <Img
-                    src="images/img_plus.svg"
-                    className="h-[27px] w-[27px]"
-                    alt="plus_Three"
-                  />
-                </div>
-                <div className="bg-bluegray_101 border border-indigo_101 border-solid flex md:flex-col flex-row md:gap-10 items-center justify-between p-[25px] sm:px-5 rounded-[17px] shadow-bs9 w-full">
-                  <Text
-                    className="font-bold text-black_900 text-left w-auto"
-                    variant="body11"
-                  >
-                    What is the diffrence between Draft and a traditional bank
-                    account ?
-                  </Text>
-                  <Img
-                    src="images/img_plus.svg"
-                    className="h-[27px] w-[27px]"
-                    alt="plus_Four"
-                  />
-                </div>
-                <div className="bg-bluegray_101 border border-indigo_101 border-solid flex md:flex-col flex-row md:gap-10 items-center justify-between p-[25px] sm:px-5 rounded-[17px] shadow-bs9 w-full">
-                  <Text
-                    className="font-bold text-black_900 text-left w-auto"
-                    variant="body11"
-                  >
-                    What is the diffrence between Draft and a traditional bank
-                    account ?
-                  </Text>
-                  <Img
-                    src="images/img_plus.svg"
-                    className="h-[27px] w-[27px]"
-                    alt="plus_Five"
-                  />
+                <div className = "notification flex-col font-montserrat gap-2.5 grid items-center max-w-[1265px] mt-[26px] mx-auto md:px-5 w-full">
+
+                <Accordion>
+                <Accordion.Item eventKey="0">
+                <Accordion.Header >{qa.paragraph2} </Accordion.Header>
+                <Accordion.Body >
+                {qa.content2}
+                </Accordion.Body>
+                </Accordion.Item>
+                </Accordion>
+                  </div>
+                  <div className = "notification flex-col font-montserrat gap-2.5 grid items-center max-w-[1265px] mt-[26px] mx-auto md:px-5 w-full">
+
+                <Accordion>
+                <Accordion.Item eventKey="0">
+                <Accordion.Header >{qa.paragraph3} </Accordion.Header>
+                <Accordion.Body >
+                {qa.content3}
+                </Accordion.Body>
+                </Accordion.Item>
+                </Accordion>
+                  </div>
+                  <div className = "notification flex-col font-montserrat gap-2.5 grid items-center max-w-[1265px] mt-[26px] mx-auto md:px-5 w-full">
+
+                <Accordion>
+                <Accordion.Item eventKey="0">
+                <Accordion.Header >{qa.paragraph4} </Accordion.Header>
+                <Accordion.Body >
+                {qa.content4}
+                </Accordion.Body>
+                </Accordion.Item>
+                </Accordion>
+                  </div>
+                  <div className = "notification flex-col font-montserrat gap-2.5 grid items-center max-w-[1265px] mt-[26px] mx-auto md:px-5 w-full">
+
+                <Accordion>
+                <Accordion.Item eventKey="0">
+                <Accordion.Header >{qa.paragraph5} </Accordion.Header>
+                <Accordion.Body >
+                {qa.content5}
+                </Accordion.Body>
+                </Accordion.Item>
+                </Accordion>
+   </div>
+   <div className = "notification flex-col font-montserrat gap-2.5 grid items-center max-w-[1265px] mt-[26px] mx-auto md:px-5 w-full">
+
+             <Accordion>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header ><span>{qa.paragraph6}</span>
+                 </Accordion.Header>
+              <Accordion.Body >
+              {qa.content6}
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
                 </div>
               </div>
             </div>

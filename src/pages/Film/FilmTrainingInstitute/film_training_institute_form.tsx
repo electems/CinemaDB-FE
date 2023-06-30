@@ -138,12 +138,14 @@ const FilmInstituteRegistration: React.FC = () => {
         <div className="flex items-end mt-[46px] md:px-10 sm:px-5 px-[117px] w-full">
           <div className="bg-gray_800 flex items-center justify-start p-[26px] md:px-5 w-[95%] md:w-full">
             <div className="flex flex-col items-start justify-start mb-[45px] w-[99%] md:w-full">
-              <div className="font-roboto md:gap-5 gap-[99px] grid md:grid-cols-1 grid-cols-2 justify-center min-h-[auto] w-full">
+            <div className="font-roboto md:gap-3 gap-[30px] grid md:grid-cols-1 grid-cols-2 justify-center min-h-[auto] w-full">
                 <Text
                   className="font-bold text-amber_A400 text-left w-auto"
                   variant="body11"
+                  style={{ fontSize: '20px'}}
+
                 >
-                  Create a new Film Training Institute
+                  Create a New Film Training Institute
                 </Text>
                 <br />
                 <div className="flex flex-1 items-center justify-start w-full">
@@ -247,6 +249,7 @@ const FilmInstituteRegistration: React.FC = () => {
                       ></input>
                     </div>
                   </div>
+                  &nbsp;&nbsp;&nbsp;
                   <div className="flex flex-col gap-1.5 justify-start w-full">
                     <Text
                       className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
@@ -489,6 +492,7 @@ const FilmInstituteRegistration: React.FC = () => {
                       </select>
                     </div>
                   </div>
+                  &nbsp;&nbsp;&nbsp;
                   <div className="flex flex-col gap-1.5 justify-start w-full">
                     <Text
                       className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
@@ -544,7 +548,7 @@ const FilmInstituteRegistration: React.FC = () => {
                         onChange={(e) => handleCastInputChange(e)}
                         type="file"
                         id="default-input"
-                        className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
+                        className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-1"
                       ></input>
 
                     </div>
@@ -572,29 +576,39 @@ const FilmInstituteRegistration: React.FC = () => {
                 </div>
 
                 <div className="flex flex-1 items-center justify-start w-full">
-                  <div className="flex flex-col gap-1.5 justify-start w-full"></div>
-                </div>
+                  <div className="flex flex-col justify-start w-full">
 
-                <div className="flex flex-1 items-center justify-start w-full">
-                  <div className="flex flex-col gap-1.5 justify-start w-full">
-                    <Button
-                      className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[219px] md:ml-[0] ml-[907px] mt-[45px] md:px-10 px-11 sm:px-5 py-1.5 text-base text-center text-white_A700 w-auto"
-                      style={{ marginLeft: '10px', marginTop: '-99px' }}
-                    >
-                      Add new course
-                    </Button>
+                    <div className="mb-6">
                     <Button
                       className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[215px] md:ml-[0] ml-[907px] mt-[18px] md:px-10 sm:px-5 px-[72px] py-1.5 text-base text-center text-white_A700 w-auto"
                       style={{ marginLeft: 'auto' }}
                     >
                       Clear the Form
                     </Button>
+                    </div>
+                  </div>
+                  &nbsp;&nbsp;&nbsp;
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+
+                    <div className="mb-6" >
                     <Button
                       className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[215px] md:ml-[0] ml-[907px] mt-[18px] md:px-10 sm:px-5 px-[72px] py-1.5 text-base text-center text-white_A700 w-auto"
                       style={{ marginLeft: 'auto' }}
                       onClick={saveFilmInstituteForm}
                     >
                       Submit
+                    </Button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                    <Button
+                      className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[219px] md:ml-[0] ml-[95px] mt-[45px] md:px-10 px-11 sm:px-5 py-1.5 text-base text-center text-white_A700 w-auto"
+                      style={{marginTop: '1px' }}
+                    >
+                      Add new course
                     </Button>
                   </div>
                 </div>
