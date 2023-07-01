@@ -79,7 +79,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
         <div className="flex flex-col justify-start w-full">
           <Header className="bg-gray_800 flex md:flex-col flex-row font-roboto md:gap-5 items-center justify-center md:px-5 w-full" />
           <Text
-            className="md:ml-[0] ml-[109px] mt-7 text-2xl md:text-[22px] text-amber_A400 sm:text-xl"
+            className="md:ml-[0] ml-[10px] mt-7 text-2xl md:text-[22px] text-amber_A400 sm:text-xl"
 
           >
             {filmInstitute.nameOfTheFilmInstitute}
@@ -91,10 +91,10 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
           />
           <div className="flex sm:flex-col flex-row font-montserrat md:gap-10 items-center justify-between max-w-[1273px] mt-[27px] mx-auto md:px-5 w-full">
             <Text
-              className="text-2xl md:text-[22px] text-amber_A400 sm:text-xl"
+              className="md:ml-[0] ml-[10px] mt-7 text-2xl md:text-[22px] text-amber_A400 sm:text-xl"
 
             >
-              About {filmInstitute.aboutTheFilmInstitute}
+              About {filmInstitute.nameOfTheFilmInstitute}
             </Text>
             <Text
               className="text-white_A700 text-xs"
@@ -104,7 +104,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
             </Text>
           </div>
           <Text
-            className="md:ml-[0] ml-[107px] mt-2.5 text-justify text-white_A700 text-xs w-[84%] sm:w-full"
+            className="md:ml-[0] ml-[10px] mt-2.5 text-justify text-white_A700 text-xs w-[84%] sm:w-full"
 
           >
             {filmInstitute.courseDescription}
@@ -113,10 +113,10 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
             className="flex flex-col font-montserrat gap-5 items-center max-w-[1278px] mt-9 mx-auto md:px-5 w-full"
             orientation="vertical"
           >
-            <div className="bg-gray_600 flex flex-1 flex-col items-center justify-start p-[11px] w-full">
+            <div className="bg-gray_1000 flex flex-1 flex-col items-center justify-start p-[11px] w-full">
               <div className="flex md:flex-col flex-row gap-[38px] items-start justify-between mb-3 mt-2 w-[98%] md:w-full">
                 <div className="flex flex-col items-start justify-start mb-12 w-[81%] md:w-full">
-                  <div className="flex md:flex-col flex-row md:gap-5 items-start justify-start w-[84%] md:w-full">
+                  <div className="flex md:flex-col flex-row md:gap-6 justify-start md:w-full">
                     <Text
                       className="mb-0.5 text-lg text-white_A700"
 
@@ -161,10 +161,10 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
                   </Text>
                 </div>
                 <div className="flex flex-col gap-6 items-center justify-start md:mt-0 mt-[71px] w-[17%] md:w-full">
-                  <Button className="bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[202px] py-[19px] rounded text-[14.7px] text-center text-white_A700">
-                    Upload your Resume
+                  <Button className="flex justify-center items-center border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none hover:opacity-80 py-2 px-6 text-md flex justify-center items-center border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none hover:opacity-80 py-2.5 px-8 text-md bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[20px] py-[10px] rounded text-[14.7px] text-center text-white_A700">
+                    Upload Resume
                   </Button>
-                  <Button className="bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[202px] py-[19px] rounded text-[14.7px] text-center text-white_A700" onClick={filmInstituteEnquiry}>
+                  <Button className="flex justify-center items-center border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none hover:opacity-80 py-2 px-10 text-md flex justify-center items-center border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none hover:opacity-80 py-2.5 px-8 text-md bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[20px] py-[10px] rounded text-[14.7px] text-center text-white_A700" onClick={filmInstituteEnquiry}>
                     Enquire now
                   </Button>
                 </div>
@@ -186,7 +186,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
                 <>
                   <div className="bg-blue_gray_500 flex flex-1 flex-col items-center justify-start p-[15px] w-full">
                     <div className="flex flex-col items-start justify-start mb-[5px] w-[98%] md:w-full">
-                      <div className="flex sm:flex-col flex-row sm:gap-5 items-start justify-start w-[49%] md:w-full">
+                      <div className="flex sm:flex-col flex-row sm:gap-5 items-start justify-start w-[50%] md:w-full">
                         <Text
                           className="text-lg text-white_A700"
 
@@ -227,12 +227,13 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
                         />
 
                         <Text
-                          className="mb-1 md:ml-[0] ml-[37px] text-[10px] text-justify text-white_A700 w-[59%] sm:w-full"
+                          className="md:ml-[10] ml-[35px] text-[13.5px] text-justify text-white_A700 w-[59%] sm:w-15px"
+                          style={{marginBottom: '100px'}}
 
                         >{item.eventDescription}
                           {item.additionalDescription}
                         </Text>
-                        <Button className="bg-red_A700 cursor-pointer font-bold leading-[normal] mb-[81px] min-w-[202px] md:ml-[0] ml-[74px] md:mt-0 mt-3.5 py-[19px] rounded text-[14.7px] text-center text-white_A700" onClick={filmInstituteEnquiry}>
+                        <Button className="bg-red_A700 cursor-pointer font-bold leading-[normal] mb-[81px] min-w-[190px] md:ml-[0] ml-[74px] md:mt-0 mt-3.5 py-[19px] rounded text-[14.7px] text-center text-white_A700" onClick={filmInstituteEnquiry}>
                           Enquire now
                         </Button>
                       </div>

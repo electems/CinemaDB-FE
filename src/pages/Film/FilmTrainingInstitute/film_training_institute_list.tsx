@@ -89,37 +89,36 @@ const TrainingInstitutesPage: React.FC = () => {
       <div className="bg-gray_900 flex flex-col font-roboto items-center justify-start mx-auto w-full">
         <div className="flex flex-col items-center justify-start w-full">
           <Header className="bg-gray_800 flex md:flex-col flex-row md:gap-5 items-center justify-center md:px-5 w-full" />
-          <div className="flex md:flex-col flex-row font-montserrat md:gap-5 items-start justify-start max-w-[1171px] mt-9 mx-auto md:px-5 w-full">
+          <div className="flex md:flex-col space-x-4 space-y-1 font-montserrat md:gap-7 items-top items-start justify-start max-w-[1171px] mt-10 mx-auto md:px-6 w-full">
             <Text
-              className="text-1xl md:text-[22px] text-amber_A400 sm:text-xl"
-              style={{ fontSize: '20px',fontWeight: '600'}}
+              className="font-bold text-lg md:text-[22px] text-amber_A400 sm:text-lg"
 
             >
               Film Training Institutes
             </Text>
-            &nbsp;&nbsp;&nbsp;
+
             { isEnableCreateButton
               ? <Button
-            className="common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[189px] py-[13px] rounded text-base text-center text-white_A700 w-auto"
-            style={ {padding: '40px'}}
+            className="border-gray-300 shadow-sm font-medium focus:outline-none hover:opacity-80 py-2 px-4 bg-red_A700 cursor-pointer font-bold rounded text-white_A700"
+
             onClick={navigateToRegistrationPage}
           >
             Create Training Institute
           </Button>
 
               : ''}
-              &nbsp;&nbsp;&nbsp;
+
            { isEnableCreateButton
              ? <Button
-            className="common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[189px] py-[13px] rounded text-base text-center text-white_A700 w-auto"
-            style={ {padding: '50px'}}
+            className="border-gray-300 shadow-sm font-medium focus:outline-none hover:opacity-80 py-2 px-4 bg-red_A700 cursor-pointer font-bold rounded text-white_A700"
+
             onClick={navigateToEventCreatePage}
           >
             Create an Event
           </Button>
 
              : ''}
-             &nbsp;&nbsp;&nbsp;
+
              <LayoutGrid
               size={30}
               strokeWidth={2}
@@ -134,13 +133,13 @@ const TrainingInstitutesPage: React.FC = () => {
               color={'#FFFFFF'}
               onClick ={listView}
             />
-            &nbsp;&nbsp;&nbsp;
+
            <div
               className="form-field">
-                <input className = "rounded text-base no-outline bg-bluegray_100 bg-cover bg-no-repeat flex h-7 items-end justify-end md:mt-0 mt-[5px]" type='text' onKeyUp={onKeyUp}
-                style={ {padding: '30px 30px 5px'}}
+                <input className = "flex rounded no-outline bg-bluegray_100 bg-cover bg-no-repeat h-10 items-end justify-end md:mt-0 mt-[6px]" type='text' onKeyUp={onKeyUp}
+
             />
-                <i className="fa fa-search absolute top-2 right-2 mt-1 mr-3" aria-hidden="true"></i>
+                <i className="fa fa-search absolute top-2 right-2 mt-2.5 mr-3" aria-hidden="true"></i>
             </div>
           </div>
           { gridsView
@@ -162,7 +161,7 @@ const TrainingInstitutesPage: React.FC = () => {
            : ''}
            { listsView
             ?
-          <div className="md:gap-5 gap-[29px] grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center max-w-[1187px] min-h-[auto] mt-[35px] mx-auto md:px-5 w-full">
+          <div className="md:gap-5 gap-[29px] grid sm:grid-row-1 md:grid-row-2 grid-row-3 justify-center max-w-[1187px] min-h-[auto] mt-[35px] mx-auto md:px-5 w-full">
           { images.map((item) => {
             return (
               <>

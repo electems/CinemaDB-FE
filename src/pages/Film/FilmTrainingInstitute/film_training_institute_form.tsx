@@ -235,7 +235,7 @@ const FilmInstituteRegistration: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-1 items-center justify-start w-full">
+                <div className="flex flex-1 space-x-4 items-center justify-start w-full">
                   <div className="flex flex-col gap-1.5 justify-start w-full">
                     <Text
                       className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
@@ -254,7 +254,7 @@ const FilmInstituteRegistration: React.FC = () => {
                       ></input>
                     </div>
                   </div>
-                  &nbsp;&nbsp;&nbsp;
+
                   <div className="flex flex-col gap-1.5 justify-start w-full">
                     <Text
                       className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
@@ -479,7 +479,8 @@ const FilmInstituteRegistration: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-1 items-center justify-start w-full">
+
+                <div className="flex flex-1 space-x-4 items-center justify-start w-full">
                   <div className="flex flex-col justify-start w-full">
                     <Text
                       className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
@@ -497,7 +498,7 @@ const FilmInstituteRegistration: React.FC = () => {
                       </select>
                     </div>
                   </div>
-                  &nbsp;&nbsp;&nbsp;
+
                   <div className="flex flex-col gap-1.5 justify-start w-full">
                     <Text
                       className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
@@ -580,7 +581,7 @@ const FilmInstituteRegistration: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-1 items-center justify-start w-full">
+                <div className="flex flex-1 space-x-4 items-center justify-start w-full">
                   <div className="flex flex-col justify-start w-full">
 
                     <div className="mb-6">
@@ -593,7 +594,7 @@ const FilmInstituteRegistration: React.FC = () => {
                     </Button>
                     </div>
                   </div>
-                  &nbsp;&nbsp;&nbsp;
+
                   <div className="flex flex-col gap-1.5 justify-start w-full">
 
                     <div className="mb-6" >
@@ -622,6 +623,14 @@ const FilmInstituteRegistration: React.FC = () => {
             </div>
           </div>
         </div>
+        {isOpen && <Popup
+      content={<>
+        <b>Design your Popup</b>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <button>Test button</button>
+      </>}
+      handleClose={togglePopup}
+    />}
         <div className="flex items-center mt-9 w-full">
           <Footer className="bg-gray_800 flex items-center justify-center md:px-5 w-full" />
         </div>

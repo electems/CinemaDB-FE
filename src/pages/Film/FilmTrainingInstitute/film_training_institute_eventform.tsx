@@ -120,29 +120,34 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
 
   return (
     <>
-      <div className="bg-gray_900 flex flex-col font-roboto gap-7 items-center justify-start mx-auto w-full">
-        <Header className="bg-gray_800 flex md:flex-col flex-row md:gap-5 items-center justify-center md:px-5 w-full" />
-        <div className="flex flex-col font-montserrat items-center justify-start max-w-[1204px] mb-64 mx-auto md:px-5 w-full">
-          <div className="bg-gray_800 flex flex-col items-center justify-end p-[34px] sm:px-5 w-full">
-            <div className="flex flex-col md:gap-10 gap-[88px] items-center justify-start mb-[23px] mt-[78px] w-full">
-              <Text
-                className="md:text-2xl sm:text-[22px] text-[26px] text-amber_A400"
+      <div className="bg-gray_900 flex flex-col font-roboto items-start justify-start mx-auto w-full">
+        <div className="flex items-center w-full">
+          <Header className="bg-gray_800 flex flex-row items-center justify-center md:px-5 w-full" />
+        </div>
+        <div className="flex items-end mt-[46px] md:px-10 sm:px-5 px-[117px] w-full">
+          <div className="bg-gray_800 flex items-center justify-start p-[26px] md:px-5 w-[95%] md:w-full">
+            <div className="flex flex-col items-start justify-start mb-[45px] w-[99%] md:w-full">
+            <div className="font-roboto md:gap-3 gap-[30px] grid md:grid-cols-1 grid-cols-2 justify-center min-h-[auto] w-full">
+                <Text
+                  className="font-bold text-amber_A400 text-left w-auto"
+                  variant="body11"
+                  style={{ fontSize: '20px'}}
 
-              >
-                Create an event under your Film institute{' '}
-              </Text>
-              <div className="flex flex-col font-roboto items-start justify-start w-full">
-                <div className="md:gap-5 gap-[30px] grid md:grid-cols-1 grid-cols-2 justify-center min-h-[auto] w-full">
-                  <div className="flex md:h-[86px] h-[87px] justify-end relative w-full">
-                    <div className="absolute flex flex-col h-full inset-[0] items-center justify-center m-auto w-full">
-                      <div className="flex flex-col gap-[5px] justify-start w-full">
-                        <Text
+                >
+                  Create an event under your Film institute
+                </Text>
+                <br />
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                  <Text
                           className="ml-2.5 md:ml-[0] text-base text-white_A700"
 
                         >
                           Name of the Flim Institute
                         </Text>
-                        <select className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
+
+                    <div className="mb-6">
+                    <select className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
                           placeholder="Select Any One" name='nameOfTheFilmInstitute' onChange={handleSelectedInstitute}>
 
                           <option >
@@ -153,20 +158,21 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                               {item.nameOfTheFilmInstitute}
                             </option>
                           ))}
-
                         </select>
-                      </div>
                     </div>
                   </div>
-                  <div className="flex flex-1 flex-col items-center justify-start w-full">
-                    <div className="flex flex-col gap-[5px] justify-start w-full">
-                      <Text
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col justify-start w-full">
+                  <Text
                         className="ml-2.5 md:ml-[0] text-base text-white_A700"
 
                       >
                         Event Name
                       </Text>
-                      <input
+
+                    <div className="mb-6">
+                    <input
                         onChange={handleInputChange}
                         name="eventName"
                         type="text"
@@ -176,15 +182,19 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                       ></input>
                     </div>
                   </div>
-                  <div className="flex flex-1 flex-col items-center justify-start w-full">
-                    <div className="flex flex-col justify-start w-full">
-                      <Text
+                </div>
+
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                  <Text
                         className="ml-2.5 md:ml-[0] text-base text-white_A700"
 
                       >
                         Event Description
                       </Text>
-                      <input
+
+                    <div className="mb-6">
+                    <input
                         onChange={handleInputChange}
                         name="eventDescription"
                         type="text"
@@ -194,15 +204,18 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                       ></input>
                     </div>
                   </div>
-                  <div className="flex flex-1 flex-col items-center justify-start w-full">
-                    <div className="flex flex-col justify-start w-full">
-                      <Text
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col justify-start w-full">
+                  <Text
                         className="ml-2.5 md:ml-[0] text-base text-white_A700"
 
                       >
                         Additional Description
                       </Text>
-                      <input
+
+                    <div className="mb-6">
+                    <input
                         onChange={handleInputChange}
                         name="additionalDescription"
                         type="text"
@@ -212,15 +225,19 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                       ></input>
                     </div>
                   </div>
-                  <div className="flex flex-1 flex-col items-center justify-start w-full">
-                    <div className="flex flex-col gap-[5px] justify-start w-full">
-                      <Text
+                </div>
+
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col justify-start w-full">
+                  <Text
                         className="ml-2.5 md:ml-[0] text-base text-white_A700"
 
                       >
                         Address/Venue Details
                       </Text>
-                      <input
+
+                    <div className="mb-6">
+                    <input
                         onChange={handleInputChange}
                         name="addressVenueDetails"
                         type="text"
@@ -230,15 +247,19 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                       ></input>
                     </div>
                   </div>
-                  <div className="flex flex-1 flex-col items-center justify-start w-full">
-                    <div className="flex flex-col gap-[5px] justify-start w-full">
-                      <Text
+                </div>
+
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                  <Text
                         className="ml-2.5 md:ml-[0] text-base text-white_A700"
 
                       >
                         Event Start Date
                       </Text>
-                      <input
+
+                    <div className="mb-6">
+                    <input
                         onChange={handleInputChange}
                         name="eventStartDate"
                         type="date"
@@ -248,56 +269,58 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                       ></input>
                     </div>
                   </div>
+                </div>
 
-                  <div className="flex flex-1 items-center justify-start w-full">
-                    <div className="flex flex-col gap-1.5 justify-start w-full">
-                      <Text
-                        className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                        variant="body26"
-                      >
-                        Area Name
-                      </Text>
-                      <div className="mb-6">
-                        <input
-                          onChange={handleInputChange}
-                          name="areaName"
-                          type="text"
-                          id="default-input"
-                          value={filmInstituteEvent.areaName}
-                          className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
-                        ></input>
-                      </div>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div className="flex flex-col gap-1.5 justify-start w-full">
-                      <Text
-                        className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
-                        variant="body26"
-                      >
-                        City/Town
-                      </Text>
-                      <div className="mb-6">
-                        <input
-                          onChange={handleInputChange}
-                          name="cityTown"
-                          type="text"
-                          id="default-input"
-                          value={filmInstituteEvent.cityTown}
-                          className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
-                        ></input>
-                      </div>
+                <div className="flex flex-1 space-x-4 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      Area Name
+                    </Text>
+                    <div className="mb-6">
+                      <input
+                        onChange={handleInputChange}
+                        name="areaName"
+                        type="text"
+                        id="default-input"
+                        value={filmInstituteEvent.areaName}
+                        className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
+                      ></input>
                     </div>
                   </div>
 
-                  <div className="flex flex-1 flex-col items-center justify-start w-full">
-                    <div className="flex flex-col gap-[5px] justify-start w-full">
-                      <Text
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      City/Town
+                    </Text>
+                    <div className="mb-6">
+                      <input
+                        onChange={handleInputChange}
+                        name="cityTown"
+                        type="text"
+                        id="default-input"
+                        value={filmInstituteEvent.cityTown}
+                        className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
+                      ></input>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col justify-start w-full">
+                  <Text
                         className="ml-2.5 md:ml-[0] text-base text-white_A700"
 
                       >
                         Event End Date
                       </Text>
-                      <input
+
+                    <div className="mb-6">
+                    <input
                         onChange={handleInputChange}
                         name="eventendDate"
                         type="date"
@@ -308,20 +331,18 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <List
-                  className="flex flex-col gap-3 items-center mt-[17px] w-full"
-                  orientation="vertical"
-                >
-                  <div className="flex flex-1 md:flex-col flex-row md:gap-10 items-start justify-between w-full">
-                    <div className="flex md:flex-1 flex-col items-center justify-start md:mt-0 mt-[7px] w-[47%] md:w-full">
-                      <div className="flex flex-col gap-[5px] justify-start w-full">
-                        <Text
+
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                  <Text
                           className="ml-2.5 md:ml-[0] text-base text-white_A700"
 
                         >
                           Pincode
                         </Text>
-                        <input
+
+                    <div className="mb-6">
+                    <input
                           onChange={handleInputChange}
                           name="pincode"
                           type="text"
@@ -329,17 +350,20 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                           value={filmInstituteEvent.pincode}
                           className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
                         ></input>
-                      </div>
                     </div>
-                    <div className="flex md:flex-1 flex-col items-center justify-start mb-[7px] w-[47%] md:w-full">
-                      <div className="flex flex-col gap-[5px] justify-start w-full">
-                        <Text
+                  </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col justify-start w-full">
+                  <Text
                           className="ml-2.5 md:ml-[0] text-base text-white_A700"
 
                         >
                           Email id
                         </Text>
-                        <input
+
+                    <div className="mb-6">
+                    <input
                           onChange={handleInputChange}
                           name="emailId"
                           type="text"
@@ -347,134 +371,102 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                           value={filmInstituteEvent.emailId}
                           className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
                         ></input>
-                      </div>
                     </div>
                   </div>
-                  <div className="flex flex-1 md:flex-col flex-row md:gap-10 items-start justify-between w-full">
-                    <div className="flex md:flex-1 flex-col items-center mt-[15px] justify-start md:mt-0 mt-2 w-[46%] md:w-full">
-                      <div className="flex flex-col gap-[5px] justify-start w-full">
-                        <Text
-                          className="ml-2.5 md:ml-[0] text-base text-white_A700"
+                </div>
 
-                        >
-                          Mobile number/WhatsApp number
-                        </Text>
-                        <input
-                          onChange={handleInputChange}
-                          name="mobileNumber"
-                          type="text"
-                          id="default-input"
-                          value={filmInstituteEvent.mobileNumber}
-                          className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
-                        ></input>
-                      </div>
-                    </div>
-                    <div className="flex md:flex-1 flex-col items-center justify-start w-[46%] md:w-full">
-                      <div className="flex flex-col justify-start w-full">
-                        <Text
-                          className="ml-2.5 md:ml-[0] text-base text-white_A700"
-
-                        >
-                          Instagram URL
-                        </Text>
-                        <input
-                          onChange={handleInputChange}
-                          name="instagramUrl"
-                          type="text"
-                          id="default-input"
-                          value={filmInstituteEvent.instagramUrl}
-                          className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
-                        ></input>
-                      </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      Mobile number/WhatsApp number
+                    </Text>
+                    <div className="mb-6">
+                      <input
+                        onChange={handleInputChange}
+                        name="mobileNumber"
+                        type="text"
+                        id="default-input"
+                        value={filmInstituteEvent.mobileNumber}
+                        className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
+                      ></input>
                     </div>
                   </div>
-                  <div className="flex flex-1 md:flex-col flex-row md:gap-10 items-center justify-between w-full">
-                    <div className="flex md:flex-1 flex-col items-center justify-start mt-[15px] md:mt-0 mt-0.5 w-[46%] md:w-full">
-                      <div className="flex flex-col gap-[5px] justify-start w-full">
-                        <Text
-                          className="ml-2.5 md:ml-[0] text-base text-white_A700"
-
-                        >
-                          Landline number
-                        </Text>
-                        <input
-                          onChange={handleInputChange}
-                          name="landlineNumber"
-                          type="text"
-                          id="default-input"
-                          value={filmInstituteEvent.landlineNumber}
-                          className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
-                        ></input>
-                      </div>
-                    </div>
-                    <div className="flex md:flex-1 flex-col items-center justify-start mb-0.5 w-[46%] md:w-full">
-                      <div className="flex flex-col gap-[5px] justify-start w-full">
-                        <Text
-                          className="ml-2.5 md:ml-[0] text-base text-white_A700"
-
-                        >
-                          Facebook URL
-                        </Text>
-                        <input
-                          onChange={handleInputChange}
-                          name="facebookUrl"
-                          type="text"
-                          id="default-input"
-                          value={filmInstituteEvent.facebookUrl}
-                          className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
-                        ></input>
-                      </div>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      Facebook URL
+                    </Text>
+                    <div className="mb-6">
+                      <input
+                        onChange={handleInputChange}
+                        name="facebookUrl"
+                        type="text"
+                        id="default-input"
+                        value={filmInstituteEvent.facebookUrl}
+                        className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
+                      ></input>
                     </div>
                   </div>
-                  <div className="flex flex-1 md:flex-col flex-row md:gap-10 items-center justify-between w-full">
-                    <div className="flex md:flex-1 flex-col items-center justify-start mt-[15px] w-[46%] md:w-full">
-                      <div className="flex flex-col justify-start w-full">
-                        <Text
-                          className="ml-2.5 md:ml-[0] text-base text-white_A700"
+                </div>
 
-                        >
-                          Preferred Language to Speak/Converse
-                        </Text>
-                        <input
-                          onChange={handleInputChange}
-                          name="preferredLanguageToSpeak"
-                          type="text"
-                          id="default-input"
-                          value={filmInstituteEvent.preferredLanguageToSpeak}
-                          className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
-                        ></input>
-                      </div>
-                    </div>
-                    <div className="flex md:flex-1 flex-col items-center justify-start w-[46%] md:w-full">
-                      <div className="flex flex-col gap-[5px] justify-start w-full">
-                        <Text
-                          className="ml-2.5 md:ml-[0] text-base text-white_A700"
-
-                        >
-                          LinkedIn URL
-                        </Text>
-                        <input
-                          onChange={handleInputChange}
-                          name="linkedinUrl"
-                          type="text"
-                          id="default-input"
-                          value={filmInstituteEvent.linkedinUrl}
-                          className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
-                        ></input>
-                      </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      Instagram URL
+                    </Text>
+                    <div className="mb-6">
+                      <input
+                        onChange={handleInputChange}
+                        name="instagramUrl"
+                        type="text"
+                        id="default-input"
+                        value={filmInstituteEvent.instagramUrl}
+                        className="cursor: text text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
+                      ></input>
                     </div>
                   </div>
-                </List>
+                </div>
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col justify-start w-full">
+                    <Text
+                      className="font-normal ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                      variant="body26"
+                    >
+                      LinkedIn URL
+                    </Text>
+                    <div className="mb-6">
+                      <input
+                        onChange={handleInputChange}
+                        name="linkedinUrl"
+                        type="text"
+                        id="default-input"
+                        value={filmInstituteEvent.linkedinUrl}
+                        className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5"
+                      ></input>
+                    </div>
+                  </div>
+                </div>
 
-                <div className="flex flex-1 md:flex-col flex-row md:gap-10 items-center justify-between w-full">
-                    <div className="flex md:flex-1 flex-col items-center justify-start mt-[15px] w-[46%] md:w-full">
-                      <div className="flex flex-col justify-start w-full">
-                        <Text
+                <div className="flex flex-1 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+                  <Text
                           className="ml-2.5 md:ml-[0] text-base text-white_A700"
 
                         >
                          Upload Event Poster/s{' '}
                     </Text>
+
+                    <div className="mb-6">
                     <input
                       name="Photo"
                       onChange={(e) => handleFileUpload(e)}
@@ -482,29 +474,47 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                       id="default-input"
                       className="text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-1"
                     ></input>
-                      </div>
                     </div>
-                    <div className="flex md:flex-1 flex-col items-center justify-start w-[46%] md:w-full">
+                  </div>
+                </div>
 
-                      <div className="flex flex-col gap-[5px] justify-start w-full">
-                      <Button className="bg-red_A700 cursor-pointer font-semibold h-[31px] leading-[normal] min-w-[211px] md:ml-[0] ml-[415px] md:mt-0 mt-[25px] py-[5px] text-base text-center text-white_A700"
+                <div className="flex flex-1 space-x-4 items-center justify-start w-full">
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+
+
+
+
+
+
+
+
+
+                    <div className="mb-6">
+                    <Button className="bg-red_A700 cursor-pointer font-semibold h-[31px] leading-[normal] min-w-[211px] md:ml-[0] ml-[415px] md:mt-0 mt-[25px] py-[5px] text-base text-center text-white_A700"
                       style={{marginLeft: '10px'}} onClick={clearForm}>
                     Clear the Form
                   </Button>
-                  </div>
-                  <div className="flex flex-col gap-[5px] justify-start w-full">
-                  <Button className="bg-red_A700 cursor-pointer font-semibold h-[31px] leading-[normal] min-w-[149px] md:ml-[0] ml-[69px] md:mt-0 mt-[25px] py-[5px] text-base text-center text-white_A700" onClick={saveFilmInstituteForm} style={{marginLeft: '10px'}}>
-                    Submit
-                  </Button>
-                      </div>
                     </div>
                   </div>
+
+                  <div className="flex flex-col gap-1.5 justify-start w-full">
+
+                    <div className="mb-6">
+                    <Button className="bg-red_A700 cursor-pointer font-semibold h-[31px] leading-[normal] min-w-[149px] md:ml-[0] ml-[69px] md:mt-0 mt-[25px] py-[5px] text-base text-center text-white_A700" onClick={saveFilmInstituteForm} style={{marginLeft: '10px'}}>
+                    Submit
+                  </Button>
+                    </div>
+                  </div>
+                </div>
+
+
               </div>
             </div>
           </div>
         </div>
       </div>
     </>
+
   );
 };
 
