@@ -82,34 +82,22 @@ const AuditionsCallSingleMovie: React.FC = () => {
         {seconds.map((auditioncall) => {
           return (
             <List key={auditioncall.id}
-            className="flex-col font-montserrat gap-5 grid items-center max-w-[1278px] mt-[30px] mx-auto md:px-5 w-full"
+            className="font-montserrat gap-5 grid items-center max-w-[1278px] mt-[30px] mx-auto md:px-5 w-full"
             orientation="vertical"
           >
             <div className="bg-gray_400 flex flex-1 items-center justify-start p-[11px] w-full">
               <div className="flex flex-col gap-1.5 items-center justify-start my-1.5 w-[98%] md:w-full">
                 <div className="flex md:flex-col flex-row md:gap-5 items-start justify-start w-full">
-                  <div className="flex md:flex-1 flex-col gap-[34px] items-start justify-start md:mt-0 mt-0.5 w-[32%] md:w-full">
-                    <div className="flex sm:flex-col flex-row sm:gap-5 items-start justify-start w-full">
-                      <Text
-                        className="text-lg text-white-A700"
-                      >
-                        <span className="text-white_A700 font-montserrat text-left font-bold">
-                          Title :{' '}
+                  <div className="flex md:flex-1 flex-col gap-[34px] items-start justify-start md:mt-0 mt-0.5 md:w-full">
+                    <div className="sm:flex-col sm:gap-5">
+                        <span className="text-md text-white_A700 font-montserrat text-left font-bold">
+                          Title : production 1
                         </span>
-                        <span className="text-white_A700 font-montserrat text-left text-base font-medium">
-                          production 1
+                        <span className="text-md text-white_A700 font-montserrat text-base font-medium">
                         </span>
-                      </Text>
-                      <Text
-                        className="mb-0.5 sm:ml-[0] ml-[55px] text-lg text-white_A700"
-                      >
-                        <span className="text-white_A700 font-montserrat text-left font-bold">
-                          Role :{' '}
+                        <span className="mb-0.5 sm:ml-[0] ml-[55px] text-white_A700 font-montserrat text-left font-bold">
+                          Role : {auditioncall.auditionCategory}
                         </span>
-                        <span className="text-white_A700 font-montserrat text-left text-base font-bold">
-                          {auditioncall.auditionCategory}
-                        </span>
-                      </Text>
                       <Text
                         className="sm:ml-[0] ml-[22px] sm:mt-0 mt-0.5 text-lg text-white_A700"
                       >
@@ -124,6 +112,16 @@ const AuditionsCallSingleMovie: React.FC = () => {
                         className="font-bold text-left text-white_A700 w-auto"
                         variant="body22"
                       ></Text>
+                        <Text
+                          className="md:ml-[0] ml-[22px] md:mt-0 mt-[5px] text-lg text-white_A700"
+                        >
+                          Venue : {auditioncall.venueOrInterviewLocation}
+                        </Text>
+                        <Text
+                          className="md:ml-[0] ml-[11px] md:mt-0 mt-1 text-lg text-white_A700"
+                        >
+                          Type : {auditioncall.movieType}
+                        </Text>
                     </div>
                     <Text
                       className="ml-[22px] font-medium text-left text-white_A700 w-auto"
@@ -132,16 +130,6 @@ const AuditionsCallSingleMovie: React.FC = () => {
                       Description
                     </Text>
                   </div>
-                  <Text
-                    className="md:ml-[0] ml-[22px] md:mt-0 mt-[5px] text-lg text-white_A700"
-                  >
-                    Venue : {auditioncall.venueOrInterviewLocation}
-                  </Text>
-                  <Text
-                    className="md:ml-[0] ml-[11px] md:mt-0 mt-1 text-lg text-white_A700"
-                  >
-                    Type : {auditioncall.movieType}
-                  </Text>
                   <div className="bg-gray_800 flex md:flex-1 flex-col font-roboto gap-[11px] items-start justify-start mb-[3px] md:ml-[0] ml-[528px] p-2 w-[17%] md:w-full">
                     <div className="flex flex-row gap-2 items-start justify-start ml-5 md:ml-[0] w-[46%] md:w-full">
                       <Img

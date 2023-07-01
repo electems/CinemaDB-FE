@@ -255,7 +255,7 @@ const AuditionsCall: React.FC = () => {
       <div className="bg-gray_900 flex font-roboto items-center justify-start mx-auto w-full">
         <div className="flex flex-col items-center justify-start w-full">
           <Header className="bg-gray_800 flex flex-row items-center justify-center md:px-5 w-full" />
-          <div className="flex flex-row font-montserrat md:gap-10 items-center justify-between max-w-[1176px] mt-[19px] mx-auto md:px-5 w-full">
+          <div className="flex md:flex-col font-montserrat md:gap-10 items-center justify-between max-w-[1176px] mt-[19px] mx-auto md:px-5 w-full">
             <Text
               className="font-bold text-amber_A400 text-left w-auto"
               variant="body11"
@@ -263,19 +263,19 @@ const AuditionsCall: React.FC = () => {
               Audition Call
             </Text>
             <Button
-              className="common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[189px] py-[13px] rounded text-base text-center text-white_A700 w-auto"
+              className="w-screen common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[189px] py-[13px] rounded text-base text-center text-white_A700 w-auto"
               onClick={navigateToRegistrationPage}
             >
               Create New Audition Call
             </Button>
           </div>
-          <div className="flex md:flex-col flex-row font-montserrat md:gap-5 items-start justify-end ml-auto mt-[29px] md:px-5 md:w-full ml-[34px]">
+          <div className="flex md:flex-col md:w-auto md:gap-10 items-center font-montserrat md:gap-5 items-start justify-end mt-[29px] md:w-full py-[13px] ml-[100px] ">
             <div
               className="form-field">
                 <input className = "rounded text-base no-outline bg-bluegray_100 bg-cover bg-no-repeat flex h-7 items-end justify-end md:mt-0 mt-[5px]" type='text' onKeyUp={onKeyUp}/>
                 <i className="fa fa-search absolute top-2 right-2 mt-1 mr-3" aria-hidden="true"></i>
             </div>
-            <Button onClick={onClickOfLastWeekAuditions} className={activeLastWeekAuditions ? 'bg-red_A700 cursor-pointer font-normal leading-[normal] min-w-[214px] ml-6 md:ml-[0] not-italic py-[7px] rounded-sm text-base text-center text-white_A700 w-auto' : 'bg-gray_800 cursor-pointer font-normal leading-[normal] min-w-[198px] ml-7 md:ml-[0] not-italic py-[7px] rounded-sm text-base text-center text-white_A700 w-auto'}>
+            <Button onClick={onClickOfLastWeekAuditions} className={activeLastWeekAuditions ? 'bg-red_A700 cursor-pointer font-normal leading-[normal] min-w-[214px] ml-6 md:ml-[0] not-italic py-[7px] rounded-sm text-base text-center text-white_A700' : 'bg-gray_800 cursor-pointer font-normal leading-[normal] min-w-[198px] ml-7 md:ml-[0] not-italic py-[7px] rounded-sm text-base text-center text-white_A700 w-auto'}>
               Last Week Auditions
             </Button>
             <Button onClick={onClickOfThisWeekAudition} className={activeThisWeekAuditions ? 'bg-red_A700 cursor-pointer font-normal leading-[normal] min-w-[214px] ml-6 md:ml-[0] not-italic py-[7px] rounded-sm text-base text-center text-white_A700 w-auto' : 'bg-gray_800 cursor-pointer font-normal leading-[normal] min-w-[198px] ml-7 md:ml-[0] not-italic py-[7px] rounded-sm text-base text-center text-white_A700 w-auto'}>

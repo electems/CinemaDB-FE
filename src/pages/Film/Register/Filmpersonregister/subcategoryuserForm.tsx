@@ -147,6 +147,16 @@ export const SubCategoryUserForm: React.FC = () => {
       subCategoryUserForm.status = 'APPROVED'
     }
     await api.post('/userprofession/createform/formdata', subCategoryUserForm)
+    if (pk === undefined && currentSubCategoryType === 'Movie') {
+      const data = await api.get(`/userprofession/getbasedonmovietype/${userId}/${subCategoryUserForm.subCategory}`)
+      const response = await data.data
+      subCategoryUserForm.id = response[0].id
+    }
+    if (pk === undefined && currentSubCategoryType === 'Personnel Information') {
+      const data = await api.get(`/userprofession/getbasedonmovietype/type/${userId}/${subCategoryUserForm.subCategory}`)
+      const response = await data.data
+      subCategoryUserForm.id = response[0].id
+    }
     const files = JSON.parse(localStorage.getItem('fileupload')!)
     await api.post('/fileupload/createfile', {
       fileName: files.filename,

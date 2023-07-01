@@ -173,7 +173,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
           </List>
           <Text
             className="md:ml-[0] ml-[105px] mt-[34px] text-3xl sm:text-[26px] md:text-[28px] text-amber_A400"
-            style={{marginLeft: "10px"}}
+            style={{ marginLeft: '10px' }}
           >
             <>EVENTS organized by {filmInstitute.nameOfTheFilmInstitute} </>
           </Text>
@@ -228,7 +228,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
 
                         <Text
                           className="md:ml-[10] ml-[35px] text-[13.5px] text-justify text-white_A700 w-[59%] sm:w-15px"
-                          style={{marginBottom: '100px'}}
+                          style={{ marginBottom: '100px' }}
 
                         >{item.eventDescription}
                           {item.additionalDescription}

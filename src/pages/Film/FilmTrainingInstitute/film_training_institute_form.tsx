@@ -54,7 +54,6 @@ const FilmInstituteRegistration: React.FC = () => {
     setFilmInstitute({ ...filmInstitute, [name]: value });
   };
 
-
   const clearForm = async () => {
     setFilmInstitute({ ...initialFilmInstitute});
   }
@@ -147,7 +146,7 @@ const FilmInstituteRegistration: React.FC = () => {
                 <Text
                   className="font-bold text-amber_A400 text-left w-auto"
                   variant="body11"
-                  style={{ fontSize: '20px'}}
+                  style={{ fontSize: '20px' }}
 
                 >
                   Create a New Film Training Institute
@@ -623,14 +622,6 @@ const FilmInstituteRegistration: React.FC = () => {
             </div>
           </div>
         </div>
-        {isOpen && <Popup
-      content={<>
-        <b>Design your Popup</b>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <button>Test button</button>
-      </>}
-      handleClose={togglePopup}
-    />}
         <div className="flex items-center mt-9 w-full">
           <Footer className="bg-gray_800 flex items-center justify-center md:px-5 w-full" />
         </div>

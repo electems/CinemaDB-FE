@@ -36,10 +36,6 @@
     border: black;
 }
 
-.icon {
-    position: absolute;
-    right: 0;
-}
 
 input:active,
 input:focus {

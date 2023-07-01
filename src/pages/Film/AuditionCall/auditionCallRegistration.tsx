@@ -106,9 +106,6 @@ const AuditionsCallRegistration: React.FC = () => {
                       </Text>
                       <div>
                         <select className = "text-white border border-1 border-white_A700_33 bg-gray_800 text-sm rounded-lg block w-full p-2.5" placeholder="Please select your role" name='genres' onChange={handleMovieChange}>
-                        <option disabled={true} value="">
-                         --Choose Movie--
-                        </option>
                           {formValue.map(item => (
                           <option key={item.value} value={JSON.stringify(item)}>
                             {item.value}
