@@ -55,7 +55,7 @@ const FilmInstituteRegistration: React.FC = () => {
   };
 
   const clearForm = async () => {
-    setFilmInstitute({ ...initialFilmInstitute});
+    setFilmInstitute({ ...initialFilmInstitute });
   }
 
   const fileUpload = async (file) => {
@@ -612,7 +612,7 @@ const FilmInstituteRegistration: React.FC = () => {
                   <div className="flex flex-col gap-1.5 justify-start w-full">
                     <Button
                       className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[219px] md:ml-[0] ml-[95px] mt-[45px] md:px-10 px-11 sm:px-5 py-1.5 text-base text-center text-white_A700 w-auto"
-                      style={{marginTop: '1px' }}
+                      style={ {marginTop: '1px' } }
                     >
                       Add new course
                     </Button>

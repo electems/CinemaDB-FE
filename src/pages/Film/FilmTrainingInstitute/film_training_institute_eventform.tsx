@@ -78,7 +78,7 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
   };
 
   const clearForm = async () => {
-    setFilmInstituteEvent({ ...initialFilmTrainingInstituteEvent});
+    setFilmInstituteEvent({ ...initialFilmTrainingInstituteEvent });
   }
 
   const saveFilmInstituteForm = async () => {
@@ -131,7 +131,7 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                 <Text
                   className="font-bold text-amber_A400 text-left w-auto"
                   variant="body11"
-                  style={{ fontSize: '20px'}}
+                  style={{ fontSize: '20px' } }
 
                 >
                   Create an event under your Film institute
@@ -357,7 +357,6 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                   <div className="flex flex-col justify-start w-full">
                   <Text
                           className="ml-2.5 md:ml-[0] text-base text-white_A700"
-
                         >
                           Email id
                         </Text>
@@ -481,33 +480,22 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
                 <div className="flex flex-1 space-x-4 items-center justify-start w-full">
                   <div className="flex flex-col gap-1.5 justify-start w-full">
 
-
-
-
-
-
-
-
-
                     <div className="mb-6">
                     <Button className="bg-red_A700 cursor-pointer font-semibold h-[31px] leading-[normal] min-w-[211px] md:ml-[0] ml-[415px] md:mt-0 mt-[25px] py-[5px] text-base text-center text-white_A700"
-                      style={{marginLeft: '10px'}} onClick={clearForm}>
+                      style={{ marginLeft: '10px' }} onClick={clearForm}>
                     Clear the Form
                   </Button>
                     </div>
                   </div>
 
                   <div className="flex flex-col gap-1.5 justify-start w-full">
-
                     <div className="mb-6">
-                    <Button className="bg-red_A700 cursor-pointer font-semibold h-[31px] leading-[normal] min-w-[149px] md:ml-[0] ml-[69px] md:mt-0 mt-[25px] py-[5px] text-base text-center text-white_A700" onClick={saveFilmInstituteForm} style={{marginLeft: '10px'}}>
+                    <Button className="bg-red_A700 cursor-pointer font-semibold h-[31px] leading-[normal] min-w-[149px] md:ml-[0] ml-[69px] md:mt-0 mt-[25px] py-[5px] text-base text-center text-white_A700" onClick={saveFilmInstituteForm} style={{ marginLeft: '10px' }}>
                     Submit
                   </Button>
                     </div>
                   </div>
                 </div>
-
-
               </div>
             </div>
           </div>

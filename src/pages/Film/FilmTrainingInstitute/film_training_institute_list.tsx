@@ -143,8 +143,7 @@ const TrainingInstitutesPage: React.FC = () => {
             </div>
           </div>
           { gridsView
-            ?
-          <div className="md:gap-5 gap-[29px] grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center max-w-[1187px] min-h-[auto] mt-[35px] mx-auto md:px-5 w-full">
+            ? <div className="md:gap-5 gap-[29px] grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center max-w-[1187px] min-h-[auto] mt-[35px] mx-auto md:px-5 w-full">
           { images.map((item) => {
             return (
               <>
@@ -158,10 +157,9 @@ const TrainingInstitutesPage: React.FC = () => {
             )
           })}
           </div>
-           : ''}
+            : ''}
            { listsView
-            ?
-          <div className="md:gap-5 gap-[29px] grid sm:grid-row-1 md:grid-row-2 grid-row-3 justify-center max-w-[1187px] min-h-[auto] mt-[35px] mx-auto md:px-5 w-full">
+             ? <div className="md:gap-5 gap-[29px] grid sm:grid-row-1 md:grid-row-2 grid-row-3 justify-center max-w-[1187px] min-h-[auto] mt-[35px] mx-auto md:px-5 w-full">
           { images.map((item) => {
             return (
               <>
@@ -175,7 +173,7 @@ const TrainingInstitutesPage: React.FC = () => {
             )
           })}
           </div>
-           : ''}
+             : ''}
           <Footer className="bg-gray_800 flex font-roboto items-center justify-center mt-[97px] md:px-5 w-full" />
         </div>
       </div>
