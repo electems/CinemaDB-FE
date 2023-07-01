@@ -6,7 +6,6 @@ import { Text, Img } from '../../../../components/Elements/index';
 import OTTFooterhome from '../../../../components/Footer/footer';
 import { api } from '../../../../services/api';
 import { retriveImageUrls } from '../../../../services/filmservices';
-import './birthday.css'
 import { LayoutGrid, List } from 'tabler-icons-react'
 
 const BirthdayPage: React.FC = () => {
@@ -165,7 +164,7 @@ const BirthdayPage: React.FC = () => {
             Birthdays
           </Text>
         </div>
-         <div className="icc flex mt-[23px] md:px-10 sm:px-5 px-[119px] w-full">
+         <div className="flex mt-[23px] md:px-10 sm:px-5 px-[119px] w-full">
           <LayoutGrid
               size={30}
               strokeWidth={2}
