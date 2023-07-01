@@ -17,16 +17,16 @@ interface Disclaimer{
 }
 
 const DisclaimerPage: React.FC = () => {
-const disclaimer:Disclaimer = {
+  const disclaimer:Disclaimer = {
     headerTitle: ''
-}
+  }
 
-const[disclaimerpage, setDisclaimer] =React.useState(disclaimer)
-useEffect(()=>{
-retriveDisclaimer('EN','disclaimer')
-},[])
+  const [disclaimerpage, setDisclaimer] = React.useState(disclaimer)
+  useEffect(() => {
+    retriveDisclaimer('EN', 'disclaimer')
+  }, [])
 
-const retriveDisclaimer = async (language: string, formLayout: string) => {
+  const retriveDisclaimer = async (language: string, formLayout: string) => {
     const response = await api.get(`auth/${language}/${formLayout}`)
     setDisclaimer(response.data)
   }
@@ -101,4 +101,3 @@ const retriveDisclaimer = async (language: string, formLayout: string) => {
 }
 
 export default DisclaimerPage
-
