@@ -40,6 +40,8 @@ import DisclaimerPage from '../pages/Film/Public/Disclaimer/disclaimer'
 import PromotionTermsConditionsPage from '../pages/Film/Public/Promotions_TermsConditions/promotion_terms_conditions'
 import PrivacyAndPolicyPage from '../pages/Film/Public/Privacy_And_Policy/privacy_policy'
 import QandAPage from '../pages/Film/Public/QA/qa'
+import BirthdayPage from '../pages/Film/Public/Birthday/birthday'
+import Watchlist from '../pages/Film/Public/Watchlist/watchlist'
 
 const RoutesMain = () => {
   return (
@@ -86,6 +88,7 @@ const RoutesMain = () => {
       <Route path="/film/filminstitutetraining/filminstituteregistration" element={<FilmInstituteRegistration />} />
       <Route path="/film/filminstitutetraining/filminstitutedetails/:fileName" element={<FilmTrainingInstituteDetailPage />} />
       <Route path="/film/filminstitutetraining/FilmTrainingInstituteEventsRegistrationForm" element={<FilmTrainingInstituteEventsRegistrationFormPage />} />
+      <Route path="film/myprofile/myprofile" element={<MyProfilePage />} />
 
       <Route path="/film/public/aboutus" element={<AboutusPage />} />
       <Route path="/film/public/copyrightpage" element={<CopyrightPage />} />
@@ -98,7 +101,8 @@ const RoutesMain = () => {
       <Route path="/film/public/mainscreenafterlogin" element={<MainScreenAfterLogin />} />
       <Route path="/film/public/mainscreenbeforelogin" element={<MainScreenBeforeLogin/>} />
       <Route path="/film/public/notification" element={<Notification />} />
-      <Route path="film/public/myprofile" element={<MyProfilePage />} />
+      <Route path="/film/public/birthday" element={<BirthdayPage />} />
+      <Route path="/film/public/watchlist" element={<Watchlist/>} />
 
       <Route path="*" element={<Page404 />} />
       <Route path="/" element={<MainScreenBeforeLogin />} />

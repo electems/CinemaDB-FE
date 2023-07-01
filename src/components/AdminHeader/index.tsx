@@ -63,18 +63,18 @@ const AdminHeader = () => {
                   Professional
                   </NavLink>
                   </li>
-                  <li id="professional" >
-                 <NavLink to={'/admin/masterforms'} className={({ isActive }) =>
-                   (isActive ? 'nav-link active menu-border-bottom' : 'nav-link')}>
-                   Master Forms
-                  </NavLink>
-                  </li>
               <li id="professional" className="nav-item">
                  <NavLink to={'/admin/professionforms'} className={({ isActive }) =>
                    (isActive ? 'nav-link active menu-border-bottom' : 'nav-link')}>
                    Profession Forms
                   </NavLink>
-                  </li>
+              </li>
+              <li id="professional" >
+                 <NavLink to={'/admin/masterforms'} className={({ isActive }) =>
+                   (isActive ? 'nav-link active menu-border-bottom' : 'nav-link')}>
+                   Master Forms
+                  </NavLink>
+              </li>
               <li className="text-right">
                <Logout
                   className=" position-absolute top-8 end-0 translate-middle pointer "

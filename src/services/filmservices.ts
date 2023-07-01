@@ -129,11 +129,11 @@ export const returnUniqueData = async (data: any) => {
   return unique
 }
 
-export const upload = async (data: any) => {
-  const formData = new FormData()
-  formData.append('image', data)
-  const fileUpload = await api.post('/fileupload/file', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  })
-  return fileUpload
-};
+export const retriveImageUrls = async (name) => {
+  const items: any = []
+  for (let i = 0; i < name.length; i++) {
+    const movies = await api.get(`/fileupload/files/profile/${name[i]}`)
+    items.push(movies.request.responseURL)
+  }
+  return items
+}
