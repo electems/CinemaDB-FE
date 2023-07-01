@@ -141,6 +141,7 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
                 <NavDropdown.Item onClick={() => navigate('/film/filminstitutetraining/traininginstitutes')}>Film Institute</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => navigate('/film/public/birthday')} >Birthdays</NavDropdown.Item>
                 <NavDropdown.Item>Shop</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => navigate('/film/public/watchlist')} >Watchlist</NavDropdown.Item>
                 <NavDropdown.Item>Contact  us</NavDropdown.Item>
               </NavDropdown>
             </div>
