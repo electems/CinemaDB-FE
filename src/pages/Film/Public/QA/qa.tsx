@@ -20,7 +20,6 @@ interface QandA {
   content4?: string;
   content5?: string;
   content6?: string;
-
 }
 
 const QandAPage: React.FC = () => {
@@ -80,11 +79,9 @@ const QandAPage: React.FC = () => {
             </div>
             <div
               className="common-pointer absolute flex font-roboto h-max inset-y-[0] items-center justify-start my-auto p-[31px] sm:px-5 right-[0] w-[69%]"
-
             >
               <div className="flex flex-col gap-7 items-start justify-start mb-[39px] mt-[25px] self-stretch w-auto md:w-full">
                 <div className = "notification flex-col font-montserrat gap-2.5 grid items-center max-w-[1265px] mt-[26px] mx-auto md:px-5 w-full">
-
              <Accordion>
             <Accordion.Item eventKey="0">
               <Accordion.Header >{qa.paragraph1} </Accordion.Header>
@@ -95,7 +92,6 @@ const QandAPage: React.FC = () => {
           </Accordion>
                 </div>
                 <div className = "notification flex-col font-montserrat gap-2.5 grid items-center max-w-[1265px] mt-[26px] mx-auto md:px-5 w-full">
-
                 <Accordion>
                 <Accordion.Item eventKey="0">
                 <Accordion.Header >{qa.paragraph2} </Accordion.Header>
@@ -106,7 +102,6 @@ const QandAPage: React.FC = () => {
                 </Accordion>
                   </div>
                   <div className = "notification flex-col font-montserrat gap-2.5 grid items-center max-w-[1265px] mt-[26px] mx-auto md:px-5 w-full">
-
                 <Accordion>
                 <Accordion.Item eventKey="0">
                 <Accordion.Header >{qa.paragraph3} </Accordion.Header>
@@ -117,7 +112,6 @@ const QandAPage: React.FC = () => {
                 </Accordion>
                   </div>
                   <div className = "notification flex-col font-montserrat gap-2.5 grid items-center max-w-[1265px] mt-[26px] mx-auto md:px-5 w-full">
-
                 <Accordion>
                 <Accordion.Item eventKey="0">
                 <Accordion.Header >{qa.paragraph4} </Accordion.Header>
@@ -128,7 +122,6 @@ const QandAPage: React.FC = () => {
                 </Accordion>
                   </div>
                   <div className = "notification flex-col font-montserrat gap-2.5 grid items-center max-w-[1265px] mt-[26px] mx-auto md:px-5 w-full">
-
                 <Accordion>
                 <Accordion.Item eventKey="0">
                 <Accordion.Header >{qa.paragraph5} </Accordion.Header>
@@ -139,7 +132,6 @@ const QandAPage: React.FC = () => {
                 </Accordion>
    </div>
    <div className = "notification flex-col font-montserrat gap-2.5 grid items-center max-w-[1265px] mt-[26px] mx-auto md:px-5 w-full">
-
              <Accordion>
             <Accordion.Item eventKey="0">
               <Accordion.Header ><span>{qa.paragraph6}</span>
