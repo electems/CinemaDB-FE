@@ -21,7 +21,6 @@ interface QandA {
   content5?: string;
   content6?: string;
 
-
 }
 
 const QandAPage: React.FC = () => {
