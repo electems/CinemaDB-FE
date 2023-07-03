@@ -76,8 +76,9 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
   return (
     <>
       <div className="bg-gray_900 flex flex-col items-center justify-start mx-auto w-full">
-        <div className="flex flex-col justify-start w-full">
-          <Header className="bg-gray_800 flex md:flex-col flex-row font-roboto md:gap-5 items-center justify-center md:px-5 w-full" />
+      <Header className="bg-gray_800 flex md:flex-col flex-row font-roboto md:gap-5 items-center justify-center md:px-5 w-full" />
+        <div className="flex flex-col justify-start max-w-[1187px] min-h-[auto] w-full">
+
           <Text
             className="md:ml-[0] ml-[10px] mt-7 text-2xl md:text-[22px] text-amber_A400 sm:text-xl"
 
@@ -103,6 +104,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
               Address: {filmInstitute.areaName}, {filmInstitute.cityTown}, {filmInstitute.fullAddress},{filmInstitute.pincode}
             </Text>
           </div>
+
           <Text
             className="md:ml-[0] ml-[10px] mt-2.5 text-justify text-white_A700 text-xs w-[84%] sm:w-full"
 
@@ -114,7 +116,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
             orientation="vertical"
           >
             <div className="bg-gray_1000 flex flex-1 flex-col items-center justify-start p-[11px] w-full">
-              <div className="flex md:flex-col flex-row gap-[38px] items-start justify-between mb-3 mt-2 w-[98%] md:w-full">
+              <div className="flex md:flex-col sm:flex:row gap-[38px] items-start justify-between mb-3 mt-2 w-[98%] md:w-full">
                 <div className="flex flex-col items-start justify-start mb-12 w-[81%] md:w-full">
                   <div className="flex md:flex-col flex-row md:gap-6 justify-start md:w-full">
                     <Text
@@ -218,7 +220,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
                         About the Event
                       </Text>
 
-                      <div className="flex md:flex-col flex-row md:gap-5 items-end justify-start ml-11 md:ml-[0] mt-[3px] w-[97%] md:w-full">
+                      <div className="flex md:flex-col md:gap-5 items-end justify-start ml-11 md:ml-[0] mt-[3px] w-[97%] md:w-full">
 
                         <Img
                           className="h-[145px] sm:h-auto md:mt-0 mt-1.5 object-cover w-[16%] md:w-full"
@@ -227,7 +229,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
                         />
 
                         <Text
-                          className="md:ml-[10] ml-[35px] text-[13.5px] text-justify text-white_A700 w-[59%] sm:w-15px"
+                          className="md:ml-[10] ml-[35px] sm:ml-[25px] text-[13.5px] text-start text-white_A700 w-[95%] sm:w-15px"
                           style={{ marginBottom: '100px' }}
 
                         >{item.eventDescription}
@@ -243,8 +245,8 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
               )
             })}
           </List>
-          <Footer className="bg-gray_800 flex font-roboto items-center justify-center mt-[101px] md:px-5 w-full" />
         </div>
+        <Footer className="bg-gray_800 flex font-roboto items-center justify-center mt-[101px] md:px-5 w-full" />
       </div>
     </>
   );
