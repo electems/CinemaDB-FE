@@ -34,6 +34,19 @@ const AuditionsCall: React.FC = () => {
     retriveBasedOnThisWeekAuditions()
   }, [])
 
+  const retriveAllImages = async () => {
+    let files: any = []
+    if (loggedUser.role === 'PERSON') {
+      const allFiles = await api.get(`/fileupload/auditionsposters/${loggedUser.id}`)
+      files = allFiles.data
+    }
+    if (loggedUser.role === 'LOVER') {
+      const allFiles = await api.get('/fileupload/auditionspostersforlovers')
+      files = allFiles.data
+    }
+    return files
+  }
+
   const retriveMovies = async () => {
     const movies = await api.get('userprofession/movies/auditionmovies/lovers')
     const response = await movies.data
@@ -94,26 +107,17 @@ const AuditionsCall: React.FC = () => {
     setActiveThisWeekAuditions(true)
     const auditions = await api.get(`auditioncall/getauditionbyweekandmonth/${thisWeekAudition}`)
     const auditionResponse = await auditions.data
-    const movieResponse = await retriveMovies()
-    const movieHasAudition: any = [];
-    const imagesOfMovies: any = [];
+    const getImagesFromDb = await retriveAllImages()
+    const movieContainsImages: any = [];
     const imagesNames: any = []
     auditionResponse.forEach(arr1Obj => {
-      const matchedObject = movieResponse.find(arr2Obj => arr2Obj.id === arr1Obj.movie_fk);
+      const matchedObject = getImagesFromDb.find(arr2Obj => arr2Obj.table_fk === arr1Obj.id);
       if (matchedObject) {
-        movieHasAudition.push(matchedObject);
+        movieContainsImages.push(matchedObject);
       }
     })
-    const getOnlyUniqueDatas = await returnUniqueData(movieHasAudition)
-    const getImagesFromDb = await retriveAllImages()
-    getOnlyUniqueDatas.forEach(arr1Obj => {
-      const matchedObject = getImagesFromDb.find(arr2Obj => arr2Obj.tableId === arr1Obj.id);
-      if (matchedObject) {
-        imagesOfMovies.push(matchedObject);
-      }
-    })
-
-    imagesOfMovies.map(async (item) => {
+    console.log(movieContainsImages)
+    movieContainsImages.map(async (item) => {
       imagesNames.push(item.fileName)
     })
     await retriveImageUrls(imagesNames)
@@ -127,30 +131,15 @@ const AuditionsCall: React.FC = () => {
     }
     setImages(items)
   }
-  // For now added for images but has to change based on table name Movies
-  const retriveAllImages = async () => {
-    const allFiles = await api.get('/fileupload/allfiles')
-    const files = allFiles.data
-    return files
-  }
 
   const retriveBasedOnThisMonthAuditions = async () => {
     const movies = await api.get(`auditioncall/getauditionbyweekandmonth/${thisMonthAudition}`)
     const auditionResponse = await movies.data
-    const movieResponse = await retriveMovies()
-    const movieHasAudition: any = [];
     const movieContainsImages: any = [];
     const imagesNames: any = []
-    auditionResponse.forEach(arr1Obj => {
-      const matchedObject = movieResponse.find(arr2Obj => arr2Obj.id === arr1Obj.movie_fk);
-      if (matchedObject) {
-        movieHasAudition.push(matchedObject);
-      }
-    })
-    const getOnlyUniqueDatas = await returnUniqueData(movieHasAudition)
     const getImagesFromDb = await retriveAllImages()
-    getOnlyUniqueDatas.forEach(arr1Obj => {
-      const matchedObject = getImagesFromDb.find(arr2Obj => arr2Obj.tableId === arr1Obj.id);
+    auditionResponse.forEach(arr1Obj => {
+      const matchedObject = getImagesFromDb.find(arr2Obj => arr2Obj.table_fk === arr1Obj.id);
       if (matchedObject) {
         movieContainsImages.push(matchedObject);
       }
@@ -164,20 +153,11 @@ const AuditionsCall: React.FC = () => {
   const retriveBasedOnLastWeekAuditions = async () => {
     const movies = await api.get(`auditioncall/getauditionbyweekandmonth/${lastWeekAudition}`)
     const auditionResponse = await movies.data
-    const movieResponse = await retriveMovies()
-    const movieHasAudition: any = [];
     const movieContainsImages: any = [];
     const imagesNames: any = []
-    auditionResponse.forEach(arr1Obj => {
-      const matchedObject = movieResponse.find(arr2Obj => arr2Obj.id === arr1Obj.movie_fk);
-      if (matchedObject) {
-        movieHasAudition.push(matchedObject);
-      }
-    })
-    const getOnlyUniqueDatas = await returnUniqueData(movieHasAudition)
     const getImagesFromDb = await retriveAllImages()
-    getOnlyUniqueDatas.forEach(arr1Obj => {
-      const matchedObject = getImagesFromDb.find(arr2Obj => arr2Obj.tableId === arr1Obj.id);
+    auditionResponse.forEach(arr1Obj => {
+      const matchedObject = getImagesFromDb.find(arr2Obj => arr2Obj.table_fk === arr1Obj.id);
       if (matchedObject) {
         movieContainsImages.push(matchedObject);
       }
