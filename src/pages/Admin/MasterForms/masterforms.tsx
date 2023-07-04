@@ -62,6 +62,9 @@ const MasterForms: React.FC = () => {
           </tbody>
         </table>
       </div>
+      <div>
+         <h5>Note : To add new MasterForm please contact Admin</h5>
+      </div>
     </>
   )
 }
