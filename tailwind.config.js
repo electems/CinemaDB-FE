@@ -74,7 +74,9 @@ module.exports = {
         bluegray_101: '#d8d5d5',
         indigo_A400: '#554dde',
         blue_400: '#4c95ea',
-        indigo_900: '#27187e'
+        indigo_900: '#27187e',
+        blue_gray_500:'#678C92',
+        gray_1000:'#847373',
       },
       fontFamily: {
         roboto: 'Roboto',
