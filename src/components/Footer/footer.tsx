@@ -21,14 +21,14 @@ const Footer: React.FC<Footerhome> = (props) => {
       </head>
       <footer className={props.className}>
         <div className="flex items-center justify-center mt-1.5 w-full">
-          <div className="flex flex-col items-center justify-center w-full">
+          <div className="flex flex-col items-center justify-center w-full md:justify-center">
             <Img
               src="/images/cinemadblogo.png"
-              className="h-[93px] md:h-auto  md:ml-[0] ml-[621px] mr-[662px] object-cover w-[16%]"
+              className="h-[93px] md:h-auto  md:ml-[0] ml-[630px] mr-[662px] object-cover sm:ml-[660px] md:ml-[665px]  flex flex-wrap justify-center items-center"
               alt="/images/sixteen_One"
             />
-            <div className="flex flex-col gap-[23px] justify-start md:ml-[0] ml-[316px] mr-[178px] mt-[31px] w-[68%] md:w-full">
-              <div className="flex sm:flex-col flex-row sm:gap-10 items-start justify-between w-full">
+            <div className="flex flex-col gap-[23px] justify-start md:ml-[0] ml-[316px] mr-[290px] mt-[31px] w-[77%] md:w-full sm:ml-[289px]">
+              <div className="flex flex-wrap sm:flex-col md:flex-row-3 md:justify-center md:gap-6 sm:gap-10 items-center justify-between w-full">
                 <Text
                   className="font-roboto not-italic text-left text-white_A700 w-auto"
                   variant="body30"
@@ -85,42 +85,40 @@ const Footer: React.FC<Footerhome> = (props) => {
                 </Text>
               </div>
               <Text
-                className="font-roboto leading-[25.00px] md:ml-[0] ml-[27px] not-italic text-center text-gray_300 w-[82%] sm:w-full"
+                className="flex justify-center items-center font-roboto leading-[25.00px] md:ml-[0] ml-[67px] not-italic text-center text-gray_300 w-[79%] sm:w-full"
                 variant="body30"
               >
                 CinemaDBS.com is the website catering to every individuals
                 belonging to the Indian Film Industry to use and explore the
                 content and features of this website. For any more information,
-                please contact with the options given under contactus.
+                please contact with the options given under contact us.
               </Text>
             </div>
             <div className="flex md:flex-col flex-row md:gap-10 items-start justify-between mt-[45px] w-full">
-              <div className="bg-gray_800 border border-solid border-white_A700 h-[54px] rounded-bl-none rounded-br-none rounded-tl-none rounded-tr-[105px] w-[41%]"></div>
+              <div className="bg-gray_800 border border-solid border-white_A700 h-[54px] rounded-bl-none rounded-br-none rounded-tl-none rounded-tr-[105px] w-[38%]"></div>
               <div className="flex md:flex-1 flex-row items-start justify-center md:mt-0 mt-3 w-auto md:w-full">
                 <Img
                   src="/images/img_facebook.svg"
-                  className="h-3.5 mt-[5px] w-auto"
+                  className="h-[18px] mt-[4px] w-auto"
                   alt="facebook"
                 />
-                <div className="flex items-center justify-start ml-7 mt-[5px] w-[13%]">
-                  <Img
+                <Img
                     src="/images/img_twitter.svg"
-                    className="h-3.5 w-auto"
+                    className="h-[17px] w-auto ml-7 mt-[4px]"
                     alt="twitter"
                   />
-                </div>
                 <Img
                   src="/images/img_linkedin.svg"
-                  className="h-[15px] ml-6 mt-1 w-4"
+                  className="h-[17px] ml-6 mt-1 w-4"
                   alt="linkedin"
                 />
                 <Img
                   src="/images/img_instagram.svg"
-                  className="h-[25px] ml-[19px] w-[25px]"
+                  className="h-[22px] ml-[19px] w-[25px]"
                   alt="instagram"
                 />
               </div>
-              <div className="bg-gray_800 border border-solid border-white_A700 h-[54px] rotate-[180deg] rounded-bl-none rounded-br-none rounded-tl-none rounded-tr-[105px] w-[41%]"></div>
+              <div className="bg-gray_800 border border-solid border-white_A700 h-[54px] rotate-[180deg] rounded-bl-none rounded-br-none rounded-tl-none rounded-tr-[105px] w-[38%]"></div>
             </div>
           </div>
         </div>
