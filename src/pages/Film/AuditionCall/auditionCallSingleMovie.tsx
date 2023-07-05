@@ -5,8 +5,10 @@ import { Text, Img, Button, List } from '../../../components/Elements';
 import OTTFooterhome from '../../../components/Footer/footer';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../../../services/api';
+import './app.css'
 import { storage } from '../../../storage/storage';
-import { Modal } from 'react-bootstrap'
+// import { Modal } from 'react-bootstrap'
+import { Modal } from 'antd';
 interface InputData {
   tableId,
   movieName
@@ -15,9 +17,12 @@ interface InputData {
 const AuditionsCallSingleMovie: React.FC = () => {
   const navigate = useNavigate();
   const inputData = useLocation().state as InputData
-  const [seconds, setSeconds] = React.useState<any>([]);
+  const [singleAudition, setSingleAudition] = React.useState<any>([]);
   const [isShow, invokeModal] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
+  const [images, setImages] = React.useState('');
   const [modalForSuccessfulRegistration, invokeModalForSuccessfulRegistration] = React.useState(false)
+  const [modal2Open, setModal2Open] = React.useState(false);
   const loggedUser = storage.getLoggedUser()
 
   useEffect(() => {
@@ -25,31 +30,50 @@ const AuditionsCallSingleMovie: React.FC = () => {
   }, [])
 
   const retriveAuditionByMovieId = async () => {
+    const imagesNames: any = []
     const res = await api.get(`/auditioncall/audition/${inputData.tableId}`)
     const auditionLists = await res.data
-    setSeconds(auditionLists)
+    setSingleAudition(auditionLists)
+    const fetchPosterForCorrespondingAudition = await api.get(`/fileupload/auditionspostersbyauditionid/${auditionLists[0].id}`)
+    const response = await fetchPosterForCorrespondingAudition.data
+    response.map(async (item) => {
+      imagesNames.push(item.fileName)
+    })
+    await retriveImageUrls(imagesNames)
+  }
+
+  const retriveImageUrls = async (name) => {
+    const items: any = []
+    for (let i = 0; i < name.length; i++) {
+      const movies = await api.get(`/fileupload/files/profile/${name[i]}`)
+      items.push(movies.request.responseURL)
+    }
+    setImages(items)
   }
 
   const applyForAudition = async () => {
     if (loggedUser && loggedUser.role === 'LOVER') {
       modalOnForSuccessfullRegistration()
     } else {
-      modalOn()
+      onOpenModal()
     }
   }
   const modalOn = () => {
     return invokeModal(!false)
   }
 
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
+
   const modalOnForSuccessfullRegistration = async () => {
-    await api.post('/auditioncall/createAuditionCallNotification', {
-      userFk: loggedUser.id,
-      role: seconds[0].auditionCategory,
-      auditionCallFk: seconds[0].id,
-      movie: inputData.movieName,
-      firstName: loggedUser.firstName,
-      lastName: loggedUser.lastName
-    })
+    const enquiryNotification = {
+      email: loggedUser?.email,
+      content: { firstName: loggedUser.firstName, lastName: loggedUser.lastName },
+      tableId: singleAudition[0].id,
+      userType: loggedUser.role,
+      notificationType: 'Apply For Audition Call'
+    }
+    await api.post('/filminsitutetraining/filmInstituteTraining/notification', enquiryNotification)
   }
 
   const modalOffForSuccessfullRegistration = () => {
@@ -75,11 +99,11 @@ const AuditionsCallSingleMovie: React.FC = () => {
           </Text>
         </div>
         <Img
-          src="/images/img_rectangle772.png"
+          src={images}
           className="h-[586px] md:h-auto max-w-[1307px] mt-[29px] mx-auto object-cover w-full"
           alt="rectangle772"
         />
-        {seconds.map((auditioncall) => {
+        {singleAudition.map((auditioncall) => {
           return (
             <List key={auditioncall.id}
             className="font-montserrat gap-5 grid items-center max-w-[1278px] mt-[30px] mx-auto md:px-5 w-full"
@@ -93,19 +117,14 @@ const AuditionsCallSingleMovie: React.FC = () => {
                         <span className="text-md text-white_A700 font-montserrat text-left font-bold">
                           Title : production 1
                         </span>
-                        <span className="text-md text-white_A700 font-montserrat text-base font-medium">
-                        </span>
-                        <span className="mb-0.5 sm:ml-[0] ml-[55px] text-white_A700 font-montserrat text-left font-bold">
+                        <span className="mb-0.5 sm:ml-[0] ml-[22px] text-white_A700 font-montserrat text-left font-bold">
                           Role : {auditioncall.auditionCategory}
                         </span>
                       <Text
                         className="sm:ml-[0] ml-[22px] sm:mt-0 mt-0.5 text-lg text-white_A700"
                       >
                         <span className="text-white_A700 font-montserrat text-left font-bold">
-                          Age :{' '}
-                        </span>
-                        <span className="text-white_A700 font-montserrat text-left text-base font-medium">
-                          {auditioncall.ageRange}
+                          Age : {auditioncall.ageRange}
                         </span>
                       </Text>
                       <Text
@@ -113,7 +132,7 @@ const AuditionsCallSingleMovie: React.FC = () => {
                         variant="body22"
                       ></Text>
                         <Text
-                          className="md:ml-[0] ml-[22px] md:mt-0 mt-[5px] text-lg text-white_A700"
+                          className="md:ml-[0] ml-[22px] md:mt-0 mt-[5px] text-lg text-white_A700 font-montserrat"
                         >
                           Venue : {auditioncall.venueOrInterviewLocation}
                         </Text>
@@ -130,28 +149,20 @@ const AuditionsCallSingleMovie: React.FC = () => {
                       Description
                     </Text>
                   </div>
-                  <div className="bg-gray_800 flex md:flex-1 flex-col font-roboto gap-[11px] items-start justify-start mb-[3px] md:ml-[0] ml-[528px] p-2 w-[17%] md:w-full">
+                  <div className="bg-gray_800 flex md:flex-1 flex-col font-roboto gap-[11px] items-start justify-start mb-[3px] p-2 w-[17%] md:w-full ml-48">
                     <div className="flex flex-row gap-2 items-start justify-start ml-5 md:ml-[0] w-[46%] md:w-full">
-                      <Img
-                        src="/images/img_camera_white_a700.svg"
-                        className="h-6 w-6"
-                        alt="camera"
-                      />
+                      <i className="fa fa-camera" aria-hidden="true"></i>
                       <Text
-                        className="mt-[3px] not-italic text-left text-white_A700 w-auto"
+                        className="not-italic text-left text-white_A700 w-auto"
                         variant="body30"
                       >
                         Camera
                       </Text>
                     </div>
                     <div className="flex flex-row gap-2 items-start justify-start ml-5 md:ml-[0] w-[44%] md:w-full">
-                      <Img
-                        src="/images/img_makiartgallery.svg"
-                        className="h-6 w-6"
-                        alt="makiartgallery"
-                      />
+                      <i className="fa fa-picture-o" aria-hidden="true"></i>
                       <Text
-                        className="mt-1 not-italic text-left text-white_A700 w-auto"
+                        className="not-italic text-left text-white_A700 w-auto"
                         variant="body30"
                       >
                         Gallery
@@ -174,15 +185,6 @@ const AuditionsCallSingleMovie: React.FC = () => {
                       Apply from CDBS Profile
                     </Button>
                   </div>
-                  <Modal show={isShow} onHide={() => modalOn()}>
-                   <Modal.Body>You are not registered in CinemaDBS. Do you want to register and Apply?</Modal.Body>
-                   <Button onClick={() => registerProcess()}>Click Here To Register For Cinema DBS</Button>
-                   <Button onClick={() => modalOff()}>No</Button>
-                 </Modal>
-                 <Modal show={modalForSuccessfulRegistration} onHide={() => modalOnForSuccessfullRegistration()}>
-                   <Modal.Body>Successfully applied for {auditioncall.auditionCategory} you will get notified once you are selected</Modal.Body>
-                   <Button onClick={() => modalOffForSuccessfullRegistration()}>OK</Button>
-                 </Modal>
                 </div>
               </div>
             </div>
