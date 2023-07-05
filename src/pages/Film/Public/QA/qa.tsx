@@ -75,11 +75,12 @@ const QandAPage: React.FC = () => {
                   </>
                 </Text>
               </div>
+              <div className="absolute bg-gray_800 h-[760px] inset-y-[0] my-auto right-[0] rounded-[20px] shadow-bs8 w-[69%]"></div>
             </div>
             <div
-              className="common-pointer bg-gray_800 absolute flex font-roboto h-max inset-y-[0] items-center justify-start my-auto p-[31px] sm:px-5 right-[0] w-[69%]"
+              className="common-pointer absolute flex font-roboto h-max inset-y-[0] items-center justify-start my-auto p-[31px] sm:px-5 right-[0] w-[69%]"
             >
-              <div className="flex flex-col gap-7 items-start justify-start mb-[39px] mt-[25px] self-stretch w-auto md:w-full">
+              <div className="flex flex-col gap-15 items-start justify-start mb-[39px] mt-[25px] self-stretch w-auto md:w-full">
                 <div className = "notification flex-col font-montserrat gap-2.5 grid items-center max-w-[1265px] mt-[26px] mx-auto md:px-5 w-full">
              <Accordion>
             <Accordion.Item eventKey="0">

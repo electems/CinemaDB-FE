@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Header from '../../../components/MainScreenHeader/mainscreenheader'
 import { Text, Button, Img, List } from '../../../components/Elements/index'
@@ -9,6 +9,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { storage } from '../../../storage/storage'
 import { FilmTrainingInstituteEvent } from '../../../types/filminstitute_event.type';
 import { User } from '../../../types/user.types';
+import'./filminstitute.css'
+import { Modal } from 'antd';
 
 interface FilmInstitute {
   filmInstituteId,
@@ -23,6 +25,11 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
   const trainingInstituteEventsPostersNames: string[] = [];
   const [filmPerson, setFilmPerson] = React.useState<User>()
   const loggedInUser = storage.getLoggedUser();
+  const [showWarningMessage, setshowSuccessfullPop] = React.useState(false);
+  const [showResumeSuccessMessage, setshowResumeSuccessMessage] = React.useState(false);
+  const [showEnquirySuccessMessage, setshowEnquirySuccessMessage] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     fetchFilmInstituteById()
   }, [])
@@ -62,7 +69,9 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
   }
 
   const filmInstituteEnquiry = async () => {
-    const enquiryNotification = {
+    if(loggedInUser.role != 'LOVER')
+    {
+      const enquiryNotification = {
       email: filmPerson?.email,
       content: { id: loggedInUser.id, firstName: loggedInUser.firstName, lastName: loggedInUser.lastName },
       tableId: loggedInUser.id,
@@ -70,8 +79,86 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
       notificationType: 'FILM TRAININGINSTITUTE ENQUIRY'
     }
 
-    await api.post('/filminsitutetraining/filmInstituteTraining/notification', enquiryNotification)
+
+   const enqueryNotification =  await api.post('/filminsitutetraining/filmInstituteTraining/notification', enquiryNotification)
+   if (
+    enqueryNotification.data != null &&
+    enqueryNotification.statusText === 'Created'
+  ) {
+    setshowResumeSuccessMessage(false)
+    setshowEnquirySuccessMessage(true)
+    showModal();
   }
+  }
+  else {
+    setshowSuccessfullPop(true)
+  }
+  }
+
+  const closeWarningMessage = async () => {
+    setshowSuccessfullPop(false)
+  }
+
+  let fileRecord: any
+
+  const handleFileUpload = async (e) => {
+    let { name, value } = e.target;
+    if (name === 'Photo') {
+      value = e.target.files[0]
+      const path = await uploadResume(value)
+      value = path
+    }
+  };
+
+  const uploadResume = async (fileData) => {
+
+    const formData = new FormData()
+    formData.append('file', fileData);
+    const upload = await api.post('/fileupload/file/resume', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
+
+    fileRecord = upload.data
+
+    const file = {
+      fileName: fileRecord.filename,
+      destination: fileRecord.destination,
+      originalName: fileRecord.originalname,
+      tableName: 'Resume',
+      tableId: loggedInUser.id
+    }
+    await api.post('/fileupload/createfile', file)
+
+    const resumeUploadedNotification = {
+      email: loggedInUser.email,
+      content: {firestName:loggedInUser.firstName ,lastName:loggedInUser.lastName,file:file},
+      tableId: loggedInUser.id,
+      userType: loggedInUser.role,
+      notificationType: 'RESUME UPLOAD FOR FILM INSTITUTE'
+    }
+    const userResume = await api.post('/filminsitutetraining/filmInstituteTraining/notification', resumeUploadedNotification)
+    if (
+      userResume.data != null &&
+      userResume.statusText === 'Created'
+    ) {
+      setshowResumeSuccessMessage(true)
+      setshowEnquirySuccessMessage(false)
+       showModal();
+    }
+  }
+
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -163,12 +250,39 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
                   </Text>
                 </div>
                 <div className="flex flex-col gap-6 items-center justify-start md:mt-0 mt-[71px] w-[17%] md:w-full">
-                  <Button className="flex justify-center items-center border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none hover:opacity-80 py-2 px-6 text-md flex justify-center items-center border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none hover:opacity-80 py-2.5 px-8 text-md bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[20px] py-[10px] rounded text-[14.7px] text-center text-white_A700">
+
+                <Text
+                        className="font-bold ml-2.5 md:ml-[0] not-italic text-left text-white_A700 w-auto"
+                        variant="body26"
+                      >
+                        Upload Your Resume{' '}
+                      </Text>
+                    <input
+                      name="Photo"
+                      onChange={(e) => handleFileUpload(e)}
+                      type="file"
+                      id="default-input"
+                      className="text-white border border-1 border-gray_1000 bg-gray_1000 text-sm rounded-lg block w-full p-1"
+                    />
+                  {/* <Button className="flex justify-center items-center border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none hover:opacity-80 py-2 px-6 text-md flex justify-center items-center border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none hover:opacity-80 py-2.5 px-8 text-md bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[20px] py-[10px] rounded text-[14.7px] text-center text-white_A700">
                     Upload Resume
-                  </Button>
+                  </Button> */}
                   <Button className="flex justify-center items-center border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none hover:opacity-80 py-2 px-10 text-md flex justify-center items-center border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none hover:opacity-80 py-2.5 px-8 text-md bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[20px] py-[10px] rounded text-[14.7px] text-center text-white_A700" onClick={filmInstituteEnquiry}>
                     Enquire now
                   </Button>
+                 {
+                   showWarningMessage === true
+                   ?
+
+                   <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-0 rounded relative" role="alert">
+                   <strong className="font-bold">Warning!</strong>
+                   <span className="block sm:inline">Only film Lovers are Allowed for Enquiry</span>
+                   <span className="absolute top-0 bottom-0 right-0 px-3 py-0">
+                     <svg className="fill-current h-6 w-6 text-red-500" role="button" onClick={closeWarningMessage} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                   </span>
+                 </div>
+
+                 : " "}
                 </div>
               </div>
             </div>
@@ -238,13 +352,76 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
                         <Button className="bg-red_A700 cursor-pointer font-bold leading-[normal] mb-[81px] min-w-[190px] md:ml-[0] ml-[74px] md:mt-0 mt-3.5 py-[19px] rounded text-[14.7px] text-center text-white_A700" onClick={filmInstituteEnquiry}>
                           Enquire now
                         </Button>
+                        {
+                   showWarningMessage === true
+                   ?
+
+                   <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-0 rounded relative" role="alert">
+                   <strong className="font-bold">Warning!</strong>
+                   <span className="block sm:inline">Only film Lovers are Allowed for Enquiry</span>
+                   <span className="absolute top-0 bottom-0 right-0 px-3 py-0">
+                     <svg className="fill-current h-6 w-6 text-red-500" role="button" onClick={closeWarningMessage} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                   </span>
+                 </div>
+
+                 : " "}
                       </div>
                     </div>
+
                   </div>
                 </>
               )
             })}
           </List>
+          {isModalOpen === true
+                  ? (
+                    <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+
+                    <div className="relative top-10 mx-auto p-5  w-96  rounded-md bg-white">
+
+                    <div className="mt-3 text-center">
+                      <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                      <Img
+
+                      className=""
+
+                      src='/images/success.png'
+
+                      />
+                      </div>
+                      { showResumeSuccessMessage === false && showEnquirySuccessMessage === true
+                      ?
+                        <h3 className="text-lg leading-6 font-medium text-gray-900">
+                      ENQUIRY IS SUBMITTED SUCCESSFULLY
+                      </h3>
+                      :'' }
+                      { showResumeSuccessMessage === true && showEnquirySuccessMessage === false
+                      ?
+                        <h3 className="text-lg leading-6 font-medium text-gray-900">
+                      RESUME IS SUBMITTED SUCCESSFULLY
+                      </h3>
+                      :'' }
+
+                      <div className="mt-2 px-7 py-3">
+                        <p className="text-sm text-gray-500">
+                        </p>
+                      </div>
+                      <div className="items-center px-4 py-3">
+                        <button
+                          id="ok-btn"
+                          className="px-4 py-2 bg-blue-600 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-green-300"
+                          onClick={handleCancel}
+                        >
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  </Modal>
+                    )
+                  : (
+                      ''
+                    )}
         </div>
         <Footer className="bg-gray_800 flex font-roboto items-center justify-center mt-[101px] md:px-5 w-full" />
       </div>

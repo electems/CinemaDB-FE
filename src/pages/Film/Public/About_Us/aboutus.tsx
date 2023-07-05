@@ -4,6 +4,7 @@ import { Img, Text } from '../../../../components/Elements'
 import Footer from '../../../../components/Footer/footer';
 
 interface Iaboutus {
+  header?: string;
   headerImg?: string;
   headerImg2: string;
   headerTitle: string;
@@ -39,14 +40,20 @@ const AboutusPage: React.FC = () => {
   return (
     <div className="bg-gray_900 flex flex-col font-roboto justify-start mx-auto w-full">
         <div className="rounded-2xl flex flex-shrink shadow-md sm:flex-row flex-col  absolute bg-gray_800 font-montserrat h-[578px] md:h-[611px] md:ml-[0] ml-[60px] mt-[30px] md:px-5 relative w-[90%] md:w-full  ">
+        <Text
+              className="mt-[26px] text-center text-white_A700 w-auto"
+              variant="body6"
+            >
+               {about.header}
+            </Text>
         <Img
           src={about.headerImg}
-          className="overflow-hidden rounded-tl-2xl rounded-bl-2xl absolute bottom-[0] h-[358px] object-cover right-[0] w-[60%]"
+          className="overflow-hidden h-auto max-w-full rounded-tl-2xl rounded-bl-2xl absolute bottom-[0] h-[358px] object-cover right-[0] w-[60%]"
           alt="imageTwentyTwo"
         />
          <Img
           src={about.headerImg2}
-          className="overflow-hidden rounded-tl-2xl rounded-bl-2xl  absolute bottom-[3%] h-[470px]  object-cover left-[0] w-[35%]"
+          className="overflow-hidden h-auto max-w-full rounded-tl-2xl rounded-bl-2xl  absolute bottom-[3%] h-[470px]  object-cover left-[0] w-[35%]"
           alt="imageTwentyThree"
         />
         </div>
@@ -70,14 +77,14 @@ const AboutusPage: React.FC = () => {
               </Text>
               <Img
                 src={about.paragraph1Image}
-                className="md:flex-1 h-[190px] sm:h-auto object-cover rounded w-[44%] md:w-full"
+                className="sm:h-auto max-w-full flex-1 h-[210px] md:h-auto object-cover rounded w-[44%] sm:w-full"
                 alt="rectangle740"
               />
             </div>
         <div className="flex sm:flex-col flex-row gap-[30px] items-start justify-start max-w-[1100px] mt-[63px] mx-auto md:px-5 w-full">
         <Img
             src={about.paragraph2Image}
-            className="sm:flex-1 h-[210px] md:h-auto object-cover rounded w-[44%] sm:w-full"
+            className="sm:h-auto max-w-full flex-1 h-[210px] md:h-auto object-cover rounded w-[44%]"
             alt="rectangle740_One"
           />
           <Text
@@ -96,7 +103,7 @@ const AboutusPage: React.FC = () => {
           </Text>
           <Img
             src={about.paragraph3Image}
-            className="sm:flex-1 h-[210px] md:h-auto object-cover rounded w-[44%] sm:w-full"
+            className="sm:h-auto max-w-full flex-1 h-[210px] md:h-auto object-cover rounded w-[44%] sm:w-full"
             alt="rectangle740_Two"
           />
         </div>

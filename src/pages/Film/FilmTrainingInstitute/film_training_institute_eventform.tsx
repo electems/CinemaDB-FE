@@ -31,16 +31,18 @@ const initialFilmTrainingInstituteEvent = {
 }
 
 const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
+  const [isShow, invokeModal] = React.useState(false)
   const [filmInstituteEvent, setFilmInstituteEvent] =
     React.useState(initialFilmTrainingInstituteEvent);
   const [allFilmInstitutes, setAllFilmInstitute] =
     React.useState<FilmTrainingInstituteEvent[]>([]);
-  const navigate = useNavigate();
   let fileRecord: any
   const loggedInUser = storage.getLoggedUser();
   useEffect(() => {
     fetchAllFilmTrainingIntitutes()
   }, [])
+
+  const navigate = useNavigate();
 
   const fetchAllFilmTrainingIntitutes = async () => {
     const allFilmTrainingInstitutes = await api.get(`filminsitutetraining/getallfilminsitutetraining/${loggedInUser.id}`)
@@ -104,7 +106,9 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
       fileName: fileRecord.filename
 
     }
-    const filmInstituteRecord = await api.post('/filminsitutetraining/createfilminsitutetrainingevent', filmInstituteEventObject)
+    await api.post('/filminsitutetraining/createfilminsitutetrainingevent', filmInstituteEventObject)
+
+
 
     const file = {
       fileName: fileRecord.filename,
@@ -113,10 +117,10 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
       tableName: 'FilmTrainingInstituteEvent',
       tableId: loggedInUser.id
     }
-    const fileObject = await api.post('/fileupload/createfile', file)
-    console.log(fileObject);
+    await api.post('/fileupload/createfile', file)
     navigate('/film/filminstitutetraining/traininginstitutes')
   };
+
 
   return (
     <>

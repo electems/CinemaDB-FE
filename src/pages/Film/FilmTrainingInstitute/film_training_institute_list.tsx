@@ -11,8 +11,12 @@ import { LayoutGrid, List } from 'tabler-icons-react'
 import { useNavigate } from 'react-router-dom';
 import { Subject } from 'rxjs';
 
+import Pagination from '../AuditionCall/pagination';
+
 const TrainingInstitutesPage: React.FC = () => {
   const loggedInUser = storage.getLoggedUser();
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [postsPerPage] = React.useState(9);
   const [isEnableCreateButton, setEnableCreateButton] = React.useState(loggedInUser.role === 'PERSON')
   const [images, setImages] = React.useState([]);
   useEffect(() => {
@@ -22,6 +26,7 @@ const TrainingInstitutesPage: React.FC = () => {
   const navigate = useNavigate();
   const [gridsView, setGridsView] = React.useState(true);
   const [listsView, setListsView] = React.useState(false);
+
   const retriveAllPostersOfInstitute = async () => {
     let currentUsersInstitutePosters: any
     if (loggedInUser && loggedInUser.role === 'PERSON') {
@@ -77,12 +82,20 @@ const TrainingInstitutesPage: React.FC = () => {
     console.log('GridView')
   }
 
-  const navigateToAuditionCall = async (item) => {
+  const navigateToInstituteDetailsPage = async (item) => {
     const data = item.split('/')
     const filmInstituteRecord = await api.get(`filminsitutetraining/filmInstituteDetailsByFileName/${data[6]}`)
     const response = filmInstituteRecord.data
     navigate(`/film/filminstitutetraining/filminstitutedetails/${data[6]}`, { state: { filmInstituteId: response.id, file: item } })
   }
+
+  // pagination
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = images.slice(indexOfFirstPost, indexOfLastPost);
+
+  // Change page
+  const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
     <>
@@ -144,14 +157,14 @@ const TrainingInstitutesPage: React.FC = () => {
           </div>
           { gridsView
             ? <div className="md:gap-5 gap-[29px] grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center max-w-[1187px] min-h-[auto] mt-[35px] mx-auto md:px-5 w-full">
-          { images.map((item) => {
+          { currentPosts.map((item) => {
             return (
               <>
               <Img
                 src={item}
                 className="cursor-pointer flex-1 h-[455px] md:h-auto object-cover w-full"
                 alt="rectangle"
-                onClick={() => navigateToAuditionCall(item)}
+                onClick={() => navigateToInstituteDetailsPage(item)}
             />
               </>
             )
@@ -160,20 +173,25 @@ const TrainingInstitutesPage: React.FC = () => {
             : ''}
            { listsView
              ? <div className="md:gap-5 gap-[29px] grid sm:grid-row-1 md:grid-row-2 grid-row-3 justify-center max-w-[1187px] min-h-[auto] mt-[35px] mx-auto md:px-5 w-full">
-          { images.map((item) => {
+          { currentPosts.map((item) => {
             return (
               <>
               <Img
                 src={item}
                 className="cursor-pointer flex-1 h-[455px] md:h-auto object-cover w-full"
                 alt="rectangle"
-                onClick={() => navigateToAuditionCall(item)}
+                onClick={() => navigateToInstituteDetailsPage(item)}
             />
               </>
             )
           })}
           </div>
              : ''}
+             <Pagination
+            postsPerPage={postsPerPage}
+            totalPosts={images.length}
+            paginate={paginate}
+          />
           <Footer className="bg-gray_800 flex font-roboto items-center justify-center mt-[97px] md:px-5 w-full" />
         </div>
       </div>

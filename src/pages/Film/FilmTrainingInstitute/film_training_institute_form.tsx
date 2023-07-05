@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import Header from '../../../components/MainScreenHeader/mainscreenheader';
 import { Text, Button } from '../../../components/Elements/index';
@@ -8,6 +8,8 @@ import { api } from '../../../services/api';
 import { useNavigate } from 'react-router-dom';
 import { storage } from '../../../storage/storage';
 import { Modal } from 'antd';
+import { Context } from '../../../contexts/contextLogin';
+import'./filminstitute.css'
 
 const initialFilmInstitute = {
   id: null,
@@ -37,9 +39,9 @@ const initialFilmInstitute = {
 
 let fileRecord: any;
 const FilmInstituteRegistration: React.FC = () => {
+  const { functionBack } = useContext(Context)
   const [isReadOnly, setIsReadOnly] = React.useState(true);
   const loggedInUser = storage.getLoggedUser();
-  const [showSuccessfullPop, setshowSuccessfullPop] = React.useState(false);
   const [filmInstitute, setFilmInstitute] =
     React.useState(initialFilmInstitute);
   const navigate = useNavigate();
@@ -128,10 +130,13 @@ const FilmInstituteRegistration: React.FC = () => {
       filmInstituteRecord.data != null &&
       filmInstituteRecord.statusText === 'Created'
     ) {
-      showModal();
+       showModal();
     }
-    // navigate('/film/filminstitutetraining/traininginstitutes')
   };
+
+  const navigateToFilmInstitutes = async () => {
+    navigate('/film/filminstitutetraining/traininginstitutes')
+  }
 
   const dropdownValues = [
     { value: 'Select Any One', label: 'Select Any One' },
@@ -158,6 +163,7 @@ const FilmInstituteRegistration: React.FC = () => {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    navigate('/film/filminstitutetraining/traininginstitutes')
   };
 
   return (
@@ -644,12 +650,14 @@ const FilmInstituteRegistration: React.FC = () => {
                     </Button>
                   </div>
                 </div>
-                {/* pop */}
+
 
                 {isModalOpen === true
                   ? (
                     <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+
                     <div className="relative top-10 mx-auto p-5  w-96  rounded-md bg-white">
+
                     <div className="mt-3 text-center">
                       <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
                         <svg
@@ -668,19 +676,19 @@ const FilmInstituteRegistration: React.FC = () => {
                         </svg>
                       </div>
                       <h3 className="text-lg leading-6 font-medium text-gray-900">
-                        Successful!
+                      REGISTRATION IS SUCCESSFULL
                       </h3>
                       <div className="mt-2 px-7 py-3">
                         <p className="text-sm text-gray-500">
-                          registration is Successful
                         </p>
                       </div>
                       <div className="items-center px-4 py-3">
                         <button
                           id="ok-btn"
                           className="px-4 py-2 bg-blue-600 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-green-300"
+                          onClick={handleCancel}
                         >
-                          OK
+                          Close
                         </button>
                       </div>
                     </div>
@@ -691,7 +699,7 @@ const FilmInstituteRegistration: React.FC = () => {
                       ''
                     )}
 
-                {/* pop end */}
+
               </div>
             </div>
           </div>
