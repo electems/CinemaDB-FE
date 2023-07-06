@@ -106,7 +106,7 @@ const Notification: React.FC = () => {
             <Accordion.Item eventKey="0">
               <Accordion.Header >Film Training Institute<span className="badge rounded-pill bg-danger">{filmTrainingInstituteNotifications.length}</span></Accordion.Header>
               <Accordion.Body >
-                {filmTrainingInstituteNotifications.map((item: any,index) => {
+                {filmTrainingInstituteNotifications.map((item: any, index) => {
                   return (
                     <p key={item.id}> You applied to audition to the movie {item.movie} and role {item.role}</p>
                   )
