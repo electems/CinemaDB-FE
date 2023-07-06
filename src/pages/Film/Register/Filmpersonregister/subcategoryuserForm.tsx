@@ -123,7 +123,7 @@ export const SubCategoryUserForm: React.FC = () => {
   }
   // vertical bar onclick
   const onClickOfSubCategoryType = async (selectedTab: string) => {
-    if (selectedTab === 'Movie') {
+    if (selectedTab === 'Movie' && currentSubCategory === 'General') {
       renderTabsOfSelectedNodes = renderTabsOfSelectedNodes.filter(o => o.label !== currentSubCategory)
       currentSubCategory = renderTabsOfSelectedNodes[0].label
     }
