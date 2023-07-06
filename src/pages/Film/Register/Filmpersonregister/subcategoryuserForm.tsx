@@ -86,7 +86,14 @@ export const SubCategoryUserForm: React.FC = () => {
   // load vertical menu
   const loadSubCategoryTypes = async (currentSubCategory) => {
     let response: any = []
-    let tabs: any = { key: '', label: '' }
+    let tabs = { key: '', label: '' }
+    if (currentSubCategory === 'General') {
+      renderTabsOfSelectedNodes = displayTabs
+      tabs = renderTabsOfSelectedNodes.find(o => o.label !== currentSubCategory)
+    }
+    if (currentSubCategory !== 'General') {
+      renderTabsOfSelectedNodes = displayTabs
+    }
     tabs = renderTabsOfSelectedNodes.find(o => o.label !== currentSubCategory)
     const retriveOtherForms = await api.get(`form/readfile/formlayout/${tabs.label}/${environment.professionalData}`)
     const form = retriveOtherForms.data
