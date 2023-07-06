@@ -37,7 +37,12 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
   }
 
   const navigateToProfilePage = async () => {
-    navigate('/film/register/subcategoryuserform', { state: { profile: displayProfile, user: loggedUser } })
+    if(loggedUser.role === 'PERSON')
+    {
+      navigate('/film/register/subcategoryuserform', { state: { profile: displayProfile, user: loggedUser } })
+    }else {
+      navigate('/film/register/cinemafansform', { state: { profile: displayProfile, user: loggedUser } })
+    }
   }
   const movieType = [
     { value: 'Sandalwood', label: 'Sandalwood' },

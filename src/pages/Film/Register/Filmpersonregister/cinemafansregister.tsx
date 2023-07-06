@@ -17,9 +17,12 @@ import { ReactFormGenerator } from 'react-form-builder2'
 import { ISubCategoryUserForm } from '../../../../types/subcategoryuserform.type'
 
 import Accordion from 'react-bootstrap/Accordion'
+import MyProfilePage from '../../MyProfile/myprofile'
 
 interface InputData{
     loggedUser
+    user
+    profile
 }
 let currentSubCategoryType: any
 export const CinemaFansForm: React.FC = () => {
@@ -35,10 +38,16 @@ export const CinemaFansForm: React.FC = () => {
     retriveTabs()
   }, [])
 
+
   const retriveTabs = async () => {
     const types = await loadSubCategoryTypes('Cinema Fans')
     currentSubCategoryType = types
-    await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.loggedUser.role)
+    if(inputData.loggedUser != undefined)
+    {
+      await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.loggedUser.role)
+    }else {
+      await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.user.role)
+    }
   }
   // load vertical menu
   const loadSubCategoryTypes = async (currentSubCategory) => {
@@ -53,9 +62,14 @@ export const CinemaFansForm: React.FC = () => {
     const formGeneratorLayoutOfSelectedTabAndType = await api.get(`form/mastertemplatereadfile/mastertemplates/${currentSubCategoryType}/${environment.professionalData}`)
     const response = await formGeneratorLayoutOfSelectedTabAndType.data
     setFormGeneratorLayoutOfRoleAndType(response)
-
+    let formProfessionData: any
     // fetch user form data.
-    const formProfessionData = await api.get(`userprofession/formdata/${inputData.loggedUser.id}/${userRole}/${currentSubCategoryType}`)
+    if(inputData.loggedUser != undefined)
+    {
+      formProfessionData = await api.get(`userprofession/formdata/${inputData.loggedUser.id}/${userRole}/${currentSubCategoryType}`)
+    }else {
+      formProfessionData = await api.get(`userprofession/formdata/${inputData.user.id}/${userRole}/${currentSubCategoryType}`)
+    }
     const loadDataFromBackend = await formProfessionData.data
     if (loadDataFromBackend && loadDataFromBackend.length > 0) {
       setCinemaFansForm(loadDataFromBackend)
@@ -66,17 +80,36 @@ export const CinemaFansForm: React.FC = () => {
   const onClickOfSubCategoryType = async (selectedTab: string) => {
     setActive(!active)
     currentSubCategoryType = selectedTab
-    await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.loggedUser.role)
+    if(inputData.loggedUser != undefined)
+    {
+      await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.loggedUser.role)
+    }else {
+      await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.user.role)
+    }
+
   }
 
   // on save should call post api
   const onClickOfSave = async (data, pk?) => {
-    const subCategoryUserForm: ISubCategoryUserForm = {
-      userId: inputData.loggedUser.id,
-      subCategory: inputData.loggedUser.role,
-      subCategoryType: currentSubCategoryType,
-      value: data
+    let subCategoryUserForm: ISubCategoryUserForm;
+
+
+    if(inputData.loggedUser != undefined){
+      subCategoryUserForm = {
+        userId: inputData.loggedUser.id,
+        subCategory: inputData.loggedUser.role,
+        subCategoryType: currentSubCategoryType,
+        value: data
+      }
+    } else{
+      subCategoryUserForm = {
+        userId: inputData.user.id,
+        subCategory: inputData.user.role,
+        subCategoryType: currentSubCategoryType,
+        value: data
+      }
     }
+
     if (pk) {
       subCategoryUserForm.id = pk
     }
@@ -87,6 +120,7 @@ export const CinemaFansForm: React.FC = () => {
 
   return (
     <>
+    {inputData.profile === true ? <MyProfilePage/> : ''}
       <div className="accordion">
         <div className="row">
           <div className="col-6 col-md-4 mt-5">

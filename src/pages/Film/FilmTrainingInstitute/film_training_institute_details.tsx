@@ -69,7 +69,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
   }
 
   const filmInstituteEnquiry = async () => {
-    if (loggedInUser.role !== 'LOVER') {
+    if (loggedInUser.role === 'LOVER') {
       const enquiryNotification = {
         email: filmPerson?.email,
         content: { id: loggedInUser.id, firstName: loggedInUser.firstName, lastName: loggedInUser.lastName },
@@ -81,7 +81,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
       const enqueryNotification = await api.post('/filminsitutetraining/filmInstituteTraining/notification', enquiryNotification)
       if (
         enqueryNotification.data != null &&
-    enqueryNotification.statusText === 'Created'
+        enqueryNotification.statusText === 'Created'
       ) {
         setshowResumeSuccessMessage(false)
         setshowEnquirySuccessMessage(true)

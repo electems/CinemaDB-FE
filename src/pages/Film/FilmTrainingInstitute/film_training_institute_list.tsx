@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { Button, Img, Text } from '../../../components/Elements/index';
-import Header from '../../../components/Header/header';
+import Header from '../../../components/MainScreenHeader/mainscreenheader';
 import Footer from '../../../components/Footer/footer';
 import { storage } from '../../../storage/storage';
 import { api } from '../../../services/api';
