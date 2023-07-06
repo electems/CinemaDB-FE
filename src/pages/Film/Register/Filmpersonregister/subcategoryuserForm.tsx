@@ -86,8 +86,9 @@ export const SubCategoryUserForm: React.FC = () => {
   // load vertical menu
   const loadSubCategoryTypes = async (currentSubCategory) => {
     let response: any = []
-    const data = renderTabsOfSelectedNodes.find(o => o.label !== currentSubCategory)
-    const retriveOtherForms = await api.get(`form/readfile/formlayout/${data.label}/${environment.professionalData}`)
+    let tabs: any = { key: '', label: '' }
+    tabs = renderTabsOfSelectedNodes.find(o => o.label !== currentSubCategory)
+    const retriveOtherForms = await api.get(`form/readfile/formlayout/${tabs.label}/${environment.professionalData}`)
     const form = retriveOtherForms.data
     const subCategory = currentSubCategory.replaceAll(' ', '_')
     const leftMenuData = await api.get(`form/readfile/formlayout/${subCategory}/${environment.professionalData}`)
