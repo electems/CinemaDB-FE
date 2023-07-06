@@ -43,9 +43,10 @@ let renderTabsOfSelectedNodes: any = []
 let currentSubCategoryType: any
 let currentSubCategory: string = ''
 let userId: string
+
 export const SubCategoryUserForm: React.FC = () => {
   const inputData = useLocation().state as InputData
-  const [selectedMastersOfTheCurrentSubCategory, setSelectedMastersOfTheCurrentSubCategory] = React.useState([])
+  const [selectedMastersOfTheCurrentSubCategory, setSelectedMastersOfTheCurrentSubCategory] = React.useState<any>([])
   const [formUserProfessionData, setFormUserProfessionData] = React.useState<any[]>([])
   const [active, setActive] = React.useState('')
   const [formGeneratorLayoutOfSelectedTabAndType, setFormGeneratorLayoutOfSelectedTabAndType] = React.useState<any[]>([])
@@ -59,7 +60,10 @@ export const SubCategoryUserForm: React.FC = () => {
   }, [])
 
   const retriveTabs = async () => {
-    displayTabs = []
+    displayTabs = [{
+      key: '1',
+      label: 'General'
+    }]
     renderTabsOfSelectedNodes = []
     const userdata = inputData.user
     userdata.userSubCategory.map((item) => {
@@ -81,9 +85,16 @@ export const SubCategoryUserForm: React.FC = () => {
   }
   // load vertical menu
   const loadSubCategoryTypes = async (currentSubCategory) => {
+    let response: any = []
+    const data = renderTabsOfSelectedNodes.find(o => o.label !== currentSubCategory)
+    const retriveOtherForms = await api.get(`form/readfile/formlayout/${data.label}/${environment.professionalData}`)
+    const form = retriveOtherForms.data
     const subCategory = currentSubCategory.replaceAll(' ', '_')
     const leftMenuData = await api.get(`form/readfile/formlayout/${subCategory}/${environment.professionalData}`)
-    const response = await leftMenuData.data
+    response = await leftMenuData.data
+    form.map((item) => {
+      response.push(item)
+    })
     setSelectedMastersOfTheCurrentSubCategory(response)
     return response
   }
@@ -112,6 +123,10 @@ export const SubCategoryUserForm: React.FC = () => {
   }
   // vertical bar onclick
   const onClickOfSubCategoryType = async (selectedTab: string) => {
+    if (selectedTab === 'Movie') {
+      renderTabsOfSelectedNodes = renderTabsOfSelectedNodes.filter(o => o.label !== currentSubCategory)
+      currentSubCategory = renderTabsOfSelectedNodes[0].label
+    }
     setActive(selectedTab)
     currentSubCategoryType = selectedTab
     setFormUserProfessionData([])
@@ -146,6 +161,7 @@ export const SubCategoryUserForm: React.FC = () => {
     if (inputData.role === 'PENMAN') {
       subCategoryUserForm.status = 'APPROVED'
     }
+
     await api.post('/userprofession/createform/formdata', subCategoryUserForm)
     if (pk === undefined && currentSubCategoryType === 'Movie') {
       const data = await api.get(`/userprofession/getbasedonmovietype/${userId}/${subCategoryUserForm.subCategory}`)
@@ -178,6 +194,7 @@ export const SubCategoryUserForm: React.FC = () => {
     setFormValue(response)
     return response
   }
+
   return (
     <>
       <div className="">
@@ -197,9 +214,13 @@ export const SubCategoryUserForm: React.FC = () => {
           </div>
           <div className="col">
             <div className="row mt-5 tab-label">
-              <Tabs defaultActiveKey="1" items={renderTabsOfSelectedNodes} onChange={onClickOfSubCategoryTab} />
+            {currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC'
+              ? ' '
+              : <div>
+                  <Tabs defaultActiveKey="1" items={renderTabsOfSelectedNodes} onChange={onClickOfSubCategoryTab} />
+                </div>}
             </div>
-            <div>{currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC' || currentSubCategoryType === 'Professional Details' || currentSubCategoryType === 'Movie'
+            <div>{currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC' || currentSubCategoryType === 'Movie'
               ? ' '
               : <div>
                    <label>Select Movie</label>

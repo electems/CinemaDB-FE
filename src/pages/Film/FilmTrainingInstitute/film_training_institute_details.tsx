@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { storage } from '../../../storage/storage'
 import { FilmTrainingInstituteEvent } from '../../../types/filminstitute_event.type';
 import { User } from '../../../types/user.types';
-import'./filminstitute.css'
+import './filminstitute.css'
 import { Modal } from 'antd';
 
 interface FilmInstitute {
@@ -69,30 +69,27 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
   }
 
   const filmInstituteEnquiry = async () => {
-    if(loggedInUser.role != 'LOVER')
-    {
+    if (loggedInUser.role !== 'LOVER') {
       const enquiryNotification = {
-      email: filmPerson?.email,
-      content: { id: loggedInUser.id, firstName: loggedInUser.firstName, lastName: loggedInUser.lastName },
-      tableId: loggedInUser.id,
-      userType: loggedInUser.role,
-      notificationType: 'FILM TRAININGINSTITUTE ENQUIRY'
-    }
+        email: filmPerson?.email,
+        content: { id: loggedInUser.id, firstName: loggedInUser.firstName, lastName: loggedInUser.lastName },
+        tableId: loggedInUser.id,
+        userType: loggedInUser.role,
+        notificationType: 'FILM TRAININGINSTITUTE ENQUIRY'
+      }
 
-
-   const enqueryNotification =  await api.post('/filminsitutetraining/filmInstituteTraining/notification', enquiryNotification)
-   if (
-    enqueryNotification.data != null &&
+      const enqueryNotification = await api.post('/filminsitutetraining/filmInstituteTraining/notification', enquiryNotification)
+      if (
+        enqueryNotification.data != null &&
     enqueryNotification.statusText === 'Created'
-  ) {
-    setshowResumeSuccessMessage(false)
-    setshowEnquirySuccessMessage(true)
-    showModal();
-  }
-  }
-  else {
-    setshowSuccessfullPop(true)
-  }
+      ) {
+        setshowResumeSuccessMessage(false)
+        setshowEnquirySuccessMessage(true)
+        showModal();
+      }
+    } else {
+      setshowSuccessfullPop(true)
+    }
   }
 
   const closeWarningMessage = async () => {
@@ -111,7 +108,6 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
   };
 
   const uploadResume = async (fileData) => {
-
     const formData = new FormData()
     formData.append('file', fileData);
     const upload = await api.post('/fileupload/file/resume', formData, {
@@ -131,7 +127,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
 
     const resumeUploadedNotification = {
       email: loggedInUser.email,
-      content: {firestName:loggedInUser.firstName ,lastName:loggedInUser.lastName,file:file},
+      content: { firestName: loggedInUser.firstName, lastName: loggedInUser.lastName, file },
       tableId: loggedInUser.id,
       userType: loggedInUser.role,
       notificationType: 'RESUME UPLOAD FOR FILM INSTITUTE'
@@ -143,10 +139,9 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
     ) {
       setshowResumeSuccessMessage(true)
       setshowEnquirySuccessMessage(false)
-       showModal();
+      showModal();
     }
   }
-
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -272,9 +267,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
                   </Button>
                  {
                    showWarningMessage === true
-                   ?
-
-                   <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-0 rounded relative" role="alert">
+                     ? <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-0 rounded relative" role="alert">
                    <strong className="font-bold">Warning!</strong>
                    <span className="block sm:inline">Only film Lovers are Allowed for Enquiry</span>
                    <span className="absolute top-0 bottom-0 right-0 px-3 py-0">
@@ -282,7 +275,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
                    </span>
                  </div>
 
-                 : " "}
+                     : ' '}
                 </div>
               </div>
             </div>
@@ -354,9 +347,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
                         </Button>
                         {
                    showWarningMessage === true
-                   ?
-
-                   <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-0 rounded relative" role="alert">
+                     ? <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-0 rounded relative" role="alert">
                    <strong className="font-bold">Warning!</strong>
                    <span className="block sm:inline">Only film Lovers are Allowed for Enquiry</span>
                    <span className="absolute top-0 bottom-0 right-0 px-3 py-0">
@@ -364,7 +355,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
                    </span>
                  </div>
 
-                 : " "}
+                     : ' '}
                       </div>
                     </div>
 
@@ -374,7 +365,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
             })}
           </List>
           {isModalOpen === true
-                  ? (
+            ? (
                     <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
 
                     <div className="relative top-10 mx-auto p-5  w-96  rounded-md bg-white">
@@ -390,17 +381,15 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
                       />
                       </div>
                       { showResumeSuccessMessage === false && showEnquirySuccessMessage === true
-                      ?
-                        <h3 className="text-lg leading-6 font-medium text-gray-900">
+                        ? <h3 className="text-lg leading-6 font-medium text-gray-900">
                       ENQUIRY IS SUBMITTED SUCCESSFULLY
                       </h3>
-                      :'' }
+                        : '' }
                       { showResumeSuccessMessage === true && showEnquirySuccessMessage === false
-                      ?
-                        <h3 className="text-lg leading-6 font-medium text-gray-900">
+                        ? <h3 className="text-lg leading-6 font-medium text-gray-900">
                       RESUME IS SUBMITTED SUCCESSFULLY
                       </h3>
-                      :'' }
+                        : '' }
 
                       <div className="mt-2 px-7 py-3">
                         <p className="text-sm text-gray-500">
@@ -418,10 +407,10 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
                     </div>
                   </div>
                   </Modal>
-                    )
-                  : (
-                      ''
-                    )}
+              )
+            : (
+                ''
+              )}
         </div>
         <Footer className="bg-gray_800 flex font-roboto items-center justify-center mt-[101px] md:px-5 w-full" />
       </div>

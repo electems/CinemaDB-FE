@@ -103,13 +103,13 @@ const MyProfilePage: React.FC = () => {
             className="capitalize font-semibold mt-4 text-left text-white_A700 tracking-[0.28px] w-auto"
             variant="body31"
           >
-            Jane Cooper
+
           </Text>
           <Text
             className="capitalize font-medium mb-[30px] text-left text-white_A700 tracking-[0.28px] w-auto"
             variant="body31"
           >
-            Actor
+
           </Text>
         </div>
       </div>

@@ -108,8 +108,6 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
     }
     await api.post('/filminsitutetraining/createfilminsitutetrainingevent', filmInstituteEventObject)
 
-
-
     const file = {
       fileName: fileRecord.filename,
       destination: fileRecord.destination,
@@ -120,7 +118,6 @@ const FilmTrainingInstituteEventsRegistrationFormPage: React.FC = () => {
     await api.post('/fileupload/createfile', file)
     navigate('/film/filminstitutetraining/traininginstitutes')
   };
-
 
   return (
     <>

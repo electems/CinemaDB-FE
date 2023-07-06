@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { storage } from '../../../storage/storage';
 import { Modal } from 'antd';
 import { Context } from '../../../contexts/contextLogin';
-import'./filminstitute.css'
+import './filminstitute.css'
 
 const initialFilmInstitute = {
   id: null,
@@ -130,7 +130,7 @@ const FilmInstituteRegistration: React.FC = () => {
       filmInstituteRecord.data != null &&
       filmInstituteRecord.statusText === 'Created'
     ) {
-       showModal();
+      showModal();
     }
   };
 
@@ -651,7 +651,6 @@ const FilmInstituteRegistration: React.FC = () => {
                   </div>
                 </div>
 
-
                 {isModalOpen === true
                   ? (
                     <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
@@ -698,7 +697,6 @@ const FilmInstituteRegistration: React.FC = () => {
                   : (
                       ''
                     )}
-
 
               </div>
             </div>
