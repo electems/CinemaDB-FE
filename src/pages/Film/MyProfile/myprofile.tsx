@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import Header from '../../../components/MainScreenHeader/mainscreenheader';
-
 import { Img, Button, Text, Input, List } from '../../../components/Elements/index';
-import Footer from '../../../components/Footer/footer';
-import { useNavigate } from 'react-router-dom';
 import { api } from '../../../services/api';
 import { Pointer } from 'tabler-icons-react';
 import { storage } from '../../../storage/storage';
@@ -60,11 +56,11 @@ const MyProfilePage: React.FC = () => {
   };
 
   const retrievProfileImage = async () => {
-    const profileImage = await api.get(`/fileupload/userprofile/${loggedInUser.id}`)
-    image.preview = profileImage.request.responseURL
+    const profileImage = await api.get(`/fileupload/getProfileByid/${loggedInUser.id}`)
+    const proImage = profileImage.data
+    const images = await api.get(`/fileupload/files/profile/${proImage[0].fileName}`)
+    image.preview = images.request.responseURL
   }
-
-  const navigate = useNavigate();
 
   return (
     <>

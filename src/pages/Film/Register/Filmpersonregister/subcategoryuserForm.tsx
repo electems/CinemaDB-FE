@@ -127,6 +127,10 @@ export const SubCategoryUserForm: React.FC = () => {
       renderTabsOfSelectedNodes = renderTabsOfSelectedNodes.filter(o => o.label !== currentSubCategory)
       currentSubCategory = renderTabsOfSelectedNodes[0].label
     }
+    if (selectedTab !== 'Movie') {
+      renderTabsOfSelectedNodes = displayTabs
+      currentSubCategory = renderTabsOfSelectedNodes[0].label
+    }
     setActive(selectedTab)
     currentSubCategoryType = selectedTab
     setFormUserProfessionData([])

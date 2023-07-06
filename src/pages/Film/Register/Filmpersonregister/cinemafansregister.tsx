@@ -23,7 +23,7 @@ interface InputData{
 }
 let currentSubCategoryType: any
 export const CinemaFansForm: React.FC = () => {
-  const [selectedMastersOfTheCurrentSubCategory, setSelectedMastersOfTheCurrentSubCategory] = React.useState([])
+  const [selectedMastersOfTheCurrentSubCategory, setSelectedMastersOfTheCurrentSubCategory] = React.useState('')
   const [cinemaFansForm, setCinemaFansForm] = React.useState<any[]>([])
   const [active, setActive] = React.useState(false)
   const [selectedIndex, setSelectedIndex] = React.useState()
@@ -37,22 +37,20 @@ export const CinemaFansForm: React.FC = () => {
 
   const retriveTabs = async () => {
     const types = await loadSubCategoryTypes('Cinema Fans')
-    currentSubCategoryType = types[0]
+    currentSubCategoryType = types
     await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.loggedUser.role)
   }
   // load vertical menu
   const loadSubCategoryTypes = async (currentSubCategory) => {
     const leftMenuData = await api.get(`form/readfile/formlayout/${currentSubCategory}/${environment.professionalData}`)
     const response = await leftMenuData.data
-    setSelectedMastersOfTheCurrentSubCategory(response)
-    return response
+    setSelectedMastersOfTheCurrentSubCategory('PersonnelInformation')
+    return 'PersonnelInformation'
   }
   // load left menu and form
   const loadFormGeneratorAndUserProfessionData = async (currentSubCategoryType, userRole) => {
-    const currentSubCategoryTypePath = currentSubCategoryType ? currentSubCategoryType.replaceAll(' ', '_') : ''
-
     // fetch form layout
-    const formGeneratorLayoutOfSelectedTabAndType = await api.get(`form/mastertemplatereadfile/mastertemplates/Cinema_Fans/${currentSubCategoryTypePath}/${environment.professionalData}`)
+    const formGeneratorLayoutOfSelectedTabAndType = await api.get(`form/mastertemplatereadfile/mastertemplates/${currentSubCategoryType}/${environment.professionalData}`)
     const response = await formGeneratorLayoutOfSelectedTabAndType.data
     setFormGeneratorLayoutOfRoleAndType(response)
 
@@ -65,9 +63,8 @@ export const CinemaFansForm: React.FC = () => {
   }
 
   // vertical bar onclick
-  const onClickOfSubCategoryType = async (selectedTab: string, i) => {
+  const onClickOfSubCategoryType = async (selectedTab: string) => {
     setActive(!active)
-    setSelectedIndex(i)
     currentSubCategoryType = selectedTab
     await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.loggedUser.role)
   }
@@ -93,16 +90,12 @@ export const CinemaFansForm: React.FC = () => {
       <div className="accordion">
         <div className="row">
           <div className="col-6 col-md-4 mt-5">
-            {selectedMastersOfTheCurrentSubCategory.map((item, i) => {
-              return (
                 <div className="flex items-center justify-start mt-[10px] mx-auto w-[89%]">
-                  <div onClick={() => onClickOfSubCategoryType(item, i)}
-                  className= {i === selectedIndex ? 'bg-white_A700 border-amber_A400 border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full' : ' bg-white_A700 border border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full'}>
-                       {item}
+                  <div onClick={() => onClickOfSubCategoryType(selectedMastersOfTheCurrentSubCategory)}
+                  className= { selectedMastersOfTheCurrentSubCategory === selectedIndex ? 'bg-white_A700 border-amber_A400 border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full' : ' bg-white_A700 border border-solid flex flex-row gap-[25px] items-start justify-start p-[19px] rounded-[5px] w-full'}>
+                       {selectedMastersOfTheCurrentSubCategory}
                   </div>
                 </div>
-              )
-            })}
           </div>
           <div className="col">
             <div className="row mt-5 tab-label">
