@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import Header from '../../../components/MainScreenHeader/mainscreenheader';
-import { Text, Button, List } from '../../../components/Elements/index';
+import { Text, Button } from '../../../components/Elements/index';
 import { api } from '../../../services/api';
 import { useNavigate } from 'react-router-dom';
 import { storage } from '../../../storage/storage';
