@@ -27,6 +27,7 @@ export const LoginRegisterForm: React.FC = () => {
   }
 
   useEffect(() => {
+    localStorage.clear()
   }, [])
 
   const handleInputChangeOtp = (event: React.ChangeEvent<HTMLInputElement>) => {

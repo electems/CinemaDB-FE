@@ -69,12 +69,12 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
   }
 
   const filmInstituteEnquiry = async () => {
-    if(loggedInUser.role != 'LOVER')
+    if(loggedInUser.role === 'LOVER')
     {
       const enquiryNotification = {
       email: filmPerson?.email,
       content: { id: loggedInUser.id, firstName: loggedInUser.firstName, lastName: loggedInUser.lastName },
-      tableId: loggedInUser.id,
+      tableId: filmInstitute.userFK,
       userType: loggedInUser.role,
       notificationType: 'FILM TRAININGINSTITUTE ENQUIRY'
     }
@@ -132,7 +132,7 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
     const resumeUploadedNotification = {
       email: loggedInUser.email,
       content: {firestName:loggedInUser.firstName ,lastName:loggedInUser.lastName,file:file},
-      tableId: loggedInUser.id,
+      tableId: filmInstitute.userFK,
       userType: loggedInUser.role,
       notificationType: 'RESUME UPLOAD FOR FILM INSTITUTE'
     }
@@ -146,7 +146,6 @@ const FilmTrainingInstituteDetailPage: React.FC = () => {
        showModal();
     }
   }
-
 
   const showModal = () => {
     setIsModalOpen(true);
