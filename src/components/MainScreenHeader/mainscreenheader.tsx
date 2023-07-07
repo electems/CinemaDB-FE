@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, { useEffect } from 'react';
 
 import { Img, Input, Text } from '../Elements/index';
@@ -37,10 +38,13 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
   }
 
   const navigateToProfilePage = async () => {
-    if(loggedUser.role === 'PERSON')
-    {
-      navigate('/film/register/subcategoryuserform', { state: { profile: displayProfile, user: loggedUser } })
-    }else {
+    if (loggedUser.role === 'PERSON') {
+      const res = await api.get(`/users/user/userdetails/${loggedUser.id}`)
+      const userList = await res.data
+      const selectedUser = userList[0]
+      selectedUser.userSubCategory = selectedUser.usersubcategory
+      navigate('/film/register/subcategoryuserform', { state: { profile: displayProfile, user: selectedUser } })
+    } else {
       navigate('/film/register/cinemafansform', { state: { profile: displayProfile, user: loggedUser } })
     }
   }
@@ -158,14 +162,13 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
                 onClick={navigateToNotificationPage}
               />
             </div>
-            <div className="flex flex-row gap-2 items-start justify-center">
-               <Img
+            <ul className="flex flex-row gap-2 items-start justify-center">
+              <Img
                 src="/images/img_ellipse29.png"
                 className="common-pointer h-[50px] h-[50px] md:h-auto mb-[22px] md:ml-[0] ml-[53px] md:mt-0 mt-[27px] rounded-[50%] w-[50px]"
                 alt="arrowdown_One"
-                onClick={navigateToProfilePage}
               />
-            </div>
+            </ul>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

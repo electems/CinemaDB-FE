@@ -106,7 +106,7 @@ const AuditionsCallSingleMovie: React.FC = () => {
         {singleAudition.map((auditioncall) => {
           return (
             <List key={auditioncall.id}
-            className="font-montserrat gap-5 grid items-center max-w-[1278px] mt-[30px] mx-auto md:px-5 max-w-[1187px] min-h-[auto] w-full"
+            className="font-montserrat gap-5 grid items-center mt-[30px] mx-auto md:px-5 max-w-[1187px] min-h-[auto] w-full"
             orientation="vertical"
           >
             <div className="bg-gray_400 flex flex-1 items-center justify-start p-[11px] w-full">
