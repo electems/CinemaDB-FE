@@ -235,7 +235,7 @@ const AuditionsCall: React.FC = () => {
       <div className="bg-gray_900 flex font-roboto items-center justify-start mx-auto w-full">
         <div className="flex flex-col items-center justify-start w-full">
           <Header className="bg-gray_800 flex flex-row items-center justify-center md:px-5 w-full" />
-          <div className="flex md:flex-col font-montserrat md:gap-10 items-center justify-between max-w-[1176px] mt-[19px] mx-auto md:px-5 w-full">
+          <div className="flex md:flex-col font-montserrat md:gap-10 items-start justify-between max-w-[1176px] mt-[19px] mx-auto md:px-5 w-full">
             <Text
               className="font-bold text-amber_A400 text-left w-auto"
               variant="body11"
@@ -249,7 +249,7 @@ const AuditionsCall: React.FC = () => {
               Create New Audition Call
             </Button>
           </div>
-          <div className="flex md:flex-col md:w-auto md:gap-10 items-center font-montserrat md:gap-5 items-start justify-end mt-[29px] md:w-full py-[13px] ml-[100px] ">
+          <div className="flex md:flex-col md:w-auto md:gap-10 items-start font-montserrat md:gap-5 items-start justify-end mt-[29px] md:w-full py-[13px]" style={{marginRight: '80px'}}>
             <div
               className="form-field">
                 <input className = "rounded text-base no-outline bg-bluegray_100 bg-cover bg-no-repeat flex h-7 items-end justify-end md:mt-0 mt-[5px]" type='text' onKeyUp={onKeyUp}/>
