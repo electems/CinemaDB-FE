@@ -617,15 +617,15 @@ const FilmInstituteRegistration: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-1 space-x-4 items-center justify-start w-full">
+                <div className="flex flex-1 sm:flex-col space-x-0 items-center justify-start w-full">
                   <div className="flex flex-col justify-start w-full">
                     <div className="mb-6">
                       <Button
-                        className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[215px] md:ml-[0] ml-[907px] mt-[18px] md:px-10 sm:px-5 px-[72px] py-1.5 text-base text-center text-white_A700 w-auto"
-                        style={{ marginLeft: 'auto' }}
+                        className="flex justify-center items-center border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none hover:opacity-80 py-2 px-6 text-md flex justify-center items-center border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none hover:opacity-80 py-2 px-6 text-md bg-red_A700 cursor-pointer font-semibold h-[40px] leading-[normal] min-w-[211px] md:ml-[0] ml-[415px] md:mt-0 mt-[25px] py-[5px] text-base text-center text-white_A700"
+                        style={{ marginLeft: '10px' }}
                         onClick={clearForm}
                       >
-                        Clear
+                        Clear The Form
                       </Button>
                     </div>
                   </div>
@@ -633,8 +633,8 @@ const FilmInstituteRegistration: React.FC = () => {
                   <div className="flex flex-col gap-1.5 justify-start w-full">
                     <div className="mb-6">
                       <Button
-                        className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[215px] md:ml-[0] ml-[907px] mt-[18px] md:px-10 sm:px-5 px-[72px] py-1.5 text-base text-center text-white_A700 w-auto"
-                        style={{ marginLeft: 'auto' }}
+                        className="flex justify-center items-center border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none hover:opacity-80 py-2 px-6 text-md flex justify-center items-center border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none hover:opacity-80 py-2 px-6 text-md bg-red_A700 cursor-pointer font-semibold h-[40px] leading-[normal] min-w-[211px] md:ml-[0] ml-[415px] md:mt-0 mt-[25px] py-[5px] text-base text-center text-white_A700"
+                        style={{ marginLeft: '10px' }}
                         onClick={saveFilmInstituteForm}
                       >
                         Submit
@@ -645,7 +645,8 @@ const FilmInstituteRegistration: React.FC = () => {
 
                 <div className="flex flex-1 items-center justify-start w-full">
                   <div className="flex flex-col gap-1.5 justify-start w-full">
-                    <Button className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[219px] md:ml-[0] ml-[95px] mt-[45px] md:px-10 px-11 sm:px-5 py-1.5 text-base text-center text-white_A700 w-auto">
+                    <Button className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[219px] md:ml-[0] ml-[95px] mt-[20px] md:px-10 px-11 sm:px-5 py-1.5 text-base text-center text-white_A700 w-auto"
+                    style={{ marginRight: '80px' }}>
                       Add new course
                     </Button>
                   </div>
