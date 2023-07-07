@@ -249,7 +249,7 @@ const AuditionsCall: React.FC = () => {
               Create New Audition Call
             </Button>
           </div>
-          <div className="flex md:flex-col md:w-auto md:gap-10 items-start font-montserrat md:gap-5 items-start justify-end mt-[29px] md:w-full py-[13px]" style={{marginRight: '80px'}}>
+          <div className="flex md:flex-col md:w-auto md:gap-10 items-start font-montserrat md:gap-5 items-start justify-end mt-[29px] md:w-full py-[13px]" style={{ marginRight: '80px' }}>
             <div
               className="form-field">
                 <input className = "rounded text-base no-outline bg-bluegray_100 bg-cover bg-no-repeat flex h-7 items-end justify-end md:mt-0 mt-[5px]" type='text' onKeyUp={onKeyUp}/>

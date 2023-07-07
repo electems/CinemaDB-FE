@@ -38,14 +38,12 @@ export const CinemaFansForm: React.FC = () => {
     retriveTabs()
   }, [])
 
-
   const retriveTabs = async () => {
     const types = await loadSubCategoryTypes('Cinema Fans')
     currentSubCategoryType = types
-    if(inputData.loggedUser != undefined)
-    {
+    if (inputData.loggedUser !== undefined) {
       await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.loggedUser.role)
-    }else {
+    } else {
       await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.user.role)
     }
   }
@@ -64,10 +62,9 @@ export const CinemaFansForm: React.FC = () => {
     setFormGeneratorLayoutOfRoleAndType(response)
     let formProfessionData: any
     // fetch user form data.
-    if(inputData.loggedUser != undefined)
-    {
+    if (inputData.loggedUser !== undefined) {
       formProfessionData = await api.get(`userprofession/formdata/${inputData.loggedUser.id}/${userRole}/${currentSubCategoryType}`)
-    }else {
+    } else {
       formProfessionData = await api.get(`userprofession/formdata/${inputData.user.id}/${userRole}/${currentSubCategoryType}`)
     }
     const loadDataFromBackend = await formProfessionData.data
@@ -80,28 +77,25 @@ export const CinemaFansForm: React.FC = () => {
   const onClickOfSubCategoryType = async (selectedTab: string) => {
     setActive(!active)
     currentSubCategoryType = selectedTab
-    if(inputData.loggedUser != undefined)
-    {
+    if (inputData.loggedUser !== undefined) {
       await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.loggedUser.role)
-    }else {
+    } else {
       await loadFormGeneratorAndUserProfessionData(currentSubCategoryType, inputData.user.role)
     }
-
   }
 
   // on save should call post api
   const onClickOfSave = async (data, pk?) => {
     let subCategoryUserForm: ISubCategoryUserForm;
 
-
-    if(inputData.loggedUser != undefined){
+    if (inputData.loggedUser !== undefined) {
       subCategoryUserForm = {
         userId: inputData.loggedUser.id,
         subCategory: inputData.loggedUser.role,
         subCategoryType: currentSubCategoryType,
         value: data
       }
-    } else{
+    } else {
       subCategoryUserForm = {
         userId: inputData.user.id,
         subCategory: inputData.user.role,
