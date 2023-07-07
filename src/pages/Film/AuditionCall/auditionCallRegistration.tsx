@@ -357,7 +357,7 @@ const AuditionsCallRegistration: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className='flex gap-3 justify-start mx-8'>
+              <div className='flex sm:flex-col gap-3 justify-start mx-8'>
               <Button onClick={saveAuditionCallDetails} className="bg-red_A700 cursor-pointer font-montserrat font-semibold leading-[normal] min-w-[219px] md:ml-[0] mt-[45px] md:px-10 px-11 sm:px-5 py-1.5 text-base text-center text-white_A700 w-auto">
                 Submit the Audition Category
               </Button>
