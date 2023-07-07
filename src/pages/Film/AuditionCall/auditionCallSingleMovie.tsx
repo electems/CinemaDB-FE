@@ -100,7 +100,7 @@ const AuditionsCallSingleMovie: React.FC = () => {
         </div>
         <Img
           src={images}
-          className="h-[586px] md:h-auto max-w-[1307px] mt-[29px] mx-auto object-cover max-w-[1187px] min-h-[auto] w-full"
+          className="h-[586px] md:h-auto mt-[29px] mx-auto object-cover max-w-[1187px] min-h-[auto] w-full"
           alt="rectangle772"
         />
         {singleAudition.map((auditioncall) => {
