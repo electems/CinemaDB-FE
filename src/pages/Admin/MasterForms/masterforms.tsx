@@ -7,7 +7,6 @@ import AdminHeader from '../../../components/AdminHeader'
 import { api } from '../../../services/api'
 import { environment } from '../../../config/environment'
 import { Edit } from 'tabler-icons-react'
-import { Tooltip } from 'antd'
 const MasterForms: React.FC = () => {
   const [directoryList, setDirectoryList] = React.useState([])
   const navigate = useNavigate()
@@ -16,9 +15,10 @@ const MasterForms: React.FC = () => {
   }, [])
 
   const retriveDirectories = async (path: string) => {
-    const res = await api.get(`form/${path}`)
-    console.log(res)
-    setDirectoryList(res.data)
+    const getDirectories = await api.get(`form/${path}`)
+    const response = await getDirectories.data
+    const getOnlyMovie = response.filter((obj) => obj === 'Movie');
+    setDirectoryList(getOnlyMovie)
   }
   const editMasterFormListing = (label: string) => {
     // using local storage because form builder is js file

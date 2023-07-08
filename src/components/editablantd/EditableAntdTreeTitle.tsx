@@ -131,8 +131,8 @@ export const EditableTreeTitle = ({
   const handleDeleteClick = () => {
     deleteTreeNode(treeData, node.key)
     setTreeData([...treeData])
+    node.title = node.title?.replaceAll(' ', '_')
     api.delete(`form/deletedirectory/formlayout/${node.title}`)
-    window.location.reload()
 
     if (deleteNode?.event) {
       deleteNode.event(node)
@@ -165,14 +165,6 @@ export const EditableTreeTitle = ({
     handleEditToggle(true)
     setTreeData([...treeData])
     const formData = [
-      'Personnel Information',
-      'Biography',
-      'Social Media Links',
-      'KYC',
-      'Professional Details',
-      'Movie',
-      'Cast',
-      'Crew'
     ]
     const title = node.title.replaceAll(' ', '_')
     api.post(`/form/writefile/formlayout/${title}/professionaldata`, formData)

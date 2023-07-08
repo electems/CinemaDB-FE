@@ -27,12 +27,10 @@ const ConnectProfessionAndMaster: React.FC = () => {
 
   const retriveDirectories = async (path: string) => {
     const res = await api.get(`form/${path}`)
-    const responseData = JSON.stringify(await res.data)
-    const replaceUnderscoreToSpace = responseData.replaceAll('_', " ")
-    const parseToJson = JSON.parse(replaceUnderscoreToSpace)
-    setMasterTemplateDirectoryList(parseToJson)
+    const responseData = await res.data
+    const getOnlyMovie = responseData.filter((obj) => obj === 'Movie');
+    setMasterTemplateDirectoryList(getOnlyMovie)
   }
-
   const retriveFormlayout = async () => {
     const labelPath = inputData.label.replaceAll(' ', '_')
     const res = await api.get(`form/readfile/${environment.formLayoutPath}/${labelPath}/${environment.professionalData}`)
