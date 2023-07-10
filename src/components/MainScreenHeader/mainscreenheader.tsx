@@ -167,6 +167,7 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
                 src="/images/img_ellipse29.png"
                 className="common-pointer h-[50px] h-[50px] md:h-auto mb-[22px] md:ml-[0] ml-[53px] md:mt-0 mt-[27px] rounded-[50%] w-[50px]"
                 alt="arrowdown_One"
+                onClick={navigateToProfilePage}
               />
             </ul>
           </Nav>

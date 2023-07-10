@@ -3,18 +3,17 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import { environment } from '../config/environment'
 
-const token = localStorage.getItem('@cinimaDb:Token');
 export const api = axios.create({
   baseURL: environment.baseUrl,
   timeout: 5000,
   headers: {
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${localStorage.getItem('@cinimaDb:Token')}`,
     'Content-type': 'application/json'
   }
 })
 
 api.interceptors.request.use((config) => {
-  config.headers!.Authorization = `Bearer ${token}`;
+  config.headers!.Authorization = `Bearer ${localStorage.getItem('@cinimaDb:Token')}`;
   toast('Loading...', {
     toastId: 'APP_LOADING',
     isLoading: true,
