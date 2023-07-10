@@ -39,11 +39,14 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
 
   const navigateToProfilePage = async () => {
     if (loggedUser.role === 'PERSON') {
+      let getUserProfileById: any = {}
       const res = await api.get(`/users/user/userdetails/${loggedUser.id}`)
       const userList = await res.data
-      const selectedUser = userList[0]
-      selectedUser.userSubCategory = selectedUser.usersubcategory
-      navigate('/film/register/subcategoryuserform', { state: { profile: displayProfile, user: selectedUser } })
+      userList.map((item) => {
+        getUserProfileById = item
+        getUserProfileById.userSubCategory = item.usersubcategory
+      })
+      navigate('/film/register/subcategoryuserform', { state: { profile: displayProfile, user: getUserProfileById } })
     } else {
       navigate('/film/register/cinemafansform', { state: { profile: displayProfile, user: loggedUser } })
     }
