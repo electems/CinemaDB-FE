@@ -6,7 +6,6 @@ import { CloseSVG } from '../Header/index';
 import { useNavigate } from 'react-router-dom';
 import { storage } from '../../storage/storage';
 import { api } from '../../services/api';
-import { UserProfile } from '../../types/user.types'
 import './style.css'
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 
@@ -39,14 +38,14 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
   }
 
   const navigateToProfilePage = async () => {
+    const res = await api.get(`/users/${loggedUser.id}`)
+    const userList = await res.data
+    const selectedUser = userList[0]
+    selectedUser.userSubCategory = selectedUser.usersubcategory
     if (loggedUser.role === 'PERSON') {
-      const res = await api.get(`/users/${loggedUser.id}`)
-      const userList = await res.data
-      const selectedUser = userList[0]
-      selectedUser.userSubCategory = selectedUser.usersubcategory
       navigate('/film/register/subcategoryuserform', { state: { profile: displayProfile, user: selectedUser } })
     } else {
-      navigate('/film/register/cinemafansform', { state: { profile: displayProfile, user: loggedUser } })
+      navigate('/film/register/cinemafansform', { state: { profile: displayProfile, user: selectedUser } })
     }
   }
   const movieType = [

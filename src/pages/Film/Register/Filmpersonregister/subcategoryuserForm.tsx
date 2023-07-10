@@ -226,13 +226,13 @@ export const SubCategoryUserForm: React.FC = () => {
           </div>
           <div className="col">
             <div className="row mt-5 tab-label">
-            {currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC'
+            {currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC' || currentSubCategoryType === 'Portfolio'
               ? ' '
               : <div>
                   <Tabs defaultActiveKey="1" items={renderTabsOfSelectedNodes} onChange={onClickOfSubCategoryTab} />
                 </div>}
             </div>
-            <div>{currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC' || currentSubCategoryType === 'Movie'
+            <div>{currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC' || currentSubCategoryType === 'Movie' || currentSubCategoryType === 'Portfolio'
               ? ' '
               : <div>
                    <label>Select Movie</label>
