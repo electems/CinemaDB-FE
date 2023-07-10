@@ -6,6 +6,7 @@ import { CloseSVG } from '../Header/index';
 import { useNavigate } from 'react-router-dom';
 import { storage } from '../../storage/storage';
 import { api } from '../../services/api';
+import { UserProfile } from '../../types/user.types'
 import './style.css'
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 
@@ -40,9 +41,10 @@ const MainScreenHeader: React.FC<HeaderProps> = (props) => {
   const navigateToProfilePage = async () => {
     if (loggedUser.role === 'PERSON') {
       let getUserProfileById: any = {}
+      let userData: UserProfile[] = []
       const res = await api.get(`/users/user/userdetails/${loggedUser.id}`)
-      const userList = await res.data
-      userList.map((item) => {
+      userData = await res.data
+      userData.map((item) => {
         getUserProfileById = item
         getUserProfileById.userSubCategory = item.usersubcategory
       })
