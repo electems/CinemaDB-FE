@@ -2,6 +2,7 @@
 import React from 'react'
 import { Img, Text } from '../Elements/index'
 import './footer.css'
+import { useNavigate } from 'react-router-dom';
 type Footerhome = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
@@ -9,6 +10,7 @@ type Footerhome = React.DetailedHTMLProps<
   Partial<{}>;
 
 const Footer: React.FC<Footerhome> = (props) => {
+  const navigate = useNavigate();
   return (
     <>
       <head>
@@ -30,56 +32,63 @@ const Footer: React.FC<Footerhome> = (props) => {
             <div className="flex flex-col gap-[23px] justify-start md:ml-[0] ml-[316px] mr-[290px] mt-[31px] w-[77%] md:w-full sm:ml-[289px]">
               <div className="flex flex-wrap sm:flex-col md:flex-row-3 md:justify-center md:gap-6 sm:gap-10 items-center justify-between w-full">
                 <Text
-                  className="font-roboto not-italic text-left text-white_A700 w-auto"
+                  className="cursor-pointer font-roboto not-italic text-left text-white_A700 w-auto"
                   variant="body30"
                 >
                   Home
                 </Text>
                 <Text
-                  className="font-roboto not-italic text-left text-white_A700 w-auto"
+                  className="cursor-pointer font-roboto not-italic text-left text-white_A700 w-auto"
                   variant="body30"
                 >
                   Career{' '}
                 </Text>
                 <Text
-                  className="font-roboto not-italic text-left text-white_A700 w-auto"
+                  className="cursor-pointer font-roboto not-italic text-left text-white_A700 w-auto"
                   variant="body30"
+                  onClick={() => navigate('/film/public/PrivacyAndPolicyPage')}
                 >
                   Privacy policy
                 </Text>
                 <Text
-                  className="font-roboto not-italic text-left text-white_A700 w-auto"
+                  className="cursor-pointer font-roboto not-italic text-left text-white_A700 w-auto"
                   variant="body30"
+                  onClick={() => navigate('/film/public/termsconditionspage')}
                 >
                   Teams & Conditions{' '}
                 </Text>
                 <Text
-                  className="font-roboto not-italic text-left text-white_A700 w-auto"
+                  className="cursor-pointer font-roboto not-italic text-left text-white_A700 w-auto"
                   variant="body30"
+                  onClick={() => navigate('/film/public/aboutus')}
                 >
                   About Us{' '}
                 </Text>
                 <Text
-                  className="font-roboto not-italic text-left text-white_A700 w-auto"
+                  className="cursor-pointer font-roboto not-italic text-left text-white_A700 w-auto"
                   variant="body30"
+                  onClick={() => navigate('/film/public/QandAPage')}
                 >
                   Q&A
                 </Text>
                 <Text
-                  className="font-roboto not-italic text-left text-white_A700 w-auto"
+                  className="cursor-pointer font-roboto not-italic text-left text-white_A700 w-auto"
                   variant="body30"
+                  onClick={() => navigate('/film/public/disclaimerpage')}
                 >
                   Disclaimer{' '}
                 </Text>
                 <Text
-                  className="font-roboto not-italic text-left text-white_A700 w-auto"
+                  className="cursor-pointer font-roboto not-italic text-left text-white_A700 w-auto"
                   variant="body30"
+                  onClick={() => navigate('/film/public/copyrightpage')}
                 >
                   Copyright
                 </Text>
                 <Text
-                  className="font-roboto not-italic text-left text-white_A700 w-auto"
+                  className="cursor-pointer font-roboto not-italic text-left text-white_A700 w-auto"
                   variant="body30"
+                  onClick={() => navigate('/film/public/promotiontermsconditionspage')}
                 >
                   Social media Promotion - Teams & Conditions{' '}
                 </Text>
