@@ -244,12 +244,12 @@ export const SubCategoryUserForm: React.FC = () => {
           </div>
           <div>
               {currentSubCategoryType === 'Crew'
-                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add New Crew</button>
+                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add Crew</button>
                 : ''}
           </div>
           <div>
               {currentSubCategoryType === 'Cast'
-                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add New Cast</button>
+                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add Cast</button>
                 : ''}
           </div>
           <div>
