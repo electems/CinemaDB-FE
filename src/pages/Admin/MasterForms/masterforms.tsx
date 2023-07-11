@@ -17,7 +17,7 @@ const MasterForms: React.FC = () => {
   const retriveDirectories = async (path: string) => {
     const getDirectories = await api.get(`form/${path}`)
     const response = await getDirectories.data
-    const getOnlyMovie = response.filter((obj) => obj === 'Movie');
+    const getOnlyMovie = response.filter((obj) => obj === 'Movie' || obj === 'Portfolio');
     setDirectoryList(getOnlyMovie)
   }
   const editMasterFormListing = (label: string) => {

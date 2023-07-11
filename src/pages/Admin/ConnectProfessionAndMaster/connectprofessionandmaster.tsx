@@ -28,7 +28,7 @@ const ConnectProfessionAndMaster: React.FC = () => {
   const retriveDirectories = async (path: string) => {
     const res = await api.get(`form/${path}`)
     const responseData = await res.data
-    const getOnlyMovie = responseData.filter((obj) => obj === 'Movie');
+    const getOnlyMovie = responseData.filter((obj) => obj === 'Movie' || obj === 'Cast' || obj === 'Crew');
     setMasterTemplateDirectoryList(getOnlyMovie)
   }
   const retriveFormlayout = async () => {

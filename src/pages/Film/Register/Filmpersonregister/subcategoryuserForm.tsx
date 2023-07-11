@@ -135,7 +135,15 @@ export const SubCategoryUserForm: React.FC = () => {
       renderTabsOfSelectedNodes = renderTabsOfSelectedNodes.filter(o => o.label !== currentSubCategory)
       currentSubCategory = renderTabsOfSelectedNodes[0].label
     }
-    if (selectedTab !== 'Movie') {
+    if (selectedTab === 'Cast' && currentSubCategory === 'General') {
+      renderTabsOfSelectedNodes = renderTabsOfSelectedNodes.filter(o => o.label !== currentSubCategory)
+      currentSubCategory = renderTabsOfSelectedNodes[0].label
+    }
+    if (selectedTab === 'Crew' && currentSubCategory === 'General') {
+      renderTabsOfSelectedNodes = renderTabsOfSelectedNodes.filter(o => o.label !== currentSubCategory)
+      currentSubCategory = renderTabsOfSelectedNodes[0].label
+    }
+    if (selectedTab !== 'Movie' && selectedTab !== 'Cast' && selectedTab !== 'Crew') {
       renderTabsOfSelectedNodes = displayTabs
       currentSubCategory = renderTabsOfSelectedNodes[0].label
     }
@@ -184,6 +192,7 @@ export const SubCategoryUserForm: React.FC = () => {
       tableName: currentSubCategoryType,
       tableId: getIdOfCreatedSubCategoryForm.id
     })
+    localStorage.removeItem('fileupload');
   }
 
   const onClickOfAddNewMovie = async () => {
@@ -201,7 +210,7 @@ export const SubCategoryUserForm: React.FC = () => {
   return (
     <>
       <div className="">
-        {inputData.profile === true ? <MyProfilePage/> : ''}
+        {inputData.profile === true ? <MyProfilePage /> : ''}
         <div className="row">
           <div className="col-6 col-md-4 mt-5">
             {selectedMastersOfTheCurrentSubCategory.map((item, i) => {
@@ -217,35 +226,49 @@ export const SubCategoryUserForm: React.FC = () => {
           </div>
           <div className="col">
             <div className="row mt-5 tab-label">
-            {currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC' || currentSubCategoryType === 'Portfolio'
-              ? ' '
-              : <div>
-                  <Tabs defaultActiveKey="1" items={renderTabsOfSelectedNodes} onChange={onClickOfSubCategoryTab} />
-                </div>}
+              {currentSubCategoryType === 'Movie' || currentSubCategoryType === 'Cast' || currentSubCategoryType === 'Crew'
+                ? <div>
+                <Tabs defaultActiveKey="1" items={renderTabsOfSelectedNodes} onChange={onClickOfSubCategoryTab} />
+              </div>
+                : ' '
+              }
             </div>
-            <div>{currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC' || currentSubCategoryType === 'Movie' || currentSubCategoryType === 'Portfolio'
-              ? ' '
-              : <div>
-                   <label>Select Movie</label>
-                  <select className="form-control" placeholder="Please select your role" name='countryOfOrigin' onChange={handleChange} value={JSON.stringify(retriveDropdownValue)}>
-                    {formValue.map(item => (
-                      <option key={item.value} value={JSON.stringify(item)}>
-                        {item.value}
-                      </option>
-                    ))}
-                  </select>
-                </div>}</div>
             <div>
               {currentSubCategoryType === 'Movie'
                 ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add New Movie</button>
                 : ''}
             </div>
-              <div>
-               {formUserProfessionData.length && formGeneratorLayoutOfSelectedTabAndType.length > 0
-                 ? formUserProfessionData.map((record: any) => {
-                   return (
+            <div>
+              {currentSubCategoryType === 'Crew'
+                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add New Crew</button>
+                : ''}
+            </div>
+            <div>
+              {currentSubCategoryType === 'Cast'
+                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add New Cast</button>
+                : ''}
+            </div>
+            <div>
+              {formUserProfessionData.length && formGeneratorLayoutOfSelectedTabAndType.length > 0
+                ? formUserProfessionData.map((record: any) => {
+                  return (
                     <>
                       <div className='mt-8'>
+                      <div>
+              {currentSubCategoryType === 'Cast' || currentSubCategoryType === 'Crew'
+                ? 	<div>
+                <label>Select Movie</label>
+                <select className="form-control" placeholder="Please select Movie" name='countryOfOrigin' onChange={handleChange} value={JSON.stringify(retriveDropdownValue)}>
+                  {formValue.map(item => (
+                    <option key={item.value} value={JSON.stringify(item)}>
+                      {item.value}
+                    </option>
+                  ))}
+                </select>
+              </div>
+                : ''
+              }
+            </div>
                         <ReactFormGenerator
                           back_action=""
                           form_action=""
@@ -272,9 +295,9 @@ export const SubCategoryUserForm: React.FC = () => {
                           } />
                       </div>
                     </>
-                   )
-                 })
-                 : <div className='mt-6'>
+                  )
+                })
+                : <div className='mt-6'>
                   {formGeneratorLayoutOfSelectedTabAndType.length > 0 &&
                     <ReactFormGenerator
                       back_action=""
