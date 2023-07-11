@@ -56,14 +56,14 @@
     margin: auto;
 }
 
-.mainheader .dropdown-item:hover {
+/* .mainheader .dropdown-item:hover {
     background-color: red;
     color: white;
-}
+} */
 
-select:not([size]) {
+/* select:not([size]) {
     border: black;
-}
+} */
 
 .select:focus {
     --tw-ring-color: black;
