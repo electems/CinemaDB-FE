@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import Header from '../../../components/MainScreenHeader/mainscreenheader';
-import { Text, Button } from '../../../components/Elements/index';
+import { Text, Button, Img } from '../../../components/Elements/index';
 import Footer from '../../../components/Footer/footer';
 import { IAuditionCall } from '../../../types/auditioncall.type';
 import { api } from '../../../services/api';
@@ -121,6 +121,11 @@ const AuditionsCallRegistration: React.FC = () => {
         <div className="flex items-end mt-[46px] md:px-10 sm:px-5 px-[117px] w-full">
           <div className="bg-gray_800 flex items-center justify-start p-[26px] md:px-5 w-[95%] md:w-full">
             <div className="flex flex-col items-start justify-start mb-[45px] w-[99%] md:w-full">
+            <Text
+              className="md:text-2xl sm:text-[22px] text-[26px] font-semibold text-amber_A400"
+            >
+              Create a new Audition category
+            </Text>
               <div className="flex md:flex-1 items-center justify-start mb-0.5 md:w-full md:gap-5 gap-[20px] grid md:grid-cols-1 grid-cols-2 justify-center min-h-[auto] w-full mt-3">
                 <div className=" mt-6 flex flex-col gap-1.5 justify-start w-full">
                   <Text

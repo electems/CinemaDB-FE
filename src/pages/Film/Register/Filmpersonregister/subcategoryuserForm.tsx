@@ -35,10 +35,6 @@ interface Tab {
   label: string
 }
 
-const initialMovieState = {
-  value: '', text: '', id: 0
-}
-
 let displayTabs: Tab[] = []
 let renderTabsOfSelectedNodes: any = []
 let currentSubCategoryType: any
@@ -52,8 +48,7 @@ export const SubCategoryUserForm: React.FC = () => {
   const [active, setActive] = React.useState('')
   const [formGeneratorLayoutOfSelectedTabAndType, setFormGeneratorLayoutOfSelectedTabAndType] = React.useState<any[]>([])
   const [formValue, setFormValue] = React.useState<any[]>([])
-  const [dropdownId, setDropdownId] = React.useState(0)
-  const [retriveDropdownValue, setRetriveDropdownValue] = React.useState(initialMovieState)
+  const [dropdownId, setDropdownId] = React.useState<any>()
   useEffect(() => {
     userId = inputData.user.id
     retriveTabs()
@@ -119,15 +114,11 @@ export const SubCategoryUserForm: React.FC = () => {
     // fetch user form data.
     const formProfessionData = await api.get(`userprofession/formdata/${userId}/${currentSubCategory}/${currentSubCategoryType}`)
     const loadDataFromBackend = await formProfessionData.data
-    let movieFk: number
-    loadDataFromBackend.map((item) => {
-      if (item.movie_fk !== 0) {
-        movieFk = item.movie_fk
-      }
-    })
     const dropDownValues = await retriveMovies()
-    const movieForCastAndCrew = dropDownValues.find(bird => bird.id === movieFk)
-    setRetriveDropdownValue(movieForCastAndCrew)
+    loadDataFromBackend.map((item) => {
+      const movieForCastAndCrew = dropDownValues.find(moviesFk => moviesFk.id === item.movie_fk)
+      Object.assign(item, { movie: movieForCastAndCrew });
+    })
     setFormUserProfessionData(loadDataFromBackend)
   }
   // vertical bar onclick
@@ -199,9 +190,9 @@ export const SubCategoryUserForm: React.FC = () => {
   }
 
   const onClickOfAddNewMovie = async () => {
+    setDropdownId(null)
     await onClickOfSave([])
     await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
-    await onClickOfSubCategoryType(currentSubCategoryType)
   }
   // Retrive Movies
   const retriveMovies = async () => {
@@ -260,13 +251,13 @@ export const SubCategoryUserForm: React.FC = () => {
                       <div className='mt-8'>
                         <>
                         <Accordion defaultActiveKey="0">
-                        <Accordion.Header>{currentSubCategoryType}</Accordion.Header>
+                         <Accordion.Header>{currentSubCategoryType}</Accordion.Header>
                         <Accordion.Body>
                             <div>
                               {currentSubCategoryType === 'Cast' || currentSubCategoryType === 'Crew'
                                 ? <div>
                                   <label className="form-label"><span>Select Movie</span></label>
-                                  <select className="form-control" placeholder="Please select Movie" name='countryOfOrigin' onChange={handleChange} value={JSON.stringify(retriveDropdownValue)}>
+                                  <select id="movie_dropdown" className="form-control" placeholder="Please select Movie" name='countryOfOrigin' onChange={handleChange} value={JSON.stringify(record.movie)}>
                                     {formValue.map(item => (
                                       <option key={item.value} value={JSON.stringify(item)}>
                                         {item.value}
@@ -315,7 +306,7 @@ export const SubCategoryUserForm: React.FC = () => {
                         {currentSubCategoryType === 'Cast' || currentSubCategoryType === 'Crew'
                           ? <div>
                             <label className="form-label"><span>Select Movie</span></label>
-                            <select className="form-control" placeholder="Please select Movie" name='countryOfOrigin' onChange={handleChange} value={JSON.stringify(retriveDropdownValue)}>
+                            <select className="form-control" placeholder="Please select Movie" name='countryOfOrigin' onChange={handleChange}>
                               {formValue.map(item => (
                                 <option key={item.value} value={JSON.stringify(item)}>
                                   {item.value}
