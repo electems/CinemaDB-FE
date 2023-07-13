@@ -7,13 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import Dropdown from 'react-dropdown';
 import ReactPlayer from 'react-player'
 import { api } from '../../../../services/api';
+import AliceCarousel from 'react-alice-carousel'
 
 const MainScreenBeforeLogin: React.FC = () => {
   const [images, setImages] = React.useState([]);
   const [expand, setExpand] = React.useState(false);
-  const [activeToda, setActiveLastWeekAuditions] = React.useState(false)
-  const [activeThisWeekAuditions, setActiveThisWeekAuditions] = React.useState(false)
-  const [activeThisMonthAuditions, setActiveThisMonthAuditions] = React.useState(false)
+  const [activeToday, setActiveToday] = React.useState(false)
+  const [activeThisWeek, setActiveThisWeek] = React.useState(false)
+  const [activeLast30Days, setActiveLast30Days] = React.useState(false)
   const navigate = useNavigate();
   const Today = 'Today'
   const thisWeek = 'Last_30_Days'
@@ -35,8 +36,57 @@ const MainScreenBeforeLogin: React.FC = () => {
     return files
   }
 
+  const onClickToday = async () => {
+    setActiveToday(true)
+    setActiveThisWeek(false)
+    setActiveLast30Days(false)
+  }
+
+  const onClickThisWeek = async () => {
+    setActiveToday(false)
+    setActiveThisWeek(true)
+    setActiveLast30Days(false)
+    await retriveBasedOnThisWeek()
+  }
+
+  const onClickLast30Days = async () => {
+    setActiveToday(false)
+    setActiveThisWeek(false)
+    setActiveLast30Days(true)
+    await retriveBasedOnLast30Days()
+  }
+
   const retriveBasedOnToday = async () => {
+    setActiveToday(true)
     const allFiles = await api.get(`/userprofession/getmoviesbyweekmonthand30days/${Today}`)
+    const files = allFiles.data
+    const movieResponse = await retriveAllImages()
+    const imagesOfMovies: any = [];
+    files.forEach(arr1Obj => {
+      const matchedObject = movieResponse.find(arr2Obj => arr2Obj.tableId === arr1Obj.id);
+      if (matchedObject) {
+        imagesOfMovies.push(matchedObject);
+      }
+    })
+    await retriveImageUrls(imagesOfMovies)
+  }
+
+  const retriveBasedOnThisWeek = async () => {
+    const allFiles = await api.get(`/userprofession/getmoviesbyweekmonthand30days/${thisWeek}`)
+    const files = allFiles.data
+    const movieResponse = await retriveAllImages()
+    const imagesOfMovies: any = [];
+    files.forEach(arr1Obj => {
+      const matchedObject = movieResponse.find(arr2Obj => arr2Obj.tableId === arr1Obj.id);
+      if (matchedObject) {
+        imagesOfMovies.push(matchedObject);
+      }
+    })
+    await retriveImageUrls(imagesOfMovies)
+  }
+
+  const retriveBasedOnLast30Days = async () => {
+    const allFiles = await api.get(`/userprofession/getmoviesbyweekmonthand30days/${last30Days}`)
     const files = allFiles.data
     const movieResponse = await retriveAllImages()
     const imagesOfMovies: any = [];
@@ -66,6 +116,20 @@ const MainScreenBeforeLogin: React.FC = () => {
   const onExpandOfImage = async () => {
     setExpand(true)
   }
+  const handleDragStart = (e) => e.preventDefault();
+
+  const items = images.map((carosual: any) => {
+    return (
+      <>
+      <Img
+      src={carosual.urls}
+      onDragStart={handleDragStart}
+      className="h-[736px] m-auto object-cover w-full"
+      alt="rectangle514"
+    />
+    </>
+    )
+  })
   return (
     <>
       <div className="bg-gray_900 flex flex-col font-roboto items-center justify-start mx-auto pt-0.5 w-full">
@@ -88,62 +152,14 @@ const MainScreenBeforeLogin: React.FC = () => {
             </div>
           </div>
           <div className="h-[736px] md:h-[746px] sm:h-[782px] mt-2.5 relative w-[99%] md:w-full">
-            <Img
-              src="/images/img_rectangle514.png"
-              className="h-[736px] m-auto object-cover w-full"
-              alt="rectangle514"
-            />
+               <AliceCarousel
+             mouseTracking
+             disableButtonsControls
+             items={items}
+             disableDotsControls
+             autoPlay
+              />
             <div className="absolute bottom-[2%] gap-2 grid sm:grid-cols-1 grid-cols-10 md:grid-cols-5 inset-x-[0] items-center justify-start mx-auto w-[98%]">
-              <Img
-                src="/images/img_rectangle780.png"
-                className="h-[70px] md:h-auto object-cover w-full"
-                alt="rectangle780"
-              />
-              <Img
-                src="/images/img_rectangle781.png"
-                className="h-[70px] md:h-auto object-cover w-full"
-                alt="rectangle781"
-              />
-              <Img
-                src="/images/img_rectangle782.png"
-                className="h-[70px] md:h-auto object-cover w-full"
-                alt="rectangle782"
-              />
-              <Img
-                src="/images/img_rectangle783.png"
-                className="h-[70px] md:h-auto object-cover w-full"
-                alt="rectangle783"
-              />
-              <Img
-                src="/images/img_rectangle784.png"
-                className="h-[70px] md:h-auto object-cover w-full"
-                alt="rectangle784"
-              />
-              <Img
-                src="/images/img_rectangle785.png"
-                className="h-[70px] md:h-auto object-cover w-full"
-                alt="rectangle785"
-              />
-              <Img
-                src="/images/img_image29.png"
-                className="h-[70px] md:h-auto object-cover w-full"
-                alt="rectangle786"
-              />
-              <Img
-                src="/images/img_rectangle787.png"
-                className="h-[70px] md:h-auto object-cover w-full"
-                alt="rectangle787"
-              />
-              <Img
-                src="/images/img_rectangle787.png"
-                className="h-[70px] md:h-auto object-cover w-full"
-                alt="rectangle790"
-              />
-              <Img
-                src="/images/img_rectangle787.png"
-                className="h-[70px] md:h-auto object-cover w-full"
-                alt="rectangle791"
-              />
             </div>
           </div>
           <div className="flex md:flex-col flex-row font-montserrat md:gap-5 items-start justify-start mt-[21px] w-[97%] md:w-full">
@@ -151,31 +167,27 @@ const MainScreenBeforeLogin: React.FC = () => {
               className="font-semibold md:mt-0 mt-[9px] text-left text-red_A700 w-auto"
               variant="body22"
             >
-              <span className="text-red-A700 font-montserrat text-left font-semibold">
-                Today{' '}
+              <span onClick={onClickToday} className={activeToday ? 'cursor-pointer text-red_A700 font-montserrat text-left font-semibold' : 'cursor-pointer text-white_A700 font-montserrat text-left font-semibold'}>
+                Today{'    '}
               </span>
-              <span className="text-white-A700 font-montserrat text-left font-semibold">
-                {' '}
-                /
+              <span className="ml-3 text-white_A700 font-montserrat text-left font-semibold">
+              {' '} /
               </span>
             </Text>
             <Text
               className="font-semibold ml-2 md:ml-[0] md:mt-0 mt-2 text-left text-red_A700 w-auto"
               variant="body22"
             >
-              <span className="text-white_A700 font-montserrat text-left font-semibold">
+              <span onClick={onClickThisWeek} className= {activeThisWeek ? 'cursor-pointer text-red_A700 font-montserrat text-left font-semibold' : 'cursor-pointer text-white_A700 font-montserrat text-left font-semibold'}>
                 This Week{' '}
               </span>
-              <span className="text-red-A700 font-montserrat text-left font-semibold">
-                {' '}
-              </span>
-              <span className="text-white_A700 font-montserrat text-left font-semibold">
-                {' '}
-                /
+              <span className="ml-3 text-white_A700 font-montserrat text-left font-semibold">
+              {' '} /
               </span>
             </Text>
             <Text
-              className="font-semibold ml-3 md:ml-[0] md:mt-0 mt-2.5 text-left text-white_A700 w-auto"
+            onClick={onClickLast30Days}
+              className={ activeLast30Days ? 'cursor-pointer font-semibold ml-3  md:ml-[0] md:mt-0 mt-2.5 text-left text-red_A700 w-auto' : 'cursor-pointer font-semibold ml-3  md:ml-[0] md:mt-0 mt-2.5 text-left text-white_A700 w-auto'}
               variant="body22"
             >
               Last 30 Days
