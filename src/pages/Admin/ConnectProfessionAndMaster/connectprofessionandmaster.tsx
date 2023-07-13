@@ -29,7 +29,7 @@ const ConnectProfessionAndMaster: React.FC = () => {
     const res = await api.get(`form/${path}`)
     const responseData = await res.data
     const getOnlyMovie = responseData.filter((obj) => obj === 'Movie' || obj === 'Cast' || obj === 'Crew');
-    setMasterTemplateDirectoryList(getOnlyMovie)
+    setMasterTemplateDirectoryList(responseData)
   }
   const retriveFormlayout = async () => {
     const labelPath = inputData.label.replaceAll(' ', '_')
