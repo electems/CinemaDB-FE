@@ -2825,3 +2825,20 @@ input[type="date"] {
     width: 25%;
   }
 }
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 700px;
+  color: var(--bs-modal-color);
+  pointer-events: auto;
+  background-color: var(--bs-modal-bg);
+  background-clip: padding-box;
+  border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
+  border-radius: var(--bs-modal-border-radius);
+  outline: 0;
+  overflow-y: auto;
+  padding: 20px;
+  max-height: 600px;
+}

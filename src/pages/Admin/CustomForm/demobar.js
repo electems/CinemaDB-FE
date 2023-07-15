@@ -3,6 +3,7 @@ import React from 'react'
 import { ReactFormGenerator, ElementStore } from 'react-form-builder2'
 import { environment } from '../../../config/environment'
 import { api } from '../../../services/api'
+import './customform.css'
 let jsondata = []
 let masterLabelFormLabel = ''
 export default class Demobar extends React.Component {
@@ -87,7 +88,7 @@ export default class Demobar extends React.Component {
 
         {this.state.previewVisible &&
           <div className={modalClass} role="dialog">
-            <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-dialog modal-lg modal-dialog-scrollable" role="document">
               <div className="modal-content">
                 <ReactFormGenerator
                   download_path=""

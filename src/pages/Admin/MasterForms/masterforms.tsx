@@ -10,6 +10,7 @@ import { Edit } from 'tabler-icons-react'
 const MasterForms: React.FC = () => {
   const [directoryList, setDirectoryList] = React.useState([])
   const navigate = useNavigate()
+
   React.useEffect(() => {
     retriveDirectories(environment.masterFormPath)
   }, [])
@@ -17,13 +18,12 @@ const MasterForms: React.FC = () => {
   const retriveDirectories = async (path: string) => {
     const getDirectories = await api.get(`form/${path}`)
     const response = await getDirectories.data
-    const getOnlyMovie = response.filter((obj) => obj === 'Movie' || obj === 'Portfolio' || obj === 'Cast' || obj === 'Crew' || obj === 'ProductionCompany');
     setDirectoryList(response)
   }
   const editMasterFormListing = (label: string) => {
     // using local storage because form builder is js file
     localStorage.setItem('masterFormslabel', label)
-    if (label === 'Movie') {
+    if (label.includes('Movie')) {
       navigate('/admin/customform')
     } else {
       navigate('/admin/formbuilders')

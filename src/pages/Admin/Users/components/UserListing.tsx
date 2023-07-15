@@ -11,10 +11,6 @@ import { debounceTime } from 'rxjs/operators'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
-interface InputData {
-  userResponse
-}
-
 interface users {
   id: number;
   firstName: string;
@@ -29,7 +25,6 @@ interface users {
 const UserListing: React.FC = () => {
   const navigate = useNavigate()
   const [usersData, setUserData] = useState([])
-  const inputData = useLocation().state as InputData
   const userObj = JSON.parse(localStorage.getItem('authuser')!)
   const [searchTitles, setSearchTitle] = useState('');
 
@@ -107,6 +102,7 @@ const UserListing: React.FC = () => {
       retrieveUsers()
     }
   }
+
   const navigateWithId = async (id: number) => {
     const res = await api.get(`/users/${id}`)
     const userList = await res.data
@@ -133,11 +129,11 @@ const UserListing: React.FC = () => {
               />
 
             {userObj.role === 'ADMIN'
-              ? <div className="float-right ">
+              ? <div className="float-right">
                 <button
                   type='button'
                   id="addUser"
-                  className="float-right btn btn-primary"
+                  className="float-right btn btn-primary ml-2"
                   onClick={addUserForm}
                 >
                   {' '}

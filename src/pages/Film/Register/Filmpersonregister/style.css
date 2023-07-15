@@ -125,3 +125,7 @@ body {
 .margin-top {
   margin-top: 20px;
 }
+
+/* select:not([size]) {
+  border: none;
+} */

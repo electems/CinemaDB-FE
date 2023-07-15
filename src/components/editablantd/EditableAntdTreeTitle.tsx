@@ -164,7 +164,7 @@ export const EditableTreeTitle = ({
 
     handleEditToggle(true)
     setTreeData([...treeData])
-    const formData = [
+    const formData = ['Movie'
     ]
     const title = node.title.replaceAll(' ', '_')
     api.post(`/form/writefile/formlayout/${title}/professionaldata`, formData)

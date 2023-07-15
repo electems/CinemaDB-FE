@@ -37,7 +37,8 @@ interface Tab {
 
 let displayTabs: Tab[] = []
 let renderTabsOfSelectedNodes: any = []
-let currentSubCategoryType: any
+const typeUndefined = undefined;
+let currentSubCategoryType = typeUndefined || '';
 let currentSubCategory: string = ''
 let userId: string
 
@@ -49,6 +50,7 @@ export const SubCategoryUserForm: React.FC = () => {
   const [formGeneratorLayoutOfSelectedTabAndType, setFormGeneratorLayoutOfSelectedTabAndType] = React.useState<any[]>([])
   const [formValue, setFormValue] = React.useState<any[]>([])
   const [dropdownId, setDropdownId] = React.useState<any>()
+
   useEffect(() => {
     userId = inputData.user.id
     retriveTabs()
@@ -123,19 +125,16 @@ export const SubCategoryUserForm: React.FC = () => {
   }
   // vertical bar onclick
   const onClickOfSubCategoryType = async (selectedTab: string) => {
-    if (selectedTab === 'Movie' && currentSubCategory === 'General') {
+    const leftMenuContains = selectedTab.includes('personnel information') || selectedTab.includes('Biography') || selectedTab.includes('Social Media Links') || selectedTab.includes('KYC');
+    if (!leftMenuContains && currentSubCategory === 'General') {
       renderTabsOfSelectedNodes = renderTabsOfSelectedNodes.filter(o => o.label !== currentSubCategory)
+      if (renderTabsOfSelectedNodes.length === 0) {
+        renderTabsOfSelectedNodes = displayTabs
+        renderTabsOfSelectedNodes = renderTabsOfSelectedNodes.filter(o => o.label === currentSubCategory)
+      }
       currentSubCategory = renderTabsOfSelectedNodes[0].label
     }
-    if (selectedTab === 'Cast' && currentSubCategory === 'General') {
-      renderTabsOfSelectedNodes = renderTabsOfSelectedNodes.filter(o => o.label !== currentSubCategory)
-      currentSubCategory = renderTabsOfSelectedNodes[0].label
-    }
-    if (selectedTab === 'Crew' && currentSubCategory === 'General') {
-      renderTabsOfSelectedNodes = renderTabsOfSelectedNodes.filter(o => o.label !== currentSubCategory)
-      currentSubCategory = renderTabsOfSelectedNodes[0].label
-    }
-    if (selectedTab !== 'Movie' && selectedTab !== 'Cast' && selectedTab !== 'Crew') {
+    if (leftMenuContains) {
       renderTabsOfSelectedNodes = displayTabs
       currentSubCategory = renderTabsOfSelectedNodes[0].label
     }
@@ -221,26 +220,31 @@ export const SubCategoryUserForm: React.FC = () => {
           </div>
           <div className="col">
             <div className="row mt-5 tab-label">
-              {currentSubCategoryType === 'Movie' || currentSubCategoryType === 'Cast' || currentSubCategoryType === 'Crew'
-                ? <div>
+            {currentSubCategoryType === 'Personnel Information' || currentSubCategoryType === 'Biography' || currentSubCategoryType === 'Social Media Links' || currentSubCategoryType === 'KYC'
+              ? ' '
+              : <div>
                     <Tabs defaultActiveKey="1" items={renderTabsOfSelectedNodes} onChange={onClickOfSubCategoryTab} />
                   </div>
-                : ' '
               }
           </div>
           <div>
-              {currentSubCategoryType === 'Movie'
+              {currentSubCategoryType.includes('Movie')
                 ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add New Movie</button>
                 : ''}
           </div>
           <div>
-              {currentSubCategoryType === 'Crew'
+              {currentSubCategoryType.includes('Crew')
                 ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add Crew</button>
                 : ''}
           </div>
           <div>
-              {currentSubCategoryType === 'Cast'
+              {currentSubCategoryType.includes('Cast')
                 ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add Cast</button>
+                : ''}
+          </div>
+          <div>
+              {currentSubCategoryType.includes('Workitem')
+                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add</button>
                 : ''}
           </div>
           <div>

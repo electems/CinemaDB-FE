@@ -50,6 +50,76 @@ const items = [{
   key: 'Image'
 },
 {
+  key: 'Paragraph'
+},
+{
+  key: 'PhoneNumber'
+},
+{
+  key: 'EmailInput'
+},
+{
+  key: 'Checkboxes'
+},
+{
+  key: 'RadioButtons'
+},
+{
+  key: 'HyperLink'
+},
+{
+  key: 'FileUpload',
+  element: 'CustomElement',
+  component: ImageUpload,
+  type: 'custom',
+  name: 'FileUpload',
+  icon: 'fas fa-file',
+  label: 'FileUpload'
+},
+{
+  key: 'Number',
+  canHaveAnswer: true,
+  name: 'Number',
+  label: 'Number',
+  icon: 'fas fa-plus',
+  field_name: 'number_input_',
+  static: true,
+  content: ''
+},
+{
+  key: 'TwoColumnRow',
+  name: 'Two-columns-row',
+  canHaveAnswer: true,
+  label: 'TwoColumnRow',
+  static: true,
+  content: ''
+},
+{
+  key: 'ThreeColumnRow',
+  canHaveAnswer: false,
+  name: 'ThreeColumnRow',
+  label: 'ThreeColumnRow',
+  icon: 'fas fa-columns',
+  field_name: 'three_col_row_',
+  static: true,
+  content: ''
+},
+{
+  key: 'DatePicker',
+  canDefaultToday: true,
+  canReadOnly: true,
+  dateFormat: 'yyyy/MM/dd',
+  showTimeSelect: false,
+  showTimeSelectOnly: false,
+  showTimeInput: false,
+  name: 'Date',
+  icon: 'far fa-calendar-alt',
+  label: 'Date',
+  field_name: 'date_picker_',
+  static: true,
+  content: ''
+},
+{
   group_name: 'Movie Form',
   element: 'Dropdown',
   field_name: 'movie_dropdown',
@@ -85,7 +155,7 @@ const items = [{
   type: 'custom',
   field_name: 'image_component',
   name: 'MovieImage',
-  icon: 'fa fa-file',
+  icon: 'fas fa-file',
   label: 'Movie Image Upload'
 }
 ]
