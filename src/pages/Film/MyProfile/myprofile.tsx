@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Img, Button, Text, Input, List } from '../../../components/Elements/index';
 import { api } from '../../../services/api';
-import { Pointer } from 'tabler-icons-react';
-import './myprofile.css'
 import { storage } from '../../../storage/storage';
-import Header from '../../../components/Header/header';
 
 const MyProfilePage: React.FC = () => {
   const loggedInUser = storage.getLoggedUser()
