@@ -49,7 +49,7 @@ export const SubCategoryUserForm: React.FC = () => {
   const [active, setActive] = React.useState('')
   const [formGeneratorLayoutOfSelectedTabAndType, setFormGeneratorLayoutOfSelectedTabAndType] = React.useState<any[]>([])
   const [formValue, setFormValue] = React.useState<any[]>([])
-  const [dropdownId, setDropdownId] = React.useState<any>()
+  const [dropdownId, setDropdownId] = React.useState<string>('')
 
   useEffect(() => {
     userId = inputData.user.id
@@ -163,7 +163,7 @@ export const SubCategoryUserForm: React.FC = () => {
       subCategory: currentSubCategory,
       subCategoryType: currentSubCategoryType,
       value: data,
-      movieFk: dropdownId
+      movieFk: Number(dropdownId)
     }
     if (pk) {
       subCategoryUserForm.id = pk
@@ -189,7 +189,7 @@ export const SubCategoryUserForm: React.FC = () => {
   }
 
   const onClickOfAddNewMovie = async () => {
-    setDropdownId(null)
+    setDropdownId('')
     await onClickOfSave([])
     await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
   }
