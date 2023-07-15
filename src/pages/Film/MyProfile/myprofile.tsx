@@ -3,12 +3,16 @@ import React, { useEffect, useState } from 'react';
 import { Img, Button, Text, Input, List } from '../../../components/Elements/index';
 import { api } from '../../../services/api';
 import { Pointer } from 'tabler-icons-react';
+import './myprofile.css'
 import { storage } from '../../../storage/storage';
+import Header from '../../../components/Header/header';
 
 const MyProfilePage: React.FC = () => {
   const loggedInUser = storage.getLoggedUser()
   const [image, setImage] = React.useState({ preview: '', raw: '' });
   const [profileImage, setProfileImage] = React.useState();
+  const [profileName, setProfileName] = React.useState();
+  const [profession, setProfession] = React.useState();
   useEffect(() => {
     retrievProfileImage()
   }, [])
@@ -58,14 +62,20 @@ const MyProfilePage: React.FC = () => {
   const retrievProfileImage = async () => {
     const profileImage = await api.get(`/fileupload/getProfileByid/${loggedInUser.id}`)
     const proImage = profileImage.data
+    const retriveProfileDetail = await api.get(`/users/profilename/${proImage[0].table_fk}`)
+    const responseOfProfileDetail = await retriveProfileDetail.data
+    setProfileName(responseOfProfileDetail[0].value)
+    const getProfessionOfCurrentUser = await api.get(`/users/profession/${loggedInUser.id}`)
+    const responseOfProfession = await getProfessionOfCurrentUser.data
+    setProfession(responseOfProfession[0].title)
     const images = await api.get(`/fileupload/files/profile/${proImage[0].fileName}`)
     image.preview = images.request.responseURL
   }
 
   return (
     <>
-      <div className="">
-        <div className="bg-gray_800 flex flex-col font-montserrat items-center justify-start max-w-[1313px] mt-3.5 mx-auto p-[26px] md:px-5 w-full">
+       <div className="pl-[99px] pr-[99px] md:pl-[99px] md:pr-[99px]">
+        <div className="bg-gray_800 flex flex-col font-montserrat items-center justify-start max-w-[1313px] mt-3.5 mx-auto p-[26px] md:px-5 w-full h-[207px]">
           <div className="flex h-[106px] items-center justify-start w-[106px]">
             <div className="h-[106px] relative w-[106px]">
                 <label htmlFor="upload-button" className="h-[106px] m-auto rounded-[50%] w-[106px]">
@@ -75,7 +85,7 @@ const MyProfilePage: React.FC = () => {
                  )
                : (
             <>
-             <span className="fa-stack fa-2x mt-3 mb-2">
+             <span className="fa-stack fa-3x mt-3 mb-2">
               <i className="fas fa-circle fa-stack-2x" />
               <i className="fas fa-user-circle fa-stack-1x fa-inverse" />
             </span>
@@ -96,16 +106,16 @@ const MyProfilePage: React.FC = () => {
 
     </div>
           <Text
-            className="capitalize font-semibold mt-4 text-left text-white_A700 tracking-[0.28px] w-auto"
+            className="capitalize font-semibold mt-2 text-left text-white_A700 tracking-[0.28px] w-auto"
             variant="body31"
           >
-
+              {profileName}
           </Text>
           <Text
             className="capitalize font-medium mb-[30px] text-left text-white_A700 tracking-[0.28px] w-auto"
             variant="body31"
           >
-
+            {profession}
           </Text>
         </div>
       </div>
