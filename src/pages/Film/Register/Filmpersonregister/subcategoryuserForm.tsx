@@ -125,7 +125,7 @@ export const SubCategoryUserForm: React.FC = () => {
   }
   // vertical bar onclick
   const onClickOfSubCategoryType = async (selectedTab: string) => {
-    const leftMenuContains = selectedTab.includes('personnel information') || selectedTab.includes('Biography') || selectedTab.includes('Social Media Links') || selectedTab.includes('KYC');
+    const leftMenuContains = selectedTab.includes('Personnel Information') || selectedTab.includes('Biography') || selectedTab.includes('Social Media Links') || selectedTab.includes('KYC');
     if (!leftMenuContains && currentSubCategory === 'General') {
       renderTabsOfSelectedNodes = renderTabsOfSelectedNodes.filter(o => o.label !== currentSubCategory)
       if (renderTabsOfSelectedNodes.length === 0) {
