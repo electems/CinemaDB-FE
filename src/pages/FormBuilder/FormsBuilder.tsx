@@ -11,6 +11,7 @@ import AdminHeader from '../../components/AdminHeader'
 import 'font-awesome/css/font-awesome.min.css'
 import { removeSpaceAndSpecialCharacters } from '../../services/filmservices'
 import ImageUpload from '../../components/FIleUpload/fileUpload'
+import MultipleUploads from '../../components/MultipleFileUpload/multiplefileupload'
 
 let jsonData: any = []
 type Props = {};
@@ -26,10 +27,11 @@ class FormsBuilder extends Component<Props> {
 
   items = [{
     key: 'Header',
+    canHaveAnswer: true,
     name: 'Header-text',
     icon: 'fas fa-heading',
     static: true,
-    content: ''
+    content: 'Header'
   },
   {
     key: 'Label',
@@ -40,6 +42,7 @@ class FormsBuilder extends Component<Props> {
   },
   {
     key: 'Paragraph',
+    label: 'Paragraph',
     name: 'Paragraph',
     static: true,
     icon: 'fas fa-paragraph',
@@ -150,7 +153,7 @@ class FormsBuilder extends Component<Props> {
     key: 'TwoColumnRow',
     canHaveAnswer: false,
     name: 'Two-columns-row',
-    label: '',
+    label: 'Two-columns-row',
     icon: 'fas fa-columns',
     field_name: 'two_col_row_',
     static: true,
@@ -177,9 +180,31 @@ class FormsBuilder extends Component<Props> {
     component: ImageUpload,
     type: 'custom',
     field_name: 'image_component',
-    name: 'Image',
-    icon: 'fa fa-file',
+    name: 'FileUpload',
+    icon: 'fas fa-file',
     label: 'Image Upload',
+    static: true,
+    content: ''
+  },
+  {
+    key: 'FileUpload',
+    element: 'CustomElement',
+    component: MultipleUploads,
+    type: 'custom',
+    field_name: 'multiple_component',
+    name: 'multipleImage',
+    icon: 'fas fa-file',
+    label: 'Multiple File Upload',
+    static: true,
+    content: ''
+  },
+  {
+    key: 'ThreeColumnRow',
+    canHaveAnswer: false,
+    name: 'ThreeColumnRow',
+    label: 'ThreeColumnRow',
+    icon: 'fas fa-columns',
+    field_name: 'three_col_row_',
     static: true,
     content: ''
   }
