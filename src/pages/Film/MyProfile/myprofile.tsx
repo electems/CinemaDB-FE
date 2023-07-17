@@ -65,7 +65,7 @@ const MyProfilePage: React.FC = () => {
     const getProfessionOfCurrentUser = await api.get(`/users/profession/${loggedInUser.id}`)
     const responseOfProfession = await getProfessionOfCurrentUser.data
     setProfession(responseOfProfession[0].title)
-    const images = await api.get(`/fileupload/files/profile/${proImage[0].fileName}`)
+    const images = await api.get(`/fileupload/files/profile/${proImage[0].table_fk}/${proImage[0].fileName}`)
     image.preview = images.request.responseURL
   }
 
