@@ -18,6 +18,7 @@ import { useLocation } from 'react-router-dom'
 import { environment } from '../../../../config/environment'
 import { Tabs } from 'antd'
 import './style'
+import './style.css'
 import { ReactFormGenerator } from 'react-form-builder2'
 import { getTitleFromTabs } from '../../../../services/filmservices'
 import { ISubCategoryUserForm } from '../../../../types/subcategoryuserform.type'
@@ -121,6 +122,12 @@ export const SubCategoryUserForm: React.FC = () => {
       const movieForCastAndCrew = dropDownValues.find(moviesFk => moviesFk.id === item.movie_fk)
       Object.assign(item, { movie: movieForCastAndCrew });
     })
+    loadDataFromBackend.forEach(arr1Obj => {
+      const matchedObject = dropDownValues.find(arr2Obj => arr2Obj.id === arr1Obj.id);
+      if (matchedObject) {
+        Object.assign(arr1Obj, { movies: matchedObject });
+      }
+    })
     setFormUserProfessionData(loadDataFromBackend)
   }
   // vertical bar onclick
@@ -177,15 +184,27 @@ export const SubCategoryUserForm: React.FC = () => {
     const getIdOfCreatedSubCategoryForm = responseOfCreatedData.data
     const files = JSON.parse(localStorage.getItem('fileupload')!)
     if (files !== null) {
-      await api.post('/fileupload/createfile', {
-        fileName: files.filename,
-        destination: files.destination,
-        originalName: files.originalname,
-        tableName: currentSubCategoryType,
-        tableId: getIdOfCreatedSubCategoryForm.id
-      })
-      localStorage.removeItem('fileupload');
+      if (files.length > 1) {
+        for (let i = 0; i < files.length; i++) {
+          await api.post('/fileupload/createfile', {
+            fileName: files[i].filename,
+            destination: files[i].destination,
+            originalName: files[i].originalname,
+            tableName: currentSubCategoryType,
+            tableId: getIdOfCreatedSubCategoryForm.id
+          })
+        }
+      } else {
+        await api.post('/fileupload/createfile', {
+          fileName: files.filename,
+          destination: files.destination,
+          originalName: files.originalname,
+          tableName: currentSubCategoryType,
+          tableId: getIdOfCreatedSubCategoryForm.id
+        })
+      }
     }
+    localStorage.removeItem('fileupload');
   }
 
   const onClickOfAddNewMovie = async () => {
@@ -206,7 +225,7 @@ export const SubCategoryUserForm: React.FC = () => {
       <div className="">
         {inputData.profile === true ? <MyProfilePage /> : ''}
         <div className="row">
-          <div className="col-6 col-md-4 mt-5">
+          <div className="col-sm-6 col-md-4 mt-5">
             {selectedMastersOfTheCurrentSubCategory.map((item, i) => {
               return (
                 <div className="flex items-center justify-start mt-[10px] mx-auto w-[89%]">
@@ -229,22 +248,22 @@ export const SubCategoryUserForm: React.FC = () => {
           </div>
           <div>
               {currentSubCategoryType.includes('Movie')
-                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add New Movie</button>
+                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie mr-4'>+ Add New Movie</button>
                 : ''}
           </div>
           <div>
               {currentSubCategoryType.includes('Crew')
-                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add Crew</button>
+                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie mr-4'>+ Add Crew</button>
                 : ''}
           </div>
           <div>
               {currentSubCategoryType.includes('Cast')
-                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add Cast</button>
+                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie mr-4'>+ Add Cast</button>
                 : ''}
           </div>
           <div>
               {currentSubCategoryType.includes('Workitem')
-                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie'>+ Add</button>
+                ? <button onClick={onClickOfAddNewMovie} className='cursor-pointer add_new_movie mr-4'>+ Add</button>
                 : ''}
           </div>
           <div>
@@ -255,8 +274,14 @@ export const SubCategoryUserForm: React.FC = () => {
                       <div className='mt-8'>
                         <>
                         <Accordion defaultActiveKey="0">
-                         <Accordion.Header>{currentSubCategoryType}</Accordion.Header>
-                        <Accordion.Body>
+                          {currentSubCategoryType.includes('Movie') && record.movies !== undefined
+                            ? <Accordion.Header>{currentSubCategoryType}-{record.movies.value}</Accordion.Header>
+                            : currentSubCategoryType === 'Cast' && record.movie !== undefined
+                              ? <Accordion.Header>{currentSubCategoryType}-{record.movie.value}</Accordion.Header>
+                              : currentSubCategoryType === 'Crew' && record.movie !== undefined
+                                ? <Accordion.Header>{currentSubCategoryType}-{record.movie.value}</Accordion.Header>
+                                : <Accordion.Header>{currentSubCategoryType}</Accordion.Header>}
+                         <Accordion.Body>
                             <div>
                               {currentSubCategoryType === 'Cast' || currentSubCategoryType === 'Crew'
                                 ? <div>

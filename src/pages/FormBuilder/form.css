@@ -2842,3 +2842,11 @@ input[type="date"] {
   padding: 20px;
   max-height: 600px;
 }
+
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  box-sizing: border-box;
+  padding: 0;
+  border-radius: 0px;
+  border: 1px solid #777;
+}
