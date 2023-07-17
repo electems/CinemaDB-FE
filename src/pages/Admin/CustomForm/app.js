@@ -8,6 +8,7 @@ import Demobar from './demobar'
 import { environment } from '../../../config/environment'
 import { api } from '../../../services/api'
 import ImageUpload from '../../../components/FIleUpload/fileUpload'
+import MultipleUploads from '../../../components/MultipleFileUpload/multiplefileupload'
 
 const TestComponent = () => {
   return <><div className='form-control'>
@@ -36,6 +37,7 @@ const MyInput = React.forwardRef((props, ref) => {
 Registry.register('MyInput', MyInput)
 Registry.register('TestComponent', TestComponent)
 Registry.register('FileUpload', ImageUpload)
+Registry.register('MultipleUpload', MultipleUploads)
 const items = [{
   key: 'Header'
 }, {
@@ -157,6 +159,17 @@ const items = [{
   name: 'MovieImage',
   icon: 'fas fa-file',
   label: 'Movie Image Upload'
+},
+{
+  group_name: 'Movie Form',
+  key: 'FileUpload',
+  element: 'CustomElement',
+  component: MultipleUploads,
+  type: 'custom',
+  field_name: 'multiple_component',
+  name: 'multipleImage',
+  icon: 'fas fa-file',
+  label: 'Multiple File Upload'
 }
 ]
 let jsonData = []
