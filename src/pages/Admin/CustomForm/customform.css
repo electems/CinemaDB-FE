@@ -1,0 +1,5 @@
+.modal-dialog-scrollable .modal-content {
+    max-height: 100%;
+    overflow-y: auto;
+    padding: 20px;
+}

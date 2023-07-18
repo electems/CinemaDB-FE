@@ -1,0 +1,20 @@
+export type IAuditionCall = {
+    id?: null,
+    auditionCategory?: string,
+    auditionDescription?: string,
+    gender?: string,
+    ageRange?: string,
+    startDate?: string,
+    endDate?: string,
+    timeDurationForAudition?: string,
+    preferredLanguageToSpeak?: string,
+    movieType?: string,
+    seoTags?: any,
+    auditionAgencyEmailId?: string,
+    contactNumber?: string,
+    auditionReason?: string,
+    venueOrInterviewLocation?: string,
+    duration: string,
+    movieFk?: number,
+    userFK?: number
+}

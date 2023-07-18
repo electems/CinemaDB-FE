@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable no-undef */
+import React from 'react'
 
 export type ImgProps = React.DetailedHTMLProps<
   React.ImgHTMLAttributes<HTMLImageElement>,
@@ -16,6 +17,14 @@ const Img: React.FC<React.PropsWithChildren<ImgProps>> = ({
   alt = 'testImg',
   ...restProps
 }) => {
-  return <img className={className} src={src} alt={alt} {...restProps} loading={'lazy'} />;
-};
-export { Img };
+  return (
+    <img
+      className={className}
+      src={src}
+      alt={alt}
+      {...restProps}
+      loading={'lazy'}
+    />
+  )
+}
+export { Img }

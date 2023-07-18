@@ -1,0 +1,37 @@
+.notification .accordion-item:last-of-type .accordion-button.collapsed {
+    /* border-bottom-right-radius: var(--bs-accordion-inner-border-radius); */
+    /* border-bottom-left-radius: var(--bs-accordion-inner-border-radius); */
+    background-color: #3a3a3c;
+    border: #f0f0f0;
+    color: #ffffff;
+}
+
+.notification .accordion-button::after {
+    -webkit-filter: grayscale(1) invert(1);
+    filter: grayscale(1) invert(1);
+}
+
+.notification .accordion-button:focus {
+    z-index: 3;
+    /* border-color: var(--bs-accordion-btn-focus-border-color); */
+    outline: 0;
+    box-shadow: var(--bs-accordion-btn-focus-box-shadow);
+}
+
+.notification .accordion-button:not(.collapsed) {
+    background-color: #3a3a3c;
+    box-shadow: #ffffff;
+    color: #ffffff
+}
+
+.notification .accordion-button:focus {
+    background-color: #3a3a3c;
+    box-shadow: #ffffff;
+    color: #ffffff
+}
+
+.notification .accordion-body {
+    padding: var(--bs-accordion-body-padding-y) var(--bs-accordion-body-padding-x);
+    background-color: gray;
+    color: white;
+}

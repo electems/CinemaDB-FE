@@ -1,0 +1,135 @@
+@font-face {
+    font-display: swap;
+    font-style: normal;
+    src: url("../assets/fonts/RobotoRomanRegular.ttf");
+    font-family: "Roboto";
+    font-weight: 400;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: bold;
+    src: url("../assets/fonts//MontserratMedium.ttf");
+    font-family: "Montserrat";
+    font-weight: 500;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: bold;
+    src: url("../assets/fonts/MontserratBold.ttf");
+    font-family: "Montserrat";
+    font-weight: 700;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: bold;
+    src: url("../assets/fonts/MontserratSemiBold.ttf");
+    font-family: "Montserrat";
+    font-weight: 600;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: bold;
+    src: url("../assets/fonts/MontserratLight.ttf");
+    font-family: "Montserrat";
+    font-weight: 300;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: bold;
+    src: url("../assets/fonts/MontserratRomanBold.ttf");
+    font-family: "Montserrat";
+    font-weight: 700;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: bold;
+    src: url("../assets/fonts/RobotoRomanMedium.ttf");
+    font-family: "Roboto";
+    font-weight: 500;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: normal;
+    src: url("../assets/fonts/MontserratRegular.ttf");
+    font-family: "Montserrat";
+    font-weight: 400;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: bold;
+    src: url("../assets/fonts/RobotoRomanLight.ttf");
+    font-family: "Roboto";
+    font-weight: 300;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: bold;
+    src: url("../assets/fonts/PoppinsSemiBold.ttf");
+    font-family: "Poppins";
+    font-weight: 600;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: bold;
+    src: url("../assets/fonts/PoppinsMedium.ttf");
+    font-family: "Poppins";
+    font-weight: 500;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: normal;
+    src: url("../assets/fonts/MontserratRomanRegular.ttf");
+    font-family: "Montserrat";
+    font-weight: 400;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: bold;
+    src: url("../assets/fonts/RobotoRomanBold.ttf");
+    font-family: "Roboto";
+    font-weight: 700;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: bold;
+    src: url("../assets/fonts/MulishBold.ttf");
+    font-family: "Mulish";
+    font-weight: 700;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: bold;
+    src: url("../assets/fonts/MulishRomanBold.ttf");
+    font-family: "Mulish";
+    font-weight: 700;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: normal;
+    src: url("../assets/fonts/MulishRomanRegular.ttf");
+    font-family: "Mulish";
+    font-weight: 400;
+}
+
+@font-face {
+    font-display: swap;
+    font-style: normal;
+    src: url("../assets/fonts/PoppinsRegular.ttf");
+    font-family: "Poppins";
+    font-weight: 400;
+}

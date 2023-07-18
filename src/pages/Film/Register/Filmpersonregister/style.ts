@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Film = styled.div`
   bootstrap-demo .dropdown-trigger {
@@ -22,9 +22,8 @@ export const Film = styled.div`
   bootstrap-demo .toggle.expanded::after {
     content: "\f068";
   }
-
   bootstrap-demo .root {
     padding: 0px;
     margin: 0px;
   }
-`;
+`

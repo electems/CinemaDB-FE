@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable no-undef */
+import React from 'react'
 
 const variantClasses = {
   h1: 'font-light sm:text-5xl md:text-5xl text-[86.7px]',
@@ -11,7 +12,8 @@ const variantClasses = {
   body2: 'sm:text-4xl md:text-[38px] text-[40px]',
   body3: 'text-4xl sm:text-[32px] md:text-[34px]',
   body4: 'font-bold sm:text-[31px] md:text-[33px] text-[35px]',
-  body5: 'font-bold sm:text-[28.259999999999998px] md:text-[30.259999999999998px] text-[32.26px]',
+  body5:
+    'font-bold sm:text-[28.259999999999998px] md:text-[30.259999999999998px] text-[32.26px]',
   body6: 'font-bold md:text-3xl sm:text-[28px] text-[32px]',
   body7: 'sm:text-[24.67px] md:text-[26.67px] text-[28.67px]',
   body8: 'font-bold sm:text-2xl md:text-[26px] text-[28px]',
@@ -47,29 +49,37 @@ const variantClasses = {
   body38: 'font-normal text-[10.67px]',
   body39: 'font-normal text-[10.66px]',
   body40: 'font-normal text-[10.51px]',
-  body41: 'text-[10px]',
-} as const;
+  body41: 'text-[10px]'
+} as const
 
 export type TextProps = Partial<{
   className: string;
   variant: keyof typeof variantClasses;
+  disabled: boolean;
   as: React.ElementType;
 }> &
-  React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+  React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLSpanElement>,
+    HTMLSpanElement
+  >;
 
 const Text: React.FC<React.PropsWithChildren<TextProps>> = ({
   children,
   className,
   variant,
+  disabled,
   as,
   ...restProps
 }) => {
-  const Component = as || 'span';
+  const Component = as || 'span'
   return (
-    <Component className={`${className} ${variant && variantClasses[variant]}`} {...restProps}>
+    <Component
+      className={`${className} ${variant && variantClasses[variant]}`}
+      {...restProps}
+    >
       {children}
     </Component>
-  );
-};
+  )
+}
 
-export { Text };
+export { Text }

@@ -1,0 +1,25 @@
+export type FilmTrainingInstitute = {
+  id?: null;
+  nameOfTheFilmInstitute?: string;
+  aboutTheFilmInstitute?: string;
+  fullAddress?: string;
+  instituteStartDate?: string;
+  instituteendDate?: string;
+  areaName?: string;
+  cityTown?: string;
+  pincode?: string;
+  preferredLanguageToSpeak?: string;
+  landlineNumber?: string;
+  emailId?: string;
+  mobileNumber?: string;
+  facebookUrl?: string;
+  linkedinUrl?: string;
+  instagramUrl?: string;
+  courseName?: string;
+  courseDescription?: string;
+  courseFee?: string;
+  fileName?: string;
+  userFK?: string;
+  industryExperiencedRequired?: string;
+  experience?: string;
+};

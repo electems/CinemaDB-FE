@@ -1,112 +1,131 @@
 body {
   margin: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
 }
 
-/* bootstrap-demo is a custom classname to increases the specificity of our styles. It can be anything. 
-   * The idea is that it is easy to extend/override builtin styles with very little effort.
-   */
-.bootstrap-demo .dropdown-trigger {
-  border-radius: 0.25rem;
+/* fallback, until https://github.com/CompuIves/codesandbox-client/issues/174 is resolved */
+@font-face {
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/materialicons/v36/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format("woff2");
 }
 
-.bootstrap-demo .dropdown-trigger > span:after {
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* mdl-demo is a custom classname to increases the specificity of our styles. It can be anything. 
+ * The idea is that it is easy to extend/override builtin styles with very little effort.
+ */
+
+.mdl-demo .dropdown-trigger>span:after {
   font-size: 12px;
   color: #555;
 }
 
-.bootstrap-demo .toggle {
-  font: normal normal normal 12px/1 FontAwesome;
+.mdl-demo .toggle {
+  font: normal normal normal 18px/1 "Material Icons";
   color: #555;
+  white-space: pre;
+  margin-right: 4px;
 }
 
-.bootstrap-demo .toggle.collapsed::after {
-  content: "\f067";
+.mdl-demo .toggle.collapsed::after {
+  cursor: pointer;
+  content: "\E5CF";
+  vertical-align: middle;
 }
 
-.bootstrap-demo .toggle.expanded::after {
-  content: "\f068";
+.mdl-demo .toggle.expanded::after {
+  cursor: pointer;
+  content: "\E5CE";
+  vertical-align: middle;
 }
 
-.bootstrap-demo .root {
-  padding: 0px;
-  margin: 0px;
-}
-
-.Header {
-  position: fixed;
-  top: 0; /* Stick it to the top */
-  max-height: 70px;
-  width: 100vw;
-
-  display: grid;
-  grid-template-areas: "logo nav";
-
-  /* Cosmetics */
-  background-color: #282c34;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Poppins", sans-serif;
-  background-color: #fcfcfc;
-}
-
-.container {
-  max-width: 1100px;
-  /* margin: 0 auto; */
-  float: left;
-  padding: 0 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-}
-
-.navbar {
-  height: 60px;
-  background-color: #fef7e5;
+/* checkbox styles */
+.mdl-demo .checkbox-item {
   position: relative;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.75rem;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  vertical-align: middle;
 }
 
-.nav-elements {
-}
-
-.nav-elements ul {
-  display: flex;
-  justify-content: space-between;
-  list-style-type: none;
-}
-
-.nav-elements ul li:not(:last-child) {
-  margin-right: 60px;
-}
-
-.nav-elements ul a {
-  font-size: 16px;
-  font-weight: 400;
-  color: #2f234f;
-  text-decoration: none;
-}
-
-.nav-elements ul a.active {
-  color: #574c4c;
-  font-weight: 500;
-  position: relative;
-}
-
-.nav-elements ul a.active::after {
+.mdl-demo .checkbox-item:before {
   content: "";
   position: absolute;
-  bottom: -4px;
   left: 0;
+  top: 0;
+  z-index: 1;
   width: 100%;
-  height: 2px;
-  background-color: #574c4c;
+  height: 100%;
+  border: 2px solid #aaa;
+  transition: all 0.3s ease-in-out;
 }
-.activeLink {
-  background: black;
+
+.mdl-demo .checkbox-item:checked:before {
+  height: 50%;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  border-top-style: none;
+  border-right-style: none;
+  border-color: #2196f3;
 }
+
+:where(.css-dev-only-do-not-override-1fviqcj).ant-tree {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: #3a3a3c;
+  font-size: 14px;
+  line-height: 1.5714285714285714;
+  list-style: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  background: #ffffff;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+  margin-top: 30px;
+  font-weight: bold;
+}
+
+.tab-label #data-node-key .ant-tabs-tab {
+  font-size: 20px;
+}
+
+.ant-tabs-tab-btn {
+  font-size: 15px;
+  justify-content: center;
+}
+
+.add_new_movie {
+  float: right;
+  color: #3377ff;
+}
+
+.margin-top {
+  margin-top: 20px;
+}
+
+/* select:not([size]) {
+  border: none;
+} */

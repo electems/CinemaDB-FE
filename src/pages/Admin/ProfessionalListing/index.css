@@ -1,0 +1,9 @@
+.ant-tree-list-holder {
+    margin-right: 500px;
+}
+
+#slide_start_button,
+#slide_stop_button {
+    display: inline-block;
+    margin-right: 5px;
+}

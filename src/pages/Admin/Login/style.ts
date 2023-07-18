@@ -1,8 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Background = styled.div`
-  width: 100vw;
-  height: 100vh;
   .botao-voltar {
     margin-top: 3%;
     margin-left: 5%;
@@ -20,7 +18,7 @@ export const Background = styled.div`
   .container {
     display: flex;
     div {
-      margin-top: 5%;
+      margin-top: 0%;
     }
     img {
       width: 45%;
@@ -105,8 +103,6 @@ export const Formulario = styled.div`
     border: white;
   }
   @media (max-width: 800px) {
-    width: 100vw;
-    height: 70vh;
     button {
       margin-top: 50px;
     }

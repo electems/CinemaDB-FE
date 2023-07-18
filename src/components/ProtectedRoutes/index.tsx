@@ -1,24 +1,24 @@
-import { CircularProgress } from "@mui/material";
-import { useContext } from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import { Context } from "../../contexts/contextLogin";
-import { LoadingContainer } from "./styles";
+/* eslint-disable no-undef */
+import { CircularProgress } from '@mui/material'
+import { useContext } from 'react'
+import { Navigate, Outlet } from 'react-router-dom'
+import { Context } from '../../contexts/contextLogin'
+import { LoadingContainer } from './styles'
 
+const user = ''
 const ProtectedRoutes = () => {
-    const {loading, user} = useContext(Context)
+  const { loading } = useContext(Context)
 
-    if(loading){
-        console.log("here")
-        return (
-            <LoadingContainer>
-                <CircularProgress />
-            </LoadingContainer>
-        )
-    }
-
+  if (loading) {
+    console.log('here')
     return (
-        user ? <Outlet /> : <Navigate to="/login" />
+      <LoadingContainer>
+        <CircularProgress />
+      </LoadingContainer>
     )
-};
+  }
 
-export default ProtectedRoutes;
+  return user ? <Outlet /> : <Navigate to="/login" />
+}
+
+export default ProtectedRoutes

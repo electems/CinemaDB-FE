@@ -1,4 +1,4 @@
-import { InputContainer } from "./styles";
+import { InputContainer } from './styles'
 
 interface IInputProps {
   type: string;
@@ -18,7 +18,7 @@ const Input = ({
   error,
   placeholder,
   register,
-  onChange,
+  onChange
 }: IInputProps) => {
   return (
     <InputContainer error={error}>
@@ -32,7 +32,7 @@ const Input = ({
       />
       {error && <span>{error}</span>}
     </InputContainer>
-  );
-};
+  )
+}
 
-export default Input;
+export default Input

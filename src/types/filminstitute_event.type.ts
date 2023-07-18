@@ -1,0 +1,23 @@
+export type FilmTrainingInstituteEvent = {
+    id?: null;
+    nameOfTheFilmInstitute?: string;
+    eventName?: string;
+    eventDescription?: string;
+    additionalDescription?: string;
+    addressVenueDetails?: string;
+    eventStartDate?: string;
+    areaName?: string;
+    cityTown?: string;
+    eventendDate?: string;
+    pincode?: string;
+    emailId?: string;
+    mobileNumber?: string;
+    instagramUrl?: string;
+    landlineNumber?: string;
+    facebookUrl?: string;
+    preferredLanguageToSpeak?: string;
+    linkedinUrl?: string;
+    fileName?: string;
+    filmInstituteFK?: string;
+    imageUrl?: string;
+  };
