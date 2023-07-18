@@ -109,6 +109,7 @@ export const SubCategoryUserForm: React.FC = () => {
   const loadFormGeneratorAndUserProfessionData = async (currentSubCategory, currentSubCategoryType) => {
     const currentSubCategoryTypePath = currentSubCategoryType ? currentSubCategoryType.replaceAll(' ', '_') : ''
     setActive(currentSubCategoryType)
+    localStorage.setItem('leftmenu', currentSubCategoryType)
     // fetch form layout
     const formGeneratorLayoutOfSelectedTabAndType = await api.get(`form/readfile/mastertemplates/${currentSubCategoryTypePath}/${environment.professionalData}`)
     const response = await formGeneratorLayoutOfSelectedTabAndType.data
@@ -146,6 +147,7 @@ export const SubCategoryUserForm: React.FC = () => {
       currentSubCategory = renderTabsOfSelectedNodes[0].label
     }
     setActive(selectedTab)
+    localStorage.setItem('leftmenu', selectedTab)
     currentSubCategoryType = selectedTab
     setFormUserProfessionData([])
     await loadFormGeneratorAndUserProfessionData(currentSubCategory, currentSubCategoryType)
