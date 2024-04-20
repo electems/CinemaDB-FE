@@ -10,18 +10,23 @@ import './styles/font.css'
 
 import { GlobalStyle } from './styles/global'
 import AppMain, { AdminMain } from './App'
+import { Provider } from 'react-redux';
+import { store } from './store/store'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 )
+/* Redux provider and store */
 root.render(
+  <Provider store={store}>
   <BrowserRouter>
     <GlobalStyle />
     <ToastContainer />
     <ContextProvider>
-      <AdminMain></AdminMain>
+        <AdminMain></AdminMain>
     </ContextProvider>
     <AppMain></AppMain>
-  </BrowserRouter>
+    </BrowserRouter>
+    </Provider>
 )
 reportWebVitals()
