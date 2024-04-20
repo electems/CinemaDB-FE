@@ -75,6 +75,12 @@ const AdminHeader = () => {
                    Master Forms
                   </NavLink>
               </li>
+              <li id="new" >
+                 <NavLink to={'/admin/test'} className={({ isActive }) =>
+                   (isActive ? 'nav-link active menu-border-bottom' : 'nav-link')}>
+                   Testing
+                  </NavLink>
+              </li>
               <li className="text-right">
                <Logout
                   className=" position-absolute top-8 end-0 translate-middle pointer "
