@@ -1,9 +1,10 @@
 import 'react-toastify/dist/ReactToastify.min.css'
 
 import RoutesMain, { RoutesAdmin } from './routes'
+import Counter from './components/counter'
 
+const path = window.location.pathname
 function AppMain () {
-  const path = window.location.pathname
   if (!path.includes('admin')) {
     return (
       <div className="App">
@@ -28,6 +29,7 @@ export function AdminMain () {
           href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
         ></link>
         <RoutesAdmin></RoutesAdmin>
+        <Counter />
       </div>
     )
   } else {
