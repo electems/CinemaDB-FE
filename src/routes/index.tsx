@@ -42,6 +42,7 @@ import PrivacyAndPolicyPage from '../pages/Film/Public/Privacy_And_Policy/privac
 import QandAPage from '../pages/Film/Public/QA/qa'
 import BirthdayPage from '../pages/Film/Public/Birthday/birthday'
 import Watchlist from '../pages/Film/Public/Watchlist/watchlist'
+import Test from '../test'
 
 const RoutesMain = () => {
   return (
@@ -127,6 +128,7 @@ export const RoutesAdmin = () => {
       <Route path="/admin/customform" element={<CustomForm />} />
       <Route path="/admin/professionallisting" element={<ProfessionalListing />} />
       <Route path="/admin/professionforms" element={<ProfessionForms />} />
+      <Route path="/admin/test" element={<Test />} />
       <Route path="/admin/masterforms" element={<MasterForms />} />
       <Route path="/admin/connectprofessionandmaster" element={<ConnectProfessionAndMaster />} />
       <Route path="/admin/filmfestivalforms" element={<FilmFestivalForms />} />
