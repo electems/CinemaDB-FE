@@ -4,17 +4,24 @@
 import * as React from 'react'
 import { api } from '../../../services/api'
 import { environment } from '../../../config/environment'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import AdminHeader from '../../../components/AdminHeader'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { EditableAntdTree, EditableAntdTreeNode } from '../../../components/editablantd/EditableAntdTree'
 import { v4 as uuidv4 } from 'uuid'
 import { removeSpaceAndSpecialCharacters } from '../../../services/filmservices'
+import { ContextTitle } from '../../../components/editablantd/EditableAntdTreeTitle'
 interface inputTitle {
   titlePath: string
 }
 const ProfessionalTree = () => {
   const [lablePath, setLablePath] = useState('')
+  /*
+  * Import the created context from parent component
+  * Here using the context value which is created in parent component
+  * To use context we have to import useContext from react
+  */
+  const [title, setTitle] = useContext(ContextTitle)
   const [lable, setLable] = useState('')
   const titleLabel = (useLocation().state as inputTitle).titlePath
   const [industryCategoryList, setIndustryCategoryList] = useState<EditableAntdTreeNode[]>([])
@@ -52,14 +59,14 @@ const ProfessionalTree = () => {
     navigate('/admin/professionallisting')
   }
 
-  function onClickCancel() {
+  function onClickCancel () {
     navigate('/admin/professionallisting')
   }
 
   return (
     <>
       <AdminHeader />
-      <h1 className="title text-center pt-3">{lable}</h1>
+      <h1 className="title text-center pt-3">{title}</h1>
       <br />
       <div>
         {industryCategoryList.length > 0 &&

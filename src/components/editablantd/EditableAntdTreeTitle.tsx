@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import { Tooltip } from 'antd'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, createContext } from 'react'
 import { AiOutlineSisternode, AiOutlineSubnode, AiOutlineForm } from 'react-icons/ai'
 import { BiCheck } from 'react-icons/bi'
 import { GrFormClose } from 'react-icons/gr'
@@ -49,7 +49,13 @@ type EditableTreeTitleProps = {
 export type TEditableTreeTitle = Omit<
   EditableTreeTitleProps,
   'treeData' | 'setTreeData' | 'node' | 'expandKey'
->;
+  >;
+
+const title: any = ''
+/**
+ * After creating the context we have to provide the value for the state in HTML part.
+ * */
+export const ContextTitle = React.createContext(title)
 
 export const EditableTreeTitle = ({
   treeData,
@@ -267,11 +273,14 @@ export const EditableTreeTitle = ({
 
         {source === 'level1' && (
           <Tooltip title={'Add Form'}>
+            {/* Here I'm providing the value for context */}
+            <ContextTitle.Provider value= {node.title}>
             <button id='form_icon' onClick={() => navigateToFom(node.title as string)}>
               <AiOutlineForm
                 style={{ marginLeft: 10 }}
                 size={24} />
-            </button>
+              </button>
+              </ContextTitle.Provider>
           </Tooltip>
 
         )}
