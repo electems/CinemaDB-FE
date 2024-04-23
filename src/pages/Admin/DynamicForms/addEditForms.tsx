@@ -1,5 +1,5 @@
 /* eslint-disable eqeqeq */
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 
 import { JsonForms } from '@jsonforms/react'
 
@@ -16,7 +16,7 @@ interface FolderName {
   folderName: string
 }
 
-const AddEditForms = () => {
+const AddEditForms: React.FC = () => {
   const [data, setData] = useState<any>({})
   const [schema, setSchemaFormData] = useState<any>()
   const [uischema, setUIFormData] = useState<any>()
@@ -47,16 +47,20 @@ const AddEditForms = () => {
       setData(response)
     }
   }
+  /**
+   * Pure componeents in react are components that only re-render when their props or state changed
+   * In modern we can achieve the same optimization using React.memo higher-order component or the useMemo
+   hook for functional components.
+  */
 
-  const handleCreateandUpdateuser = async () => {
+  const handleCreateandUpdateuser = useCallback(() => {
     if (data.id == null) {
-      await api
-        .post('/auth/createuser', data)
+      api.post('/auth/createuser', data);
     } else {
-      await api
-        .put(`/auth/updateuser/${id}`, data)
+      api.put(`/auth/updateuser/${id}`, data);
     }
-  }
+  }, [data]);
+
   function handleSaveuser () {
     handleCreateandUpdateuser()
     navigate('/admin/userListing')

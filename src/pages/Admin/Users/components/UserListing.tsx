@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
@@ -22,7 +23,7 @@ interface users {
   filmIndustry: string;
 }
 
-const UserListing: React.FC = () => {
+const UserListing: React.FC = React.memo(() => {
   const navigate = useNavigate()
   const [usersData, setUserData] = useState([])
   const userObj = JSON.parse(localStorage.getItem('authuser')!)
@@ -215,6 +216,6 @@ const UserListing: React.FC = () => {
       </div>
     </>
   )
-}
+})
 
 export default UserListing
