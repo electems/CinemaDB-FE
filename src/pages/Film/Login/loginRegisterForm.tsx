@@ -19,6 +19,8 @@ export const LoginRegisterForm: React.FC = () => {
   const [namePhoneNumber, setNamePhoneNumber] = React.useState('')
   const [seconds, setSeconds] = useState(15)
   const [otpNumber, setOTPNumber] = React.useState('')
+  let [mail,setMail] = useState('')
+  let [otp,setOtp] = useState('')
   const [activateTimer, setActivateTimer] = React.useState(false)
   const preference = useLocation().state as types
   const navigate = useNavigate()
@@ -80,6 +82,9 @@ export const LoginRegisterForm: React.FC = () => {
         username: namePhoneNumber,
         password: otpNumber
       }
+      setOtp(data.password)
+      setMail(data.username)
+      console.log(mail, otp)
       const response = await api.post('/auth/login', data)
       const userResponse = response.data
       if (userResponse.status === 'Invalid_Password') {
