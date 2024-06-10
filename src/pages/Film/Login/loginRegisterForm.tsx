@@ -16,22 +16,16 @@ interface types {
   preference
 }
 export const LoginRegisterForm: React.FC = () => {
-  const [email,SetEmail]=useState('')
-  const [otp,SetOtp]=useState('')
-  const handleEmail=(event: React.ChangeEvent<HTMLInputElement>) => {
-    SetEmail(event.target.value)
-  }
-  const handleOtp=(event: React.ChangeEvent<HTMLInputElement>) => {
-    SetOtp(event.target.value)
-  }
-  const [namePhoneNumber, setNamePhoneNumber] = React.useState('')
+  const [namePhoneNumber,SetMail]=useState('')
+  const [otpNumber,SetOtp]=useState('')
+  // const [namePhoneNumber, setNamePhoneNumber] = React.useState('')
   const [seconds, setSeconds] = useState(15)
-  const [otpNumber, setOTPNumber] = React.useState('')
+  // const [otpNumber, setOTPNumber] = React.useState('')
   const [activateTimer, setActivateTimer] = React.useState(false)
   const preference = useLocation().state as types
   const navigate = useNavigate()
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNamePhoneNumber(event.target.value)
+    SetMail(event.target.value)
   }
 
   useEffect(() => {
@@ -39,7 +33,7 @@ export const LoginRegisterForm: React.FC = () => {
   }, [])
 
   const handleInputChangeOtp = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOTPNumber(event.target.value)
+    SetOtp(event.target.value)
   }
   const interval = setInterval(() => {
     if (seconds > 0) {
@@ -57,7 +51,7 @@ export const LoginRegisterForm: React.FC = () => {
   }, 1000)
 
   const generateOTP = async () => {
-    const userNamePhoneNumber = email
+    const userNamePhoneNumber = namePhoneNumber
     if (userNamePhoneNumber.length === 0) {
       await errorToastify('Please Enter Email Or Phone Number')
     } else {
@@ -79,16 +73,19 @@ export const LoginRegisterForm: React.FC = () => {
     }
   }
   const verify = async () => {
-    if (email.length === 0) {
+    if (namePhoneNumber.length === 0) {
       await errorToastify('Please Enter Email Or Phone Number')
-    } else if (otp.length === 0) {
+    } else if (otpNumber.length === 0) {
       await errorToastify('Please Enter OTP To Continue')
     } else {
       const data: Login = {
-        username: email,
-        password: otp
+        username: namePhoneNumber,
+        password: otpNumber
       }
-      console.log(data)
+      SetMail(data.username)
+      SetOtp(data.password)
+      console.log(namePhoneNumber,otpNumber);
+      
       const response = await api.post('/auth/login', data)
       const userResponse = response.data
       if (userResponse.status === 'Invalid_Password') {
@@ -154,7 +151,7 @@ export const LoginRegisterForm: React.FC = () => {
                   </div>
           <div className="flex flex-col items-center justify-start w-full">
             <div className=" h-[311px] relative w-full">
-              <input onChange={handleEmail} placeholder="Enter Number Or Email" className="absolute border placeholder:text-gray_900 pl-[30px] border-solid border-white_A700 flex inset-x-[0] items-start justify-end mx-auto p-[10px] sm:px-5 rounded-[10px] top-[0] w-full">
+              <input onChange={handleInputChange} placeholder="Enter Number Or Email" className="absolute border placeholder:text-gray_900 pl-[30px] border-solid border-white_A700 flex inset-x-[0] items-start justify-end mx-auto p-[10px] sm:px-5 rounded-[10px] top-[0] w-full">
               </input>
                 <div className="absolute top-2 right-2 ">
                    <button
@@ -169,7 +166,7 @@ export const LoginRegisterForm: React.FC = () => {
                 wrapClassName="absolute border border-solid border-white_A700 mt-[100px] mx-auto pl-[30px] pr-3 py-[10px] rounded-[10px] w-full"
                 className="font-normal leading-[normal] not-italic p-0 placeholder:text-gray_900 sm:pl-5 text-base text-gray_900 text-left w-full"
                 name="language"
-                onChange={handleOtp}
+                onChange={handleInputChangeOtp}
                 placeholder="Enter  OTP"
               ></Input>
               </div>
