@@ -84,7 +84,7 @@ export const LoginRegisterForm: React.FC = () => {
       }
       setOtp(otpNumber)
       setMail(namePhoneNumber)
-      console.log(mail, otp)
+      console.log(namePhoneNumber, otpNumber)
       const response = await api.post('/auth/login', data)
       const userResponse = response.data
       if (userResponse.status === 'Invalid_Password') {
