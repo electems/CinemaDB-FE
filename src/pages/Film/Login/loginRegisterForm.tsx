@@ -11,6 +11,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Img, Text, Input, Button, Line } from '../../../components/Elements'
 import { toastify, errorToastify } from '../../../services/filmservices'
 import { Radio, Space } from 'antd'
+import { CinemaFansForm } from '../Register/Filmpersonregister/cinemafansregister'
+import { Link } from 'react-router-dom'
 
 interface types {
   preference
@@ -85,7 +87,6 @@ export const LoginRegisterForm: React.FC = () => {
       SetMail(data.username)
       SetOtp(data.password)
       console.log(namePhoneNumber,otpNumber);
-      
       const response = await api.post('/auth/login', data)
       const userResponse = response.data
       if (userResponse.status === 'Invalid_Password') {
@@ -125,61 +126,70 @@ export const LoginRegisterForm: React.FC = () => {
 
   return (
     <>
+      <div> {<CinemaFansForm userEmail={namePhoneNumber} />}</div>
       <div className="bg-gray_800 font-montserrat h-screen">
         <div className="absolute bg-bluegray_101 flex h-full items-end justify-start p-[114px] md:px-5 right-[0]">
-          <Img
-            src="/images/img_authenticationrafiki.svg"
-            className=""
-          />
+          <Img src="/images/img_authenticationrafiki.svg" className="" />
         </div>
         <div className="absolute bg-white_A700 flex flex-col md:gap-10 gap-[68px] h-full inset-y-[0] items-center justify-center left-[0] my-auto p-[140px] md:px-5 rounded-bl-none rounded-br-[30px] rounded-tl-none rounded-tr-[30px] w-1/2">
           <div className="mt-30">
-          <Text
-            className="font-semibold text-gray_900 text-left w-auto "
-            variant="body3"
-          >
-            Login / Register
-          </Text>
-          <div className="countdown-text">
-          {seconds > 0 && activateTimer === true
-            ? <p>
-          Time Remaining:
-          {seconds < 10 ? `0${seconds}` : seconds }
-        </p>
-            : ''}
-                  </div>
-                  </div>
+            <Text
+              className="font-semibold text-gray_900 text-left w-auto "
+              variant="body3"
+            >
+              Login / Register
+            </Text>
+            <div className="countdown-text">
+              {seconds > 0 && activateTimer === true ? (
+                <p>
+                  Time Remaining:
+                  {seconds < 10 ? `0${seconds}` : seconds}
+                </p>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
           <div className="flex flex-col items-center justify-start w-full">
             <div className=" h-[311px] relative w-full">
-              <input onChange={handleInputChange} placeholder="Enter Number Or Email" className="absolute border placeholder:text-gray_900 pl-[30px] border-solid border-white_A700 flex inset-x-[0] items-start justify-end mx-auto p-[10px] sm:px-5 rounded-[10px] top-[0] w-full">
-              </input>
-                <div className="absolute top-2 right-2 ">
-                   <button
-                    onClick={generateOTP}
-                    className="cursor-pointer text-left text-red_A700 get-otp"
-                     >
-                     Get OTP
-                   </button>
-                </div>
+              <input
+                onChange={handleInputChange}
+                placeholder="Enter Number Or Email"
+                className="absolute border placeholder:text-gray_900 pl-[30px] border-solid border-white_A700 flex inset-x-[0] items-start justify-end mx-auto p-[10px] sm:px-5 rounded-[10px] top-[0] w-full"
+              ></input>
+              <div className="absolute top-2 right-2 ">
+                <button
+                  onClick={generateOTP}
+                  className="cursor-pointer text-left text-red_A700 get-otp"
+                >
+                  Get OTP
+                </button>
+              </div>
               <div>
-              <Input
-                wrapClassName="absolute border border-solid border-white_A700 mt-[100px] mx-auto pl-[30px] pr-3 py-[10px] rounded-[10px] w-full"
-                className="font-normal leading-[normal] not-italic p-0 placeholder:text-gray_900 sm:pl-5 text-base text-gray_900 text-left w-full"
-                name="language"
-                onChange={handleInputChangeOtp}
-                placeholder="Enter  OTP"
-              ></Input>
+                <Input
+                  wrapClassName="absolute border border-solid border-white_A700 mt-[100px] mx-auto pl-[30px] pr-3 py-[10px] rounded-[10px] w-full"
+                  className="font-normal leading-[normal] not-italic p-0 placeholder:text-gray_900 sm:pl-5 text-base text-gray_900 text-left w-full"
+                  name="language"
+                  onChange={handleInputChangeOtp}
+                  placeholder="Enter  OTP"
+                ></Input>
               </div>
               <div className="absolute bottom-[0] flex flex-col inset-x-[0] justify-start mx-auto w-full">
                 <div>
                   <Radio.Group>
                     <Space direction="vertical">
-                      <Radio className="text-base" value={1}>I am 18 or Above and I agree to the </Radio>
-                      <Radio className="text-base" value={2}>I am Not 18 or Above and I agree to the </Radio>
+                      <Radio className="text-base" value={1}>
+                        I am 18 or Above and I agree to the{" "}
+                      </Radio>
+                      <Radio className="text-base" value={2}>
+                        I am Not 18 or Above and I agree to the{" "}
+                      </Radio>
                     </Space>
                   </Radio.Group>
                 </div>
-                  <p className="text-red_A700 text-sm pl-6 pt-1">Terms & Conditions and Privacy Policy. </p>
+                <p className="text-red_A700 text-sm pl-6 pt-1">
+                  Terms & Conditions and Privacy Policy.{" "}
+                </p>
                 <div className="flex items-center justify-start mt-[11px] w-full">
                   <Button
                     onClick={verify}
@@ -187,6 +197,11 @@ export const LoginRegisterForm: React.FC = () => {
                   >
                     Verify
                   </Button>
+                  <Link to="/viewitem">
+                    <Button className="common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[400px] sm:min-w-full py-[15px] rounded-[12px] text-2xl md:text-[22px] text-center text-white_A700 sm:text-xl w-auto">
+                      ViewItems
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -234,5 +249,5 @@ export const LoginRegisterForm: React.FC = () => {
         </div>
       </div>
     </>
-  )
+  );
 }
