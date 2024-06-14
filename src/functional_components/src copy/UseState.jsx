@@ -1,4 +1,5 @@
 import { useState } from "react"
+import Prop from "./Prop"
 
 function UseState() {
 
@@ -17,6 +18,7 @@ function UseState() {
     <div>
         <h1>{creature}</h1>
         <button onClick={pickAnimal}>change animal</button>
+        <Prop prop={creature}/>
     </div>
   )
 }

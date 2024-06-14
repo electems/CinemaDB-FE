@@ -9,7 +9,7 @@ function Events() {
     function pickAnimal(){
         document.createElement('h1').write(animal())
     }
-
+    
   return (
       <div>
         <h1>{animal()}</h1>
