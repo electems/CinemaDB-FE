@@ -15,7 +15,6 @@ import { environment } from '../../../../config/environment'
 import './style.css'
 import { ReactFormGenerator } from 'react-form-builder2'
 import { ISubCategoryUserForm } from '../../../../types/subcategoryuserform.type'
-
 import Accordion from 'react-bootstrap/Accordion'
 import MyProfilePage from '../../MyProfile/myprofile'
 
@@ -135,14 +134,14 @@ export const CinemaFansForm: React.FC = () => {
                 {cinemaFansForm.length > 0
                   ? cinemaFansForm.map((record: any, i) => {
                     return (
-                  <><div>{record.value[0]?.value}</div>
+                      <><div>{record.value[0]?.value}</div>
                     <div>
                       <ReactFormGenerator
                         back_action=""
                         form_action=""
                         answer_data={record.value}
-                        form_method="POST"
                         data={formGeneratorLayoutOfRoleAndType}
+                        form_method="POST"
                         onSubmit={(data) => onClickOfSave(data, record.id)}
                         submitButton={
                           <div className="flex sm:flex-col flex-row font-poppins gap-[25px] items-center justify-end ml-auto w-[44%] md:w-full">

@@ -1,6 +1,6 @@
 import { DataNode } from 'antd/lib/tree'
 import React from 'react'
-import { EditableAntdTreeNode } from './editableAntdTree'
+import { EditableAntdTreeNode } from './EditableAntdTree'
 
 export const deleteTreeNode = (
   tree: EditableAntdTreeNode[],
