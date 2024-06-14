@@ -17,7 +17,7 @@ function UseState () {
     <div>
         <h1>{creature}</h1>
         <button onClick={pickAnimal}>change animal</button>
-        <Prop prop={creature}/>
+        <Prop prop={[creature, animal]}/>
     </div>
   )
 }
