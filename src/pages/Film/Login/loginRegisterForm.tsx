@@ -199,7 +199,7 @@ export const LoginRegisterForm: React.FC = () => {
                   </Button>
                   <Link to="/viewitem">
                     <Button className="common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[400px] sm:min-w-full py-[15px] rounded-[12px] text-2xl md:text-[22px] text-center text-white_A700 sm:text-xl w-auto">
-                      ViewItems
+                       ViewItems
                     </Button>
                   </Link>
                 </div>

@@ -18,14 +18,16 @@ import { ISubCategoryUserForm } from '../../../../types/subcategoryuserform.type
 
 import Accordion from 'react-bootstrap/Accordion'
 import MyProfilePage from '../../MyProfile/myprofile'
-
+interface CinemaFansFormProps {
+  userEmail: string;
+}
 interface InputData{
     loggedUser
     user
     profile
 }
 let currentSubCategoryType: any
-export const CinemaFansForm: React.FC = () => {
+export const CinemaFansForm: React.FC<CinemaFansFormProps> = (props) => {
   const [selectedMastersOfTheCurrentSubCategory, setSelectedMastersOfTheCurrentSubCategory] = React.useState('')
   const [cinemaFansForm, setCinemaFansForm] = React.useState<any[]>([])
   const [active, setActive] = React.useState(false)
@@ -69,6 +71,7 @@ export const CinemaFansForm: React.FC = () => {
     }
     const loadDataFromBackend = await formProfessionData.data
     if (loadDataFromBackend && loadDataFromBackend.length > 0) {
+      console.log(props.userEmail);
       setCinemaFansForm(loadDataFromBackend)
     }
   }
@@ -135,7 +138,8 @@ export const CinemaFansForm: React.FC = () => {
                 {cinemaFansForm.length > 0
                   ? cinemaFansForm.map((record: any, i) => {
                     return (
-                  <><div>{record.value[0]?.value}</div>
+                  <><div>{record.value[0].value}</div>
+                  <div></div>
                     <div>
                       <ReactFormGenerator
                         back_action=""

@@ -42,10 +42,12 @@ import PrivacyAndPolicyPage from '../pages/Film/Public/Privacy_And_Policy/privac
 import QandAPage from '../pages/Film/Public/QA/qa'
 import BirthdayPage from '../pages/Film/Public/Birthday/birthday'
 import Watchlist from '../pages/Film/Public/Watchlist/watchlist'
+import ViewData from '../components/React/ViewData'
 
 const RoutesMain = () => {
   return (
     <Routes>
+      <Route path='/viewitem' element={<ViewData/>}/>
       <Route path="/film/login/selectpreference" element={<SelectPreferenceForm />} />
       <Route path="/film/login/loginregister" element={<LoginRegisterForm />} />
       <Route

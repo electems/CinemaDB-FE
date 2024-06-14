@@ -1,90 +1,114 @@
-{
-    "sandalwood": {
-        "actor": [
-            {
-                "name": "rahul",
-                "age": 20,
-                "location": "pune",
-                "email": "rahul@gmail.com"
-            },
-            {
-                "name": "sanjay",
-                "age": 19,
-                "location": "Bangalore",
-                "email": "sanjay@gmail.com"
-            }
-        ],
-        "actress": [
-            {
-                "name": "shlpa",
-                "age": 22,
-                "location": "Bangalore",
-                "email": "shilpa@gmail.com"
-            },
-            {
-                "name": "katrina",
-                "age": 25,
-                "location": "mumbai",
-                "email": "katrina@gmail.com"
-            }
-        ],
-        "singers": [
-            {
-                "name": "kk",
-                "age": 23,
-                "location": "delhi",
-                "email": "kk@gmail.com"
-            },
-            {
-                "name": "vihal mishra",
-                "age": 30,
-                "location": "mumbai",
-                "email": "vishal@gmail.com"
-            }
+[
+  {
+    "industryName": "sandalwood",
+    "categories": [
+      {
+        "categoryName": "actor",
+        "items": [
+          {
+            "name": "John",
+            "age": 25,
+            "location": "Los Angeles",
+            "email": "john@example.com"
+          },
+          {
+            "name": "Michael",
+            "age": 30,
+            "location": "New York",
+            "email": "michael@example.com"
+          }
         ]
-    },
-    "tollywood": {
-        "actor": [
-            {
-                "name": "abcd",
-                "age": 20,
-                "location": "dvdvs",
-                "email": "x@gmail.com"
-            },
-            {
-                "name": "asvasd",
-                "age": 25,
-                "location": "Bangalore",
-                "email": "x@gmail.com"
-            }
-        ],
-        "actress": [
-            {
-                "name": "scisn",
-                "age": 20,
-                "location": "Bangalore",
-                "email": "x@gmail.com"
-            },
-            {
-                "name": "svvcs",
-                "age": 20,
-                "location": "Bangalore",
-                "email": "x@gmail.com"
-            }
-        ],
-        "singers": [
-            {
-                "name": "ijnjf",
-                "age": 18,
-                "location": "sdkyujy",
-                "email": "x@gmail.com"
-            },
-            {
-                "name": "dunj ",
-                "age": 22,
-                "location": "svsdv",
-                "email": "x@gmail.com"
-            }
+      },
+      {
+        "categoryName": "actress",
+        "items": [
+          {
+            "name": "Emily",
+            "age": 28,
+            "location": "London",
+            "email": "emily@example.com"
+          },
+          {
+            "name": "Sophia",
+            "age": 26,
+            "location": "Paris",
+            "email": "sophia@example.com"
+          }
         ]
-    }
-}
+      },
+      {
+        "categoryName": "singers",
+        "items": [
+          {
+            "name": "David",
+            "age": 35,
+            "location": "Berlin",
+            "email": "david@example.com"
+          },
+          {
+            "name": "Emma",
+            "age": 29,
+            "location": "Tokyo",
+            "email": "emma@example.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "industryName": "tollywood",
+    "categories": [
+      {
+        "categoryName": "actor",
+        "items": [
+          {
+            "name": "Liam",
+            "age": 27,
+            "location": "Sydney",
+            "email": "liam@example.com"
+          },
+          {
+            "name": "Olivia",
+            "age": 24,
+            "location": "Toronto",
+            "email": "olivia@example.com"
+          }
+        ]
+      },
+      {
+        "categoryName": "actress",
+        "items": [
+          {
+            "name": "Ava",
+            "age": 31,
+            "location": "Rome",
+            "email": "ava@example.com"
+          },
+          {
+            "name": "Noah",
+            "age": 22,
+            "location": "Seoul",
+            "email": "noah@example.com"
+          }
+        ]
+      },
+      {
+        "categoryName": "singers",
+        "items": [
+          {
+            "name": "Isabella",
+            "age": 32,
+            "location": "Moscow",
+            "email": "isabella@example.com"
+          },
+          {
+            "name": "James",
+            "age": 28,
+            "location": "Rio de Janeiro",
+            "email": "james@example.com"
+          }
+        ]
+      }
+    ]
+  }
+]
