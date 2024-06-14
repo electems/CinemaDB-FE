@@ -1,18 +1,17 @@
-import { useState } from "react"
-import Prop from "./Prop"
+import { useState } from 'react'
+import Prop from './Prop'
 
-function UseState() {
+function UseState () {
+  const animals = ['zebra', 'horse', 'koala', 'kangaroo', 'doraemon']
 
-    const animals = ['zebra', 'horse', 'koala', 'kangaroo', 'doraemon']
+  const animal = () => {
+    return animals[Math.trunc(Math.random() * 6)]
+  }
+  const [creature, setCreature] = useState(animal())
 
-    const animal = () => {
-        return animals[Math.trunc(Math.random()*6)]
-    }
-    let [creature , setCreature] = useState(animal())
-
-    function pickAnimal() {
-        setCreature(animal())
-    }
+  function pickAnimal () {
+    setCreature(animal())
+  }
 
   return (
     <div>
