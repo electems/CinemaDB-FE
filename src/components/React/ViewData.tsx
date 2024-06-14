@@ -2,11 +2,18 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const ViewData = () => {
-  const [data, setData] = useState([]);
+  const [data1, setData1] = useState([]);
+  const [data2, setData2] = useState([]);
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3600/sandalwood`);
-      setData(response.data.sandalwood);
+      const responseSandalwood = await axios.get(
+        `http://localhost:3600/sandalwood`
+      );
+      setData1(responseSandalwood.data);
+      const responseTollywood = await axios.get(
+        `http://localhost:3600/tollywood`
+      );
+      setData2(responseTollywood.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -18,29 +25,35 @@ const ViewData = () => {
 
   return (
     <div className="viewitem">
-      <h1>Data from JSON Server:</h1> 
-       {data.map((industry, index) => (
-          <li key={index}>
-            <h2>{industry.industryName}</h2>
-            <ul>
-              {industry.categories.map((category, index) => (
-                <li key={index}>
-                  <h3>{category.categoryName}</h3>
-                  <ul>
-                    {category.items.map((item, index) => (
-                      <li key={index}>
-                        <p>Name: {item.name}</p>
-                        <p>Age: {item.age}</p>
-                        <p>Location: {item.location}</p>
-                        <p>Email: {item.email}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
+      <h1>Data from JSON Server:</h1>
+      <h2>Sandalwood</h2>
+      {Object.keys(data1).map((category) => (
+        <div>
+          <h2>{category}</h2>
+          <ul>
+            {data1[category].map((person) => (
+              <li>
+                Name: {person.name}, Age: {person.age}, Location:{" "}
+                {person.location}, Email: {person.email}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <h2>Tollywood</h2>
+      {Object.keys(data2).map((category) => (
+        <div>
+          <h2>{category}</h2>
+          <ul>
+            {data2[category].map((person) => (
+              <li>
+                Name: {person.name}, Age: {person.age}, Location:{" "}
+                {person.location}, Email: {person.email}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 };

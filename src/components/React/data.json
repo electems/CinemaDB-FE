@@ -1,114 +1,90 @@
-[
-  {
-    "industryName": "sandalwood",
-    "categories": [
+{
+  "sandalwood": {
+    "actor": [
       {
-        "categoryName": "actor",
-        "items": [
-          {
-            "name": "John",
-            "age": 25,
-            "location": "Los Angeles",
-            "email": "john@example.com"
-          },
-          {
-            "name": "Michael",
-            "age": 30,
-            "location": "New York",
-            "email": "michael@example.com"
-          }
-        ]
+        "name": "John",
+        "age": 25,
+        "location": "Los Angeles",
+        "email": "john@example.com"
       },
       {
-        "categoryName": "actress",
-        "items": [
-          {
-            "name": "Emily",
-            "age": 28,
-            "location": "London",
-            "email": "emily@example.com"
-          },
-          {
-            "name": "Sophia",
-            "age": 26,
-            "location": "Paris",
-            "email": "sophia@example.com"
-          }
-        ]
+        "name": "Michael",
+        "age": 30,
+        "location": "New York",
+        "email": "michael@example.com"
+      }
+    ],
+    "actress": [
+      {
+        "name": "Emily",
+        "age": 28,
+        "location": "London",
+        "email": "emily@example.com"
       },
       {
-        "categoryName": "singers",
-        "items": [
-          {
-            "name": "David",
-            "age": 35,
-            "location": "Berlin",
-            "email": "david@example.com"
-          },
-          {
-            "name": "Emma",
-            "age": 29,
-            "location": "Tokyo",
-            "email": "emma@example.com"
-          }
-        ]
+        "name": "Sophia",
+        "age": 26,
+        "location": "Paris",
+        "email": "sophia@example.com"
+      }
+    ],
+    "singers": [
+      {
+        "name": "David",
+        "age": 35,
+        "location": "Berlin",
+        "email": "david@example.com"
+      },
+      {
+        "name": "Emma",
+        "age": 29,
+        "location": "Tokyo",
+        "email": "emma@example.com"
       }
     ]
   },
-  {
-    "industryName": "tollywood",
-    "categories": [
+  "tollywood": {
+    "actor": [
       {
-        "categoryName": "actor",
-        "items": [
-          {
-            "name": "Liam",
-            "age": 27,
-            "location": "Sydney",
-            "email": "liam@example.com"
-          },
-          {
-            "name": "Olivia",
-            "age": 24,
-            "location": "Toronto",
-            "email": "olivia@example.com"
-          }
-        ]
+        "name": "Liam",
+        "age": 27,
+        "location": "Sydney",
+        "email": "liam@example.com"
       },
       {
-        "categoryName": "actress",
-        "items": [
-          {
-            "name": "Ava",
-            "age": 31,
-            "location": "Rome",
-            "email": "ava@example.com"
-          },
-          {
-            "name": "Noah",
-            "age": 22,
-            "location": "Seoul",
-            "email": "noah@example.com"
-          }
-        ]
+        "name": "Olivia",
+        "age": 24,
+        "location": "Toronto",
+        "email": "olivia@example.com"
+      }
+    ],
+    "actress": [
+      {
+        "name": "Ava",
+        "age": 31,
+        "location": "Rome",
+        "email": "ava@example.com"
       },
       {
-        "categoryName": "singers",
-        "items": [
-          {
-            "name": "Isabella",
-            "age": 32,
-            "location": "Moscow",
-            "email": "isabella@example.com"
-          },
-          {
-            "name": "James",
-            "age": 28,
-            "location": "Rio de Janeiro",
-            "email": "james@example.com"
-          }
-        ]
+        "name": "Noah",
+        "age": 22,
+        "location": "Seoul",
+        "email": "noah@example.com"
+      }
+    ],
+    "singers": [
+      {
+        "name": "Isabella",
+        "age": 32,
+        "location": "Moscow",
+        "email": "isabella@example.com"
+      },
+      {
+        "name": "James",
+        "age": 28,
+        "location": "Rio de Janeiro",
+        "email": "james@example.com"
       }
     ]
   }
-]
+}
