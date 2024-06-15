@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
 
 const Missing = () => {
-    return (
+  return (
         <main className='Missing'>
             <h2>Page Not Found</h2>
-            <p>Well, that's disappointing.</p>
+            <p>Well, thats disappointing.</p>
             <p>
                 <Link to='/'>Visit Our Homepage</Link>
             </p>
         </main>
-    )
+  )
 }
 
 export default Missing
