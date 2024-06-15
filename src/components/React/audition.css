@@ -1,0 +1,40 @@
+.form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+  }
+  
+  input[type="radio"] {
+    margin-right: 5px;
+  }
+  
+  .button-container {
+    text-align: center;
+  }
+  
+  button {
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 2px solid black;
+    color: rgba(6, 151, 255, 0.944);
+  }
+  a{
+    text-decoration: none;
+  }
+  
+  

@@ -1,25 +1,19 @@
-/* eslint-disable no-mixed-operators */
-/* eslint-disable key-spacing */
-/* eslint-disable array-callback-return */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react'
 import { Login } from '../../../types/login.types'
 import { storage } from '../../../storage/storage'
 import { api } from '../../../services/api'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { Img, Text, Input, Button, Line } from '../../../components/Elements'
 import { toastify, errorToastify } from '../../../services/filmservices'
 import { Radio, Space } from 'antd'
 import { CinemaFansForm } from '../Register/Filmpersonregister/cinemafansregister'
-import { Link } from 'react-router-dom'
 
 interface types {
   preference
 }
 export const LoginRegisterForm: React.FC = () => {
-  const [namePhoneNumber,SetMail]=useState('')
-  const [otpNumber,SetOtp]=useState('')
+  const [namePhoneNumber, SetMail] = useState('')
+  const [otpNumber, SetOtp] = useState('')
   // const [namePhoneNumber, setNamePhoneNumber] = React.useState('')
   const [seconds, setSeconds] = useState(15)
   // const [otpNumber, setOTPNumber] = React.useState('')
@@ -86,7 +80,7 @@ export const LoginRegisterForm: React.FC = () => {
       }
       SetMail(data.username)
       SetOtp(data.password)
-      console.log(namePhoneNumber,otpNumber);
+      console.log(namePhoneNumber, otpNumber);
       const response = await api.post('/auth/login', data)
       const userResponse = response.data
       if (userResponse.status === 'Invalid_Password') {
@@ -118,7 +112,8 @@ export const LoginRegisterForm: React.FC = () => {
             })
           }
         } else if (loggedUser.role === 'LOVER') {
-          navigate('/film/register/cinemafansform', { state:  { loggedUser } })
+          // navigate('/film/register/cinemafansform', { state: { loggedUser } })
+          navigate('/userlist')
         }
       }
     }
@@ -140,14 +135,16 @@ export const LoginRegisterForm: React.FC = () => {
               Login / Register
             </Text>
             <div className="countdown-text">
-              {seconds > 0 && activateTimer === true ? (
+              {seconds > 0 && activateTimer === true
+                ? (
                 <p>
                   Time Remaining:
                   {seconds < 10 ? `0${seconds}` : seconds}
                 </p>
-              ) : (
-                ""
-              )}
+                  )
+                : (
+                    ''
+                  )}
             </div>
           </div>
           <div className="flex flex-col items-center justify-start w-full">
@@ -179,16 +176,16 @@ export const LoginRegisterForm: React.FC = () => {
                   <Radio.Group>
                     <Space direction="vertical">
                       <Radio className="text-base" value={1}>
-                        I am 18 or Above and I agree to the{" "}
+                        I am 18 or Above and I agree to the{' '}
                       </Radio>
                       <Radio className="text-base" value={2}>
-                        I am Not 18 or Above and I agree to the{" "}
+                        I am Not 18 or Above and I agree to the{' '}
                       </Radio>
                     </Space>
                   </Radio.Group>
                 </div>
                 <p className="text-red_A700 text-sm pl-6 pt-1">
-                  Terms & Conditions and Privacy Policy.{" "}
+                  Terms & Conditions and Privacy Policy.{' '}
                 </p>
                 <div className="flex items-center justify-start mt-[11px] w-full">
                   <Button
@@ -200,6 +197,11 @@ export const LoginRegisterForm: React.FC = () => {
                   <Link to="/viewitem">
                     <Button className="common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[400px] sm:min-w-full py-[15px] rounded-[12px] text-2xl md:text-[22px] text-center text-white_A700 sm:text-xl w-auto">
                        ViewItems
+                    </Button>
+                  </Link>
+                  <Link to="/audition">
+                    <Button className="common-pointer bg-red_A700 cursor-pointer font-bold leading-[normal] min-w-[400px] sm:min-w-full py-[15px] rounded-[12px] text-2xl md:text-[22px] text-center text-white_A700 sm:text-xl w-auto">
+                       AuditionCall
                     </Button>
                   </Link>
                 </div>

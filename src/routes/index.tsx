@@ -43,11 +43,17 @@ import QandAPage from '../pages/Film/Public/QA/qa'
 import BirthdayPage from '../pages/Film/Public/Birthday/birthday'
 import Watchlist from '../pages/Film/Public/Watchlist/watchlist'
 import ViewData from '../components/React/ViewData'
+import AuditionCall from '../components/React/AuditionCall'
+import AuditionCallListPage from '../components/React/AuditionCallListPage'
 
 const RoutesMain = () => {
   return (
     <Routes>
       <Route path='/viewitem' element={<ViewData/>}/>
+      <Route path='/audition' element={<AuditionCall/>}/>
+      <Route path='/audition/:id' element={<AuditionCall/>}/>
+      <Route path='/userlist' element={<AuditionCallListPage/>}/>
+
       <Route path="/film/login/selectpreference" element={<SelectPreferenceForm />} />
       <Route path="/film/login/loginregister" element={<LoginRegisterForm />} />
       <Route
