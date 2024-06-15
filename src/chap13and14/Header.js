@@ -1,14 +1,20 @@
-const Header = ({ title }) => {
+import React from 'react';
+import PropTypes from 'prop-types';
 
-    return (
-        <header>
-            <h1>{title}</h1>
-        </header>
-    )
+const Header = ({ title }) => {
+  return (
+    <header>
+      <h1>{title}</h1>
+    </header>
+  );
 }
+
+Header.propTypes = {
+  title: PropTypes.string.isRequired
+};
 
 Header.defaultProps = {
-    title: "Default Title"
-}
+  title: 'Default Title'
+};
 
 export default Header;

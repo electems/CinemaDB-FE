@@ -6,7 +6,7 @@ import Footer from './Footer';
 import { useState, useEffect } from 'react';
 import apiRequest from './apiRequest';
 
-function App() {
+function App () {
   const API_URL = 'http://localhost:3600/items';
 
   const [items, setItems] = useState([]);
@@ -16,7 +16,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-
     const fetchItems = async () => {
       try {
         const response = await fetch(API_URL);
@@ -32,7 +31,6 @@ function App() {
     }
 
     setTimeout(() => fetchItems(), 2000);
-
   }, [])
 
   const addItem = async (item) => {
@@ -100,7 +98,7 @@ function App() {
       />
       <main>
         {isLoading && <p>Loading Items...</p>}
-        {fetchError && <p style={{ color: "red" }}>{`Error: ${fetchError}`}</p>}
+        {fetchError && <p style={{ color: 'red' }}>{`Error: ${fetchError}`}</p>}
         {!fetchError && !isLoading && <Content
           items={items.filter(item => ((item.item).toLowerCase()).includes(search.toLowerCase()))}
           handleCheck={handleCheck}
