@@ -3,15 +3,25 @@ import axios from 'axios';
 
 function GetAllAuditions () {
   const [auditions, setAuditions] = useState([]);
+  const [hasDeleted, setHasDeleted] = useState(false)
 
   useEffect(() => {
     fetchAuditions();
-  }, []);
+  }, [hasDeleted]);
+
+  const deleteAuditions = async (id) => {
+    await axios.delete(`http://localhost:3001/auditioncall/${id}`)
+      .then(() => {
+        document.alert('deleted successfully')
+        setHasDeleted(true)
+      })
+  }
 
   const fetchAuditions = async () => {
     try {
       const response = await axios.get('http://localhost:3001/auditioncall/audtions');
       setAuditions(response.data);
+      setHasDeleted(false)
     } catch (error) {
       console.error('Error fetching auditions:', error);
     }
@@ -41,7 +51,7 @@ function GetAllAuditions () {
                             <td>{audition.aboutUs}</td>
                             <td>
                                 <button style={{ margin: '10px' }} >Edit</button>
-                                <button>Delete</button>
+                                <button onClick={() => { deleteAuditions(audition.id) }}>Delete</button>
                             </td>
                         </tr>
                     ))}
