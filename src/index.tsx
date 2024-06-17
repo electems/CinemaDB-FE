@@ -4,28 +4,28 @@ import { BrowserRouter } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
 import { ContextProvider } from './contexts/contextLogin'
 import { ToastContainer } from 'react-toastify'
-// import './styles/index.css'
-// import './styles/tailwind.css'
-// import './styles/font.css'
-
+import './styles/index.css'
+import './styles/tailwind.css'
+import './styles/font.css'
 import { GlobalStyle } from './styles/global'
 import AppMain, { AdminMain } from './App'
-import './chap8/index.css'
-import App from './chap8/App'
+import { Provider } from 'react-redux'
+import { store } from './Store/store'
 
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 )
 root.render(
+  <Provider store={store}>
   <BrowserRouter>
-    {/* <GlobalStyle />
+    <GlobalStyle />
     <ToastContainer />
     <ContextProvider>
       <AdminMain></AdminMain>
     </ContextProvider>
-    <AppMain></AppMain> */}
-    <App/>
-  </BrowserRouter>
+    <AppMain></AppMain>
+    </BrowserRouter>
+    </Provider>
 )
 reportWebVitals()
