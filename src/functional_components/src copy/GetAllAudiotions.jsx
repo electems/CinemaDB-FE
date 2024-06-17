@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 function GetAllAuditions () {
   const [auditions, setAuditions] = useState([]);
-  const [hasDeleted, setHasDeleted] = useState(false)
-
+  const [hasDeleted, setHasDeleted] = useState(1)
+  const navigate = useHistory()
   useEffect(() => {
     fetchAuditions();
-  }, [hasDeleted]);
+  }, []);
 
   const deleteAuditions = async (id) => {
     await axios.delete(`http://localhost:3001/auditioncall/${id}`)
       .then(() => {
         document.alert('deleted successfully')
-        setHasDeleted(true)
+        setHasDeleted(hasDeleted + 1)
       })
   }
 
@@ -21,7 +22,6 @@ function GetAllAuditions () {
     try {
       const response = await axios.get('http://localhost:3001/auditioncall/audtions');
       setAuditions(response.data);
-      setHasDeleted(false)
     } catch (error) {
       console.error('Error fetching auditions:', error);
     }
@@ -50,7 +50,7 @@ function GetAllAuditions () {
                             <td>{audition.gender}</td>
                             <td>{audition.aboutUs}</td>
                             <td>
-                                <button style={{ margin: '10px' }} >Edit</button>
+                                <button style={{ margin: '10px' }} onClick={(e) => { e.preventDefault(); navigate.push(`/edit/${audition.id}`) }} >Edit</button>
                                 <button onClick={() => { deleteAuditions(audition.id) }}>Delete</button>
                             </td>
                         </tr>
