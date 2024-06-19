@@ -1,5 +1,5 @@
 input[type=file]::file-selector-button {
-    margin-right: 20px;
+    /* margin-right: 20px; */
     border: none;
     background: red;
     padding: 10px 20px;
@@ -11,3 +11,106 @@ input[type=file]::file-selector-button {
 input[type=file]::file-selector-button:hover {
     background: red;
 }
+
+.event-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Aligns content to the left */
+    align-items: flex-start; /* Aligns items to the left */
+  }
+  
+  .event-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 20px;
+    color: yellow;
+  }
+  
+  .event-info {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .event-date {
+    font-size: 14px;
+    font-style: italic;
+    color: white;
+    margin-right: 10px;
+    margin-left: 20px;
+  }
+  
+  .event-location {
+    font-size: 14px;
+    color: white;
+    display: flex;
+  }
+  
+  .hello{
+    background-color: #f2f2f2;
+  }
+
+  .venue{
+    color: yellow;
+  }
+
+  .movie-details {
+   
+    color: white;
+    background-color: rgba(147, 147, 147, 0.285);
+    justify-content: space-evenly;
+    margin-left: 20px;
+    display: flex;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 95%; /* Adjust width as needed */
+  }
+  
+  .movie-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .movie-venue {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .button-section {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .buttons{
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .price-section,
+  .quantity-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .price-label,
+  .quantity-label {
+    color: yellow;
+    margin-right: 10px;
+  }
+  
+  .quantity-input {
+    width: 50px;
+    padding: 5px;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  
