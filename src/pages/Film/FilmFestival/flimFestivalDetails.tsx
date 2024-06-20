@@ -1,58 +1,47 @@
 import React, { useEffect, useRef, useState } from "react";
-
 import Header from "../../../components/MainScreenHeader/mainscreenheader";
 import { Text, Img, Line, Button } from "../../../components/Elements/index";
 import Footer from "../../../components/Footer/footer";
-import { api } from "../../../services/api";
 import AliceCarousel from "react-alice-carousel";
 import PhotoSection from "./PhotoSection";
-import './style.css'
-import AboutSection from "./AboutSection"; 
+import "./style.css";
+import AboutSection from "./AboutSection";
 import EventDetails from "./EventDetails";
 import NavigationButtons from "./NavigationButtons";
 import TicketDetails from "./TicketDetails";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../Store/store";
+import { fetchFilmPoster } from "../../../Store/flimFestivalSlice";
 
 const FilmFestivalDetails: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const photoRef = useRef(null);
   const aboutRef = useRef(null);
   const ticketRef = useRef(null);
 
   const scrollToSection = (sectionRef) => {
-    sectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    sectionRef.current.scrollIntoView({ behavior: "smooth" });
   };
-
-  const [flimPoster, setflimPoster] = useState([
-    {
-      image: "url",
-      venue: "string",
-      price: "number",
-      dateandtime: "string",
-      location: "string",
-      about: "string",
-      photos: [{ photo: "url" }],
-    },
-  ]);
+  const { filmPoster, loading, error } = useSelector(
+    (state: RootState) => state.film
+  );
 
   useEffect(() => {
-    retrieveFlimImages("EN", "flimfestivalposter");
-  }, []);
-
-  const retrieveFlimImages = async (language: string, formLayout: string) => {
-    const response = await api.get(`auth/${language}/${formLayout}`);
-
-    setflimPoster(response.data);
-  };
+    dispatch(
+      fetchFilmPoster({ language: "EN", formLayout: "flimfestivalposter" })
+    );
+  }, [dispatch]);
 
   const handleflimposter = (e: { preventDefault: () => any }) =>
     e.preventDefault();
 
-  const items = flimPoster.map((flimfestivalposter) => {
+  const items = filmPoster.map((flimfestivalposter) => {
     return (
-      <div className="">
+      <div className="relative h-[578px] md:h-auto w-full">
         <Img
           src={flimfestivalposter.image}
           onDragStart={handleflimposter}
-          className="h-[578px] md:h-auto object-cover w-full"
+          className="object-cover w-full h-full"
           role="presentation"
         />
       </div>
@@ -88,27 +77,24 @@ const FilmFestivalDetails: React.FC = () => {
             scrollToAbout={() => scrollToSection(aboutRef)}
             scrollToticket={() => scrollToSection(ticketRef)}
           />
-
-          {flimPoster.map((data) => {
-            return (
-              <>
+          {loading && <p>Loading...</p>}
+          {error && <p>Error: {error}</p>}
+          {!loading &&
+            !error &&
+            filmPoster.map((data) => (
+              <React.Fragment key={data.image}>
                 <EventDetails data={data} />
-
                 <div ref={ticketRef}>
                   <TicketDetails data={data} />
                 </div>
-
                 <div ref={aboutRef}>
                   <AboutSection data={data} />
                 </div>
-
                 <div ref={photoRef}>
                   <PhotoSection data={data} />
                 </div>
-              </>
-            );
-          })}
-
+              </React.Fragment>
+            ))}
           <Footer className="bg-gray_800 flex font-roboto items-center justify-center mt-[70px] md:px-5 w-full" />
         </div>
       </div>

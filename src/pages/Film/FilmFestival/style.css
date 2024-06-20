@@ -1,16 +1,63 @@
-input[type=file]::file-selector-button {
-    /* margin-right: 20px; */
-    border: none;
-    background: red;
-    padding: 10px 20px;
-    color: #fff;
-    cursor: pointer;
-    margin-left: 10px;
+/* Default styles */
+.input-file::file-selector-button {
+  /* margin-right: 20px; */
+  border: none;
+  background: red;
+  padding: 10px 20px;
+  color: #fff;
+  cursor: pointer;
+  margin-left: 10px;
 }
 
-input[type=file]::file-selector-button:hover {
-    background: red;
+.input-file::file-selector-button:hover {
+  background: red;
 }
+/* Adjusted responsive styles */
+/* Adjusted responsive styles */
+
+
+@media (min-width: 768px) {
+  /* Adjust for medium screens and larger */
+  .container {
+    min-height: 300px; /* Minimum height for medium screens and larger */
+  }
+}
+
+/* Adjusted responsive styles */
+
+/* Flex container for buttons */
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-left: 20px;
+  margin-bottom: 4px;
+}
+
+/* Individual button */
+.button-container .bg-yellow-300 {
+  flex: 1 0 auto;
+  max-width: calc(25% - 10px); /* 25% width with 10px gap */
+  padding: 10px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  /* Adjust for smaller screens */
+  .button-container .bg-yellow-300 {
+    max-width: calc(50% - 10px); /* 50% width with 10px gap on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Further adjust for mobile screens */
+  .button-container .bg-yellow-300 {
+    max-width: calc(100% - 10px); /* 100% width with 10px gap on mobile screens */
+  }
+}
+
+
+
 .flex {
   display: flex;
 }
@@ -53,144 +100,206 @@ input[type=file]::file-selector-button:hover {
   outline: inherit;
 }
 
-
-
 .event-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* Aligns content to the left */
-    align-items: flex-start; /* Aligns items to the left */
-  }
-  
-  .event-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin-left: 20px;
-    color: yellow;
-  }
-  
-  .event-info {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  
-  .event-date {
-    font-size: 14px;
-    font-style: italic;
-    color: white;
-    margin-right: 10px;
-    margin-left: 20px;
-  }
-  
-  .event-location {
-    font-size: 14px;
-    color: white;
-    display: flex;
-  }
-  
-  .hello{
-    background-color: #f2f2f2;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
 
-  .venue{
-    color: yellow;
+.event-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 20px;
+  color: yellow;
+}
+
+.event-info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.event-date {
+  font-size: 14px;
+  font-style: italic;
+  color: white;
+  margin-right: 10px;
+  margin-left: 20px;
+}
+
+.event-location {
+  font-size: 14px;
+  color: white;
+  display: flex;
+}
+
+.hello {
+  background-color: #f2f2f2;
+}
+
+.venue {
+  color: yellow;
+}
+
+.movie-details {
+  color: white;
+  background-color: rgba(147, 147, 147, 0.285);
+  justify-content: space-evenly;
+  margin-left: 20px;
+  display: flex;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 95%; /* Adjust width as needed */
+}
+
+.movie-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.movie-venue {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.button-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.buttons {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.price-section,
+.quantity-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.price-label,
+.quantity-label {
+  color: yellow;
+  margin-right: 10px;
+}
+
+.quantity-input {
+  width: 50px;
+  padding: 5px;
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.about-section {
+  color: white;
+  padding: 20px;
+}
+
+.abouthead {
+  font-size: 20px;
+}
+
+.para {
+  padding: 20px;
+}
+
+.read-more {
+  text-decoration: none;
+  border: none;
+  color: blue;
+}
+
+.photohead {
+  color: white;
+  margin-left: 20px;
+}
+
+.photos-section {
+  display: grid;
+  padding: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.photos {
+  overflow: hidden;
+}
+
+.photos img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .ml-20 {
+    margin-left: 10px; /* Adjust margin for smaller screens */
   }
 
   .movie-details {
-   
-    color: white;
-    background-color: rgba(147, 147, 147, 0.285);
-    justify-content: space-evenly;
-    margin-left: 20px;
-    display: flex;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 95%; /* Adjust width as needed */
-  }
-  
-  .movie-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .movie-venue {
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-  
-  .button-section {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .buttons{
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .price-section,
-  .quantity-section {
-    display: flex;
+    flex-direction: column; /* Stack movie details vertically */
     align-items: center;
-    margin-bottom: 10px;
+    text-align: center;
+    padding: 10px;
+    width: 90%; /* Adjust width for smaller screens */
   }
-  
-  .price-label,
-  .quantity-label {
-    color: yellow;
-    margin-right: 10px;
+
+  .movie-title {
+    font-size: 16px; /* Decrease font size for movie title */
   }
-  
-  .quantity-input {
-    width: 50px;
+
+  .movie-venue {
+    font-size: 12px; /* Decrease font size for movie venue */
+  }
+
+  .about-section {
+    padding: 10px; /* Decrease padding for about section */
+  }
+
+  .photos-section {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust grid columns for smaller screens */
+    gap: 5px;
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .ml-20 {
+    margin-left: 5px; /* Further adjust margin for very small screens */
+  }
+
+  .event-title {
+    font-size: 14px; /* Decrease font size for event title */
+  }
+
+  .event-date {
+    font-size: 12px; /* Decrease font size for event date */
+  }
+
+  .event-location {
+    font-size: 12px; /* Decrease font size for event location */
+  }
+
+  .photohead {
+    font-size: 16px; /* Decrease font size for photo section header */
+  }
+
+  .photos-section {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Further adjust grid columns */
+    gap: 3px;
     padding: 5px;
-    color: black;
-    border: 1px solid #ccc;
-    border-radius: 4px;
   }
-
-  .about-section{
-    color: white;
-    padding: 20px;
-  }
-  .abouthead{
-    font-size: 20px;
-  }
-  .para{
-    padding: 20px;
-  }
-  
-  .read-more{
-    text-decoration: none;
-    border: none;
-    color: blue;
-  }
-  
-   .photohead{
-    color: white;
-    margin-left: 20px;
-   }
-    .photos-section {
-      display: grid;
-      padding: 20px;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 10px;
-      max-width: 1200px; 
-      margin: 0 auto;
-    }
-     .photos{
-      overflow: hidden;
-     }
-    .photos img {
-
-      width: 100%;
-      height: auto;
-      display: block;
-    }
+}
