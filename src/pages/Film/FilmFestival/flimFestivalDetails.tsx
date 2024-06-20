@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import Header from "../../../components/MainScreenHeader/mainscreenheader";
 import { Text, Img, Line, Button } from "../../../components/Elements/index";
 import Footer from "../../../components/Footer/footer";
-import { useNavigate } from "react-router-dom";
 import { api } from "../../../services/api";
 import AliceCarousel from "react-alice-carousel";
+import PhotoSection from "./PhotoSection";
+import './style.css'
+import AboutSection from "./AboutSection"; 
+import EventDetails from "./EventDetails";
+import NavigationButtons from "./NavigationButtons";
+import TicketDetails from "./TicketDetails";
 
 const FilmFestivalDetails: React.FC = () => {
-  const navigate = useNavigate();
+  const photoRef = useRef(null);
+  const aboutRef = useRef(null);
+  const ticketRef = useRef(null);
 
-  const navigateToFilmFestivalRegistation = () => {
-    navigate("/film/filmfestival/filmfestivalregistration");
+  const scrollToSection = (sectionRef) => {
+    sectionRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   const [flimPoster, setflimPoster] = useState([
@@ -21,8 +28,11 @@ const FilmFestivalDetails: React.FC = () => {
       price: "number",
       dateandtime: "string",
       location: "string",
+      about: "string",
+      photos: [{ photo: "url" }],
     },
   ]);
+
   useEffect(() => {
     retrieveFlimImages("EN", "flimfestivalposter");
   }, []);
@@ -72,68 +82,28 @@ const FilmFestivalDetails: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="flex gap-10 ml-20 mb-4">
-            <div className="bg-yellow-300 text-black rounded p-2">
-              <Button>Tickets</Button>
-            </div>
-            <div className="bg-yellow-300 text-black rounded p-2">
-              <Button>About</Button>
-            </div>
-            <div className="bg-yellow-300 text-black rounded p-2">
-              <Button>Photos</Button>
-            </div>
-            <div className="bg-yellow-300 text-black rounded p-2">
-              <Button>Public Voting</Button>
-            </div>
-          </div>
+
+          <NavigationButtons
+            scrollToPhoto={() => scrollToSection(photoRef)}
+            scrollToAbout={() => scrollToSection(aboutRef)}
+            scrollToticket={() => scrollToSection(ticketRef)}
+          />
+
           {flimPoster.map((data) => {
             return (
               <>
-                <div className="event-details">
-                  <p className="event-title">
-                    Bengaluru International Film Festival - 14th Edition
-                  </p>
-                  <div className="event-info">
-                    <p className="event-date">{data.dateandtime}</p>
-                    <p className="event-location">
-                      <img
-                        src="https://cdn.icon-icons.com/icons2/1358/PNG/512/if-advantage-nearby-1034361_88844.png"
-                        alt=""
-                        height="20px"
-                        width="20px"
-                      />
-                      {data.location}
-                    </p>
-                  </div>
-                </div>
-                <div className="movie-details">
-                  <img
-                    src={data.image}
-                    alt=""
-                    style={{ height: "250px", width: "400px" }}
-                  />
-                  <p className="movie-venue">
-                    <span className="venue">
-                      Bengaluru International Film Festival
-                    </span>
-                    <p>
-                      {" "}
-                      <span className="venue"> Venue : </span> {data.venue}
-                    </p>
+                <EventDetails data={data} />
 
-                    <div className="price-section">
-                      <p className="price-label">Price :</p>
-                      <p className="price-value">{data.price}</p>
-                    </div>
-                    <div className="quantity-section">
-                      <p className="quantity-label">Qty</p>
-                      <input type="number" className="quantity-input" min={1} />
-                    </div>
-                  </p>
-                  <div className="button-section">
-                    <button className="buttons">Buy Tickets</button> <br />
-                    <button className="buttons">Submit the Movie</button>
-                  </div>
+                <div ref={ticketRef}>
+                  <TicketDetails data={data} />
+                </div>
+
+                <div ref={aboutRef}>
+                  <AboutSection data={data} />
+                </div>
+
+                <div ref={photoRef}>
+                  <PhotoSection data={data} />
                 </div>
               </>
             );

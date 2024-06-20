@@ -11,6 +11,49 @@ input[type=file]::file-selector-button {
 input[type=file]::file-selector-button:hover {
     background: red;
 }
+.flex {
+  display: flex;
+}
+
+.gap-10 {
+  gap: 10px;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.mb-4 {
+  margin-bottom: 4px;
+}
+
+.bg-yellow-300 {
+  background-color: #f6e05e;
+}
+
+.text-black {
+  color: black;
+}
+
+.rounded {
+  border-radius: 5px;
+}
+
+.p-2 {
+  padding: 10px;
+}
+
+.button {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+  outline: inherit;
+}
+
+
 
 .event-details {
     display: flex;
@@ -112,5 +155,42 @@ input[type=file]::file-selector-button:hover {
     border: 1px solid #ccc;
     border-radius: 4px;
   }
+
+  .about-section{
+    color: white;
+    padding: 20px;
+  }
+  .abouthead{
+    font-size: 20px;
+  }
+  .para{
+    padding: 20px;
+  }
   
+  .read-more{
+    text-decoration: none;
+    border: none;
+    color: blue;
+  }
   
+   .photohead{
+    color: white;
+    margin-left: 20px;
+   }
+    .photos-section {
+      display: grid;
+      padding: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 10px;
+      max-width: 1200px; 
+      margin: 0 auto;
+    }
+     .photos{
+      overflow: hidden;
+     }
+    .photos img {
+
+      width: 100%;
+      height: auto;
+      display: block;
+    }
