@@ -1,5 +1,5 @@
 import InstituteCard from './InstituteCard';
-import PropTypes from 'prop-types'; // Correct import for PropTypes
+import PropTypes from 'prop-types';
 
 const TrainingInstitutesList = ({ institutes }) => (
     <div className="institutes-list">
@@ -10,7 +10,7 @@ const TrainingInstitutesList = ({ institutes }) => (
 );
 
 TrainingInstitutesList.propTypes = {
-  institutes: PropTypes.array.isRequired // Correctly using PropTypes
+  institutes: PropTypes.array.isRequired
 };
 
 export default TrainingInstitutesList;

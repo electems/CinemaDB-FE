@@ -1,15 +1,11 @@
-import PropTypes from 'prop-types'; // Correct import for PropTypes
-
-const InstituteCard = ({ image, title }) => (
+const paginate = (image, title) => {
+  return (
     <div className="institute-card">
         <img src={image} alt={title} />
         <h3>{title}</h3>
     </div>
-);
-
-InstituteCard.propTypes = {
-  image: PropTypes.string.isRequired, // Correct usage of PropTypes
-  title: PropTypes.string.isRequired // Correct usage of PropTypes
-};
+  )
+}
+const InstituteCard = ({ image, title }) => paginate(image, title);
 
 export default InstituteCard;
