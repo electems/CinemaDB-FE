@@ -7,14 +7,17 @@ import { ToastContainer } from 'react-toastify'
 import './styles/index.css'
 import './styles/tailwind.css'
 import './styles/font.css'
-
 import { GlobalStyle } from './styles/global'
 import AppMain, { AdminMain } from './App'
+import { Provider } from 'react-redux'
+import { store } from './Store/store'
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 )
 root.render(
+  <Provider store={store}>
   <BrowserRouter>
     <GlobalStyle />
     <ToastContainer />
@@ -22,6 +25,7 @@ root.render(
       <AdminMain></AdminMain>
     </ContextProvider>
     <AppMain></AppMain>
-  </BrowserRouter>
+    </BrowserRouter>
+    </Provider>
 )
 reportWebVitals()
