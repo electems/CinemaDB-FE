@@ -10,7 +10,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { EditableAntdTree, EditableAntdTreeNode } from '../../../components/editablantd/EditableAntdTree'
 import { v4 as uuidv4 } from 'uuid'
 import { removeSpaceAndSpecialCharacters } from '../../../services/filmservices'
-interface inputTitle {
+
+interface inputTitle{
   titlePath: string
 }
 const ProfessionalTree = () => {

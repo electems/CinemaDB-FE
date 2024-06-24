@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Img, Text, Input, Button, Line } from '../../../components/Elements'
 import { toastify, errorToastify } from '../../../services/filmservices'
 import { Radio, Space } from 'antd'
+import { CinemaFansForm } from '../Register/Filmpersonregister/cinemafansregister'
 
 interface types {
   preference
@@ -19,6 +20,8 @@ export const LoginRegisterForm: React.FC = () => {
   const [namePhoneNumber, setNamePhoneNumber] = React.useState('')
   const [seconds, setSeconds] = useState(15)
   const [otpNumber, setOTPNumber] = React.useState('')
+  const [mail,setMail] = useState('default@mail.com')
+  const [otp,setOtp] = useState('43211')
   const [activateTimer, setActivateTimer] = React.useState(false)
   const preference = useLocation().state as types
   const navigate = useNavigate()
@@ -80,6 +83,9 @@ export const LoginRegisterForm: React.FC = () => {
         username: namePhoneNumber,
         password: otpNumber
       }
+      setOtp(otpNumber)
+      setMail(namePhoneNumber)
+      console.log(namePhoneNumber, otpNumber)
       const response = await api.post('/auth/login', data)
       const userResponse = response.data
       if (userResponse.status === 'Invalid_Password') {
@@ -111,6 +117,7 @@ export const LoginRegisterForm: React.FC = () => {
             })
           }
         } else if (loggedUser.role === 'LOVER') {
+          // <CinemaFansForm props={namePhoneNumber}/>
           navigate('/film/register/cinemafansform', { state:  { loggedUser } })
         }
       }
